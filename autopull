@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -ex
+
+stashed="$(git stash)"
+
+branch="$(git rev-parse --abbrev-ref HEAD)"
+
+git checkout master
+
+git pull
+
+git checkout "$branch"
+
+[[ 'No local changes to save' = "$stashed" ]] || git stash pop

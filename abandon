@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -ex
+
+git status
+
+read -p 'Press enter to permanently lose all these changes.'
+
+git reset --hard

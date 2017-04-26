@@ -1,0 +1,33 @@
+#!/bin/bash
+
+set -e
+
+function branches {
+    git branch | cut -c 3-
+}
+
+function cherry {
+    git cherry $base | tac | while read _ id; do
+        echo $id "$(git log -n 1 --format=%s $id)"
+    done
+}
+
+function menu {
+    local n=1
+    local ids=(void $($1 | while read id comment; do
+        echo $id
+        echo "$(printf '%3d' $n) $id $comment" >&2
+        ((n+=1))
+    done))
+    shift
+    read -p "$*? " n
+    echo ${ids[$n]}
+}
+
+base=$(bb)
+
+id=$(menu cherry Which commit should absorb all newer commits)
+
+git reset --soft $id~1
+
+git commit -c $id
