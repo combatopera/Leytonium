@@ -1,0 +1,6 @@
+function _branches {
+    local others="$(git branch | grep -v '^[*]' | cut -c 3-)"
+    COMPREPLY=($(compgen -W "$others" $2))
+}
+
+complete -F _branches co
