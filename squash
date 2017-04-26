@@ -24,7 +24,7 @@ function menu {
     echo ${ids[$n]}
 }
 
-base=$(bb)
+base=$(pb)
 
 id=$(menu cherry Which commit should absorb all newer commits)
 

@@ -2,4 +2,4 @@
 
 set -ex
 
-git diff $(bb)
+git diff $(pb)
