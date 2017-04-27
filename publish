@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#HALP Publish this branch, accepts push options.
+
 set -ex
 
 branch="$(git rev-parse --abbrev-ref HEAD)"

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#HALP Pull master with automatic stash and switch.
+
 set -ex
 
 stashed="$(git stash)"

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#HALP Stage subtree rooted here, and show outgoing changes.
+
 set -ex
 
 git add .

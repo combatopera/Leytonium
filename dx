@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#HALP Diff from parent branch.
+
 set -ex
 
 git diff $(pb)

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#HALP Commit with the given args as message.
+
 set -ex
 
 git commit -m "$*"

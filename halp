@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$(readlink -f "$0")")"
+
+prefix='#HALP'
+
+for script in *; do
+
+    halp="$(grep "^$prefix" $script)" && printf "%-8s%s\n" $script "${halp:${#prefix}}"
+
+done

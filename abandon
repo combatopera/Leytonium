@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#HALP Discard all local changes, with confirmation step.
+
 set -ex
 
 git status

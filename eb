@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#HALP Rebase on the given branch, with completion.
+
 set -ex
 
 git rebase "$@"

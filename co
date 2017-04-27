@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#HALP Switch to the given branch, with completion.
+
 set -ex
 
 git checkout "$@"

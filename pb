@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#HALP Find parent branch.
+
 set -e
 
 function tip {

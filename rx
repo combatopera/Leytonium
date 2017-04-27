@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#HALP Restore given file to parent branch version.
+
 set -ex
 
 git checkout $(pb) "$@"
