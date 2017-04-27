@@ -3,5 +3,11 @@ function _otherbranches {
     COMPREPLY=($(compgen -W "$branches" $2))
 }
 
+function _branchnames {
+    local names="$(git branch | cut -c 3- | grep -v '^master$' | sed 's/^[^-]*-//')"
+    COMPREPLY=($(compgen -W "$names" $2))
+}
+
 complete -F _otherbranches co
 complete -F _otherbranches eb
+complete -F _branchnames br

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+#HALP Create given branch with completion and automatic prefix, show menu for parent.
+
+set -e
+
+function branches {
+    git branch | cut -c 3-
+}
+
+. git_functions
+
+base=$(menu branches From)
+
+githubuser=$(grep -o //.*github ~/.git-credentials | sed 's/^..//;s/:.*//')
+
+git checkout -b $githubuser-$1 $base
