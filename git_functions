@@ -1,0 +1,11 @@
+function menu {
+    local n=1
+    local ids=(void $($1 | while read id comment; do
+        echo $id
+        echo "$(printf '%3d' $n) $id $comment" >&2
+        ((n+=1))
+    done))
+    shift
+    read -p "$*? " n
+    echo ${ids[$n]}
+}
