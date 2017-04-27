@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#HALP Show outgoing changes.
+#HALP Show list of branches and outgoing changes.
 
 set -e
 
