@@ -2,10 +2,6 @@
 
 set -e
 
-function branches {
-    git branch | cut -c 3-
-}
-
 function cherry {
     git cherry $base | tac | while read _ id; do
         echo $id "$(git log -n 1 --format=%s $id)"
