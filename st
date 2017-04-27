@@ -2,8 +2,10 @@
 
 #HALP Show outgoing changes.
 
-set -ex
+set -e
 
 clear
+
+git branch
 
 git status -v
