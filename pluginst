@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#HALP Reinstall corda gradle plugins.
+
+set -ex
+
+while [[ ! -d .git ]]; do cd ..; done
+
+cd gradle-plugins/publish-utils
+
+../../gradlew -u install
+
+cd ..
+
+../gradlew install
