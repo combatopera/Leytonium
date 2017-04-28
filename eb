@@ -1,7 +1,14 @@
 #!/bin/bash
 
-#HALP Rebase on the given branch, with completion.
+#HALP Rebase on the given branch with completion, or parent with confirmation.
 
-set -ex
+set -e
 
-git rebase "$@"
+if [[ "$@" ]]; then
+    args=("$@")
+else
+    args=($(pb))
+    read -p "Press enter to rebase on: $args"
+fi
+
+git rebase "${args[@]}"
