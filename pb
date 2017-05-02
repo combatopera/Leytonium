@@ -5,7 +5,7 @@
 set -e
 
 function tip {
-    git log -n 1 --format=%H $1
+    git cherry $root $1 | tail -1 | cut -c 3-
 }
 
 root=master
