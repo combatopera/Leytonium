@@ -9,3 +9,7 @@ function menu {
     read -p "$*? " n
     echo ${ids[$n]}
 }
+
+function cdtocorda {
+    while [[ ! -d .git ]]; do cd ..; done
+}

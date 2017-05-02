@@ -4,7 +4,9 @@
 
 set -ex
 
-while [[ ! -d .git ]]; do cd ..; done
+. git_functions
+
+cdtocorda
 
 cd gradle-plugins/publish-utils
 
