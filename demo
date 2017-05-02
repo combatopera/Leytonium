@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#HALP Deploy and run the given demo.
+
+set -ex
+
+while [[ ! -d .git ]]; do cd ..; done
+
+demoname=$1
+
+./gradlew samples:$demoname:deployNodes
+
+./samples/$demoname/build/nodes/runnodes
