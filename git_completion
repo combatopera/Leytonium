@@ -19,7 +19,12 @@ function _demonames {
     COMPREPLY=($(compgen -W "$names" $2))
 }
 
+function _commonmessages {
+    COMPREPLY=($(compgen -W 'conciser refactor refactoring undup redundant mv ren' $2))
+}
+
 complete -F _otherbranches co
 complete -F _otherbranches eb
 complete -F _branchnames br
 complete -F _demonames demo
+complete -F _commonmessages ci
