@@ -14,4 +14,4 @@ shift
 
 ./gradlew samples:$demoname:deployNodes
 
-./samples/$demoname/build/nodes/runnodes "$@"
+./samples/$demoname/build/*nodes/runnodes "$@"
