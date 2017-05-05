@@ -12,6 +12,6 @@ demoname=$1
 
 shift
 
-./gradlew samples:$demoname:deployNodes
+./gradlew samples:$demoname:deployNodes --stacktrace
 
 ./samples/$demoname/build/*nodes/runnodes "$@"
