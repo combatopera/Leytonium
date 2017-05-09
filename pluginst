@@ -10,8 +10,8 @@ cdtocorda
 
 cd gradle-plugins/publish-utils
 
-../../gradlew -u install
+../../gradlew -u clean install
 
 cd ..
 
-../gradlew install
+../gradlew clean install
