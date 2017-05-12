@@ -12,6 +12,4 @@ function branches {
 
 base=$(menu branches From)
 
-githubuser=$(grep -o //.*github ~/.git-credentials | sed 's/^..//;s/:.*//')
-
-git checkout -b $(IFS=-; echo "$githubuser-$*") $base
+git checkout -b $(IFS=-; echo "$(githubuser)-$*") $base
