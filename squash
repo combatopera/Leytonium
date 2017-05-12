@@ -4,15 +4,17 @@
 
 set -e
 
+base=$(pb)
+
+ids=($(git cherry $base | tac | while read _ id; do echo $id; done))
+
 function cherry {
-    git cherry $base | tac | while read _ id; do
+    for id in ${ids[@]}; do
         echo $id "$(git log -n 1 --format=%s $id)"
     done
 }
 
 . git_functions
-
-base=$(pb)
 
 id=$(menu cherry Which commit should absorb all newer commits)
 
