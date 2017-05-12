@@ -6,6 +6,6 @@ set -e
 
 clear
 
-git branch
+git branch -vv
 
 git status -v
