@@ -18,8 +18,14 @@ for b in $(git branch -vv | grep '\[origin/' | awk '{ print $1 }'); do
 
 done
 
-date >TOUCHME
+touchmsg=touch
 
-git add TOUCHME
+[[ $touchmsg = $(git log -1 --pretty=%B) ]] || {
 
-git commit -m touch
+    date >TOUCHME
+
+    git add TOUCHME
+
+    git commit -m $touchmsg
+
+}
