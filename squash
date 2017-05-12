@@ -16,7 +16,15 @@ function cherry {
 
 . git_functions
 
-id=$(menu cherry Which commit should absorb all newer commits)
+menu cherry Which commit should absorb all newer commits
+
+index=$((MENU_NUMBER-1))
+
+id=${ids[$index]}
+
+git reset --hard $id
+
+git cherry-pick $(for i in $(seq $((index-1)) -1 0); do echo ${ids[$i]}; done)
 
 git reset --soft $id~1
 

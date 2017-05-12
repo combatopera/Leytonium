@@ -8,6 +8,7 @@ function menu {
     shift
     read -p "$*? " n
     echo ${ids[$n]}
+    MENU_NUMBER=$n
 }
 
 function cdtocorda {
