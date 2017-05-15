@@ -2,7 +2,7 @@
 
 #HALP Deploy and run the given demo.
 
-set -ex
+set -e
 
 . git_functions
 
@@ -12,6 +12,12 @@ demoname=$1
 
 shift
 
-./gradlew samples:$demoname:deployNodes --stacktrace
+function deploytasks {
+    grep Cordform samples/$demoname/build.gradle | grep -o 'task[^(]*' | awk '{ print $2 }'
+}
+
+deploytask=$(menu deploytasks Deploy task)
+
+./gradlew samples:$demoname:$deploytask --stacktrace
 
 ./samples/$demoname/build/nodes/runnodes "$@"
