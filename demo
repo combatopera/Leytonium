@@ -21,3 +21,15 @@ deploytask=$(menu deploytasks Deploy task)
 ./gradlew samples:$demoname:$deploytask --stacktrace
 
 ./samples/$demoname/build/nodes/runnodes "$@"
+
+function runtasks {
+    grep JavaExec samples/$demoname/build.gradle | grep -o 'task[^(]*' | awk '{ print $2 }'
+}
+
+while true; do
+
+    runtask=$(menu runtasks Run task)
+
+    ./gradlew samples:$demoname:$runtask
+
+done
