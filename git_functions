@@ -18,3 +18,11 @@ function cdtocorda {
 function githubuser {
     grep -o //.*github ~/.git-credentials | sed 's/^..//;s/:.*//'
 }
+
+function nicely {
+    local stashed="$(git stash)"
+    local branch="$(git rev-parse --abbrev-ref HEAD)"
+    "$@"
+    git checkout "$branch"
+    [[ 'No local changes to save' = "$stashed" ]] || git stash pop
+}

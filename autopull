@@ -4,13 +4,7 @@
 
 set -ex
 
-function nicely {
-    local stashed="$(git stash)"
-    local branch="$(git rev-parse --abbrev-ref HEAD)"
-    "$@"
-    git checkout "$branch"
-    [[ 'No local changes to save' = "$stashed" ]] || git stash pop
-}
+. git_functions
 
 function pullmaster {
     git checkout master
