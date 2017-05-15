@@ -1,0 +1,7 @@
+#!/bin/bash
+
+#HALP Kill all Corda nodes.
+
+set -ex
+
+kill $(ps -ef | grep '[C]orda' | awk '{ print $2 }')
