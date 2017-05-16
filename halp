@@ -8,6 +8,6 @@ prefix='#HALP'
 
 for script in *; do
 
-    halp="$(grep "^$prefix" $script)" && printf "%-8s%s\n" $script "${halp:${#prefix}}"
+    halp="$(grep "^$prefix" $script)" && printf "%-9s%s\n" $script "${halp:${#prefix}}"
 
 done
