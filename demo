@@ -12,8 +12,12 @@ demoname=$1
 
 shift
 
+function tasknames {
+    grep -o 'task\s[^(]*' | awk '{ print $2 }'
+}
+
 function deploytasks {
-    grep Cordform samples/$demoname/build.gradle | grep -o 'task[^(]*' | awk '{ print $2 }'
+    grep Cordform samples/$demoname/build.gradle | tasknames
     echo SKIP
 }
 
@@ -26,7 +30,7 @@ deploytask=$(menu deploytasks Deploy task)
 }
 
 function runtasks {
-    grep JavaExec samples/$demoname/build.gradle | grep -o 'task[^(]*' | awk '{ print $2 }'
+    grep JavaExec samples/$demoname/build.gradle | tasknames
     echo QUIT
 }
 
