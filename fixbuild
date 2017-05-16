@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#HALP Why is this suddenly necessary?
+
+set -ex
+
+. git_functions
+
+cdtocorda
+
+./gradlew clean kaptKotlin
