@@ -4,4 +4,8 @@
 
 set -e
 
-git diff "$@" $(pb)
+parent=$(pb)
+
+echo Parent branch: $parent >&2
+
+git diff "$@" $parent
