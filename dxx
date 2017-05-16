@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#HALP Short diff from parent branch.
+
+dx --name-status
