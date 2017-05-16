@@ -2,6 +2,6 @@
 
 #HALP Diff from parent branch.
 
-set -ex
+set -e
 
 git diff "$@" $(pb)
