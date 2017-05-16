@@ -18,6 +18,8 @@ function deploytasks {
 
 deploytask=$(menu deploytasks Deploy task)
 
+./gradlew samples:$demoname:clean
+
 ./gradlew samples:$demoname:$deploytask --stacktrace
 
 ./samples/$demoname/build/nodes/runnodes "$@"
