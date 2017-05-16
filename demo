@@ -14,15 +14,16 @@ shift
 
 function deploytasks {
     grep Cordform samples/$demoname/build.gradle | grep -o 'task[^(]*' | awk '{ print $2 }'
+    echo SKIP
 }
 
 deploytask=$(menu deploytasks Deploy task)
 
-./gradlew samples:$demoname:clean
-
-./gradlew samples:$demoname:$deploytask --stacktrace
-
-./samples/$demoname/build/nodes/runnodes "$@"
+[[ SKIP = $deploytask ]] || {
+    ./gradlew samples:$demoname:clean
+    ./gradlew samples:$demoname:$deploytask --stacktrace
+    ./samples/$demoname/build/nodes/runnodes "$@"
+}
 
 function runtasks {
     grep JavaExec samples/$demoname/build.gradle | grep -o 'task[^(]*' | awk '{ print $2 }'
