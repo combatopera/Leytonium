@@ -27,11 +27,14 @@ deploytask=$(menu deploytasks Deploy task)
 
 function runtasks {
     grep JavaExec samples/$demoname/build.gradle | grep -o 'task[^(]*' | awk '{ print $2 }'
+    echo QUIT
 }
 
 while true; do
 
     runtask=$(menu runtasks Run task)
+
+    [[ QUIT = $runtask ]] && break
 
     ./gradlew samples:$demoname:$runtask
 
