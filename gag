@@ -1,0 +1,7 @@
+#!/bin/bash
+
+#HALP Run ag on all build.gradle files.
+
+set -ex
+
+find -name build.gradle -exec ag "$@" '{}' +
