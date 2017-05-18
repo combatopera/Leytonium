@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#HALP You're looking at it!
+
 set -e
 
 cd "$(dirname "$(readlink -f "$0")")"
