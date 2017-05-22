@@ -26,3 +26,7 @@ function nicely {
     git checkout "$branch"
     [[ 'No local changes to save' = "$stashed" ]] || git stash pop
 }
+
+function thisbranch {
+    git branch | grep '^[*]' | cut -c 3-
+}

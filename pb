@@ -10,7 +10,9 @@ function tip {
 
 root=master
 
-current=$(git branch | grep '^[*]' | cut -c 3-)
+. git_functions
+
+current=$(thisbranch)
 
 echo Current branch: $current >&2
 
