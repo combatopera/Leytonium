@@ -1,0 +1,20 @@
+#!/bin/bash
+
+#HALP Create a master-based branch from this kitchen-sink-based one.
+
+set -e
+
+. git_functions
+
+base=$(githubuser)-kitchen-sink
+
+[[ $base = $(pb) ]] || {
+    echo Parent is not $base'!' >&2
+    exit 1
+}
+
+ids=($(git cherry $base | while read _ id; do echo $id; done))
+
+git checkout -b $(thisbranch)-master master
+
+git cherry-pick ${ids[@]}
