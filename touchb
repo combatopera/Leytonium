@@ -6,6 +6,6 @@ set -e
 
 . git_functions
 
-date >TOUCHME
+echo "$(date) $(thisbranch)" >TOUCHME
 git add TOUCHME
-git commit -m $touchmsg
+git commit -m "$(touchmsg)"

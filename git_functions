@@ -1,4 +1,6 @@
-touchmsg=touch
+function touchmsg {
+    echo "touch $(thisbranch)"
+}
 
 function menu {
     local n=1

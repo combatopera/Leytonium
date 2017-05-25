@@ -15,7 +15,7 @@ function updateks {
         echo $b >&2
         git merge $b --no-edit
     done
-    [[ $touchmsg = $(git log -1 --pretty=%B) ]] || touchb
+    [[ $(touchmsg) = $(git log -1 --pretty=%B) ]] || touchb
 }
 
 nicely updateks
