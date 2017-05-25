@@ -1,3 +1,5 @@
+touchmsg=touch
+
 function menu {
     local n=1
     local ids=(void $($1 | while read id comment; do

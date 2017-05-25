@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#HALP Give the current branch its own identity.
+
+set -e
+
+. git_functions
+
+date >TOUCHME
+git add TOUCHME
+git commit -m $touchmsg
