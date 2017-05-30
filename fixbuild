@@ -8,4 +8,4 @@ set -ex
 
 cdtocorda
 
-find .idea -name *.iml -exec sed -i~ 's/[^":]*-SNAPSHOT.jar://g' '{}' +
+find .idea -name *.iml -exec sed -i 's/[^":]*-SNAPSHOT.jar://g' '{}' +
