@@ -8,4 +8,4 @@ set -ex
 
 cdtocorda
 
-./gradlew clean kaptKotlin
+find .idea -name *.iml -exec sed -i~ 's/[^":]*-SNAPSHOT.jar://g' '{}' +
