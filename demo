@@ -26,7 +26,7 @@ deploytask=$(menu deploytasks Deploy task)
 [[ SKIP = $deploytask ]] || {
     ./gradlew samples:$demoname:clean
     ./gradlew samples:$demoname:$deploytask --stacktrace
-    $(find ./samples/$demoname/build/nodes -name runnodes) "$@"
+    $(find ./samples/$demoname/build/nodes -name runnodes) --logging-level DEBUG "$@"
 }
 
 function runtasks {
