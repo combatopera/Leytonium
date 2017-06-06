@@ -19,3 +19,5 @@ read -p 'Press enter to fix the build.'
 find .idea -name *.iml -exec sed -i "s/[^\":]*-SNAPSHOT.jar://g;s:\"$HOME:\"\$USER_HOME\$:" '{}' +
 
 review
+
+figlet 'It is probably necessary to Build -> Rebuild Project in IntelliJ.'
