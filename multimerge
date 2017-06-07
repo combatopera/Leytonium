@@ -12,7 +12,7 @@ function mergethem {
     for b in $(git branch -vv | grep '\[origin/' | awk '{ print $1 }'); do
         [[ $b = $prefix* ]] || continue
         git checkout $b
-        git merge master
+        git merge --no-edit master
     done
 }
 
