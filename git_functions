@@ -25,10 +25,18 @@ function githubuser {
 
 function nicely {
     local stashed="$(git stash)"
+    if [[ 'No local changes to save' = "$stashed" ]]; then unset stashed; else stashed='You have a new stash:'; fi
     local branch="$(git rev-parse --abbrev-ref HEAD)"
-    "$@"
+    "$@" || {
+        local status=$?
+        [[ "$stashed" ]] && {
+            toilet -w 500 -f smmono12 --metal "$stashed"
+            git stash list
+        }
+        return $status
+    }
     git checkout "$branch"
-    [[ 'No local changes to save' = "$stashed" ]] || git stash pop
+    [[ "$stashed" ]] && git stash pop
 }
 
 function thisbranch {
