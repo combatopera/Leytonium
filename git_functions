@@ -27,8 +27,11 @@ function nicely {
     local stashed="$(git stash)"
     if [[ 'No local changes to save' = "$stashed" ]]; then unset stashed; else stashed='You have a new stash:'; fi
     local branch="$(git rev-parse --abbrev-ref HEAD)"
-    "$@" || {
-        local status=$?
+    set +e
+    (set -e; "$@")
+    local status=$?
+    set -e
+    [[ 0 -eq $status ]] || {
         [[ "$stashed" ]] && {
             toilet -w 500 -f smmono12 --metal "$stashed"
             git stash list
