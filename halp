@@ -10,6 +10,6 @@ prefix='#HALP'
 
 for script in *; do
 
-    halp="$(grep "^$prefix" $script)" && printf "%-9s%s\n" $script "${halp:${#prefix}}"
+    halp="$(grep "^$prefix" $script)" && printf "%-10s%s\n" $script "${halp:${#prefix}}"
 
 done

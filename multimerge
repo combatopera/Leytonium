@@ -1,0 +1,19 @@
+#!/bin/bash
+
+#HALP Merge master into all PRs.
+
+set -ex
+
+. git_functions
+
+prefix=$(githubuser)-
+
+function mergethem {
+    for b in $(git branch -vv | grep '\[origin/' | awk '{ print $1 }'); do
+        [[ $b = $prefix* ]] || continue
+        git checkout $b
+        git merge master
+    done
+}
+
+nicely mergethem
