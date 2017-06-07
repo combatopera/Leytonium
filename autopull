@@ -1,14 +1,19 @@
 #!/bin/bash
 
-#HALP Pull master with automatic stash and switch.
+#HALP Pull master and releases with automatic stash and switch.
 
-set -ex
+set -e
 
 . git_functions
 
-function pullmaster {
-    git checkout master
-    git pull
+prefix=$(githubuser)-
+
+function pullthem {
+    for b in `git branch | cut -c 3-`; do
+        [[ $b = $prefix* ]] && continue
+        git checkout $b
+        git pull
+    done
 }
 
-nicely pullmaster
+nicely pullthem
