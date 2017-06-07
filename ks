@@ -11,7 +11,7 @@ ks=$(githubuser)-kitchen-sink
 function updateks {
     co $ks || git checkout -b $ks master
     local b
-    for b in $(git branch -vv | grep '\[origin/' | awk '{ print $1 }'); do
+    for b in $(publicbranches); do
         echo $b >&2
         if [[ $b = master || $b = $(githubuser)-* ]]; then
             git merge $b --no-edit

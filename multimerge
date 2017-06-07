@@ -9,7 +9,7 @@ set -ex
 prefix=$(githubuser)-
 
 function mergethem {
-    for b in $(git branch -vv | grep '\[origin/' | awk '{ print $1 }'); do
+    for b in $(publicbranches); do
         [[ $b = $prefix* ]] || continue
         git checkout $b
         git merge --no-edit master
