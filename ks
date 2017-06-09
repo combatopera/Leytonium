@@ -14,6 +14,7 @@ function updateks {
     for b in $(publicbranches); do
         echo $b >&2
         if [[ $b = master || $b = $(githubuser)-* ]]; then
+            # TODO: Skip commits that haven't been pushed, as I may yet abandon/squash them.
             git merge $b --no-edit
         else
             echo Skip divergent branch. >&2
