@@ -39,7 +39,7 @@ function nicely {
         return $status
     }
     git checkout "$branch"
-    [[ "$stashed" ]] && git stash pop
+    [[ -z "$stashed" ]] || git stash pop
 }
 
 function thisbranch {
