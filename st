@@ -9,3 +9,5 @@ clear
 git branch -vv
 
 git status -v
+
+git stash list
