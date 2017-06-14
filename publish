@@ -4,6 +4,6 @@
 
 set -ex
 
-branch="$(git rev-parse --abbrev-ref HEAD)"
+. git_functions
 
-git push -u origin "$branch" "$@"
+git push -u origin "$(thisbranch)" "$@"

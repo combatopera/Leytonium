@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#HALP Unpublish this branch.
+
+set -ex
+
+. git_functions
+
+git push origin --delete "$(thisbranch)"
+
+git branch --unset-upstream
