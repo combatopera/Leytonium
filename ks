@@ -11,6 +11,7 @@ ks=$(githubuser)-kitchen-sink
 function updateks {
     co $ks || git checkout -b $ks master
     local b
+    # TODO LATER: This permutation may raise conflicts while some other would not.
     for b in $(publicbranches); do
         echo $b >&2
         if [[ $b = master || $b = $(githubuser)-* ]]; then
