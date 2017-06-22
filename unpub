@@ -6,6 +6,6 @@ set -ex
 
 . git_functions
 
-git push origin --delete "$(thisbranch)"
+git push origin --delete "$(thisbranch)" || true
 
 git branch --unset-upstream
