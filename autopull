@@ -9,7 +9,7 @@ set -e
 prefix=$(githubuser)-
 
 function pullthem {
-    for b in `git branch | cut -c 3-`; do
+    for b in $(publicbranches); do
         [[ $b = $prefix* ]] && continue
         git checkout $b
         git pull
