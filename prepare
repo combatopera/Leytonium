@@ -6,7 +6,7 @@ set -e
 
 . git_functions
 
-base=$(githubuser)-kitchen-sink
+base=kitchen-sink
 
 [[ $base = $(pb) ]] || {
     echo Parent is not $base'!' >&2

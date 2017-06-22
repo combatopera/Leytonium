@@ -6,7 +6,7 @@ set -e
 
 . git_functions
 
-ks=$(githubuser)-kitchen-sink
+ks=kitchen-sink
 
 function updateks {
     co $ks || git checkout -b $ks master
