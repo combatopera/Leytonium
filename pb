@@ -16,7 +16,14 @@ current=$(thisbranch)
 
 echo Current branch: $current >&2
 
-parent=$(git cherry $root | tac | while read _ id; do
+for pub in $(publicbranches); do
+    [[ $current = $pub ]] && {
+        parent=$root
+        break
+    }
+done
+
+[[ "$parent" ]] || parent=$(git cherry $root | tac | while read _ id; do
 
     branches=($(git branch --contains $id | grep -v '^[*]' || true))
 
