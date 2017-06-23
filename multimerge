@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#HALP Merge master into all PRs.
+#HALP Merge master into all PRs and carrion.
 
 set -ex
 
@@ -8,11 +8,17 @@ set -ex
 
 prefix=$(githubuser)-
 
+function mergeone {
+    git checkout $1
+    git merge --no-edit master
+}
+
 function mergethem {
     for b in $(publicbranches); do
-        [[ $b = $prefix* ]] || continue
-        git checkout $b
-        git merge --no-edit master
+        [[ $b != $prefix* ]] || mergeone $b
+    done
+    for b in $(allbranches); do
+        [[ $b != carrion-* ]] || mergeone $b
     done
 }
 
