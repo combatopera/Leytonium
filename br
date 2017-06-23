@@ -4,12 +4,8 @@
 
 set -e
 
-function branches {
-    git branch | cut -c 3-
-}
-
 . git_functions
 
-base=$(menu branches From)
+base=$(menu allbranches From)
 
 git checkout -b $(IFS=-; echo "$(githubuser)-$*") $base
