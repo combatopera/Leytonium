@@ -6,4 +6,11 @@ set -ex
 
 . git_functions
 
-git push -u origin "$(thisbranch)" "$@"
+name=$(thisbranch)
+
+[[ $name = *-ks ]] && {
+    echo 'Refusing to push kitchen-sink based branch.' >&2
+    exit 1
+}
+
+git push -u origin $name "$@"
