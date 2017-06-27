@@ -8,4 +8,4 @@ parent=$(pb)
 
 echo Parent branch: $parent >&2
 
-git diff "$@" $parent
+git diff -M25 "$@" $parent
