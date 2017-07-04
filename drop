@@ -1,0 +1,28 @@
+#!/bin/bash
+
+#HALP Drop this branch.
+
+set -ex
+
+. git_functions
+
+[[ "$(dxx)" ]] && {
+    echo 'Unmerged changes!' >&2
+    exit 1
+}
+
+todrop=$(thisbranch)
+
+unset b
+
+for next in $(allbranches) void; do
+
+    [[ $b = $todrop ]] && break
+
+    b=$next
+
+done
+
+co $next
+
+git branch -D $todrop
