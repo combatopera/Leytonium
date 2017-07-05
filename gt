@@ -1,8 +1,12 @@
 #!/bin/bash
 
-#HALP Stage subtree rooted here, and show outgoing changes.
+#HALP Stage all outgoing changes and show them.
 
 set -ex
+
+. git_functions
+
+cdtocorda
 
 git add .
 
