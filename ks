@@ -25,9 +25,11 @@ function updateks {
             echo Skip divergent branch. >&2
         fi
     done
-    b=controversial
-    echo $b >&2
-    mergeb
+    for b in $(allbranches); do
+        [[ $b = controversial-* ]] || continue
+        echo $b >&2
+        mergeb
+    done
     if [[ $(touchmsg) = $(git log -1 --pretty=%B) ]]; then
         echo No changes, touch not needed. >&2
     else

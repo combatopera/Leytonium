@@ -18,9 +18,8 @@ function mergethem {
         [[ $b != $prefix* ]] || mergeone $b
     done
     for b in $(allbranches); do
-        [[ $b != carrion-* ]] || mergeone $b
+        [[ $b != carrion-* && $b != controversial-* ]] || mergeone $b
     done
-    mergeone controversial
 }
 
 nicely mergethem
