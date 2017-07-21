@@ -20,6 +20,7 @@ function mergethem {
     for b in $(allbranches); do
         [[ $b != carrion-* ]] || mergeone $b
     done
+    mergeone controversial
 }
 
 nicely mergethem

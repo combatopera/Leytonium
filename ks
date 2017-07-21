@@ -8,6 +8,10 @@ set -e
 
 ks=kitchen-sink
 
+function mergeb {
+    git merge $b --no-edit
+}
+
 function updateks {
     co $ks || git checkout -b $ks master
     local b
@@ -16,11 +20,14 @@ function updateks {
         echo $b >&2
         if [[ $b = master || $b = $(githubuser)-* ]]; then
             # TODO: Skip commits that haven't been pushed, as I may yet abandon/squash them.
-            git merge $b --no-edit
+            mergeb
         else
             echo Skip divergent branch. >&2
         fi
     done
+    b=controversial
+    echo $b >&2
+    mergeb
     if [[ $(touchmsg) = $(git log -1 --pretty=%B) ]]; then
         echo No changes, touch not needed. >&2
     else
