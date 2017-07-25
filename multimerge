@@ -2,7 +2,7 @@
 
 #HALP Merge master into all PRs and carrion.
 
-set -ex
+set -e
 
 . git_functions
 
