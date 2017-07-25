@@ -2,6 +2,6 @@
 
 #HALP Switch to the given branch, with completion.
 
-set -ex
+set -e
 
 git checkout "$@"
