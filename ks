@@ -14,10 +14,11 @@ function mergeb {
 
 function reportb {
     local status="$(mergeb)"
-    if [[ 'Already up-to-date.' = "$status" ]]; then
+    local conflicts=$(grep -c CONFLICT <<<"$status")
+    if [[ $conflicts -eq 0 ]]; then
         echo "$status" >&2
     else
-        echo "$(grep -c CONFLICT <<<"$status") $b" | tee /dev/stderr
+        echo $conflicts $b | tee /dev/stderr
         git reset --hard >/dev/null
     fi
 }
