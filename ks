@@ -28,7 +28,7 @@ function iter {
     for b in $(publicbranches); do
         echo $b >&2
         if [[ $b = master || $b = $(githubuser)-* ]]; then
-            # TODO: Skip commits that haven't been pushed, as I may yet abandon/squash them.
+            b=$(git rev-parse origin/$b) # Skip unpushed commits, as I may yet undo them.
             $1
         else
             echo Skip divergent branch. >&2
