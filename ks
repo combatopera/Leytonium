@@ -44,7 +44,7 @@ function iter {
 function updateks {
     co $ks || git checkout -b $ks master
     while true; do
-        # TODO LATER: A conflict count may be affected by a subsequent automatic merge.
+        iter reportb >/dev/null # Do all automatic merges up-front for accurate conflict counts.
         read conflicts b <<<"$(iter reportb | sort -n | head -1)"
         [[ "$b" ]] || break
         echo Merging: $b >&2
