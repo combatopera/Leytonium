@@ -14,11 +14,13 @@ def createzip(filedata):
 def main():
     port = int(input('Port? '))
     text = input('Text? ')
-    r = requests.post("http://localhost:%s/upload/attachment" % port, files = {
-        'ignored1': createzip(text + '1'),
-        'ignored2': createzip(text + '2'),
-    })
-    print(r.text)
+    for dt in 'attachment', 'nope':
+        r = requests.post("http://localhost:%s/upload/%s" % (port, dt), files = {
+            'ignored1': createzip(text + '1'),
+            'ignored2': createzip(text + '2'),
+        })
+        print(r.url)
+        print(r.text, end = '')
 
 if '__main__' == __name__:
     main()
