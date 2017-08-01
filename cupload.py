@@ -2,7 +2,7 @@
 
 #HALP Test the DataUploadServlet.
 
-import requests, io, zipfile
+import requests, io, zipfile, hashlib, base64
 
 def createzip(filedata):
     zipdata = io.BytesIO()
@@ -13,12 +13,14 @@ def createzip(filedata):
 
 def main():
     port = int(input('Port? '))
-    text = input('Text? ')
+    prefix = input('Prefix? ')
+    files = {str(k): createzip("%s%s" % (prefix, k)) for k in range(2)}
+    for z in files.values():
+        h = hashlib.sha256()
+        h.update(z.getvalue())
+        print(base64.b16encode(h.digest()))
     for dt in 'attachment', 'nope':
-        r = requests.post("http://localhost:%s/upload/%s" % (port, dt), files = {
-            'ignored1': createzip(text + '1'),
-            'ignored2': createzip(text + '2'),
-        })
+        r = requests.post("http://localhost:%s/upload/%s" % (port, dt), files = files)
         print(r.url)
         print(r.text, end = '')
 
