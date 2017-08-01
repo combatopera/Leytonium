@@ -1,0 +1,17 @@
+#!/bin/bash
+
+#HALP Stage all imports-only changes and show them.
+
+set -ex
+
+. git_functions
+
+cdtocorda
+
+git diff --name-status | sed 's/.*\t//' | while read path; do
+
+    git diff "$path" | ag '^[+-][^+-]' | ag -v ^.import >/dev/null || git add "$path"
+
+done
+
+st
