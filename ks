@@ -28,6 +28,7 @@ function iter {
     for b in $(publicbranches); do
         echo $b >&2
         if [[ $b = master || $b = $(githubuser)-* ]]; then
+            # TODO: Use branch name if it's the same as this commit.
             b=$(git rev-parse origin/$b) # Skip unpushed commits, as I may yet undo them.
             $1
         else
