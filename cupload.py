@@ -14,11 +14,11 @@ def createzip(filedata):
 def main():
     port = int(input('Port? '))
     prefix = input('Prefix? ')
-    files = {str(k): createzip("%s%s" % (prefix, k)) for k in range(2)}
-    for z in files.values():
+    files = {"IGNORED%s" % k: createzip("%s%s" % (prefix, k)) for k in range(2)}
+    for name, z in files.items():
         h = hashlib.sha256()
         h.update(z.getvalue())
-        print(base64.b16encode(h.digest()))
+        print(name, base64.b16encode(h.digest()))
     for dt in 'attachment', 'nope':
         r = requests.post("http://localhost:%s/upload/%s" % (port, dt), files = files)
         print(r.url)
