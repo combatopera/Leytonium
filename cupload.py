@@ -2,7 +2,7 @@
 
 #HALP Test the DataUploadServlet.
 
-import requests, io, zipfile, hashlib, base64
+import requests, io, zipfile, hashlib, base64, time
 
 def createzip(filedata):
     zipdata = io.BytesIO()
@@ -23,6 +23,7 @@ def main():
         r = requests.post("http://localhost:%s/upload/%s" % (port, dt), files = files)
         print(r.url)
         print(r.text, end = '')
+        time.sleep(.1) # The reponse is committed before processing (including webserver stdout) has finished.
 
 if '__main__' == __name__:
     main()
