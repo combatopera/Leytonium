@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#HALP Remove all untracked items, including the git-ignored.
+
+set -ex
+
+. git_functions
+
+cdtocorda
+
+git clean -xdi
