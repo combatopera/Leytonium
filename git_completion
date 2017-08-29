@@ -20,7 +20,7 @@ function _demonames {
 }
 
 function _commonmessages {
-    COMPREPLY=($(compgen -W 'conciser refactor refactoring undup redundant mv ren inline formatting unused' $2))
+    COMPREPLY=($(compgen -W 'conciser refactor refactoring undup redundant mv ren inline formatting unused idiomaticer' $2))
 }
 
 complete -F _otherbranches co
