@@ -6,7 +6,7 @@ set -ex
 
 . git_functions
 
-[[ "$(dxx)" ]] && {
+[[ "$1" != '-f' && "$(dxx)" ]] && {
     echo 'Unmerged changes!' >&2
     exit 1
 }
