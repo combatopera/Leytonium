@@ -1,0 +1,25 @@
+#!/bin/bash
+
+#HALP Rebase on a new kitchen-sink branch.
+
+set -e
+
+. git_functions
+
+b=$(thisbranch)
+ks=kitchen-sink
+co $ks
+stopmsg="$(touchmsg)"
+co $b
+
+ids=($(git cherry $ks | tac | while read _ id; do
+    msg="$(git log -n 1 --format=%s $id)"
+    [[ "$stopmsg" = "$msg" ]] && break
+    echo $id
+done | tac))
+
+drop -f
+co $ks
+git branch $b
+co $b
+git cherry-pick ${ids[@]}
