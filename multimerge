@@ -10,8 +10,8 @@ prefix=$(githubuser)-
 
 function mergeone {
     git checkout $1
-    if [[ $1 = controversial-* ]]; then
-        git rebase master
+    if false; then
+        git rebase master # TODO: Ideally do this to carrion branches.
     else
         git merge --no-edit master
     fi
