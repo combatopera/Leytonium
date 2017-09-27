@@ -11,6 +11,8 @@ set -ex
     exit 1
 }
 
+abandon
+
 todrop=$(thisbranch)
 
 unset b
