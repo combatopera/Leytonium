@@ -6,6 +6,8 @@ set -e
 
 . git_functions
 
+cdtocorda
+
 echo "$(date) $(thisbranch)" >TOUCHME
 git add TOUCHME
 git commit -m "$(touchmsg)"
