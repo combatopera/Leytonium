@@ -10,10 +10,11 @@ prefix=$(githubuser)-
 
 function mergeone {
     git checkout $1
+    local parent=$(pb)
     if false; then
-        git rebase master # TODO: Ideally do this to carrion branches.
+        git rebase $parent # TODO: Ideally do this to carrion branches.
     else
-        git merge --no-edit master
+        git merge --no-edit $parent
     fi
 }
 
