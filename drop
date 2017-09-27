@@ -28,3 +28,7 @@ done
 co $next
 
 git branch -D $todrop
+
+cdtocorda
+
+rm -fv .pb/$todrop
