@@ -13,3 +13,7 @@ name=$(IFS=-; echo "$(githubuser)-$*")
 [[ kitchen-sink = $base ]] && name="$name-ks"
 
 git checkout -b $name $base
+
+cdtocorda
+
+echo $base >.pb/$name
