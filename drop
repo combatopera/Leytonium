@@ -11,7 +11,7 @@ set -ex
     exit 1
 }
 
-abandon
+[[ "$(git status --porcelain)" ]] && abandon
 
 todrop=$(thisbranch)
 
