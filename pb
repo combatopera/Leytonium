@@ -16,6 +16,13 @@ current=$(thisbranch)
 
 echo Current branch: $current >&2
 
+cdtocorda
+
+[[ -e ".pb/$current" ]] && {
+    cat .pb/$current
+    exit
+}
+
 for pub in $(publicbranches); do
     [[ $current = $pub ]] && {
         parent=$root
