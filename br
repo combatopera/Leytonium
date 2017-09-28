@@ -15,5 +15,5 @@ name=$(IFS=-; echo "$(githubuser)-$*")
 git checkout -b $name $base
 
 cdtocorda
-
+mkdir -p .pb
 echo $base >.pb/$name
