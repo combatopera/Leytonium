@@ -27,7 +27,7 @@ function iter {
     local b
     for b in $(publicbranches); do
         echo $b >&2
-        if [[ $b = master || $b = $(githubuser)-* ]]; then
+        if [[ $b = master || ( $b = $(githubuser)-* && master = $(cat .pb/$b) ) ]]; then
             # TODO: Use branch name if it's the same as this commit.
             b=$(git rev-parse origin/$b) # Skip unpushed commits, as I may yet undo them.
             $1
@@ -57,5 +57,7 @@ function updateks {
         touchb
     fi
 }
+
+cdtocorda
 
 nicely updateks
