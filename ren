@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#HALP Rename current branch.
+
+set -e
+
+. git_functions
+
+from=$(thisbranch)
+
+git branch -m "$@"
+
+cdtocorda
+
+mv -v .pb/$from .pb/$(thisbranch)
