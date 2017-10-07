@@ -24,5 +24,6 @@ else
 fi
 
 git checkout -b $name master
-
+cdtocorda
+echo master >.pb/$name
 git cherry-pick ${ids[@]}
