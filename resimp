@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#HALP Resolve conflicts in imports.
+
+set -e
+
+. git_functions
+
+cdtocorda
+
+for path in $(git diff --name-only --diff-filter=U); do
+    resimp.py $path
+done
