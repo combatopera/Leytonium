@@ -1,0 +1,20 @@
+#!/bin/bash
+
+#HALP Go to next step in current git workflow.
+
+set -ex
+
+. git_functions
+
+cdtocorda
+
+if [[ -d .git/rebase-apply ]]; then
+    if [[ "$(git status --porcelain)" ]]; then
+        git rebase --continue
+    else
+        git rebase --skip
+    fi
+else
+    echo Unknown git workflow, giving up. >&2
+    exit 1
+fi
