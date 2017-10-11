@@ -6,13 +6,15 @@ set -e
 
 . git_functions
 
+cdtocorda
+
 prefix=$(githubuser)-
 
 function mergeone {
     git checkout $1
     local parent=$(pb)
-    if false; then
-        git rebase $parent # TODO: Ideally do this to carrion branches.
+    if [[ $1 = carrion-* && -e .pb/$1 ]]; then # Second bit is a hack during transitional period.
+        git rebase $parent
     else
         git merge --no-edit $parent
     fi
