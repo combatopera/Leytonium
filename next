@@ -16,6 +16,8 @@ if [[ -d .git/rebase-apply ]]; then
     fi
 elif [[ -f .git/MERGE_HEAD ]]; then
     git commit --no-edit
+elif [[ -f .git/CHERRY_PICK_HEAD ]]; then
+    git cherry-pick --continue
 else
     echo Unknown git workflow, giving up. >&2
     exit 1
