@@ -1,0 +1,7 @@
+#!/bin/bash
+
+#HALP Show stash as patch.
+
+set -e
+
+git stash show -p
