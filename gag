@@ -1,7 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
 #HALP Run ag on all build.gradle files.
 
-set -ex
+from common import *
+import sys
 
-find -name build.gradle -exec ag "$@" '{}' +
+def main():
+    sys.exit(subprocess.run(['find', '-name', 'build.gradle', '-exec', 'ag'] + sys.argv[1:] + ['{}', '+']).returncode)
+
+if '__main__' == __name__:
+    main()
