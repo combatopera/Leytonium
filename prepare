@@ -17,12 +17,6 @@ ids=($(git cherry $base | while read _ id; do echo $id; done))
 
 name=$(thisbranch)
 
-if [[ $name = *-ks ]]; then
-    name=${name%-ks}
-else
-    name=${name}-master # TODO: Retire this scheme.
-fi
-
 git checkout -b $name master
 cdtocorda
 echo master >.pb/$name

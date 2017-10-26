@@ -10,8 +10,6 @@ base=$(menu allbranches From)
 
 name=$(IFS=-; echo "$(githubuser)-$*")
 
-[[ kitchen-sink = $base ]] && name="$name-ks"
-
 git checkout -b $name $base
 
 cdtocorda

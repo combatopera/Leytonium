@@ -1,5 +1,10 @@
 . git_functions
 
+function _allbranches {
+    local branches="$(git branch | cut -c 3-)"
+    COMPREPLY=($(compgen -W "$branches" $2))
+}
+
 function _otherbranches {
     local branches="$(git branch | grep -v '^[*]' | cut -c 3-)"
     COMPREPLY=($(compgen -W "$branches" $2))
@@ -27,6 +32,7 @@ function _conflictedpaths {
     COMPREPLY=($(compgen -W "$(git diff --name-only --diff-filter=U)" $2))
 }
 
+complete -F _allbranches ren
 complete -F _otherbranches co
 complete -F _otherbranches eb
 complete -F _branchnames br
