@@ -2,13 +2,18 @@ function touchmsg {
     echo "touch $(thisbranch)"
 }
 
-function menu {
+function showmenu {
     local n=1
-    local ids=(void $($1 | while read id comment; do
+    echo void
+    $1 | while read id comment; do
         echo $id
         echo "$(printf '%3d' $n) $id $comment" >&2
         ((n+=1))
-    done))
+    done
+}
+
+function menu {
+    local n ids=($(showmenu "$1"))
     shift
     read -p "$*? " n
     echo ${ids[$n]}
