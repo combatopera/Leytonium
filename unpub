@@ -1,11 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
 #HALP Unpublish this branch.
 
-set -ex
+from common import *
+import sys
 
-. git_functions
+def main():
+    subprocess.run(['git', 'push', 'origin', '--delete', thisbranch()])
+    sys.exit(subprocess.run(['git', 'branch', '--unset-upstream']).returncode)
 
-git push origin --delete "$(thisbranch)" || true
-
-git branch --unset-upstream
+if '__main__' == __name__:
+    main()
