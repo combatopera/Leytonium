@@ -1,0 +1,22 @@
+#!/bin/bash
+
+#HALP Show a commit that was listed by st.
+
+set -e
+
+. git_functions
+
+function items {
+    git cherry -v $(pb) | tac | while read _ rest; do echo "$rest"; done
+}
+
+args=(items Show which commit)
+
+if [[ "$1" ]]; then
+    ids=($(showmenu ${args[@]} 2>/dev/null))
+    id=${ids[$1]}
+else
+    id=$(menu ${args[@]})
+fi
+
+git show $id
