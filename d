@@ -2,11 +2,11 @@
 
 #HALP Show local changes.
 
-import subprocess
+from common import *
 
 def main():
-    subprocess.run(['clear'], check = True)
-    subprocess.run(['git', 'diff'], check = True)
+    run(['clear'])
+    run(['git', 'diff'])
 
 if '__main__' == __name__:
     main()

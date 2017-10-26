@@ -2,12 +2,12 @@
 
 #HALP Discard all local changes, with confirmation step.
 
-import subprocess
+from common import *
 
 def main():
-    subprocess.run(['git', 'status'], check = True)
+    run(['git', 'status'])
     input('Press enter to permanently lose all these changes.')
-    subprocess.run(['git', 'reset', '--hard'], check = True)
+    run(['git', 'reset', '--hard'])
 
 if '__main__' == __name__:
     main()
