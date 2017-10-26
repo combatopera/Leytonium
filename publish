@@ -8,7 +8,9 @@ set -ex
 
 name=$(thisbranch)
 
-[[ $name = *-ks ]] && {
+cdtocorda
+
+[[ kitchen-sink = $(cat .pb/$name) ]] && {
     echo 'Refusing to push kitchen-sink based branch.' >&2
     exit 1
 }
