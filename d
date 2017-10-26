@@ -1,9 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
 #HALP Show local changes.
 
-set -ex
+import subprocess
 
-clear
+def main():
+    subprocess.run(['clear'], check = True)
+    subprocess.run(['git', 'diff'], check = True)
 
-git diff
+if '__main__' == __name__:
+    main()
