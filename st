@@ -11,11 +11,12 @@ git branch -vv
 . git_functions
 
 lines="$(git cherry -v $(pb) | tac | while read _ rest; do echo "$rest"; done)"
+limit=20
 function recents {
-    head -10 <<<"$lines"
+    head -$limit <<<"$lines"
 }
 showmenu recents >/dev/null
-count=$(tail -n +11 <<<"$lines" | wc -l)
+count=$(tail -n +$((limit+1)) <<<"$lines" | wc -l)
 [[ $count -eq 0 ]] || echo "($count more)"
 
 git status -v
