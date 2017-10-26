@@ -10,22 +10,18 @@ cdtocorda
 
 prefix=$(githubuser)-
 
-function mergeone {
-    git checkout $1
-    local parent=$(pb)
-    if [[ $1 = carrion-* && -e .pb/$1 ]]; then # Second bit is a hack during transitional period.
-        git rebase $parent
-    else
-        git merge --no-edit $parent
-    fi
-}
-
+# FIXME: Do things in dependency graph order, in particular for kitchen-sink.
 function mergethem {
-    for b in $(publicbranches); do
-        [[ $b != $prefix* ]] || mergeone $b
-    done
+    local b
     for b in $(allbranches); do
-        [[ $b != carrion-* && $b != controversial-* ]] || mergeone $b
+        git checkout $b
+        if ispublic && ! [[ $b =~ $prefix* ]]; then
+            echo Skip: $b >&2
+        elif [[ $b =~ controversial-* || $b = kitchen-sink ]] || ispublic; then
+            git merge --no-edit $(pb)
+        else
+            git rebase $(pb)
+        fi
     done
 }
 
