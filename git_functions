@@ -52,6 +52,10 @@ function thisbranch {
     git rev-parse --abbrev-ref HEAD
 }
 
+function ispublic {
+    [[ $(git status -sb) =~ ...origin/ ]]
+}
+
 function publicbranches {
     git branch -vv | cut -c 3- | grep '\[origin/' | awk '{ print $1 }'
 }
