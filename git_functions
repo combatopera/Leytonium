@@ -5,9 +5,10 @@ function touchmsg {
 function showmenu {
     local n=1
     echo void
-    $1 | while read id comment; do
+    $1 | while read id rest; do
+        [[ "$id" ]] || continue # Possible if stream is empty.
         echo $id
-        echo "$(printf '%3d' $n) $id $comment" >&2
+        echo "$(printf '%3d' $n) $id $rest" >&2
         ((n+=1))
     done
 }
