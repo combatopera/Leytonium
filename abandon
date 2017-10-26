@@ -1,11 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
 #HALP Discard all local changes, with confirmation step.
 
-set -ex
+import subprocess
 
-git status
+def main():
+    subprocess.run(['git', 'status'], check = True)
+    input('Press enter to permanently lose all these changes.')
+    subprocess.run(['git', 'reset', '--hard'], check = True)
 
-read -p 'Press enter to permanently lose all these changes.'
-
-git reset --hard
+if '__main__' == __name__:
+    main()
