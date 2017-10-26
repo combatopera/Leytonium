@@ -2,15 +2,13 @@
 
 #HALP Publish this branch, accepts push options.
 
-set -ex
+set -e
 
 . git_functions
 
 name=$(thisbranch)
 
-cdtocorda
-
-[[ kitchen-sink = $(cat .pb/$name) ]] && {
+[[ kitchen-sink = $(pb) ]] && {
     echo 'Refusing to push kitchen-sink based branch.' >&2
     exit 1
 }
