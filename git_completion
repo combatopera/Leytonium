@@ -24,7 +24,7 @@ function _commonmessages {
 }
 
 function _conflictedpaths {
-    COMPREPLY=($(compgen -W "$(git diff --name-only --diff-filter=U)"))
+    COMPREPLY=($(compgen -W "$(git diff --name-only --diff-filter=U)" $2))
 }
 
 complete -F _otherbranches co
