@@ -1,0 +1,7 @@
+#!/bin/bash
+
+#HALP Run git rm on conflicted path, with completion.
+
+set -ex
+
+git rm "$@"

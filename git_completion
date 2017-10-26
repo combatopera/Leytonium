@@ -33,3 +33,4 @@ complete -F _branchnames br
 complete -F _demonames demo
 complete -F _commonmessages ci
 complete -F _conflictedpaths rd
+complete -F _conflictedpaths rdx
