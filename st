@@ -9,14 +9,17 @@ limit = 20
 def main():
     run(['clear'])
     run(['git', 'branch', '-vv'])
-    parent = pb()
-    lines = run(['git', 'cherry', '-v', parent], stdout = subprocess.PIPE).stdout.decode().splitlines()
-    lines.reverse()
-    entries = [line.split(' ', 2)[1:] for line in lines[:limit]]
-    showmenu(entries)
-    count = len(lines) - limit
-    if count > 0:
-        print("(%s more)" % count)
+    try:
+        parent = pb()
+        lines = run(['git', 'cherry', '-v', parent], stdout = subprocess.PIPE).stdout.decode().splitlines()
+        lines.reverse()
+        entries = [line.split(' ', 2)[1:] for line in lines[:limit]]
+        showmenu(entries)
+        count = len(lines) - limit
+        if count > 0:
+            print("(%s more)" % count)
+    except UnknownParentException:
+        showexception()
     run(['git', 'status', '-v'])
     run(['git', 'stash', 'list'])
 

@@ -1,4 +1,4 @@
-import subprocess, os, sys
+import subprocess, os, sys, traceback
 
 infodirname = '.pb'
 
@@ -39,3 +39,7 @@ def showmenu(entries):
     for i, (k, v) in enumerate(entries):
         print("%3d %s %s" % (1 + i, k, v), file = sys.stderr)
     return {1 + i: k for i, (k, _) in enumerate(entries)}
+
+def showexception():
+    for line in traceback.format_exception_only(*sys.exc_info()[:2]):
+        sys.stderr.write(line)
