@@ -3,10 +3,9 @@
 #HALP Run the context gradlew.
 
 from common import *
-import sys
 
 def main():
-    sys.exit(subprocess.run([os.path.join(findproject(), 'gradlew')] + sys.argv[1:]).returncode)
+    sys.exit(subprocess.run([os.path.join(findproject(), 'gradlew')] + args()).returncode)
 
 if '__main__' == __name__:
     main()

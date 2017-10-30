@@ -2,10 +2,11 @@
 
 #HALP Resolve conflicts in imports in one file.
 
-import sys, itertools
+from common import *
+import itertools
 
 def main():
-    path, = sys.argv[1:]
+    path, = args()
     output = []
     chunks = [0]
     def outer(line):

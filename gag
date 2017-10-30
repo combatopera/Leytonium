@@ -6,7 +6,7 @@ from common import *
 import sys
 
 def main():
-    sys.exit(subprocess.run(['find', '-name', 'build.gradle', '-exec', 'ag'] + sys.argv[1:] + ['{}', '+']).returncode)
+    sys.exit(subprocess.run(['find', '-name', 'build.gradle', '-exec', 'ag'] + args() + ['{}', '+']).returncode)
 
 if '__main__' == __name__:
     main()

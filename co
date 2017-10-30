@@ -3,10 +3,9 @@
 #HALP Switch to the given branch, with completion.
 
 from common import *
-import sys
 
 def main():
-    run(['git', 'checkout'] + sys.argv[1:])
+    run(['git', 'checkout'] + args())
 
 if '__main__' == __name__:
     main()

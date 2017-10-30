@@ -1,4 +1,4 @@
-import subprocess, os
+import subprocess, os, sys
 
 def run(*args, **kwargs):
     return subprocess.run(*args, check = True, **kwargs)
@@ -15,3 +15,6 @@ def findproject():
             raise Exception('No project found.')
         path = parent
     return '.' if path == name else path[:-len(os.sep + name)]
+
+def args():
+    return sys.argv[1:]
