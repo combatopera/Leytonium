@@ -3,11 +3,10 @@
 #HALP Unpublish this branch.
 
 from common import *
-import sys
 
 def main():
-    subprocess.run(['git', 'push', 'origin', '--delete', thisbranch()])
-    sys.exit(subprocess.run(['git', 'branch', '--unset-upstream']).returncode)
+    subprocess.run(['git', 'push', 'origin', '--delete', thisbranch()]) # Idempotent.
+    chain(['git', 'branch', '--unset-upstream'])
 
 if '__main__' == __name__:
     main()

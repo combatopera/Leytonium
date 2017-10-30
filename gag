@@ -3,10 +3,9 @@
 #HALP Run ag on all build.gradle files.
 
 from common import *
-import sys
 
 def main():
-    sys.exit(subprocess.run(['find', '-name', 'build.gradle', '-exec', 'ag'] + args() + ['{}', '+']).returncode)
+    chain(['find', '-name', 'build.gradle', '-exec', 'ag'] + args() + ['{}', '+'])
 
 if '__main__' == __name__:
     main()
