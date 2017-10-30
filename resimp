@@ -52,7 +52,7 @@ def resimp(path):
 
 def main():
     os.chdir(findproject())
-    for path in run(['git', 'diff', '--name-only', '--diff-filter=U'], stdout = subprocess.PIPE).stdout.decode().splitlines():
+    for path in runlines(['git', 'diff', '--name-only', '--diff-filter=U']):
         resimp(path)
 
 if '__main__' == __name__:

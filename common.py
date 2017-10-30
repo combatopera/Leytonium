@@ -16,11 +16,14 @@ def pb():
 def run(*args, **kwargs):
     return subprocess.run(*args, check = True, **kwargs)
 
+def runlines(*args, **kwargs):
+    return run(*args, stdout = subprocess.PIPE, **kwargs).stdout.decode().splitlines()
+
 def chain(*args, **kwargs):
     sys.exit(subprocess.run(*args, **kwargs).returncode)
 
 def thisbranch():
-    line, = run(['git', 'rev-parse', '--abbrev-ref', 'HEAD'], stdout = subprocess.PIPE).stdout.decode().splitlines()
+    line, = runlines(['git', 'rev-parse', '--abbrev-ref', 'HEAD'])
     return line
 
 def findproject():

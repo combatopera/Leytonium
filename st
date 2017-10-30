@@ -11,7 +11,7 @@ def main():
     run(['git', 'branch', '-vv'])
     try:
         parent = pb()
-        lines = run(['git', 'cherry', '-v', parent], stdout = subprocess.PIPE).stdout.decode().splitlines()
+        lines = runlines(['git', 'cherry', '-v', parent])
         lines.reverse()
         entries = [line.split(' ', 2)[1:] for line in lines[:limit]]
         showmenu(entries)
