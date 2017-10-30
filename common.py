@@ -34,3 +34,8 @@ def findproject():
 
 def args():
     return sys.argv[1:]
+
+def showmenu(entries):
+    for i, (k, v) in enumerate(entries):
+        print("%3d %s %s" % (1 + i, k, v), file = sys.stderr)
+    return {1 + i: k for i, (k, _) in enumerate(entries)}
