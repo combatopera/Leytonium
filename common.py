@@ -1,5 +1,7 @@
 import subprocess, os, sys
 
+infodirname = '.pb'
+
 def run(*args, **kwargs):
     return subprocess.run(*args, check = True, **kwargs)
 
