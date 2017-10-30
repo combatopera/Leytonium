@@ -2,15 +2,16 @@ import subprocess, os, sys
 
 infodirname = '.pb'
 
+class UnknownParentException(Exception): pass
+
 def pb():
-    path = os.path.join(findproject(), infodirname, thisbranch())
-    if os.path.exists(path):
-        with open(path) as f:
-            line = f.readline()
-    else:
-        line = run(['git', 'rev-list', '--max-parents=0', 'HEAD'], stdout = subprocess.PIPE).stdout.decode()
-    line, = line.splitlines()
-    return line
+    b = thisbranch()
+    path = os.path.join(findproject(), infodirname, b)
+    if not os.path.exists(path):
+        raise UnknownParentException(b)
+    with open(path) as f:
+        parent, = f.read().splitlines()
+    return parent
 
 def run(*args, **kwargs):
     return subprocess.run(*args, check = True, **kwargs)
