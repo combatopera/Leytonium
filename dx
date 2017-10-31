@@ -1,11 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
 #HALP Diff from parent branch.
 
-set -e
+from common import *
 
-parent=$(pb)
+def main():
+    parent = pb()
+    print("Parent branch: %s" % parent, file = sys.stderr)
+    chain(['git', 'diff', '-M25'] + args() + [parent])
 
-echo Parent branch: $parent >&2
-
-git diff -M25 "$@" $parent
+if '__main__' == __name__:
+    main()
