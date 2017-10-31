@@ -1,7 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
 #HALP Restore given file to parent branch version.
 
-set -ex
+from common import *
 
-git checkout $(pb) "$@"
+def main():
+    run(['git', 'checkout', pb()] + args())
+
+if '__main__' == __name__:
+    main()
