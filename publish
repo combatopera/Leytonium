@@ -6,8 +6,11 @@ from common import *
 
 def main():
     name = thisbranch()
-    if 'kitchen-sink' == pb():
-        raise Exception('Refusing to push kitchen-sink based branch.')
+    try:
+        if 'kitchen-sink' == pb():
+            raise Exception('Refusing to push kitchen-sink based branch.')
+    except UnknownParentException:
+        pass
     run(['git', 'push', '-u', 'origin', name] + args())
 
 if '__main__' == __name__:
