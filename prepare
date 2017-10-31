@@ -17,6 +17,7 @@ ids=($(git cherry $base | while read _ id; do echo $id; done))
 
 name=$(thisbranch)
 
+ren $name-ks
 git checkout -b $name master
 cdtocorda
 echo master >.pb/$name
