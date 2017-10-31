@@ -1,16 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
 #HALP Publish this branch, accepts push options.
 
-set -e
+from common import *
 
-. git_functions
+def main():
+    name = thisbranch()
+    if 'kitchen-sink' == pb():
+        raise Exception('Refusing to push kitchen-sink based branch.')
+    run(['git', 'push', '-u', 'origin', name] + args())
 
-name=$(thisbranch)
-
-[[ kitchen-sink = $(pb) ]] && {
-    echo 'Refusing to push kitchen-sink based branch.' >&2
-    exit 1
-}
-
-git push -u origin $name "$@"
+if '__main__' == __name__:
+    main()
