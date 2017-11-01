@@ -1,4 +1,4 @@
-import subprocess, os, sys, traceback, re
+import subprocess, os, sys, traceback, re, collections
 
 infodirname = '.pb'
 
@@ -12,6 +12,22 @@ def pb():
     with open(path) as f:
         parent, = f.read().splitlines()
     return parent
+
+if 'run' not in dir(subprocess):
+    def runimpl(*args, **kwargs):
+        if 'check' in kwargs:
+            popenkwargs = kwargs.copy()
+            del popenkwargs['check']
+        else:
+            popenkwargs = kwargs
+        process = subprocess.Popen(*args, **popenkwargs)
+        stdout, stderr = process.communicate()
+        returncode = process.wait()
+        if kwargs.get('check', False) and returncode:
+            raise subprocess.CalledProcessError(returncode, args[0])
+        return collections.namedtuple('CompletedProcess', 'returncode stdout stderr')(returncode, stdout, stderr)
+    subprocess.run = runimpl
+    del runimpl
 
 def run(*args, **kwargs):
     return subprocess.run(*args, check = True, **kwargs)
