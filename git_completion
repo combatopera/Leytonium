@@ -28,8 +28,11 @@ function _commonmessages {
     COMPREPLY=($(compgen -W 'conciser refactor refactoring undup redundant mv ren inline formatting unused idiomaticer' $2))
 }
 
-function _conflictedpaths {
-    COMPREPLY=($(compgen -W "$(git diff --name-only --diff-filter=U)" $2))
+function _unconflictedpaths {
+    local paths="$(git diff --name-only --diff-filter=U | while read path; do
+        grep ======= "$path" &>/dev/null || echo "$path"
+    done)"
+    COMPREPLY=($(compgen -W "$paths" $2))
 }
 
 complete -F _allbranches ren
@@ -38,5 +41,5 @@ complete -F _otherbranches eb
 complete -F _branchnames br
 complete -F _demonames demo
 complete -F _commonmessages ci
-complete -F _conflictedpaths rd
-complete -F _conflictedpaths rdx
+complete -F _unconflictedpaths rd
+complete -F _unconflictedpaths rdx
