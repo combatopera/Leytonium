@@ -1,7 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
 #HALP Run git rm on conflicted path, with completion.
 
-set -ex
+from common import *
 
-git rm "$@"
+def main():
+    chain(['git', 'rm'] + args())
+
+if '__main__' == __name__:
+    main()

@@ -1,7 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
 #HALP Run git add on conflicted path, with completion.
 
-set -ex
+from common import *
 
-git add "$@"
+def main():
+    chain(['git', 'add'] + args())
+
+if '__main__' == __name__:
+    main()
