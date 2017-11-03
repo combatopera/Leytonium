@@ -2,7 +2,7 @@
 
 #HALP Show local changes.
 
-from common import *
+from common import run
 
 def main():
     run(['clear'])

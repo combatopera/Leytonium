@@ -2,7 +2,7 @@
 
 #HALP Discard all local changes, with confirmation step.
 
-from common import *
+from common import run
 
 def main():
     run(['git', 'status'])

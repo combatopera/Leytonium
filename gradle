@@ -2,7 +2,8 @@
 
 #HALP Run the context gradlew.
 
-from common import *
+from common import chain, findproject, args
+import os
 
 def main():
     chain([os.path.join(findproject(), 'gradlew')] + args())
