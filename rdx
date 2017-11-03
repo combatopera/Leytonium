@@ -2,7 +2,7 @@
 
 #HALP Run git rm on conflicted path, with completion.
 
-from common import *
+from common import chain, args
 
 def main():
     chain(['git', 'rm'] + args())

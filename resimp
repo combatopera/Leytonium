@@ -2,8 +2,8 @@
 
 #HALP Resolve conflicts in imports.
 
-from common import *
-import itertools
+from common import stderr, findproject, runlines
+import itertools, os
 
 def resimp(path):
     output = []
@@ -48,7 +48,7 @@ def resimp(path):
         with open(path, 'w') as g:
             for line in output:
                 g.write(line)
-        print("Merged %s chunks of imports in: %s" % (chunks[0], path), file = sys.stderr)
+        stderr("Merged %s chunks of imports in: %s" % (chunks[0], path))
 
 def main():
     os.chdir(findproject())

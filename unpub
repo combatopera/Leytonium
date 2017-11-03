@@ -2,7 +2,7 @@
 
 #HALP Unpublish this branch.
 
-from common import *
+from common import unchecked_run, thisbranch, chain
 
 def main():
     unchecked_run(['git', 'push', 'origin', '--delete', thisbranch()]) # Idempotent.
