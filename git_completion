@@ -30,7 +30,7 @@ function _commonmessages {
 
 function _unconflictedpaths {
     local paths="$(git diff --name-only --diff-filter=U | while read path; do
-        grep ======= "$path" &>/dev/null || echo "$path"
+        grep ^======= "$path" &>/dev/null || echo "$path"
     done)"
     COMPREPLY=($(compgen -W "$paths" $2))
 }
