@@ -1,7 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
 #HALP Commit with the given args as message.
 
-set -ex
+from common import run, args
 
-git commit -m "$*"
+def main():
+    run(['git', 'commit', '-m', ' '.join(args())])
+
+if '__main__' == __name__:
+    main()
