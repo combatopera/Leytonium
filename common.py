@@ -1,6 +1,12 @@
-import subprocess, os, sys, traceback, re, collections
+import subprocess, os, sys, traceback, re, collections, importlib.machinery
 
 infodirname = '.pb'
+
+def runpy(command):
+    name = command[0]
+    m = importlib.machinery.SourceFileLoader(name, os.path.join(os.path.dirname(__file__), name)).load_module()
+    sys.argv[1:] = command[1:]
+    m.main()
 
 class UnknownParentException(Exception): pass
 

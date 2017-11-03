@@ -2,10 +2,10 @@
 
 #HALP Short diff from parent branch.
 
-from common import run
+from common import runpy
 
 def main():
-    run(['dx', '--name-status'])
+    runpy(['dx', '--name-status'])
 
 if '__main__' == __name__:
     main()
