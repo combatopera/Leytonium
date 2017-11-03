@@ -2,7 +2,7 @@
 
 #HALP Restore given file to parent branch version.
 
-from common import *
+from common import run, pb, args
 
 def main():
     run(['git', 'checkout', pb()] + args())

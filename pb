@@ -2,7 +2,7 @@
 
 #HALP Find parent branch.
 
-from common import *
+from common import pb
 
 if '__main__' == __name__:
     print(pb())

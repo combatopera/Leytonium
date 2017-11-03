@@ -2,7 +2,7 @@
 
 #HALP Run ag on all build.gradle files.
 
-from common import *
+from common import chain, args
 
 def main():
     chain(['find', '-name', 'build.gradle', '-exec', 'ag'] + args() + ['{}', '+'])

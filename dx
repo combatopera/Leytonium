@@ -2,11 +2,11 @@
 
 #HALP Diff from parent branch.
 
-from common import *
+from common import pb, args, chain, stderr
 
 def main():
     parent = pb()
-    print("Parent branch: %s" % parent, file = sys.stderr)
+    stderr("Parent branch: %s" % parent)
     chain(['git', 'diff', '-M25'] + args() + [parent])
 
 if '__main__' == __name__:
