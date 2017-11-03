@@ -20,7 +20,7 @@ def main():
             print("(%s more)" % count)
     except UnknownParentException:
         showexception()
-    subprocess.run(['git', 'status', '-v']) # Ignore returncode.
+    unchecked_run(['git', 'status', '-v'])
     run(['git', 'stash', 'list'])
 
 if '__main__' == __name__:

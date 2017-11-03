@@ -5,7 +5,7 @@
 from common import *
 
 def main():
-    subprocess.run(['git', 'push', 'origin', '--delete', thisbranch()]) # Idempotent.
+    unchecked_run(['git', 'push', 'origin', '--delete', thisbranch()]) # Idempotent.
     chain(['git', 'branch', '--unset-upstream'])
 
 if '__main__' == __name__:

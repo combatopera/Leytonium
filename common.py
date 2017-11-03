@@ -13,8 +13,10 @@ def pb():
         parent, = f.read().splitlines()
     return parent
 
-if 'run' not in dir(subprocess):
-    def runimpl(*args, **kwargs):
+try:
+    unchecked_run = subprocess.run
+except AttributeError:
+    def unchecked_run(*args, **kwargs):
         if 'check' in kwargs:
             popenkwargs = kwargs.copy()
             del popenkwargs['check']
@@ -26,17 +28,15 @@ if 'run' not in dir(subprocess):
         if kwargs.get('check', False) and returncode:
             raise subprocess.CalledProcessError(returncode, args[0])
         return collections.namedtuple('CompletedProcess', 'returncode stdout stderr')(returncode, stdout, stderr)
-    subprocess.run = runimpl
-    del runimpl
 
 def run(*args, **kwargs):
-    return subprocess.run(*args, check = True, **kwargs)
+    return unchecked_run(*args, check = True, **kwargs)
 
 def runlines(*args, **kwargs):
     return run(*args, stdout = subprocess.PIPE, **kwargs).stdout.decode().splitlines()
 
 def chain(*args, **kwargs):
-    sys.exit(subprocess.run(*args, **kwargs).returncode)
+    sys.exit(unchecked_run(*args, **kwargs).returncode)
 
 def thisbranch():
     line, = runlines(['git', 'rev-parse', '--abbrev-ref', 'HEAD'])
