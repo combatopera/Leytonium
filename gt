@@ -1,13 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
 #HALP Stage all outgoing changes and show them.
 
-set -ex
+from common import run, findproject
 
-. git_functions
+def main():
+    run(['git', 'add', findproject()])
+    run(['st'])
 
-cdtocorda
-
-git add .
-
-st
+if '__main__' == __name__:
+    main()
