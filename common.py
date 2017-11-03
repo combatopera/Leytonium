@@ -55,7 +55,9 @@ def findproject():
     return '.' if path == name else path[:-len(os.sep + name)]
 
 def args():
-    return sys.argv[1:]
+    args = sys.argv[1:]
+    del sys.argv[1:] # In case we call another main function.
+    return args
 
 def showmenu(entries):
     for i, (k, v) in enumerate(entries):
