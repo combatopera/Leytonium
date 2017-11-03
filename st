@@ -2,7 +2,7 @@
 
 #HALP Show list of branches and outgoing changes.
 
-from common import *
+from common import run, pb, runlines, showmenu, UnknownParentException, showexception, unchecked_run
 
 limit = 20
 
