@@ -1,5 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
 #HALP Short diff from parent branch.
 
-dx --name-status
+from common import run
+
+def main():
+    run(['dx', '--name-status'])
+
+if '__main__' == __name__:
+    main()
