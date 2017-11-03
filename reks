@@ -20,6 +20,6 @@ done | tac))
 
 drop -f
 co $ks
-git branch $b
+git branch $b # TODO: Configure parent.
 co $b
 git cherry-pick ${ids[@]}
