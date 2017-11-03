@@ -4,4 +4,4 @@
 
 set -ex
 
-kill "$@" $(ps -ef | grep '[C]orda' | awk '{ print $2 }')
+kill "$@" $(ps -ef | egrep '[C]orda|[I]rsDemoWebApplication' | awk '{ print $2 }')
