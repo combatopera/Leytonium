@@ -2,7 +2,7 @@
 
 #HALP Publish this branch, accepts push options.
 
-from common import *
+from common import thisbranch, pb, UnknownParentException, run, args
 
 def main():
     name = thisbranch()

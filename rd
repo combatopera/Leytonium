@@ -2,7 +2,7 @@
 
 #HALP Run git add on conflicted path, with completion.
 
-from common import *
+from common import chain, args
 
 def main():
     chain(['git', 'add'] + args())
