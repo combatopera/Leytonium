@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
 #HALP Remove all untracked items, including the git-ignored.
 
-set -ex
+from common import findproject, run
 
-. git_functions
+def main():
+    run(['git', 'clean', '-xdi'], cwd = findproject())
 
-cdtocorda
-
-git clean -xdi
+if '__main__' == __name__:
+    main()
