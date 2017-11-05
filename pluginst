@@ -1,17 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
 #HALP Reinstall corda gradle plugins.
 
-set -ex
+from common import findproject, runpy
+import os
 
-. git_functions
+def main():
+    projectdir = findproject()
+    runpy(['gradle', '-u', 'clean', 'install'], cwd = os.path.join(projectdir, 'gradle-plugins', 'publish-utils'))
+    runpy(['gradle', 'clean', 'install'], cwd = os.path.join(projectdir, 'gradle-plugins'))
 
-cdtocorda
-
-cd gradle-plugins/publish-utils
-
-../../gradlew -u clean install
-
-cd ..
-
-../gradlew clean install
+if '__main__' == __name__:
+    main()

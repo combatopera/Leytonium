@@ -5,8 +5,8 @@
 from common import chain, findproject, args
 import os
 
-def main():
-    chain([os.path.join(findproject(), 'gradlew')] + args())
+def main(cwd = None):
+    chain([os.path.join(findproject(cwd), 'gradlew')] + args(), cwd = cwd)
 
 if '__main__' == __name__:
     main()
