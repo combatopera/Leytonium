@@ -2,11 +2,11 @@ import subprocess, os, sys, traceback, re, collections, importlib.machinery
 
 infodirname = '.pb'
 
-def runpy(command):
+def runpy(command, **kwargs):
     name = command[0]
     m = importlib.machinery.SourceFileLoader(name, os.path.join(os.path.dirname(__file__), name)).load_module()
     sys.argv[1:] = command[1:]
-    m.main()
+    m.main(**kwargs)
 
 class UnknownParentException(Exception): pass
 
@@ -51,14 +51,18 @@ def thisbranch():
     line, = runlines(['git', 'rev-parse', '--abbrev-ref', 'HEAD'])
     return line
 
-def findproject():
-    name = path = '.git'
+def findproject(context = None):
+    context = [] if context is None else [context]
+    name = ['.git']
+    k = 0
+    path = os.path.join(*context + name)
     while not os.path.exists(path):
-        parent = '..' + os.sep + path
+        k += 1
+        parent = os.path.join(*context + k * ['..'] + name)
         if os.path.abspath(parent) == os.path.abspath(path):
             raise Exception('No project found.')
         path = parent
-    return '.' if path == name else path[:-len(os.sep + name)]
+    return os.path.join(*k * ['..']) if k else '.'
 
 def args():
     args = sys.argv[1:]
