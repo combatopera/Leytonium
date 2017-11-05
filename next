@@ -1,24 +1,23 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
 #HALP Go to next step in current git workflow.
 
-set -ex
+from common import findproject, run, runlines
+import os
 
-. git_functions
+def main():
+    gitdir = os.path.join(findproject(), '.git')
+    if os.path.isdir(os.path.join(gitdir, 'rebase-apply')):
+        if runlines(['git', 'status', '--porcelain']):
+            run(['git', 'rebase', '--continue'])
+        else:
+            run(['git', 'rebase', '--skip'])
+    elif os.path.isfile(os.path.join(gitdir, 'MERGE_HEAD')):
+        run(['git', 'commit', '--no-edit'])
+    elif os.path.isfile(os.path.join(gitdir, 'CHERRY_PICK_HEAD')):
+        run(['git', 'cherry-pick', '--continue'])
+    else:
+        raise Exception('Unknown git workflow, giving up.')
 
-cdtocorda
-
-if [[ -d .git/rebase-apply ]]; then
-    if [[ "$(git status --porcelain)" ]]; then
-        git rebase --continue
-    else
-        git rebase --skip
-    fi
-elif [[ -f .git/MERGE_HEAD ]]; then
-    git commit --no-edit
-elif [[ -f .git/CHERRY_PICK_HEAD ]]; then
-    git cherry-pick --continue
-else
-    echo Unknown git workflow, giving up. >&2
-    exit 1
-fi
+if '__main__' == __name__:
+    main()
