@@ -11,11 +11,8 @@ def mergethem():
     prefix = "%s-" % githubuser()
     def update(b):
         run(['git', 'checkout', b])
-        public = ispublic()
-        if public and not b.startswith(prefix):
-            stderr("Skip: %s" % b)
-        elif public or b == 'kitchen-sink' or b.startswith('controversial-'):
-            run(['git', 'merge', '--no-edit', pb()])
+        if ispublic() or b == 'kitchen-sink' or b.startswith('controversial-'):
+            run(['git', 'merge', '--no-edit', pb()]) # TODO: Generalise logic.
         else:
             run(['git', 'rebase', pb()])
     done = set()
