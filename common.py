@@ -23,6 +23,20 @@ def pb(b = None):
         parent, = f.read().splitlines()
     return parent
 
+def parents(allbranches, b):
+    def g():
+        with open(os.path.join(findproject(), infodirname, b)) as f:
+            for line in f:
+                line, = line.splitlines()
+                if '*' in line:
+                    regex = re.compile('.*'.join(re.escape(text) for text in re.split('[*]', line)))
+                    for other in allbranches:
+                        if regex.fullmatch(other):
+                            yield other
+                else:
+                    yield line
+    return list(g())
+
 try:
     unchecked_run = subprocess.run
 except AttributeError:
