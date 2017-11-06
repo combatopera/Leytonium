@@ -30,7 +30,10 @@ def mergethem():
                 else:
                     update(b)
                     done.add(b)
-        remaining = list(g())
+        remaining2 = list(g())
+        if remaining2 == remaining:
+            raise Exception("Still remain: %s" % remaining)
+        remaining = remaining2
 
 def main():
     os.chdir(findproject()) # XXX: Why?
