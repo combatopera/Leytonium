@@ -1,4 +1,4 @@
-import subprocess, os, sys, traceback, re, collections, importlib.machinery
+import subprocess, os, sys, traceback, re, collections, importlib.machinery, termcolor
 
 infodirname = '.pb'
 
@@ -11,7 +11,7 @@ def runpy(command, **kwargs):
 class UnknownParentException(Exception): pass
 
 def stderr(*args, **kwargs):
-    return print(*args, file = sys.stderr, **kwargs)
+    return termcolor.cprint(*args, 'red', file = sys.stderr, **kwargs)
 
 def pb(b = None):
     if b is None:

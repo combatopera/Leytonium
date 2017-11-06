@@ -5,20 +5,34 @@
 from common import findproject, githubuser, nicely, allbranches, ispublic, stderr, pb, run
 import os
 
+def mergethem():
+    remaining = allbranches()
+    parents = {b: pb(b) for b in remaining}
+    prefix = "%s-" % githubuser()
+    def update(b):
+        run(['git', 'checkout', b])
+        public = ispublic()
+        if public and not b.startswith(prefix):
+            stderr("Skip: %s" % b)
+        elif public or b == 'kitchen-sink' or b.startswith('controversial-'):
+            run(['git', 'merge', '--no-edit', pb()])
+        else:
+            run(['git', 'rebase', pb()])
+    done = set()
+    while remaining:
+        stderr("Remaining: %s" % ' '.join(remaining))
+        def g():
+            for b in remaining:
+                p = parents[b]
+                if p.startswith('origin/') or p in done:
+                    update(b)
+                    done.add(b)
+                else:
+                    yield b
+        remaining = list(g())
+
 def main():
     os.chdir(findproject()) # XXX: Why?
-    prefix = "%s-" % githubuser()
-    # FIXME: Do things in dependency graph order, in particular for kitchen-sink.
-    def mergethem():
-        for b in allbranches():
-            run(['git', 'checkout', b])
-            public = ispublic()
-            if public and not b.startswith(prefix):
-                stderr("Skip: %s" % b)
-            elif public or b == 'kitchen-sink' or b.startswith('controversial-'):
-                run(['git', 'merge', '--no-edit', pb()])
-            else:
-                run(['git', 'rebase', pb()])
     nicely(mergethem)
 
 if '__main__' == __name__:
