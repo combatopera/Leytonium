@@ -1,19 +1,18 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
 #HALP Pull master and releases with automatic stash and switch.
 
-set -e
+from common import nicely, githubuser, publicbranches, run
 
-. git_functions
+def main():
+    prefix = "%s-" % githubuser()
+    def pullthem():
+        for b in publicbranches():
+            if b.startswith(prefix):
+                continue
+            run(['git', 'checkout', b])
+            run(['git', 'pull'])
+    nicely(pullthem)
 
-prefix=$(githubuser)-
-
-function pullthem {
-    for b in $(publicbranches); do
-        [[ $b = $prefix* ]] && continue
-        git checkout $b
-        git pull
-    done
-}
-
-nicely pullthem
+if '__main__' == __name__:
+    main()

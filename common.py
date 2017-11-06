@@ -81,3 +81,25 @@ def showexception():
 def githubuser():
     with open(os.path.join(os.path.expanduser('~'), '.git-credentials')) as f:
         return re.search('//([^:]+):.*github', f.read()).group(1)
+
+def publicbranches():
+    def g():
+        for line in runlines(['git', 'branch', '-vv']):
+            if '[origin/' not in line:
+                continue
+            yield re.search(r'\S+', line[2:]).group()
+    return list(g())
+
+def nicely(task):
+    stashed = ['No local changes to save'] != runlines(['git', 'stash'])
+    branch = thisbranch()
+    try:
+        task()
+    except:
+        if stashed:
+            run(['toilet', '-w', '500', '-f', 'smmono12', '--metal', 'You have a new stash:'])
+            run(['git', 'stash', 'list'])
+        raise
+    run(['git', 'checkout', branch])
+    if stashed:
+        run(['git', 'stash', 'pop'])
