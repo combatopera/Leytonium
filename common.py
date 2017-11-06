@@ -12,7 +12,7 @@ def runpy(command, **kwargs):
 class UnknownParentException(Exception): pass
 
 def stderr(*args, **kwargs):
-    return termcolor.cprint(*args, 'red', file = sys.stderr, **kwargs)
+    return termcolor.cprint(*args + ('red',), file = sys.stderr, **kwargs)
 
 def pb(b = None):
     if b is None:
