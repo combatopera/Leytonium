@@ -1,6 +1,7 @@
 import subprocess, os, sys, traceback, re, collections, importlib.machinery, termcolor
 
 infodirname = '.pb'
+publicprefix = 'public/'
 
 def runpy(command, **kwargs):
     name = command[0]
@@ -24,15 +25,20 @@ def pb(b = None):
     return parent
 
 def parents(allbranches, b):
+    def matching(spec):
+        regex = re.compile('.*'.join(re.escape(text) for text in re.split('[*]', spec)))
+        for other in allbranches:
+            if regex.fullmatch(other):
+                yield other
     def g():
         with open(os.path.join(findproject(), infodirname, b)) as f:
             for line in f:
                 line, = line.splitlines()
                 if '*' in line:
-                    regex = re.compile('.*'.join(re.escape(text) for text in re.split('[*]', line)))
-                    for other in allbranches:
-                        if regex.fullmatch(other):
-                            yield other
+                    public = line.startswith(publicprefix)
+                    spec = line[len(publicprefix):] if public else line
+                    for other in matching(spec):
+                        yield publicprefix + other if public else other
                 else:
                     yield line
     return list(g())
