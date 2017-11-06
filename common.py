@@ -109,3 +109,6 @@ def nicely(task):
     run(['git', 'checkout', branch])
     if stashed:
         run(['git', 'stash', 'pop'])
+
+def touchmsg():
+    return "touch %s" % thisbranch()
