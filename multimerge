@@ -1,28 +1,25 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
 #HALP Merge master into all PRs and carrion.
 
-set -e
+from common import findproject, githubuser, nicely, allbranches, ispublic, stderr, pb, run
+import os
 
-. git_functions
+def main():
+    os.chdir(findproject()) # XXX: Why?
+    prefix = "%s-" % githubuser()
+    # FIXME: Do things in dependency graph order, in particular for kitchen-sink.
+    def mergethem():
+        for b in allbranches():
+            run(['git', 'checkout', b])
+            public = ispublic()
+            if public and not b.startswith(prefix):
+                stderr("Skip: %s" % b)
+            elif public or b == 'kitchen-sink' or b.startswith('controversial-'):
+                run(['git', 'merge', '--no-edit', pb()])
+            else:
+                run(['git', 'rebase', pb()])
+    nicely(mergethem)
 
-cdtocorda
-
-prefix=$(githubuser)-
-
-# FIXME: Do things in dependency graph order, in particular for kitchen-sink.
-function mergethem {
-    local b
-    for b in $(allbranches); do
-        git checkout $b
-        if ispublic && ! [[ $b =~ $prefix* ]]; then
-            echo Skip: $b >&2
-        elif [[ $b =~ controversial-* || $b = kitchen-sink ]] || ispublic; then
-            git merge --no-edit $(pb)
-        else
-            git rebase $(pb)
-        fi
-    done
-}
-
-nicely mergethem
+if '__main__' == __name__:
+    main()

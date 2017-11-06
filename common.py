@@ -90,6 +90,12 @@ def publicbranches():
             yield re.search(r'\S+', line[2:]).group()
     return list(g())
 
+def allbranches():
+    return [line[2:] for line in runlines(['git', 'branch'])]
+
+def ispublic():
+    return '...origin/' in runlines(['git', 'status', '-sb'])[0]
+
 def nicely(task):
     stashed = ['No local changes to save'] != runlines(['git', 'stash'])
     branch = thisbranch()
