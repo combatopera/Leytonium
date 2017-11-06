@@ -2,10 +2,10 @@
 
 #HALP Remove all untracked items, including the git-ignored.
 
-from common import findproject, run
+from common import findproject, run, infodirname
 
 def main():
-    run(['git', 'clean', '-xdi'], cwd = findproject())
+    run(['git', 'clean', '-xdi', '-e', infodirname], cwd = findproject())
 
 if '__main__' == __name__:
     main()
