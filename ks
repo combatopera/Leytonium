@@ -1,63 +1,63 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
 #HALP Update the kitchen-sink branch with all that have been published.
 
-set -e
+from common import run, findproject, nicely, runpy, showexception, runlines, stderr, pb, allbranches, githubuser, publicbranches, touchmsg
+import os
 
-. git_functions
+def merge(b):
+    return runlines(['git', 'merge', b, '--no-edit'])
 
-ks=kitchen-sink
+def report(b):
+    status = merge(b)
+    conflicts = sum(1 for line in status if 'CONFLICT' in line)
+    if not conflicts:
+        for line in status:
+            print(line)
+    else:
+        result = conflicts, b
+        stderr("%s %s" % result)
+        run(['git', 'reset', '--hard'])
+        return result
 
-function mergeb {
-    git merge $b --no-edit
-}
-
-function reportb {
-    local status="$(mergeb)"
-    local conflicts=$(grep -c CONFLICT <<<"$status")
-    if [[ $conflicts -eq 0 ]]; then
-        echo "$status" >&2
-    else
-        echo $conflicts $b | tee /dev/stderr
-        git reset --hard >/dev/null
-    fi
-}
-
-function iter {
-    local b
-    for b in $(publicbranches); do
-        echo $b >&2
-        if [[ $b = master || ( $b = $(githubuser)-* && master = $(cat .pb/$b) ) ]]; then
+def iter(task):
+    prefix = "%s-" % githubuser()
+    for b in publicbranches():
+        stderr(b)
+        if b == 'master' or (b.startswith(prefix) and 'master' == pb(b)):
             # TODO: Use branch name if it's the same as this commit.
-            b=$(git rev-parse origin/$b) # Skip unpushed commits, as I may yet undo them.
-            $1
-        else
-            echo Skip divergent branch. >&2
-        fi
-    done
-    for b in $(allbranches); do
-        [[ $b = controversial-* ]] || continue
-        echo $b >&2
-        $1
-    done
-}
+            b, = runlines(['git', 'rev-parse', "origin/%s" % b]) # Skip unpushed commits, as I may yet undo them.
+            yield task(b)
+        else:
+            stderr('Skip divergent branch.')
+    for b in allbranches():
+        if b.startswith('controversial-'):
+            stderr(b)
+            yield task(b)
 
-function updateks {
-    co $ks || git checkout -b $ks master
-    while true; do
-        iter reportb >/dev/null # Do all automatic merges up-front for accurate conflict counts.
-        read conflicts b <<<"$(iter reportb | sort -n | head -1)"
-        [[ "$b" ]] || break
-        echo Merging: $b >&2
-        mergeb
-    done
-    if [[ $(touchmsg) = $(git log -1 --pretty=%B) ]]; then
-        echo No changes, touch not needed. >&2
-    else
-        touchb
-    fi
-}
+def updateks():
+    ks = 'kitchen-sink'
+    try:
+        runpy(['co', ks])
+    except:
+        showexception()
+        run(['git', 'checkout', '-b', ks, 'master'])
+    while True:
+        for _ in iter(report): pass # Do all automatic merges up-front for accurate conflict counts.
+        reports = sorted(r for r in iter(report) if r is not None)
+        if not reports:
+            break
+        _, b = reports[0]
+        stderr("Merging: %s", b)
+        merge(b)
+    if [touchmsg()] == runlines(['git', 'log', '-1', '--pretty=format:%B']):
+        stderr('No changes, touch not needed.')
+    else:
+        runpy(['touchb'])
 
-cdtocorda
+def main():
+    os.chdir(findproject()) # XXX: Why?
+    nicely(updateks)
 
-nicely updateks
+if '__main__' == __name__:
+    main()

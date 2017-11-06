@@ -13,8 +13,9 @@ class UnknownParentException(Exception): pass
 def stderr(*args, **kwargs):
     return print(*args, file = sys.stderr, **kwargs)
 
-def pb():
-    b = thisbranch()
+def pb(b = None):
+    if b is None:
+        b = thisbranch()
     path = os.path.join(findproject(), infodirname, b)
     if not os.path.exists(path):
         raise UnknownParentException(b)
