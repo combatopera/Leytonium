@@ -2,17 +2,17 @@
 
 #HALP Merge master into all PRs and carrion.
 
-from common import findproject, githubuser, nicely, allbranches, ispublic, stderr, pb, run
+from common import findproject, nicely, allbranches, ispublic, stderr, pb, run
 import os
 
 def mergethem():
     remaining = allbranches()
-    parents = {b: pb(b) for b in remaining}
-    prefix = "%s-" % githubuser()
+    branchtoparent = {b: pb(b) for b in remaining}
+    allparents = set(branchtoparent.values())
     def update(b, p):
         run(['git', 'checkout', b])
-        if ispublic() or b == 'kitchen-sink' or b.startswith('controversial-'):
-            run(['git', 'merge', '--no-edit', p]) # TODO: Generalise logic.
+        if b in allparents or b.startswith('controversial-') or ispublic():
+            run(['git', 'merge', '--no-edit', p])
         else:
             run(['git', 'rebase', p])
     done = set()
@@ -20,7 +20,7 @@ def mergethem():
         stderr("Remaining: %s" % ' '.join(remaining))
         def g():
             for b in remaining:
-                p = parents[b]
+                p = branchtoparent[b]
                 if p.startswith('origin/') or p in done:
                     update(b, p)
                     done.add(b)
