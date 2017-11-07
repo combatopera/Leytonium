@@ -23,6 +23,11 @@ def pb(b = None):
     with open(path) as f:
         return f.readline().splitlines()[0]
 
+def branchcommits(b = None):
+    if b is None:
+        b = thisbranch()
+    return [line.split(' ', 2)[1:] for line in reversed(runlines(['git', 'cherry', '-v', pb(b), b]))]
+
 class AllBranches:
 
     @staticmethod

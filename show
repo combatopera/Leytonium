@@ -2,11 +2,10 @@
 
 #HALP Show a commit that was listed by st.
 
-from common import runlines, args, showmenu, menu, pb, chain
+from common import args, showmenu, menu, chain, branchcommits
 
 def main():
-    items = [line.split(' ', 2)[1:] for line in runlines(['git', 'cherry', '-v', pb()])]
-    items.reverse()
+    items = branchcommits()
     v = args()
     if v:
         n, = v
