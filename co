@@ -2,10 +2,16 @@
 
 #HALP Switch to the given branch, with completion.
 
-from common import run, args
+from common import run, args, AllBranches, findproject, infodirname
+import os
 
 def main():
-    run(['git', 'checkout'] + args())
+    name, = args()
+    new = name not in AllBranches().names
+    run(['git', 'checkout', name])
+    if new:
+        with open(os.path.join(findproject(), infodirname, name), 'w') as f:
+            print("origin/%s" % name, file = f)
 
 if '__main__' == __name__:
     main()
