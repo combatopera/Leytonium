@@ -2,10 +2,49 @@
 
 #HALP Merge master into all PRs and carrion.
 
-from common import findproject, nicely, AllBranches, ispublic, stderr, run
+from common import findproject, nicely, AllBranches, ispublic, stderr, run, runlines, touchmsg, runpy
 import os
 
-def mergethem():
+def merge(b, check = True):
+    return runlines(['git', 'merge', b, '--no-edit'], check = check)
+
+def reportornone(b):
+    status = merge(b, False)
+    conflicts = sum(1 for line in status if 'CONFLICT' in line)
+    if conflicts:
+        run(['git', 'reset', '--hard'])
+        return conflicts, b
+    for line in status:
+        print(line)
+
+def getreports(branches):
+    def g():
+        for b in branches:
+            r = reportornone(b)
+            if r is not None:
+                yield r
+    return list(g())
+
+def mergeintocurrent(parents):
+    while True:
+        getreports(parents) # Do all automatic merges up-front for accurate conflict counts.
+        reports = getreports(parents)
+        if not reports:
+            break
+        for r in reports:
+            stderr("%s %s" % r)
+        reports.sort()
+        _, b = reports[0]
+        stderr("Merging: %s" % b)
+        merge(b)
+
+def touchifnecessary():
+    if [touchmsg()] == runlines(['git', 'log', '-1', '--pretty=format:%B']):
+        stderr('No changes, touch not needed.')
+    else:
+        runpy(['touchb'])
+
+def multimerge():
     allbranches = AllBranches()
     remaining = allbranches.names
     branchtoparents = {b: allbranches.parents(b) for b in remaining}
@@ -14,8 +53,9 @@ def mergethem():
         run(['git', 'checkout', b])
         parents = branchtoparents[b]
         if b in allparents or ispublic():
-            for p in parents:
-                run(['git', 'merge', '--no-edit', p])
+            mergeintocurrent(parents)
+            if 'kitchen-sink' == b: # TODO: Retire this.
+                touchifnecessary()
         else:
             p, = parents
             run(['git', 'rebase', p])
@@ -37,8 +77,8 @@ def mergethem():
         remaining = remaining2
 
 def main():
-    os.chdir(findproject()) # Don't fail if working directory is removed.
-    nicely(mergethem)
+    os.chdir(findproject()) # Don't fail if working directory doesn't exist in some branch.
+    nicely(multimerge)
 
 if '__main__' == __name__:
     main()
