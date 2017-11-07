@@ -36,8 +36,17 @@ class AllBranches:
             lines = runlines(['git', 'rev-parse', "origin/%s" % name], stderr = subprocess.DEVNULL)
         except:
             return None
-        line, = lines
-        return line
+        published, = lines # May be a merge.
+        # Find parent of the first unpublished non-merge commit:
+        nonmerges = set(id for id, _ in branchcommits(name))
+        allcommits = runlines(['git', 'log', '--format=%H', name])
+        mergeableindex = 0
+        for i, commit in enumerate(allcommits):
+            if commit == published:
+                return allcommits[mergeableindex] if mergeableindex else name
+            if commit in nonmerges:
+                mergeableindex = i + 1
+        return published # What commit is this?
 
     def __init__(self):
         self.names = [line[2:] for line in runlines(['git', 'branch'])]
@@ -58,9 +67,9 @@ class AllBranches:
                         glob = line[len(publicprefix):] if public else line
                         for match in self.matching(glob):
                             if public:
-                                match = self.published(match)
-                                if match is not None:
-                                    yield match
+                                mergeable = self.published(match)
+                                if mergeable is not None:
+                                    yield mergeable
                             else:
                                 yield match
                     else:
