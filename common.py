@@ -24,24 +24,29 @@ def pb(b = None):
         parent, = f.read().splitlines()
     return parent
 
-def parents(allbranches, b):
-    def matching(spec):
-        regex = re.compile('.*'.join(re.escape(text) for text in re.split('[*]', spec)))
-        for other in allbranches:
-            if regex.fullmatch(other):
-                yield other
-    def g():
-        with open(os.path.join(findproject(), infodirname, b)) as f:
-            for line in f:
-                line, = line.splitlines()
-                if '*' in line:
-                    public = line.startswith(publicprefix)
-                    spec = line[len(publicprefix):] if public else line
-                    for other in matching(spec):
-                        yield publicprefix + other if public else other
-                else:
-                    yield line
-    return list(g())
+class AllBranches:
+
+    def __init__(self):
+        self.names = [line[2:] for line in runlines(['git', 'branch'])]
+
+    def parents(self, b):
+        def matching(spec):
+            regex = re.compile('.*'.join(re.escape(text) for text in re.split('[*]', spec)))
+            for other in self.names:
+                if regex.fullmatch(other):
+                    yield other
+        def g():
+            with open(os.path.join(findproject(), infodirname, b)) as f:
+                for line in f:
+                    line, = line.splitlines()
+                    if '*' in line:
+                        public = line.startswith(publicprefix)
+                        spec = line[len(publicprefix):] if public else line
+                        for other in matching(spec):
+                            yield publicprefix + other if public else other
+                    else:
+                        yield line
+        return list(g())
 
 try:
     unchecked_run = subprocess.run
@@ -116,9 +121,6 @@ def publicbranches():
                 continue
             yield re.search(r'\S+', line[2:]).group()
     return list(g())
-
-def allbranches():
-    return [line[2:] for line in runlines(['git', 'branch'])]
 
 def ispublic():
     return '...origin/' in runlines(['git', 'status', '-sb'])[0]

@@ -2,7 +2,7 @@
 
 #HALP Update the kitchen-sink branch with all that have been published.
 
-from common import run, findproject, nicely, runpy, showexception, runlines, stderr, pb, allbranches, githubuser, publicbranches, touchmsg
+from common import run, findproject, nicely, runpy, showexception, runlines, stderr, pb, AllBranches, githubuser, publicbranches, touchmsg
 import os
 
 def merge(b):
@@ -20,7 +20,7 @@ def report(b):
         run(['git', 'reset', '--hard'])
         return result
 
-def iter(task):
+def iter(allbranches, task):
     prefix = "%s-" % githubuser()
     for b in publicbranches():
         stderr(b)
@@ -30,7 +30,7 @@ def iter(task):
             yield task(b)
         else:
             stderr('Skip divergent branch.')
-    for b in allbranches():
+    for b in allbranches.names:
         if b.startswith('controversial-'):
             stderr(b)
             yield task(b)
@@ -42,9 +42,10 @@ def updateks():
     except:
         showexception()
         run(['git', 'checkout', '-b', ks, 'master'])
+    allbranches = AllBranches()
     while True:
-        for _ in iter(report): pass # Do all automatic merges up-front for accurate conflict counts.
-        reports = sorted(r for r in iter(report) if r is not None)
+        for _ in iter(allbranches, report): pass # Do all automatic merges up-front for accurate conflict counts.
+        reports = sorted(r for r in iter(allbranches, report) if r is not None)
         if not reports:
             break
         _, b = reports[0]

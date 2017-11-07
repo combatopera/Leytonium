@@ -2,12 +2,13 @@
 
 #HALP Merge master into all PRs and carrion.
 
-from common import findproject, nicely, allbranches, ispublic, stderr, parents, run
+from common import findproject, nicely, AllBranches, ispublic, stderr, run
 import os
 
 def mergethem():
-    remaining = allbranches()
-    branchtoparents = {b: parents(remaining, b) for b in remaining}
+    allbranches = AllBranches()
+    remaining = allbranches.names
+    branchtoparents = {b: allbranches.parents(b) for b in remaining}
     allparents = set(p for parents in branchtoparents.values() for p in parents)
     def update(b):
         run(['git', 'checkout', b])
