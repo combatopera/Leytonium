@@ -93,7 +93,9 @@ except AttributeError:
         return collections.namedtuple('CompletedProcess', 'returncode stdout stderr')(returncode, stdout, stderr)
 
 def run(*args, **kwargs):
-    return unchecked_run(*args, check = True, **kwargs)
+    if 'check' not in kwargs:
+        kwargs = dict(kwargs, check = True)
+    return unchecked_run(*args, **kwargs)
 
 def runlines(*args, **kwargs):
     return run(*args, stdout = subprocess.PIPE, **kwargs).stdout.decode().splitlines()
