@@ -26,6 +26,15 @@ def pb(b = None):
 
 class AllBranches:
 
+    @staticmethod
+    def published(name):
+        try:
+            lines = runlines(['git', 'rev-parse', "origin/%s" % name], stderr = subprocess.DEVNULL)
+        except:
+            return None
+        line, = lines
+        return line
+
     def __init__(self):
         self.names = [line[2:] for line in runlines(['git', 'branch'])]
 
@@ -44,7 +53,12 @@ class AllBranches:
                         public = line.startswith(publicprefix)
                         glob = line[len(publicprefix):] if public else line
                         for match in self.matching(glob):
-                            yield publicprefix + match if public else match
+                            if public:
+                                match = self.published(match)
+                                if match is not None:
+                                    yield match
+                            else:
+                                yield match
                     else:
                         yield line
         return list(g())
