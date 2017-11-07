@@ -29,21 +29,22 @@ class AllBranches:
     def __init__(self):
         self.names = [line[2:] for line in runlines(['git', 'branch'])]
 
+    def matching(self, glob):
+        regex = re.compile('.*'.join(re.escape(text) for text in re.split('[*]', glob)))
+        for name in self.names:
+            if regex.fullmatch(name):
+                yield name
+
     def parents(self, b):
-        def matching(spec):
-            regex = re.compile('.*'.join(re.escape(text) for text in re.split('[*]', spec)))
-            for other in self.names:
-                if regex.fullmatch(other):
-                    yield other
         def g():
             with open(os.path.join(findproject(), infodirname, b)) as f:
                 for line in f:
                     line, = line.splitlines()
                     if '*' in line:
                         public = line.startswith(publicprefix)
-                        spec = line[len(publicprefix):] if public else line
-                        for other in matching(spec):
-                            yield publicprefix + other if public else other
+                        glob = line[len(publicprefix):] if public else line
+                        for match in self.matching(glob):
+                            yield publicprefix + match if public else match
                     else:
                         yield line
         return list(g())
