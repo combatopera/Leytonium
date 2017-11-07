@@ -37,7 +37,7 @@ def mergethem():
         remaining = remaining2
 
 def main():
-    os.chdir(findproject()) # XXX: Why?
+    os.chdir(findproject()) # Don't fail if working directory is removed.
     nicely(mergethem)
 
 if '__main__' == __name__:
