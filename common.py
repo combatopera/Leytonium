@@ -21,8 +21,7 @@ def pb(b = None):
     if not os.path.exists(path):
         raise UnknownParentException(b)
     with open(path) as f:
-        parent, = f.read().splitlines()
-    return parent
+        return f.readline().splitlines()[0]
 
 class AllBranches:
 
