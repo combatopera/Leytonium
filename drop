@@ -17,7 +17,9 @@ todrop=$(thisbranch)
 
 unset b
 
-for next in $(allbranches) void; do
+v="$(allbranches)"
+
+for next in $v $v; do
 
     [[ $b = $todrop ]] && break
 
