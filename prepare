@@ -1,24 +1,22 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
-#HALP Create a master-based branch from this kitchen-sink-based one.
+#HALP Create a master-based branch from this non-master-based one.
 
-set -e
+from common import thisbranch, pb, branchcommits, runpy, run, findproject, infodirname
+import os
 
-. git_functions
+def main():
+    master = 'master'
+    parent = pb()
+    if parent == master:
+        raise Exception("Parent is already %s!" % master)
+    name = thisbranch()
+    commits = [commit for commit, _ in branchcommits(name)]
+    runpy(['ren', "%s.bak" % name])
+    run(['git', 'checkout', '-b', name, master])
+    with open(os.path.join(findproject(), infodirname, name), 'w') as f:
+        print(master, file = f)
+    run(['git', 'cherry-pick'] + commits)
 
-base=kitchen-sink
-
-[[ $base = $(pb) ]] || {
-    echo Parent is not $base'!' >&2
-    exit 1
-}
-
-ids=($(git cherry $base | while read _ id; do echo $id; done))
-
-name=$(thisbranch)
-
-ren $name-ks
-git checkout -b $name master
-cdtocorda
-echo master >.pb/$name
-git cherry-pick ${ids[@]}
+if '__main__' == __name__:
+    main()
