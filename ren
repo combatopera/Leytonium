@@ -1,15 +1,15 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
 #HALP Rename current branch.
 
-set -e
+from common import thisbranch, args, findproject, infodirname, run
+import os
 
-. git_functions
+def main():
+    fromname = thisbranch()
+    run(['git', 'branch', '-m'] + args())
+    d = os.path.join(findproject(), infodirname)
+    os.rename(os.path.join(d, fromname), os.path.join(d, thisbranch()))
 
-from=$(thisbranch)
-
-git branch -m "$@"
-
-cdtocorda
-
-mv -v .pb/$from .pb/$(thisbranch)
+if '__main__' == __name__:
+    main()
