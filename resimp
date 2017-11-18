@@ -51,7 +51,7 @@ def resimp(path):
         stderr("Merged %s chunks of imports in: %s" % (chunks[0], path))
 
 def main():
-    os.chdir(findproject())
+    os.chdir(findproject()) # Paths below are relative to project root.
     for path in runlines(['git', 'diff', '--name-only', '--diff-filter=U']):
         resimp(path)
 
