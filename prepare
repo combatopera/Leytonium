@@ -2,8 +2,7 @@
 
 #HALP Create a master-based branch from this non-master-based one.
 
-from common import thisbranch, pb, branchcommits, runpy, run, findproject, infodirname
-import os
+from common import thisbranch, pb, branchcommits, runpy, run, addparents
 
 def main():
     master = 'master'
@@ -14,8 +13,7 @@ def main():
     commits = [commit for commit, _ in branchcommits(name)]
     runpy(['ren', "%s.bak" % name])
     run(['git', 'checkout', '-b', name, master])
-    with open(os.path.join(findproject(), infodirname, name), 'w') as f:
-        print(master, file = f)
+    addparents(name, master)
     run(['git', 'cherry-pick'] + commits)
 
 if '__main__' == __name__:

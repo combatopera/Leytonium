@@ -14,6 +14,13 @@ class UnknownParentException(Exception): pass
 def stderr(*args, **kwargs):
     return termcolor.cprint(*args + ('red',), file = sys.stderr, **kwargs)
 
+def addparents(branch, *parents):
+    path = os.path.join(findproject(), infodirname)
+    os.makedirs(path, exist_ok = True)
+    with open(os.path.join(path, branch), 'a') as f:
+        for p in parents:
+            print(p, file = f)
+
 def pb(b = None):
     if b is None:
         b = thisbranch()
