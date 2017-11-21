@@ -108,7 +108,9 @@ def runlines(*args, **kwargs):
     return run(*args, stdout = subprocess.PIPE, **kwargs).stdout.decode().splitlines()
 
 def chain(*args, **kwargs):
-    sys.exit(unchecked_run(*args, **kwargs).returncode)
+    status = unchecked_run(*args, **kwargs).returncode
+    if status:
+        sys.exit(status)
 
 def thisbranch():
     line, = runlines(['git', 'rev-parse', '--abbrev-ref', 'HEAD'])
