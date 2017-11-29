@@ -9,7 +9,7 @@ set -e
 b=$(thisbranch)
 ks=kitchen-sink
 co $ks
-stopmsg="$(touchmsg)"
+stopmsg="$(touchmsg)" # FIXME: This is wrong, there may be a manual commit.
 co $b
 
 ids=($(git cherry $ks | tac | while read _ id; do
