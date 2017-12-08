@@ -1,0 +1,12 @@
+#!/usr/bin/env python3
+
+#HALP Change declared parent of current branch.
+
+from common import args, addparents, thisbranch
+
+def main():
+    newparent, = args()
+    addparents(thisbranch(), newparent, clobber = True)
+
+if '__main__' == __name__:
+    main()
