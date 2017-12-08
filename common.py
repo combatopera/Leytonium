@@ -15,9 +15,9 @@ def stderr(*args, **kwargs):
     return termcolor.cprint(*args + ('red',), file = sys.stderr, **kwargs)
 
 def addparents(branch, *parents):
-    path = os.path.join(findproject(), infodirname)
-    os.makedirs(path, exist_ok = True)
-    with open(os.path.join(path, branch), 'a') as f:
+    path = os.path.join(findproject(), infodirname, branch) # Note branch may contain slashes.
+    os.makedirs(os.path.dirname(path), exist_ok = True)
+    with open(path, 'a') as f:
         for p in parents:
             print(p, file = f)
 
