@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+#HALP Show packages that exist in more than one module.
+
 import os
 
 def relativise(context, path):
