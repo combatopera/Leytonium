@@ -41,6 +41,7 @@ function _unconflictedpaths {
 complete -F _allbranches ren
 complete -F _otherbranches co
 complete -F _otherbranches eb
+complete -F _otherbranches setparent
 complete -F _branchnames br
 complete -F _demonames demo
 complete -F _commonmessages ci
