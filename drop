@@ -11,6 +11,8 @@ set -ex
     exit 1
 }
 
+git rebase --abort || true
+
 [[ "$(git status --porcelain)" ]] && abandon
 
 todrop=$(thisbranch)
