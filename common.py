@@ -156,7 +156,7 @@ def githubuser():
 def publicbranches():
     def g():
         for line in runlines(['git', 'branch', '-vv']):
-            if '[origin/' not in line:
+            if re.search(r' \[[^/]+/', line) is None:
                 continue
             yield re.search(r'\S+', line[2:]).group()
     return list(g())
