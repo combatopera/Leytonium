@@ -9,7 +9,7 @@ def main():
     new = name not in AllBranches().names
     run(['git', 'checkout', name])
     if new:
-        addparents(name, "origin/%s" % name)
+        addparents(name, "origin/%s" % name) # FIXME: It might be ent not origin.
 
 if '__main__' == __name__:
     main()
