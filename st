@@ -3,12 +3,17 @@
 #HALP Show list of branches and outgoing changes.
 
 from common import run, showmenu, UnknownParentException, showexception, unchecked_run, branchcommits
+import subprocess
 
 limit = 20
 
 def main():
     run(['clear'])
-    run(['git', 'branch', '-vv'])
+    try:
+        run(['git', 'branch', '-vv'])
+    except subprocess.CalledProcessError:
+        run(['ls', '-l', '--color=always'])
+        return
     try:
         entries = branchcommits()
         showmenu(entries[:limit])
