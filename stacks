@@ -1,0 +1,78 @@
+#!/usr/bin/env python3
+
+#HALP Compare stack traces across build logs.
+
+import sys, itertools, tempfile, subprocess
+
+class Stack:
+
+    def __init__(self, lines):
+        self.lines = lines
+
+    def tofile(self):
+        f = tempfile.NamedTemporaryFile()
+        for l in self.lines:
+            f.write(l.encode())
+        f.flush()
+        return f
+
+class Stacks:
+
+    def __init__(self):
+        self.stacks = []
+
+    def startproc(self, line):
+        if '[Test Error Output]' in line:
+            self.prevproc = self.startproc
+            return self.errproc
+        elif line.startswith('\t'):
+            self.stack = Stack([self.prevline, line])
+            del self.prevline
+            return self.endproc
+        else:
+            self.prevline = line
+
+    def endproc(self, line):
+        if '[Test Error Output]' in line:
+            self.prevproc = self.endproc
+            return self.errproc
+        elif line.startswith('\t') or line.startswith('Caused by: '):
+            self.stack.lines.append(line)
+        else:
+            self.stacks.append(self.stack)
+            del self.stack
+            self.prevline = line
+            return self.startproc
+
+    def errproc(self, line):
+        if '[Test Output]' in line:
+            proc = self.prevproc
+            del self.prevproc
+            return proc
+
+    def load(self, f):
+        proc = self.startproc
+        for line in f:
+            proc = proc(line) or proc
+        proc('')
+
+def compare(stacks):
+    files = [s.tofile() for s in stacks]
+    subprocess.run(['diffuse'] + [f.name for f in files])
+    for f in files:
+        f.close()
+
+def main():
+    paths = sys.argv[1:]
+    stacklists = []
+    for path in paths:
+        stacks = Stacks()
+        with open(path) as f:
+            stacks.load(f)
+        stacklists.append(stacks.stacks)
+    stacklists = list(itertools.zip_longest(*stacklists))
+    for stacks in stacklists:
+        compare(stacks)
+
+if '__main__' == __name__:
+    main()
