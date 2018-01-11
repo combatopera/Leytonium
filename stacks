@@ -26,11 +26,12 @@ class Stacks:
             self.prevproc = self.startproc
             return self.errproc
         elif line.startswith('\t'):
-            self.stack = Stack([self.prevline, line])
-            del self.prevline
+            self.stack = Stack(self.intro + [line])
+            del self.intro
             return self.endproc
         else:
-            self.prevline = line
+            self.intro.append(line)
+            del self.intro[:-2] # Log message and exception message.
 
     def endproc(self, line):
         if '[Test Error Output]' in line:
@@ -41,7 +42,7 @@ class Stacks:
         else:
             self.stacks.append(self.stack)
             del self.stack
-            self.prevline = line
+            self.intro = [line]
             return self.startproc
 
     def errproc(self, line):
@@ -51,6 +52,7 @@ class Stacks:
             return proc
 
     def load(self, f):
+        self.intro = []
         proc = self.startproc
         for line in f:
             proc = proc(line) or proc
