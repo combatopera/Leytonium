@@ -81,7 +81,7 @@ class Stacks:
 
 def compare(stackslist):
     files = [stacks.tofile() for stacks in stackslist]
-    subprocess.run(['diffuse'] + [f.name for f in files])
+    subprocess.run(['vim' if 1 == len(files) else 'diffuse'] + [f.name for f in files])
     for f in files:
         f.close()
 
