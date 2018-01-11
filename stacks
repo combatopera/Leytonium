@@ -65,7 +65,7 @@ class Stacks:
     def fixlogtime(self, line):
         m = self.logtimepattern.search(line)
         if m is None: return line
-        reltime = (datetime.datetime.min + (self.totime(m) - self.firstlogtime)).time().strftime("%H:%M:%S,%f")[:-3]
+        reltime = (datetime.datetime.min + (self.totime(m) - self.firstlogtime)).time().strftime("%M:%S,%f")[:-3]
         return "%s%s%s" % (line[:m.start()], reltime, line[m.end():])
 
     def tofile(self):
