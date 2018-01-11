@@ -2,7 +2,7 @@
 
 #HALP Compare stack traces across build logs.
 
-import sys, tempfile, subprocess
+import sys, tempfile, subprocess, re, datetime
 
 class Stack:
 
@@ -11,7 +11,10 @@ class Stack:
 
 class Stacks:
 
+    timepattern = re.compile('([0-9]{2}):([0-9]{2}):([0-9]{2}),([0-9]{3})')
+
     def __init__(self):
+        self.mark = None
         self.stacks = []
 
     def startproc(self, line):
@@ -48,11 +51,16 @@ class Stacks:
         self.intro = []
         proc = self.startproc
         for line in f:
+            if self.mark is None:
+                m = self.timepattern.search(line)
+                if m is not None:
+                    self.mark = datetime.time(hour = int(m.group(1)), minute = int(m.group(2)), second = int(m.group(3)), microsecond = int(m.group(4)) * 1000)
             proc = proc(line) or proc
         proc('')
 
     def tofile(self):
         f = tempfile.NamedTemporaryFile('w')
+        print(self.mark, file = f)
         def separator(i): print(str(i) * 40, file = f)
         for i, s in enumerate(self.stacks):
             separator(i)
