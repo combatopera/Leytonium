@@ -2,19 +2,12 @@
 
 #HALP Compare stack traces across build logs.
 
-import sys, itertools, tempfile, subprocess
+import sys, tempfile, subprocess
 
 class Stack:
 
     def __init__(self, lines):
         self.lines = lines
-
-    def tofile(self):
-        f = tempfile.NamedTemporaryFile()
-        for l in self.lines:
-            f.write(l.encode())
-        f.flush()
-        return f
 
 class Stacks:
 
@@ -58,23 +51,32 @@ class Stacks:
             proc = proc(line) or proc
         proc('')
 
-def compare(stacks):
-    files = [s.tofile() for s in stacks]
+    def tofile(self):
+        f = tempfile.NamedTemporaryFile('w')
+        def separator(i): print(str(i) * 40, file = f)
+        for i, s in enumerate(self.stacks):
+            separator(i)
+            for l in s.lines:
+                f.write(l)
+        separator(len(self.stacks))
+        f.flush()
+        return f
+
+def compare(stackslist):
+    files = [stacks.tofile() for stacks in stackslist]
     subprocess.run(['diffuse'] + [f.name for f in files])
     for f in files:
         f.close()
 
 def main():
     paths = sys.argv[1:]
-    stacklists = []
+    stackslist = []
     for path in paths:
         stacks = Stacks()
         with open(path) as f:
             stacks.load(f)
-        stacklists.append(stacks.stacks)
-    stacklists = list(itertools.zip_longest(*stacklists))
-    for stacks in stacklists:
-        compare(stacks)
+        stackslist.append(stacks)
+    compare(stackslist)
 
 if '__main__' == __name__:
     main()
