@@ -54,6 +54,7 @@ def main():
     os.chdir(findproject()) # Paths below are relative to project root.
     for path in runlines(['git', 'diff', '--name-only', '--diff-filter=U']):
         resimp(path)
+        # TODO: Also auto-resolve adjacent line conflicts.
 
 if '__main__' == __name__:
     main()
