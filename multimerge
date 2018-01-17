@@ -65,8 +65,7 @@ def multimerge():
         stderr("Remaining: %s" % ' '.join(remaining))
         def g():
             for b in remaining:
-                # FIXME: Also support non-origin remotes.
-                badparents = [p for p in branchtoparents[b] if not (p.startswith('origin/') or p in done)]
+                badparents = [p for p in branchtoparents[b] if not (allbranches.isremote(p) or p in done)]
                 if badparents:
                     yield b, badparents
                 else:

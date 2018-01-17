@@ -57,6 +57,7 @@ class AllBranches:
 
     def __init__(self):
         self.names = [line[2:] for line in runlines(['git', 'branch'])]
+        self.remotenames = set(runlines(['git', 'remote']))
 
     def matching(self, glob):
         regex = re.compile('.*'.join(re.escape(text) for text in re.split('[*]', glob)))
@@ -82,6 +83,11 @@ class AllBranches:
                     else:
                         yield line
         return list(g())
+
+    def isremote(self, b):
+        i = b.find('/')
+        if -1 != i:
+            return b[:i] in self.remotenames
 
 try:
     unchecked_run = subprocess.run
