@@ -2,10 +2,10 @@
 
 #HALP Reset branch to given commit number.
 
-from common import branchcommits, args, showmenu, chain
+from common import branchcommits, args, showmenu, chain, pb
 
 def main():
-    items = branchcommits()
+    items = branchcommits() + [[pb(), '']]
     n, = args()
     n = int(n)
     id = showmenu(items, False)[n]
