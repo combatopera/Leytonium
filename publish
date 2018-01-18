@@ -11,7 +11,7 @@ def main():
             raise Exception('Refusing to push kitchen-sink based branch.')
     except UnknownParentException:
         pass
-    run(['git', 'push', '-u', 'origin', name] + args())
+    run(['git', 'push', '-u', 'origin', name] + args()) # FIXME: Sometimes ent not origin.
 
 if '__main__' == __name__:
     main()
