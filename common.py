@@ -167,8 +167,11 @@ def publicbranches():
             yield re.search(r'\S+', line[2:]).group()
     return list(g())
 
-def ispublic():
-    return '...origin/' in runlines(['git', 'status', '-sb'])[0]
+def getpublic():
+    text = runlines(['git', 'status', '-sb'])[0]
+    m = re.search('[.]{3}([\S]+)', text)
+    if m is not None:
+        return m.group(1)
 
 def nicely(task):
     stashed = ['No local changes to save'] != runlines(['git', 'stash'])

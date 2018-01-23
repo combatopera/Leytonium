@@ -2,7 +2,7 @@
 
 #HALP Merge master into all PRs and carrion.
 
-from common import findproject, nicely, AllBranches, ispublic, stderr, run, runlines, touchmsg, runpy
+from common import findproject, nicely, AllBranches, getpublic, stderr, run, runlines, touchmsg, runpy
 import os
 
 def merge(b, check = True):
@@ -53,7 +53,7 @@ def multimerge():
     def update(b):
         run(['git', 'checkout', b])
         parents = branchtoparents[b]
-        if b in allparents or ispublic():
+        if b in allparents or getpublic():
             mergeintocurrent(parents)
             if 'kitchen-sink' == b: # TODO: Retire this.
                 touchifnecessary()
