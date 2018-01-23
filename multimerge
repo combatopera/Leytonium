@@ -63,9 +63,10 @@ def multimerge():
     done = set()
     while remaining:
         stderr("Remaining: %s" % ' '.join(remaining))
+        done0 = frozenset(done)
         def g():
             for b in remaining:
-                badparents = [p for p in branchtoparents[b] if not (allbranches.isremote(p) or p in done)]
+                badparents = [p for p in branchtoparents[b] if not (allbranches.isremote(p) or p in done0)]
                 if badparents:
                     yield b, badparents
                 else:
