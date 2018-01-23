@@ -52,10 +52,6 @@ function thisbranch {
     git rev-parse --abbrev-ref HEAD
 }
 
-function publicbranches {
-    git branch -vv | cut -c 3- | grep '\[origin/' | awk '{ print $1 }'
-}
-
 function allbranches {
     git branch | cut -c 3-
 }
