@@ -167,9 +167,16 @@ def publicbranches():
             yield re.search(r'\S+', line[2:]).group()
     return list(g())
 
-def getpublic():
-    b = thisbranch()
-    pub, = runlines(['git', 'rev-parse', '--abbrev-ref', "%s@{upstream}" % b])
+def getpublic(b = None):
+    if b is None:
+        b = thisbranch()
+    lines = runlines(
+        ['git', 'rev-parse', '--abbrev-ref', "%s@{upstream}" % b],
+        check = False,
+        stderr = subprocess.DEVNULL)
+    if not lines:
+        return None
+    pub, = lines
     return pub
 
 def nicely(task):
@@ -188,3 +195,6 @@ def nicely(task):
 
 def touchmsg():
     return "touch %s" % thisbranch()
+
+def stripansi(text):
+    return re.sub('\x1b[[][\x30-\x3f]*[\x20-\x2f]*[\x40-\x7e]', '', text)
