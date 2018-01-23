@@ -25,10 +25,6 @@ function cdtocorda {
     while [[ ! -d .git ]]; do cd ..; done
 }
 
-function githubuser {
-    grep -o //.*github ~/.git-credentials | sed 's/^..//;s/:.*//'
-}
-
 function thisbranch {
     git rev-parse --abbrev-ref HEAD
 }
