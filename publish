@@ -2,16 +2,11 @@
 
 #HALP Publish this branch, accepts push options.
 
-from common import thisbranch, pb, UnknownParentException, run, args
+from common import thisbranch, pb, run, args, runlines
 
 def main():
-    name = thisbranch()
-    try:
-        if 'kitchen-sink' == pb():
-            raise Exception('Refusing to push kitchen-sink based branch.')
-    except UnknownParentException:
-        pass
-    run(['git', 'push', '-u', 'origin', name] + args()) # FIXME: Sometimes ent not origin.
+    remote, = runlines(['git', 'config', '--get', "branch.%s.remote" % pb()])
+    run(['git', 'push', '-u', remote, thisbranch()] + args())
 
 if '__main__' == __name__:
     main()
