@@ -168,10 +168,9 @@ def publicbranches():
     return list(g())
 
 def getpublic():
-    text = runlines(['git', 'status', '-sb'])[0]
-    m = re.search('[.]{3}([\S]+)', text)
-    if m is not None:
-        return m.group(1)
+    b = thisbranch()
+    pub, = runlines(['git', 'rev-parse', '--abbrev-ref', "%s@{upstream}" % b])
+    return pub
 
 def nicely(task):
     stashed = ['No local changes to save'] != runlines(['git', 'stash'])
