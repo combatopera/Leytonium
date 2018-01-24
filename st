@@ -10,9 +10,12 @@ limit = 20
 class Row:
 
     def __init__(self, line):
-        self.name = stripansi(re.search('[\S]+', line).group())
-        p = pb(self.name)
-        self.parent = '[...]' if p == getpublic(self.name) else p
+        name = stripansi(re.search('[\S]+', line).group())
+        if '(no' == name:
+            self.parent = '(void)'
+        else:
+            p = pb(name)
+            self.parent = '[...]' if p == getpublic(name) else p
         self.line = line
 
 def main():
