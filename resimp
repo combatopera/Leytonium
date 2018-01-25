@@ -50,17 +50,17 @@ def resimp(path):
         stderr("[%s] Merged %s chunks of imports." % (path, chunks[0]))
 
 def resadj(path):
-    conflicts = []
+    conflictinfos = []
     def outer(line):
         if line.startswith('+<<<<<<< '):
-            return Conflict()
-    class Conflict:
+            return ConflictInfo()
+    class ConflictInfo:
         def __init__(self):
             self.current = self.upper = []
             self.lower = []
         def __call__(self, line):
             if line.startswith('+>>>>>>> '):
-                conflicts.append(self)
+                conflictinfos.append(self)
                 return outer
             elif line.splitlines()[0] == '+=======':
                 self.current = self.lower
