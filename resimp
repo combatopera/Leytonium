@@ -66,6 +66,9 @@ def getconflictinfos(path):
                 self.current = self.lower
             else:
                 self.current.append(line)
+        def isadjacentline(self):
+            # TODO LATER: There are probably more cases we can auto-resolve.
+            return [' +', '+ '] == [''.join(l[0] for l in part) for part in [self.upper, self.lower]]
     handler = outer
     for line in runlines(['git', 'diff', '--base', '--', path], keepends = True):
         handler = handler(line) or handler
@@ -77,7 +80,9 @@ def resadj(path):
     resolved = [0]
     def outer(line):
         if line.startswith('<<<<<<< '):
-            return PassConflict(line)
+            info = conflictinfos.pop(0)
+            cls = AdjacentLineConflict if info.isadjacentline() else PassConflict
+            return cls(line)
         else:
             output.append(line)
     class PassConflict:
@@ -87,6 +92,11 @@ def resadj(path):
             output.append(line)
             if line.startswith('>>>>>>> '):
                 return outer
+    class AdjacentLineConflict:
+        def __init__(self, intro):
+            resolved[0] += 1
+        def __call__(self, line):
+            raise Exception('Implement me!')
     handler = outer
     with open(path) as f:
         for line in f:
