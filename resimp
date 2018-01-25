@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-#HALP Resolve conflicts in imports.
+#HALP Resolve conflicts in imports and adjacent-line conflicts.
 
 from common import stderr, findproject, runlines
 import itertools, os
@@ -42,13 +42,12 @@ def resimp(path):
     handler = outer
     with open(path) as f:
         for line in f:
-            newhandler = handler(line)
-            if newhandler is not None: handler = newhandler
+            handler = handler(line) or handler
     if chunks[0]:
         with open(path, 'w') as g:
             for line in output:
                 g.write(line)
-        stderr("Merged %s chunks of imports in: %s" % (chunks[0], path))
+        stderr("[%s] Merged %s chunks of imports." % (path, chunks[0]))
 
 def resadj(path):
     conflicts = []
@@ -70,11 +69,14 @@ def resadj(path):
     handler = outer
     for line in runlines(['git', 'diff', '--base', '--', path]):
         handler = handler(line) or handler
-    for c in conflicts:
-        print('==================')
-        for l in c.upper: print(l)
-        print('===')
-        for l in c.lower: print(l)
+    output = []
+    resolved = [0]
+    # ...
+    if resolved[0]:
+        with open(path, 'w') as g:
+            for line in output:
+                g.write(line)
+        stderr("[%s] Auto-resolved %s adjacent-line conflicts." % (path, resolved[0]))
 
 def main():
     os.chdir(findproject()) # Paths below are relative to project root.
