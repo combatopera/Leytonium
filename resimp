@@ -94,9 +94,18 @@ def resadj(path):
                 return outer
     class BlankPlusPlusBlank:
         def __init__(self, intro):
-            resolved[0] += 1
+            self.current = self.upper = []
+            self.lower = []
         def __call__(self, line):
-            raise Exception('Implement me!')
+            if line.startswith('>>>>>>> '):
+                output.append(self.lower[0])
+                output.append(self.upper[1])
+                resolved[0] += 1
+                return outer
+            elif line.splitlines()[0] == '=======':
+                self.current = self.lower
+            else:
+                self.current.append(line)
     handler = outer
     with open(path) as f:
         for line in f:
