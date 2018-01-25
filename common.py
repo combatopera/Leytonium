@@ -110,8 +110,8 @@ def run(*args, **kwargs):
         kwargs = dict(kwargs, check = True)
     return unchecked_run(*args, **kwargs)
 
-def runlines(*args, **kwargs):
-    return run(*args, stdout = subprocess.PIPE, **kwargs).stdout.decode().splitlines()
+def runlines(*args, keepends = False, **kwargs):
+    return run(*args, stdout = subprocess.PIPE, **kwargs).stdout.decode().splitlines(keepends)
 
 def chain(*args, **kwargs):
     status = unchecked_run(*args, **kwargs).returncode

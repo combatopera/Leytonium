@@ -62,12 +62,12 @@ def resadj(path):
             if line.startswith('+>>>>>>> '):
                 conflicts.append(self)
                 return outer
-            elif line == '+=======':
+            elif line.splitlines()[0] == '+=======':
                 self.current = self.lower
             else:
                 self.current.append(line)
     handler = outer
-    for line in runlines(['git', 'diff', '--base', '--', path]):
+    for line in runlines(['git', 'diff', '--base', '--', path], keepends = True):
         handler = handler(line) or handler
     output = []
     resolved = [0]
