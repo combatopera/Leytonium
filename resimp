@@ -76,7 +76,17 @@ def resadj(path):
     output = []
     resolved = [0]
     def outer(line):
-        output.append(line)
+        if line.startswith('<<<<<<< '):
+            return PassConflict(line)
+        else:
+            output.append(line)
+    class PassConflict:
+        def __init__(self, intro):
+            output.append(intro)
+        def __call__(self, line):
+            output.append(line)
+            if line.startswith('>>>>>>> '):
+                return outer
     handler = outer
     with open(path) as f:
         for line in f:
