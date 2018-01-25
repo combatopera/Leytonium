@@ -50,11 +50,37 @@ def resimp(path):
                 g.write(line)
         stderr("Merged %s chunks of imports in: %s" % (chunks[0], path))
 
+def resadj(path):
+    conflicts = []
+    def outer(line):
+        if line.startswith('+<<<<<<< '):
+            return Conflict()
+    class Conflict:
+        def __init__(self):
+            self.current = self.upper = []
+            self.lower = []
+        def __call__(self, line):
+            if line.startswith('+>>>>>>> '):
+                conflicts.append(self)
+                return outer
+            elif line == '+=======':
+                self.current = self.lower
+            else:
+                self.current.append(line)
+    handler = outer
+    for line in runlines(['git', 'diff', '--base', '--', path]):
+        handler = handler(line) or handler
+    for c in conflicts:
+        print('==================')
+        for l in c.upper: print(l)
+        print('===')
+        for l in c.lower: print(l)
+
 def main():
     os.chdir(findproject()) # Paths below are relative to project root.
     for path in runlines(['git', 'diff', '--name-only', '--diff-filter=U']):
-        resimp(path)
-        # TODO: Also auto-resolve adjacent line conflicts.
+        for task in resimp, resadj:
+            task(path)
 
 if '__main__' == __name__:
     main()
