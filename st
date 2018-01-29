@@ -14,8 +14,11 @@ class Row:
         if '(no' == name:
             self.parent = '(void)'
         else:
-            p = pb(name)
-            self.parent = '[...]' if p == getpublic(name) else p
+            try:
+                p = pb(name)
+                self.parent = '[...]' if p == getpublic(name) else p
+            except UnknownParentException:
+                self.parent = '<!>'
         self.line = line
 
 def main():
