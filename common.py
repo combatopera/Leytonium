@@ -43,7 +43,7 @@ def branchcommits(b = None):
     def g():
         for line in reversed(runlines(['git', 'cherry', '-v', pb(b), b])):
             commit, message = line.split(' ', 2)[1:]
-            stat = ' '.join("%%%sd%%s" % w % (n, u) for n, w, u in zip(map(int, re.findall('[0-9]+', runlines(['git', 'show', '--shortstat', commit])[-1])), [2, 3, 3], 'f+-'))
+            stat = ''.join("%%%sd%%s" % w % (n, u) for n, w, u in zip(map(int, re.findall('[0-9]+', runlines(['git', 'show', '--shortstat', commit])[-1])), [2, 3, 3], 'f+-'))
             yield commit, "%s %s" % (stat, message)
     return list(g())
 
