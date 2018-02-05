@@ -33,7 +33,12 @@ def pb(b = None):
 def branchcommits(b = None):
     if b is None:
         b = thisbranch()
-    return [line.split(' ', 2)[1:] for line in reversed(runlines(['git', 'cherry', '-v', pb(b), b]))]
+    def g():
+        for line in reversed(runlines(['git', 'cherry', '-v', pb(b), b])):
+            commit, message = line.split(' ', 2)[1:]
+            stat = ' '.join("%s%s" % t for t in zip(re.findall('[0-9]+', runlines(['git', 'show', '--shortstat', commit])[-1]), 'f+-'))
+            yield commit, "%s %s" % (stat, message)
+    return list(g())
 
 class AllBranches:
 
