@@ -2,13 +2,14 @@
 
 #HALP Reset branch to given commit number.
 
-from common import branchcommits, args, showmenu, chain, pb
+from common import branchcommits, args, showmenu, chain, pb, savecommits
 
 def main():
     items = branchcommits() + [[pb(), '']]
     n, = args()
     n = int(n)
     id = showmenu(items, False)[n]
+    savecommits([item[0] for item in items[:n - 1]])
     chain(['git', 'reset', '--hard', id])
 
 if '__main__' == __name__:
