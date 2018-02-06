@@ -79,7 +79,7 @@ def resadj(path):
     resolved = [0]
     def outer(line):
         if line.startswith('<<<<<<< '):
-            info = conflictinfos.pop(0) # FIXME: Pop from empty list has happened!
+            info = conflictinfos.pop(0) # FIXME: Pop from empty list has happened! Suspect when both sides added the path so there is no base.
             # TODO LATER: There are probably more cases we can auto-resolve.
             cls = BlankPlusPlusBlank if [' +', '+ '] == info.shape() else PassConflict
             return cls(line)
