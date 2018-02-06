@@ -28,6 +28,13 @@ def savecommits(commits):
         for c in commits:
             print(c, file = f)
 
+def savedcommits():
+    path = os.path.join(findproject(), infodirname, "%s slammed" % thisbranch())
+    if not os.path.exists(path):
+        return []
+    with open(path) as f:
+        return f.read().splitlines()
+
 def pb(b = None):
     if b is None:
         b = thisbranch()
