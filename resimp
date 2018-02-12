@@ -3,7 +3,7 @@
 #HALP Resolve conflicts in imports and adjacent-line conflicts.
 
 from common import stderr, findproject, runlines
-import itertools, os
+import itertools, os, re
 
 def resimp(path):
     output = []
@@ -80,8 +80,7 @@ def resadj(path):
     def outer(line):
         if line.startswith('<<<<<<< '):
             info = conflictinfos.pop(0) # FIXME: Pop from empty list has happened! Suspect when both sides added the path so there is no base.
-            # TODO LATER: There are probably more cases we can auto-resolve.
-            cls = BlankPlusPlusBlank if [' +', '+ '] == info.shape() else PassConflict
+            cls = BlankPlusPlusBlank.forshape(info.shape()) or PassConflict
             return cls(line)
         else:
             output.append(line)
@@ -93,18 +92,28 @@ def resadj(path):
             if line.startswith('>>>>>>> '):
                 return outer
     class BlankPlusPlusBlank:
-        def __init__(self, intro):
+        shapepatterns = [re.compile(s) for s in [' +[+]+', '[+]+ +']]
+        @classmethod
+        def forshape(cls, shape):
+            for p, s in zip(cls.shapepatterns, shape):
+                if p.fullmatch(s) is None:
+                    return
+            return lambda intro: cls(shape, intro)
+        def __init__(self, shape, intro):
+            self.currentshape = self.uppershape = list(shape[0])
+            self.lowershape = list(shape[1])
             self.current = self.upper = []
             self.lower = []
         def __call__(self, line):
             if line.startswith('>>>>>>> '):
-                output.append(self.lower[0])
-                output.append(self.upper[1])
+                output.extend(self.lower)
+                output.extend(self.upper)
                 resolved[0] += 1
                 return outer
             elif line.splitlines()[0] == '=======':
+                self.currentshape = self.lowershape
                 self.current = self.lower
-            else:
+            elif '+' == self.currentshape.pop(0):
                 self.current.append(line)
     handler = outer
     with open(path) as f:
