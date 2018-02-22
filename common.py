@@ -86,7 +86,10 @@ class AllBranches:
 
     def parents(self, b):
         def g():
-            with open(os.path.join(findproject(), infodirname, b)) as f:
+            path = os.path.join(findproject(), infodirname, b)
+            if not os.path.exists(path):
+                return
+            with open(path) as f:
                 for line in f:
                     line, = line.splitlines()
                     if '*' in line:
