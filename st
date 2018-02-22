@@ -2,29 +2,32 @@
 
 #HALP Show list of branches and outgoing changes.
 
-from common import run, showmenu, UnknownParentException, showexception, unchecked_run, branchcommits, runlines, pb, stripansi, getpublic, savedcommits
+from common import run, showmenu, UnknownParentException, showexception, unchecked_run, branchcommits, runlines, stripansi, getpublic, savedcommits, AllBranches
 import subprocess, re
 
 limit = 20
 
 class Row:
 
-    def __init__(self, line):
+    def __init__(self, allbranches, line):
         name = stripansi(re.search('[\S]+', line).group())
         if '(no' == name:
             self.parent = '(void)'
         else:
-            try:
-                p = pb(name)
-                self.parent = '[...]' if p == getpublic(name) else p
-            except UnknownParentException:
+            parents = allbranches.parents(name)
+            if parents:
+                self.parent = '[...]' if parents[0] == getpublic(name) else parents[0]
+                if len(parents) > 1:
+                    self.parent += ' +'
+            else:
                 self.parent = '<!>'
         self.line = line
 
 def main():
     run(['clear'])
+    allbranches = AllBranches()
     try:
-        rows = [Row(l[2:]) for l in runlines(['git', '-c', 'color.ui=always', 'branch', '-vv'])]
+        rows = [Row(allbranches, l[2:]) for l in runlines(['git', '-c', 'color.ui=always', 'branch', '-vv'])]
     except subprocess.CalledProcessError:
         run(['ls', '-l', '--color=always'])
         return
