@@ -18,7 +18,7 @@ class Row:
             if parents:
                 self.parent = '[...]' if parents[0] == getpublic(name) else parents[0]
                 if len(parents) > 1:
-                    self.parent += ' +'
+                    self.parent += "+%s" % (len(parents) - 1)
             else:
                 self.parent = '<!>'
         self.line = line
