@@ -5,6 +5,7 @@
 from common import chain, args
 
 def main():
+    # FIXME: Reject directory args.
     chain(['git', 'add'] + args())
 
 if '__main__' == __name__:
