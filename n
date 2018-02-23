@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+
+#HALP Switch to the next branch and run st.
+
+from common import runlines, chain, run
+
+def main():
+    lines = runlines(['git', 'branch'])
+    for i, line in enumerate(lines):
+        if line.startswith('*'):
+            b = lines[i + 1].strip()
+            break
+    run(['co', b])
+    chain(['st'])
+
+if '__main__' == __name__:
+    main()
