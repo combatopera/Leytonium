@@ -25,12 +25,12 @@ class Row:
 
 def main():
     run(['clear'])
-    allbranches = AllBranches()
     try:
-        rows = [Row(allbranches, l[2:]) for l in runlines(['git', '-c', 'color.ui=always', 'branch', '-vv'])]
+        allbranches = AllBranches()
     except subprocess.CalledProcessError:
         run(['ls', '-l', '--color=always'])
         return
+    rows = [Row(allbranches, l[2:]) for l in runlines(['git', '-c', 'color.ui=always', 'branch', '-vv'])]
     fmt = "%%-%ss %%s" % max(len(r.parent) for r in rows)
     for r in rows:
         print(fmt % (r.parent, r.line))
