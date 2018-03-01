@@ -2,10 +2,16 @@
 
 #HALP Change declared parent of current branch.
 
-from common import args, addparents, thisbranch
+from common import args as getargs, addparents, thisbranch, getpublic
 
 def main():
-    newparent, = args()
+    args = getargs()
+    if args:
+        newparent, = args
+    else:
+        newparent = getpublic()
+        if newparent is None:
+            raise Exception('Please specify a branch to be parent.')
     addparents(thisbranch(), newparent, clobber = True)
 
 if '__main__' == __name__:
