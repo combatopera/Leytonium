@@ -7,8 +7,8 @@ import os
 
 def main():
     projectdir = findproject()
-    runpy(['gradle', '-u', 'clean', 'install'], cwd = os.path.join(projectdir, 'gradle-plugins', 'publish-utils'))
-    runpy(['gradle', 'clean', 'install'], cwd = os.path.join(projectdir, 'gradle-plugins'))
+    runpy(['gradle', '-u', 'clean', 'install'], cwd = os.path.join(projectdir, 'publish-utils'))
+    runpy(['gradle', 'clean', 'install'], cwd = os.path.join(projectdir))
 
 if '__main__' == __name__:
     main()
