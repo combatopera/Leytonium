@@ -49,11 +49,10 @@ def multimerge():
     remaining = allbranches.names
     branchtoparents = {b: allbranches.parents(b) for b in remaining}
     allparents = set(p for parents in branchtoparents.values() for p in parents)
-    allparents.add('kitchen-sink') # TODO: Generalise this somehow.
     def update(b):
         run(['git', 'checkout', b])
         parents = branchtoparents[b]
-        if b in allparents or getpublic():
+        if b in allparents or getpublic() or len(parents) > 1:
             mergeintocurrent(parents)
             if 'kitchen-sink' == b: # TODO: Retire this.
                 touchifnecessary()
