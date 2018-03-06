@@ -1,0 +1,11 @@
+#!/usr/bin/env python3
+
+#HALP Add the top commit to the list of slammed commits.
+
+from common import branchcommits, savecommits
+
+def main():
+    savecommits([branchcommits()[0][0]])
+
+if '__main__' == __name__:
+    main()
