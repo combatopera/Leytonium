@@ -2,7 +2,7 @@
 
 #HALP Show list of branches and outgoing changes.
 
-from common import run, showmenu, UnknownParentException, showexception, unchecked_run, branchcommits, runlines, stripansi, getpublic, savedcommits, AllBranches
+from common import run, showmenu, UnknownParentException, showexception, unchecked_run, runlines, stripansi, getpublic, savedcommits, AllBranches
 import subprocess, re
 
 limit = 20
@@ -37,7 +37,7 @@ def main():
     for c in savedcommits():
         print(c)
     try:
-        entries = branchcommits()
+        entries = allbranches.branchcommits()
         showmenu(entries[:limit])
         count = len(entries) - limit
         if count > 0:

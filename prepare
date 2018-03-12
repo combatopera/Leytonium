@@ -2,7 +2,7 @@
 
 #HALP Create a master-based branch from this non-master-based one.
 
-from common import thisbranch, pb, branchcommits, runpy, run, addparents
+from common import thisbranch, pb, AllBranches, runpy, run, addparents
 
 def main():
     master = 'master'
@@ -10,7 +10,8 @@ def main():
     if parent == master:
         raise Exception("Parent is already %s!" % master)
     name = thisbranch()
-    commits = [commit for commit, _ in branchcommits(name)]
+    allbranches = AllBranches()
+    commits = [commit for commit, _ in allbranches.branchcommits(name)]
     runpy(['ren', "%s.bak" % name])
     run(['git', 'checkout', '-b', name, master])
     addparents(name, master)

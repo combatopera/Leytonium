@@ -2,10 +2,10 @@
 
 #HALP Show a commit that was listed by st.
 
-from common import args, showmenu, menu, chain, branchcommits
+from common import args, showmenu, menu, chain, AllBranches
 
 def main():
-    items = branchcommits()
+    items = AllBranches().branchcommits()
     v = args()
     if v:
         n, = v

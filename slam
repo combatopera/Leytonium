@@ -2,10 +2,10 @@
 
 #HALP Reset branch to given commit number.
 
-from common import branchcommits, args as getargs, showmenu, chain, pb, savecommits
+from common import AllBranches, args as getargs, showmenu, chain, pb, savecommits
 
 def main():
-    items = branchcommits() + [[pb(), '']]
+    items = AllBranches().branchcommits() + [[pb(), '']]
     args = getargs()
     if '-f' == args[0]:
         save = False

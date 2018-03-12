@@ -2,10 +2,10 @@
 
 #HALP Add the top commit to the list of slammed commits.
 
-from common import branchcommits, savecommits
+from common import AllBranches, savecommits
 
 def main():
-    savecommits([branchcommits()[0][0]])
+    savecommits([AllBranches().branchcommits()[0][0]])
 
 if '__main__' == __name__:
     main()

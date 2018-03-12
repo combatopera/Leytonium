@@ -44,27 +44,16 @@ def pb(b = None):
     with open(path) as f:
         return f.readline().splitlines()[0]
 
-def branchcommits(b = None):
-    if b is None:
-        b = thisbranch()
-    def g():
-        for line in reversed(runlines(['git', 'cherry', '-v', pb(b), b])):
-            commit, message = line.split(' ', 2)[1:]
-            stat = ''.join("%%%sd%%s" % w % (n, u) for n, w, u in zip(map(int, re.findall('[0-9]+', runlines(['git', 'show', '--shortstat', commit])[-1])), [2, 3, 3], 'f+-'))
-            yield commit, "%s %s" % (stat, message)
-    return list(g())
-
 class AllBranches:
 
-    @staticmethod
-    def published(name):
+    def published(self, name):
         try:
             lines = runlines(['git', 'rev-parse', "origin/%s" % name], stderr = subprocess.DEVNULL)
         except:
             return None
         published, = lines # May be a merge.
         # Find parent of the first unpublished non-merge commit:
-        nonmerges = set(id for id, _ in branchcommits(name))
+        nonmerges = set(id for id, _ in self.branchcommits(name))
         allcommits = runlines(['git', 'log', '--format=%H', name])
         mergeableindex = 0
         for i, commit in enumerate(allcommits):
@@ -110,6 +99,16 @@ class AllBranches:
         i = b.find('/')
         if -1 != i:
             return b[:i] in self.remotenames
+
+    def branchcommits(self, b = None):
+        if b is None:
+            b = thisbranch()
+        def g():
+            for line in reversed(runlines(['git', 'cherry', '-v', pb(b), b])):
+                commit, message = line.split(' ', 2)[1:]
+                stat = ''.join("%%%sd%%s" % w % (n, u) for n, w, u in zip(map(int, re.findall('[0-9]+', runlines(['git', 'show', '--shortstat', commit])[-1])), [2, 3, 3], 'f+-'))
+                yield commit, "%s %s" % (stat, message)
+        return list(g())
 
 try:
     unchecked_run = subprocess.run
