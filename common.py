@@ -103,8 +103,15 @@ class AllBranches:
     def branchcommits(self, b = None):
         if b is None:
             b = thisbranch()
+        intersection = None
+        for pb in self.parents(b):
+            nextinter = collections.OrderedDict()
+            for line in reversed(runlines(['git', 'cherry', '-v', pb, b])):
+                if intersection is None or line in intersection:
+                    nextinter[line] = None
+            intersection = nextinter
         def g():
-            for line in reversed(runlines(['git', 'cherry', '-v', pb(b), b])):
+            for line in intersection:
                 commit, message = line.split(' ', 2)[1:]
                 stat = ''.join("%%%sd%%s" % w % (n, u) for n, w, u in zip(map(int, re.findall('[0-9]+', runlines(['git', 'show', '--shortstat', commit])[-1])), [2, 3, 3], 'f+-'))
                 yield commit, "%s %s" % (stat, message)
