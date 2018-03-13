@@ -208,6 +208,13 @@ def getpublic(b = None):
     return pub
 
 def nicely(task):
+    run(['pkill', '-f', '-STOP', 'com.intellij.idea.Main'])
+    try:
+        nicelyimpl(task)
+    finally:
+        run(['pkill', '-f', '-CONT', 'com.intellij.idea.Main'])
+
+def nicelyimpl(task):
     stashed = ['No local changes to save'] != runlines(['git', 'stash'])
     branch = thisbranch()
     try:
