@@ -208,11 +208,12 @@ def getpublic(b = None):
     return pub
 
 def nicely(task):
-    run(['pkill', '-f', '-STOP', 'com.intellij.idea.Main'])
+    killide = lambda sig: unchecked_run(['pkill', '-f', "-%s" % sig, 'com.intellij.idea.Main'])
+    killide('STOP')
     try:
         nicelyimpl(task)
     finally:
-        run(['pkill', '-f', '-CONT', 'com.intellij.idea.Main'])
+        killide('CONT')
 
 def nicelyimpl(task):
     stashed = ['No local changes to save'] != runlines(['git', 'stash'])
