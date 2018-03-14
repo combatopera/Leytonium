@@ -111,7 +111,7 @@ class AllBranches:
                     nextinter[line] = None
             intersection = nextinter
         if intersection is None:
-            return [] # Rebasing?
+            raise UnknownParentException(b) # Rebasing?
         def g():
             for line in intersection:
                 commit, message = line.split(' ', 2)[1:]
