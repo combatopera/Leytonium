@@ -103,13 +103,15 @@ class AllBranches:
     def branchcommits(self, b = None):
         if b is None:
             b = thisbranch()
-        intersection = None
+        intersection = None # Logically this is the set of all commits.
         for pb in self.parents(b):
             nextinter = collections.OrderedDict()
             for line in reversed(runlines(['git', 'cherry', '-v', pb, b])):
                 if intersection is None or line in intersection:
                     nextinter[line] = None
             intersection = nextinter
+        if intersection is None:
+            return [] # Rebasing?
         def g():
             for line in intersection:
                 commit, message = line.split(' ', 2)[1:]
