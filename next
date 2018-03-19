@@ -16,6 +16,8 @@ def main():
         run(['git', 'commit', '--no-edit'])
     elif os.path.isfile(os.path.join(gitdir, 'CHERRY_PICK_HEAD')):
         run(['git', 'cherry-pick', '--continue'])
+    elif os.path.isfile(os.path.join(gitdir, 'REVERT_HEAD')):
+        run(['git', 'revert', '--continue'])
     else:
         raise Exception('Unknown git workflow, giving up.')
 
