@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+#HALP Create a branch for the given ticket(s) named according to git policy.
+
 from common import menu, run, addparents, AllBranches
 import sys, subprocess, os, tempfile, re
 
