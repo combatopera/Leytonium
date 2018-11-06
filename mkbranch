@@ -1,0 +1,14 @@
+#!/usr/bin/env python3
+
+import sys, subprocess, os, tempfile
+
+def main():
+    ticket, = sys.argv[1:]
+    with tempfile.NamedTemporaryFile() as f:
+        subprocess.run([os.path.join(os.path.dirname(__file__), 'extract_cookies.sh')], stdout = f, check = True)
+        wget = subprocess.Popen(['wget', '-O', '-', "https://kheiron.atlassian.net/browse/%s" % ticket, '--load-cookies', f.name], stdout = subprocess.PIPE)
+        title = subprocess.run([os.path.join(os.environ['GOPATH'], 'bin', 'pup'), 'h1 text{}'], stdin = wget.stdout, stdout = subprocess.PIPE).stdout.decode().strip()
+        print(title)
+
+if '__main__' == __name__:
+    main()
