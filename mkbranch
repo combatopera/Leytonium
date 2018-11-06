@@ -1,14 +1,18 @@
 #!/usr/bin/env python3
 
-import sys, subprocess, os, tempfile
+import sys, subprocess, os, tempfile, re
+
+wordpattern = re.compile(r'\S+')
 
 def main():
-    ticket, = sys.argv[1:]
+    tickets = sys.argv[1:]
     with tempfile.NamedTemporaryFile() as f:
         subprocess.run([os.path.join(os.path.dirname(__file__), 'extract_cookies.sh')], stdout = f, check = True)
-        wget = subprocess.Popen(['wget', '-O', '-', "https://kheiron.atlassian.net/browse/%s" % ticket, '--load-cookies', f.name], stdout = subprocess.PIPE)
-        title = subprocess.run([os.path.join(os.environ['GOPATH'], 'bin', 'pup'), 'h1 text{}'], stdin = wget.stdout, stdout = subprocess.PIPE).stdout.decode().strip()
-        print(title)
+        wget = subprocess.Popen(['wget', '-O', '-', "https://kheiron.atlassian.net/browse/%s" % tickets[0], '--load-cookies', f.name], stdout = subprocess.PIPE)
+        words = [w.lower() for w in wordpattern.findall(subprocess.run([os.path.join(os.environ['GOPATH'], 'bin', 'pup'), 'h1 text{}'], stdin = wget.stdout, stdout = subprocess.PIPE).stdout.decode())]
+        prefix = ''.join("%s_" % t.translate({ord('-'): None}).lower() for t in tickets)
+        options = [prefix + '_'.join(words[:i + 1]) for i in range(len(words))]
+        for o in options: print(o)
 
 if '__main__' == __name__:
     main()
