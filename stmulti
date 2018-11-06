@@ -1,0 +1,80 @@
+#!/bin/bash
+
+set -e
+
+IFS=$'\n'
+
+reponame=Seagate3
+repo=/mnt/$reponame
+effectivehome=$(eval echo ~$SUDO_USER)
+
+function pull {
+    [[ pullall = "$(basename "$0")" ]]
+}
+
+function push {
+    [[ pushall = "$(basename "$0")" ]]
+}
+
+function forprojects {
+    for d in $(find -mindepth 2 -maxdepth 2 -name $1 | sort); do
+        cd ${d%/*}
+        $2 ${PWD#$effectivehome/}
+        cd - >/dev/null
+    done
+}
+
+function hgtask {
+    echo 'hg ' $1:
+    if pull; then
+        hg pull $repo/arc/$1 && hg update
+    elif push; then
+        hgcommit.py
+    else
+        hg st
+    fi
+}
+
+function gittask {
+    echo git $1:
+    if pull; then
+        git pull $repo/arc/$1
+    elif push; then
+        hgcommit.py
+    else
+        git status -s
+        git remote -v | while read line; do
+            [[ "$line" = *$'\tgit@'* ]] || {
+                echo Remote is not SSH: "$line" >&2
+            }
+        done
+        [[ "$(md5sum .git/hooks/post-commit)" = 68f539d6c285b2516bfbb878184040ac* ]] || {
+            echo Bad hook: post-commit >&2
+        }
+        git stash list
+    fi
+}
+
+function rsynctask {
+    echo rsy $1:
+    if pull; then
+        lhs=(rsync -avzu --exclude /.rsync)
+        rhs=(lave.local::$reponame/$1/ .)
+        ${lhs[@]} ${rhs[@]}
+        lhs+=(--del)
+        ${lhs[@]} --dry-run ${rhs[@]}
+        echo "(cd $PWD && ${lhs[@]} ${rhs[@]})"
+    elif push; then
+        hgcommit.py
+    else
+        tput setf 1
+        tput bold
+        find -newer .rsync
+        tput sgr0
+    fi
+}
+
+clear
+forprojects .hg hgtask
+forprojects .git gittask
+forprojects .rsync rsynctask
