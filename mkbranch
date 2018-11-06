@@ -1,18 +1,23 @@
 #!/usr/bin/env python3
 
+from common import menu, run, addparents, AllBranches
 import sys, subprocess, os, tempfile, re
 
 wordpattern = re.compile(r'\S+')
 
 def main():
     tickets = sys.argv[1:]
-    with tempfile.NamedTemporaryFile() as f:
-        subprocess.run([os.path.join(os.path.dirname(__file__), 'extract_cookies.sh')], stdout = f, check = True)
-        wget = subprocess.Popen(['wget', '-O', '-', "https://kheiron.atlassian.net/browse/%s" % tickets[0], '--load-cookies', f.name], stdout = subprocess.PIPE)
+    with tempfile.NamedTemporaryFile() as cookiesfile:
+        subprocess.run([os.path.join(os.path.dirname(__file__), 'extract_cookies.sh')], stdout = cookiesfile, check = True)
+        wget = subprocess.Popen(['wget', '-O', '-', "https://kheiron.atlassian.net/browse/%s" % tickets[0], '--load-cookies', cookiesfile.name], stdout = subprocess.PIPE)
         words = [w.lower() for w in wordpattern.findall(subprocess.run([os.path.join(os.environ['GOPATH'], 'bin', 'pup'), 'h1 text{}'], stdin = wget.stdout, stdout = subprocess.PIPE).stdout.decode())]
-        prefix = ''.join("%s_" % t.translate({ord('-'): None}).lower() for t in tickets)
-        options = [prefix + '_'.join(words[:i + 1]) for i in range(len(words))]
-        for o in options: print(o)
+        wget.wait()
+    prefix = ''.join("%s_" % t.translate({ord('-'): None}).lower() for t in tickets)
+    options = [prefix + '_'.join(words[:i + 1]) for i in range(len(words))]
+    _, name = menu([[o, ''] for o in options], 'Branch name')
+    _, base = menu([[n, ''] for n in AllBranches().names], 'From')
+    run(['git', 'checkout', '-b', name, base])
+    addparents(name, base)
 
 if '__main__' == __name__:
     main()
