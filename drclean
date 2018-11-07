@@ -23,3 +23,7 @@ ids=$(docker images | tail -n +2 | ag -v '^(?:rabbitmq|python|redis) ' | awk '{ 
 [[ "$ids" ]] && {
     logged docker rmi $ids
 }
+
+docker volume ls
+
+yes | logged docker volume prune
