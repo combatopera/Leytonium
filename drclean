@@ -2,7 +2,10 @@
 
 set -e
 
+[[ $(basename "$0") = drclean ]] && armed=armed
+
 function logged {
+    [[ "$armed" ]] || return 0
     echo "$@" >&2
     "$@"
 }
