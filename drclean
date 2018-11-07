@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -e
+
+function log {
+    echo "$@" >&2
+    "$@"
+}
+
+docker ps -a
+
+ids=$(docker ps -aq)
+
+[[ "$ids" ]] && {
+    log docker stop $ids
+    log docker rm $ids
+}
+
+docker images
+
+ids=$(docker images -q)
+
+[[ "$ids" ]] && {
+    log docker rmi $ids
+}
