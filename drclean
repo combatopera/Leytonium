@@ -2,7 +2,7 @@
 
 set -e
 
-function log {
+function logged {
     echo "$@" >&2
     "$@"
 }
@@ -12,8 +12,8 @@ docker ps -a
 ids=$(docker ps -aq)
 
 [[ "$ids" ]] && {
-    log docker stop $ids
-    log docker rm $ids
+    logged docker stop $ids
+    logged docker rm $ids
 }
 
 docker images
@@ -21,5 +21,5 @@ docker images
 ids=$(docker images -q)
 
 [[ "$ids" ]] && {
-    log docker rmi $ids
+    logged docker rmi $ids
 }
