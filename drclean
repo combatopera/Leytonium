@@ -18,7 +18,7 @@ ids=$(docker ps -aq)
 
 docker images
 
-ids=$(docker images -q)
+ids=$(docker images | tail -n +2 | ag -v '^(?:rabbitmq|python|redis) ' | awk '{ print $3 }')
 
 [[ "$ids" ]] && {
     logged docker rmi $ids
