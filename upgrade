@@ -10,4 +10,8 @@ sudo apt-get --with-new-pkgs upgrade
 
 sudo apt-get autoremove
 
-touch ~/var/last-upgrade
+touchpath=~/var/last-upgrade
+
+mkdir -p "$(dirname "$touchpath")"
+
+touch "$touchpath"
