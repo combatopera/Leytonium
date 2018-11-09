@@ -16,12 +16,20 @@ function stripwip {
     echo "${1#WIP }"
 }
 
+function jirarefs {
+    local ref refs=$(expr $(thisbranch) : '\(\([a-z]\+[0-9]\+_\)\+\)')
+    IFS=_ refs=($refs)
+    for ref in ${refs[@]}; do
+        echo $ref
+    done
+}
+
 function jiraref {
-    local hmm=$(expr $(thisbranch) : '\(\([a-z]\+[0-9]\+_\)\+\)')
-    echo $hmm
+    menu jirarefs 'JIRA reference for this commit'
 }
 
 function cherry {
+    local id
     for id in ${ids[@]}; do
         echo $id "$(commitmessage $id)"
     done
