@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sudo mount -o ro fs.kmed.pw:/KheironEng /mnt/KheironEng
