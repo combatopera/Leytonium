@@ -12,6 +12,10 @@ function commitmessage {
     git log -n 1 --format=%s "$@"
 }
 
+function stripwip {
+    echo "${1#WIP }"
+}
+
 function cherry {
     for id in ${ids[@]}; do
         echo $id "$(commitmessage $id)"
@@ -32,6 +36,6 @@ git cherry-pick $(for i in $(seq $((index-1)) -1 0); do echo ${ids[$i]}; done)
 
 git reset --soft $id~1
 
-message="$(for i in $(seq $((index)) -1 0); do echo -n "$((index-i+1)). "; commitmessage ${ids[$i]}; done)"
+message="$(for i in $(seq $((index)) -1 0); do echo "$((index-i+1)). $(stripwip "$(commitmessage ${ids[$i]})")"; done)"
 
 git commit -em "$message"
