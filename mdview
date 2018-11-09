@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -e
+
+path=$(mktemp)
+
+function cleanup {
+    rm -fv $path
+}
+
+trap cleanup EXIT
+
+pandoc "$@" >$path
+
+firefox $path
+
+while true; do sleep 1; done
