@@ -2,13 +2,13 @@
 
 #HALP Pull master and releases with automatic stash and switch.
 
-from common import nicely, githubuser, publicbranches, run
+from common import nicely, isgitpol, publicbranches, run, stderr
 
 def main():
-    prefix = "%s-" % githubuser()
     def pullthem():
         for b in publicbranches():
-            if b.startswith(prefix):
+            if isgitpol(b): # TODO: Exclude my (public) branches only.
+                stderr("Skip: %s" % b)
                 continue
             run(['git', 'checkout', b])
             run(['git', 'pull'])
