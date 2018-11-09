@@ -20,7 +20,8 @@ function jirarefs {
     local ref refs=$(expr $(thisbranch) : '\(\([a-z]\+[0-9]\+_\)\+\)')
     IFS=_ refs=($refs)
     for ref in ${refs[@]}; do
-        echo $ref
+        ref=${ref^^}
+        echo $(expr $ref : '\([A-Z]\+\)')-$(expr $ref : '[A-Z]\+\([0-9]\+\)')
     done
 }
 
