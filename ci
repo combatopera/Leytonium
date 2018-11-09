@@ -2,10 +2,13 @@
 
 #HALP Commit with the given args as message.
 
-from common import run, args
+from common import run, args, thisbranch
+import re
 
 def main():
-    run(['git', 'commit', '-m', ' '.join(args())])
+    b = thisbranch()
+    gitpol = re.search('^[a-z]+[0-9]+_', b) is not None
+    run(['git', 'commit', '-m', ' '.join((['WIP'] if gitpol else []) + args())])
 
 if '__main__' == __name__:
     main()
