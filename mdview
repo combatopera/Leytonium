@@ -10,7 +10,7 @@ function cleanup {
 
 trap cleanup EXIT
 
-pandoc -T "$(basename "${@: -1}")" "$@" >$path
+pandoc -T "$(basename "${@: -1}")" --toc "$@" >$path
 
 firefox $path
 
