@@ -17,6 +17,7 @@ function stripwip {
 }
 
 function jirarefs {
+    echo WIP
     local ref refs=$(expr $(thisbranch) : '\(\([a-z]\+[0-9]\+_\)\+\)')
     IFS=_ refs=($refs)
     for ref in ${refs[@]}; do
