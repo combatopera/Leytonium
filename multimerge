@@ -44,7 +44,7 @@ def touchifnecessary():
     else:
         runpy(['touchb'])
 
-def ispublished():
+def ispublished(): # TODO: Really this should check whether PR.
     pb = getpublic()
     return pb is not None and not pb.startswith("origin/%s_" % os.environ['USER'])
 
