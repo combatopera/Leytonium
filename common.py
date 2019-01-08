@@ -200,10 +200,9 @@ def getpublic(b = None):
         ['git', 'rev-parse', '--abbrev-ref', "%s@{upstream}" % b],
         check = False,
         stderr = subprocess.DEVNULL)
-    if not lines:
-        return None
-    pub, = lines
-    return pub
+    if lines:
+        pub, = lines
+        return pub
 
 def nicely(task):
     killide = lambda sig: unchecked_run(['pkill', '-f', "-%s" % sig, 'com.intellij.idea.Main'])
