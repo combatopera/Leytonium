@@ -44,6 +44,10 @@ def touchifnecessary():
     else:
         runpy(['touchb'])
 
+def ispublished():
+    pb = getpublic()
+    return pb is not None and not pb.startswith("origin/%s_" % os.environ['USER'])
+
 def multimerge():
     allbranches = AllBranches()
     remaining = allbranches.names
@@ -52,9 +56,11 @@ def multimerge():
     def update(b):
         run(['git', 'checkout', b])
         parents = branchtoparents[b]
-        if b in allparents or getpublic() or len(parents) > 1:
+        if b in allparents or ispublished():
             mergeintocurrent(parents)
             touchifnecessary()
+        elif len(parents) > 1:
+            raise Exception("Too many parents for rebase: %s" % b)
         else:
             p, = parents
             run(['git', 'rebase', p])
