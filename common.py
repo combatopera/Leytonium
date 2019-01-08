@@ -240,4 +240,4 @@ def stripansi(text):
 def isgitpol(b = None):
     if b is None:
         b = thisbranch()
-    return re.search('^[a-z]+[0-9]+_', b) is not None
+    return re.search('^(?:[a-z]+[0-9]+|%s)_' % re.escape(os.environ['USER']), b) is not None
