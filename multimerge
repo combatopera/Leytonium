@@ -54,8 +54,7 @@ def multimerge():
         parents = branchtoparents[b]
         if b in allparents or getpublic() or len(parents) > 1:
             mergeintocurrent(parents)
-            if 'kitchen-sink' == b: # TODO: Retire this.
-                touchifnecessary()
+            touchifnecessary()
         else:
             p, = parents
             run(['git', 'rebase', p])
