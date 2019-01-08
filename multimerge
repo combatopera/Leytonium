@@ -58,7 +58,8 @@ def multimerge():
         parents = branchtoparents[b]
         if b in allparents or ispublished():
             mergeintocurrent(parents)
-            touchifnecessary()
+            if len(parents) > 1: # XXX: Is that right?
+                touchifnecessary()
         elif len(parents) > 1:
             raise Exception("Too many parents for rebase: %s" % b)
         else:
