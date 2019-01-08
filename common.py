@@ -185,10 +185,6 @@ def showexception():
     for line in traceback.format_exception_only(*sys.exc_info()[:2]):
         sys.stderr.write(line)
 
-def githubuser():
-    with open(os.path.join(os.path.expanduser('~'), '.git-credentials')) as f:
-        return re.search('//([^:]+):.*github', f.read()).group(1)
-
 def publicbranches():
     def g():
         for line in runlines(['git', 'branch', '-vv']):
