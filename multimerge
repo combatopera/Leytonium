@@ -48,7 +48,7 @@ def multimerge():
     allbranches = AllBranches()
     remaining = allbranches.names
     branchtoparents = {b: allbranches.parents(b) for b in remaining}
-    allparents = set(p for parents in branchtoparents.values() for p in parents)
+    allparents = {p for parents in branchtoparents.values() for p in parents}
     def update(b):
         run(['git', 'checkout', b])
         parents = branchtoparents[b]
