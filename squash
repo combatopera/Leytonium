@@ -9,7 +9,7 @@ base=$(pb)
 ids=($(git cherry $base | tac | while read _ id; do echo $id; done))
 
 function commitmessage {
-    git log -n 1 --format=%s "$@"
+    git log -n 1 --pretty=format:%B "$@"
 }
 
 function stripwip {
@@ -33,7 +33,7 @@ function jiraref {
 function cherry {
     local id
     for id in ${ids[@]}; do
-        echo $id "$(commitmessage $id)"
+        echo $id "$(commitmessage $id | head -1)"
     done
 }
 
