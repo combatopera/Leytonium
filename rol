@@ -1,0 +1,12 @@
+#!/usr/bin/env python3
+
+#HALP Move top slammed commit to the bottom.
+
+from common import savedcommits, savecommits
+
+def main():
+    v = savedcommits()
+    savecommits(v[1:] + [v[0]], True)
+
+if '__main__' == __name__:
+    main()

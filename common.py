@@ -21,10 +21,10 @@ def addparents(branch, *parents, clobber = False):
         for p in parents:
             print(p, file = f)
 
-def savecommits(commits):
+def savecommits(commits, clobber = False):
     path = os.path.join(findproject(), infodirname, "%s slammed" % thisbranch())
     os.makedirs(os.path.dirname(path), exist_ok = True)
-    with open(path, 'a') as f:
+    with open(path, 'w' if clobber else 'a') as f:
         for c in commits:
             print(c, file = f)
 
