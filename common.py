@@ -170,11 +170,11 @@ def args():
     del sys.argv[1:] # In case we call another main function.
     return args
 
-def showmenu(entries, show = True):
+def showmenu(entries, show = True, xform = lambda i: 1 + i):
     if show:
         for i, (k, v) in enumerate(entries):
-            print("%3d %s %s" % (1 + i, k, v), file = sys.stderr)
-    return {1 + i: k for i, (k, _) in enumerate(entries)}
+            print("%3d %s %s" % (xform(i), k, v), file = sys.stderr)
+    return {xform(i): k for i, (k, _) in enumerate(entries)}
 
 def menu(entries, prompt):
     ids = showmenu(entries)
