@@ -14,6 +14,9 @@ class UnknownParentException(Exception): pass
 def stderr(*args, **kwargs):
     return termcolor.cprint(*args + ('red',), file = sys.stderr, **kwargs)
 
+def highlight(*args, **kwargs):
+    return termcolor.cprint(*args + ('yellow',), attrs = ['reverse'], **kwargs)
+
 def addparents(branch, *parents, clobber = False):
     path = os.path.join(findproject(), infodirname, branch) # Note branch may contain slashes.
     os.makedirs(os.path.dirname(path), exist_ok = True)
@@ -170,7 +173,7 @@ def args():
     del sys.argv[1:] # In case we call another main function.
     return args
 
-def showmenu(entries, show = True, xform = lambda i: 1 + i):
+def showmenu(entries, show = True, xform = lambda i: 1 + i, print = print):
     entries = [(xform(i), k, v) for i, (k, v) in enumerate(entries)]
     if show:
         for e in entries:
