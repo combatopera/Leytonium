@@ -23,7 +23,7 @@ class Row:
                 self.parent = '<!>'
         self.line = line
 
-def description(commit):
+def title(commit):
     return runlines(['git', 'log', '-n', '1', '--pretty=format:%B', commit])[0]
 
 def main():
@@ -38,7 +38,7 @@ def main():
     for r in rows:
         print(fmt % (r.parent, r.line))
     saved = savedcommits()
-    showmenu([(c, description(c)) for c in saved], xform = lambda i: i - len(saved) + 1)
+    showmenu([(c, title(c)) for c in saved], xform = lambda i: i - len(saved) + 1)
     try:
         entries = allbranches.branchcommits()
         showmenu(entries[:limit])
