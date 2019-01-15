@@ -171,10 +171,11 @@ def args():
     return args
 
 def showmenu(entries, show = True, xform = lambda i: 1 + i):
+    entries = [(xform(i), k, v) for i, (k, v) in enumerate(entries)]
     if show:
-        for i, (k, v) in enumerate(entries):
-            print("%3d %s %s" % (xform(i), k, v), file = sys.stderr)
-    return {xform(i): k for i, (k, _) in enumerate(entries)}
+        for e in entries:
+            print("%3d %s %s" % e, file = sys.stderr)
+    return {n: k for n, k, _ in entries}
 
 def menu(entries, prompt):
     ids = showmenu(entries)
