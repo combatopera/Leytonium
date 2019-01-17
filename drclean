@@ -30,3 +30,7 @@ ids=$(docker images | tail -n +2 | ag -v '^(?:rabbitmq|python|redis|postgres|adm
 docker volume ls
 
 yes | logged docker volume prune
+
+docker network ls
+
+yes | logged docker network prune
