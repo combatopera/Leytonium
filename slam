@@ -2,7 +2,7 @@
 
 #HALP Reset branch to given commit number.
 
-from common import AllBranches, args as getargs, showmenu, chain, pb, savecommits
+from common import AllBranches, args as getargs, showmenu, chain, pb, savecommits, savedcommits
 
 def main():
     items = AllBranches().branchcommits() + [[pb(), '']]
@@ -14,9 +14,16 @@ def main():
         save = True
         n, = args
     n = int(n)
-    commit = showmenu(items, False)[n - 1] + '^'
-    if save:
-        savecommits([item[0] for item in items[:n - 1]])
+    if n > 0:
+        commit = showmenu(items, False)[n - 1] + '^'
+        if save:
+            savecommits([item[0] for item in items[:n - 1]])
+    else:
+        saved = savedcommits()
+        i = len(saved) - 1 + n
+        commit = saved[i]
+        if save:
+            savecommits(saved[:i], True)
     chain(['git', 'reset', '--hard', commit])
 
 if '__main__' == __name__:
