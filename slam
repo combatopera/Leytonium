@@ -14,10 +14,10 @@ def main():
         save = True
         n, = args
     n = int(n)
-    id = showmenu(items, False)[n - 1] + '^'
+    commit = showmenu(items, False)[n - 1] + '^'
     if save:
         savecommits([item[0] for item in items[:n - 1]])
-    chain(['git', 'reset', '--hard', id])
+    chain(['git', 'reset', '--hard', commit])
 
 if '__main__' == __name__:
     main()
