@@ -2,18 +2,18 @@
 
 #HALP Show a commit that was listed by st.
 
-from common import args, showmenu, menu, chain, AllBranches
+from common import args, showmenu, chain, AllBranches, savedcommits
 
 def main():
     items = AllBranches().branchcommits()
-    v = args()
-    if v:
-        n, = v
-        n = int(n)
-        id = showmenu(items, False)[n]
+    n, = args()
+    n = int(n)
+    if n > 0:
+        commit = showmenu(items, False)[n]
     else:
-        _, id = menu(items, 'Show which commit')
-    chain(['git', 'show', id])
+        saved = savedcommits()
+        commit = saved[len(saved) - 1 + n]
+    chain(['git', 'show', commit])
 
 if '__main__' == __name__:
     main()
