@@ -47,7 +47,12 @@ function gittask {
         done
         co "$restore"
     elif push; then
-        hgcommit.py
+        local restore="$(git rev-parse --abbrev-ref HEAD)"
+        git branch | cut -c 3- | while read branch; do
+            co "$branch"
+            hgcommit.py
+        done
+        co "$restore"
     else
         git status -s
         git remote -v | while read line; do
