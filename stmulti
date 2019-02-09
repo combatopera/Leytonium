@@ -56,9 +56,11 @@ function gittask {
     else
         git status -s
         git remote -v | while read line; do
-            [[ "$line" = *$'\tgit@'* ]] || {
-                echo Remote is not SSH: "$line" >&2
-            }
+            if [[ "$line" =~ ^lave$'\t'"$repo/arc/$1.git"' ' ]]; then
+                echo Remote lave OK.
+            elif [[ "$line" != *$'\tgit@'* ]]; then
+                echo Remote is not SSH: "$line"
+            fi >&2
         done
         [[ "$(md5sum .git/hooks/post-commit)" = 68f539d6c285b2516bfbb878184040ac* ]] || {
             echo Bad hook: post-commit >&2
