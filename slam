@@ -18,13 +18,14 @@ def main():
         commit = showmenu(items, False)[n - 1] + '^'
         if save:
             savecommits([item[0] for item in items[:n - 1]])
+        chain(['git', 'reset', '--hard', commit])
     else:
         saved = savedcommits()
         i = len(saved) - 1 + n
         commit = saved[i]
         if save:
             savecommits(saved[:i], True)
-    chain(['git', 'reset', '--hard', commit])
+        chain(['git', 'reset', '--hard', commit]) # FIXME: Does not work if order changed.
 
 if '__main__' == __name__:
     main()
