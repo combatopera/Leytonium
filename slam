@@ -25,7 +25,7 @@ def main():
         commit = saved[i]
         if save:
             savecommits(saved[:i], True)
-        chain(['git', 'reset', '--hard', commit]) # FIXME: Does not work if order changed.
+        chain(['git', 'cherry-pick'] + list(reversed(saved[i:])))
 
 if '__main__' == __name__:
     main()
