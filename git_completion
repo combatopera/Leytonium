@@ -28,14 +28,14 @@ function _demonames {
 }
 
 function _commonmessages {
-    COMPREPLY=($(compgen -W 'conciser refactor refactoring undup redundant mv ren inline formatting unused idiomaticer consistency' $2))
+    COMPREPLY=($(compgen -W 'conciser refactor refactoring undup redundant mv ren inline formatting unused idiomaticer consistency obsolete comment documentation' $2))
 }
 
 function _unconflictedpaths {
     local paths="$(git diff --name-only --diff-filter=U | while read path; do
         grep '^=======$' "$path" &>/dev/null || echo "$path"
     done)"
-    COMPREPLY=($(compgen -W "$paths" $2))
+    COMPREPLY=($(compgen -W "$paths" $2)) # FIXME: Relativise against working dir.
 }
 
 complete -F _allbranches ren
