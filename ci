@@ -2,9 +2,23 @@
 
 #HALP Commit with the given args as message.
 
-from common import run, args, isgitpol
+from common import run, args, isgitpol, runlines
+
+formatstatuses = {'M '}
+ignorestatuses = {'D ', ' M'}
 
 def main():
+    toformat = []
+    for line in runlines(['git', 'status', '--porcelain']):
+        status, text = line[:2], line[3:]
+        if status in formatstatuses:
+            if text.endswith('.py'): # Note text not one path in rename and copy cases.
+                toformat.append(text)
+        elif status not in ignorestatuses:
+            raise Exception("Panic: %s" % line)
+    if toformat:
+        run(['black', '--line-length', '120'] + toformat)
+        run(['git', 'add'] + toformat)
     message = ' '.join(args())
     if isgitpol():
         message = 'WIP ' + message[0].upper() + message[1:]
