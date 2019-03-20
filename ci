@@ -2,18 +2,21 @@
 
 #HALP Commit with the given args as message.
 
-from common import run, args, isgitpol, runlines
+from common import run, args, isgitpol, runlines, findproject
+from pathlib import Path
 
 formatstatuses = {'M '}
 ignorestatuses = {'D ', ' M'}
 
 def main():
     toformat = []
+    projectdir = Path(findproject()).resolve()
+    cwd = Path.cwd()
     for line in runlines(['git', 'status', '--porcelain']):
         status, text = line[:2], line[3:]
         if status in formatstatuses:
             if text.endswith('.py'): # Note text not one path in rename and copy cases.
-                toformat.append(text)
+                toformat.append((projectdir / text).relative_to(cwd))
         elif status not in ignorestatuses:
             raise Exception("Panic: %s" % line)
     if toformat:
