@@ -20,7 +20,7 @@ def main():
         elif status not in ignorestatuses:
             raise Exception("Panic: %s" % line)
     if toformat:
-        run(['black', '--line-length', '120'] + toformat)
+        run(['black', '--line-length', '120'] + toformat) # TODO: This will be more useful at staging time.
         run(['git', 'add'] + toformat)
     message = ' '.join(args())
     if isgitpol():
