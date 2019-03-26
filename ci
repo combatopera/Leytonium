@@ -10,9 +10,9 @@ formatstatuses = {'A ', 'M '}
 ignorestatuses = {'D ', ' M', ' D', '??'}
 
 def main():
-    toformat = []
     projectdir = Path(findproject()).resolve()
     if projectdir.name in formattedprojects:
+        toformat = []
         cwd = Path.cwd()
         for line in runlines(['git', 'status', '--porcelain']):
             status, text = line[:2], line[3:]
