@@ -6,7 +6,7 @@ from common import run, args, isgitpol, runlines, findproject
 from pathlib import Path
 
 formatstatuses = {'A ', 'M '}
-ignorestatuses = {'D ', ' M', '??'}
+ignorestatuses = {'D ', ' M', ' D', '??'}
 
 def main():
     toformat = []
