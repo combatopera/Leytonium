@@ -4,7 +4,7 @@
 
 from common import run, findproject, runpy, runlines
 from pathlib import Path
-import sys
+import subprocess, sys
 sys.path.append(str(Path(__file__).parent.parent / 'aridity'))
 import aridity
 
@@ -14,12 +14,14 @@ def main():
     context = aridity.Context()
     with aridity.Repl(context) as repl:
         repl.printf(". %s", Path.home() / '.settings.arid')
+    stderrbytes = b''
     if projectdir.name in context.resolved('formattedprojects').unravel():
         toformat = [path for path in paths if path.exists() and path.name.endswith('.py')]
         if toformat:
-            run(['black', '--line-length', '120'] + toformat)
+            stderrbytes = run(['black', '--line-length', '120'] + toformat, stderr = subprocess.PIPE).stderr
     run(['git', 'add'] + paths)
     runpy(['st'])
+    sys.stderr.buffer.write(stderrbytes)
 
 if '__main__' == __name__:
     main()
