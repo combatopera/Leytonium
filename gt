@@ -2,10 +2,19 @@
 
 #HALP Stage all outgoing changes and show them.
 
-from common import run, findproject, runpy
+from common import run, findproject, runpy, runlines
+from pathlib import Path
+
+formattedprojects = {'offline-preprocessing'}
 
 def main():
-    run(['git', 'add', findproject()])
+    projectdir = Path(findproject()).resolve()
+    paths = [projectdir / line[line.index("'") + 1:-1] for line in runlines(['git', 'add', '-n', projectdir])]
+    if projectdir.name in formattedprojects:
+        toformat = [path for path in paths if path.exists() and path.name.endswith('.py')]
+        if toformat:
+            run(['black', '--line-length', '120'] + toformat)
+    run(['git', 'add'] + paths)
     runpy(['st'])
 
 if '__main__' == __name__:
