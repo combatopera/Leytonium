@@ -4,13 +4,17 @@
 
 from common import run, findproject, runpy, runlines
 from pathlib import Path
-
-formattedprojects = {'offline-preprocessing'}
+import sys
+sys.path.append(str(Path(__file__).parent.parent / 'aridity'))
+import aridity
 
 def main():
     projectdir = Path(findproject()).resolve()
     paths = [projectdir / line[line.index("'") + 1:-1] for line in runlines(['git', 'add', '-n', projectdir])]
-    if projectdir.name in formattedprojects:
+    context = aridity.Context()
+    with aridity.Repl(context) as repl:
+        repl.printf(". %s", Path.home() / '.settings.arid')
+    if projectdir.name in context.resolved('formattedprojects').unravel():
         toformat = [path for path in paths if path.exists() and path.name.endswith('.py')]
         if toformat:
             run(['black', '--line-length', '120'] + toformat)
