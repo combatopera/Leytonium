@@ -10,16 +10,17 @@ import aridity
 
 def main():
     projectdir = Path(findproject()).resolve()
-    paths = [projectdir / line[line.index("'") + 1:-1] for line in runlines(['git', 'add', '-n', projectdir])]
+    paths = [projectdir / line[line.index("'") + 1:-1] for line in runlines(['git', 'add', '-n', str(projectdir)])]
     context = aridity.Context()
     with aridity.Repl(context) as repl:
+        repl.printf('formattedprojects := $list()')
         repl.printf(". %s", Path.home() / '.settings.arid')
     stderrbytes = b''
     if projectdir.name in context.resolved('formattedprojects').unravel():
         toformat = [path for path in paths if path.exists() and path.name.endswith('.py')]
         if toformat:
             stderrbytes = run(['black', '--line-length', '120'] + toformat, stderr = subprocess.PIPE).stderr
-    run(['git', 'add'] + paths)
+    run(['git', 'add'] + [str(p) for p in paths])
     runpy(['st'])
     sys.stderr.buffer.write(stderrbytes)
 
