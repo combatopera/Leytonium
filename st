@@ -5,7 +5,7 @@
 from common import run, showmenu, UnknownParentException, showexception, unchecked_run, runlines, stripansi, getpublic, savedcommits, AllBranches, highlight, findproject
 from termcolor import colored
 from pathlib import Path
-import subprocess, re, tempfile, sys, aridity
+import subprocess, re, tempfile, aridity
 
 limit = 20
 
