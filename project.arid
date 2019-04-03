@@ -1,1 +1,3 @@
 executable = true
+pyversions += 3
+projects += aridity
