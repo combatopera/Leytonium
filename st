@@ -1,13 +1,11 @@
-#!/usr/bin/env python3
+#!/usr/bin/env pyven
 
 #HALP Show list of branches and outgoing changes.
 
 from common import run, showmenu, UnknownParentException, showexception, unchecked_run, runlines, stripansi, getpublic, savedcommits, AllBranches, highlight, findproject
 from termcolor import colored
 from pathlib import Path
-import subprocess, re, tempfile, sys
-sys.path.append(str(Path(__file__).parent.parent / 'aridity'))
-import aridity
+import subprocess, re, tempfile, aridity
 
 limit = 20
 
@@ -43,7 +41,7 @@ def getprstatuses(branches):
     org = context.resolved('organization').unravel()
     project = Path(findproject()).resolve().name
     with tempfile.NamedTemporaryFile() as cookiesfile:
-        subprocess.run([Path(__file__).parent / 'extract_cookies.sh'], stdout = cookiesfile, check = True)
+        subprocess.run([str(Path(__file__).parent / 'extract_cookies.sh')], stdout = cookiesfile, check = True)
         for wget in [subprocess.Popen(['wget', '-q', '-O', '-', "https://github.com/%s/%s/tree/%s" % (org, project, branch), '--load-cookies', cookiesfile.name], stdout = subprocess.PIPE) for branch in branches]:
             yield 'View #' in wget.communicate()[0].decode()
 
