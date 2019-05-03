@@ -2,10 +2,10 @@
 
 #HALP Show list of branches and outgoing changes.
 
-from common import run, showmenu, UnknownParentException, showexception, unchecked_run, runlines, stripansi, getpublic, savedcommits, AllBranches, highlight, findproject
+from common import run, showmenu, UnknownParentException, showexception, unchecked_run, runlines, stripansi, getpublic, savedcommits, AllBranches, highlight, findproject, infodirname
 from termcolor import colored
 from pathlib import Path
-import subprocess, re, tempfile, aridity
+import subprocess, re, tempfile, aridity, yaml
 
 limit = 20
 
@@ -39,11 +39,21 @@ def getprstatuses(branches):
     with aridity.Repl(context) as repl:
         repl.printf(". %s", Path.home() / '.settings.arid')
     org = context.resolved('organization').unravel()
-    project = Path(findproject()).resolve().name
+    projectdir = Path(findproject()).resolve()
+    cachepath = projectdir / infodirname / 'cache.yml'
+    if cachepath.exists():
+        with cachepath.open() as f:
+            cache = yaml.safe_load(f)
+    else:
+        cache = {}
     with tempfile.NamedTemporaryFile() as cookiesfile:
         subprocess.run([str(Path(__file__).parent / 'extract_cookies.sh')], stdout = cookiesfile, check = True)
-        for wget in [subprocess.Popen(['wget', '-q', '-O', '-', "https://github.com/%s/%s/tree/%s" % (org, project, branch), '--load-cookies', cookiesfile.name], stdout = subprocess.PIPE) for branch in branches]:
-            yield 'View #' in wget.communicate()[0].decode()
+        for branch, wget in zip(branches, [None if branch in cache else subprocess.Popen(['wget', '-q', '-O', '-', "https://github.com/%s/%s/tree/%s" % (org, projectdir.name, branch), '--load-cookies', cookiesfile.name], stdout = subprocess.PIPE) for branch in branches]):
+            if wget is not None:
+                cache[branch] = 'View #' in wget.communicate()[0].decode()
+            yield cache[branch]
+    with cachepath.open('w') as f:
+        yaml.dump(cache, f)
 
 def main():
     run(['clear'])
@@ -55,7 +65,7 @@ def main():
     prstatuses = getprstatuses(allbranches.names)
     rows = [Row(allbranches, l[2:]) for l in runlines(['git', '-c', 'color.ui=always', 'branch', '-vv'])]
     fmt = "%%-%ss %%s" % max(len(r.parent) for r in rows)
-    for r, ispr in zip(rows, prstatuses):
+    for r, ispr in zip(rows + [None], prstatuses):
         print(fmt % (r.parent, r.colorline(ispr)))
     saved = savedcommits()
     showmenu([(c, title(c)) for c in saved], xform = lambda i: i - len(saved) + 1, print = highlight)
