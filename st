@@ -52,6 +52,7 @@ def getprstatuses(branches):
             if wget is not None:
                 cache[branch] = 'View #' in wget.communicate()[0].decode()
             yield cache[branch]
+    cachepath.parent.mkdir(exist_ok = True)
     with cachepath.open('w') as f:
         yaml.dump(cache, f)
 
