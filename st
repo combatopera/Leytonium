@@ -5,7 +5,7 @@
 from common import run, showmenu, UnknownParentException, showexception, unchecked_run, runlines, stripansi, getpublic, savedcommits, AllBranches, highlight, findproject, infodirname
 from termcolor import colored
 from pathlib import Path
-import subprocess, re, tempfile, aridity, yaml
+import subprocess, re, tempfile, aridity, yaml, time
 
 limit = 20
 
@@ -41,7 +41,7 @@ def getprstatuses(branches):
     org = context.resolved('organization').unravel()
     projectdir = Path(findproject()).resolve()
     cachepath = projectdir / infodirname / 'cache.yml'
-    if cachepath.exists():
+    if cachepath.exists() and time.time() - cachepath.stat().st_mtime < 60 * 60 * 12:
         with cachepath.open() as f:
             cache = yaml.safe_load(f)
     else:
