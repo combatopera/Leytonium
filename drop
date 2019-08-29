@@ -33,6 +33,6 @@ co $next
 
 git branch -D $todrop
 
-cdtocorda
+cdtoproject
 
 rm -fv .pb/$todrop

@@ -20,7 +20,7 @@ function _branchnames {
 
 function _demonames {
     local names="$(
-        cdtocorda
+        cdtoproject
         cd samples
         for d in *; do [[ -e $d/build.gradle ]] && echo $d; done
     )"

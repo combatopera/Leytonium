@@ -6,7 +6,7 @@ set -ex
 
 . git_functions
 
-cdtocorda
+cdtoproject
 
 git diff --name-status | sed 's/.*\t//' | while read path; do
 
