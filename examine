@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#HALP Open a shell in a throwaway container of the given image.
+
+exec docker run -ti --rm --entrypoint bash "$@"
