@@ -20,7 +20,7 @@ function _branchnames {
 
 function _demonames {
     local names="$(
-        cdtocorda
+        cdtoproject
         cd samples
         for d in *; do [[ -e $d/build.gradle ]] && echo $d; done
     )"
@@ -28,7 +28,7 @@ function _demonames {
 }
 
 function _commonmessages {
-    COMPREPLY=($(compgen -W 'conciser refactor refactoring undup redundant mv ren inline formatting unused idiomaticer consistency obsolete comment documentation efficienter experimentally convention simplify retire sensibler extract invalid generaler logging correcter specificer' $2))
+    COMPREPLY=($(compgen -W 'conciser refactor refactoring undup redundant mv ren inline formatting unused idiomaticer consistency obsolete comment documentation efficienter experimentally convention simplify retire sensibler extract invalid generaler logging correcter quieter specificer' $2))
 }
 
 function _unconflictedpaths {
