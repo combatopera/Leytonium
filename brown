@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+
+#HALP Satisfy PEP 8 with minimal impact.
+
+from common import findproject
+from pathlib import Path
+import subprocess
+
+cols = 120
+
+def main():
+    root = Path(findproject())
+    subprocess.check_call(['sed', '-ni', r'/\S/p'] + list(root.rglob('*.py')))
+    subprocess.check_call(['autopep8', '-irv', '--max-line-length', str(cols), str(root)])
+
+if '__main__' == __name__:
+    main()
