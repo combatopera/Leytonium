@@ -2,8 +2,44 @@
 
 #HALP Open a shell in a throwaway container of the given image.
 
-set -e
+set -ex
 
-shell=$(docker run --rm --entrypoint ls "$@" /bin/bash /bin/sh | head -1)
+unset context delimage
 
-exec docker run -ti --rm --entrypoint $shell "$@"
+function cleanup {
+
+    [[ -z "$context" ]] || rm -rfv $context
+
+    [[ -z "$delimage" ]] || docker image rm $delimage
+
+}
+
+trap cleanup EXIT
+
+image=$@
+
+shells=($(docker run --rm --entrypoint ls $image /bin/bash /bin/sh || :))
+
+if [[ 0 -lt ${#shells[@]} ]]; then
+
+    runimage=$image
+
+    shell=${shells[0]}
+
+else
+
+    context=$(mktemp -d)
+
+    echo "FROM python
+WORKDIR /image
+COPY --from=$image / ." >$context/Dockerfile
+
+    delimage=$(docker build -q $context)
+
+    runimage=$delimage
+
+    shell=bash
+
+fi
+
+docker run -ti --rm --entrypoint $shell $runimage
