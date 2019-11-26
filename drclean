@@ -21,7 +21,7 @@ ids=$(docker ps -aq)
 
 docker images
 
-ids=$(docker images | tail -n +2 | ag -v '^(?:rabbitmq|python|redis|postgres|adminer|minio|confluentinc|maven|busybox|localstack|jenkins|openjdk|fat|.+[.]amazonaws[.]com)[ /]' | awk '{ print $3 }')
+ids=$(docker images | tail -n +2 | ag -v '^(?:rabbitmq|python|redis|postgres|adminer|minio|confluentinc|maven|busybox|localstack|jenkins|openjdk|ubuntu|fat|.+[.]amazonaws[.]com)[ /]' | awk '{ print $3 }')
 
 [[ "$ids" ]] && {
     logged docker rmi -f $ids # Need -f to remove images with multiple tags.
