@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+
+from common import menu
+from datetime import datetime
+import json, subprocess
+
+logs = ['bash', '-ic', 'aws logs "$@"', 'logs']
+tskey = 'lastEventTimestamp'
+
+def shorten(line, radius = 250):
+    if len(line) <= 2 * radius:
+        return line
+    sep = '...'
+    return line[:radius - len(sep)] + sep + line[-radius:]
+
+def main():
+    names = [g['logGroupName'] for g in json.loads(subprocess.check_output(logs + ['describe-log-groups']))['logGroups']]
+    _, group = menu([(n, '') for n in names], 'Group')
+    streams = json.loads(subprocess.check_output(logs + ['describe-log-streams', '--log-group-name', group]))['logStreams']
+    streams.sort(key = lambda s: -s[tskey]) # Freshest first.
+    k, _ = menu([(datetime.fromtimestamp(s[tskey] / 1000).isoformat(), '') for s in streams], 'Stream')
+    stream = streams[k - 1]['logStreamName']
+    events = json.loads(subprocess.check_output(logs + ['get-log-events', '--log-group-name', group, '--log-stream-name', stream]))['events']
+    for e in events:
+        print(shorten(e['message']), end = '')
+
+if '__main__' == __name__:
+    main()
