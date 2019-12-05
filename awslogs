@@ -17,8 +17,9 @@ def main():
     names = [g['logGroupName'] for g in json.loads(subprocess.check_output(logs + ['describe-log-groups']))['logGroups']]
     _, group = menu([(n, '') for n in names], 'Group')
     streams = json.loads(subprocess.check_output(logs + ['describe-log-streams', '--log-group-name', group]))['logStreams']
-    streams.sort(key = lambda s: -s[tskey]) # Freshest first.
-    k, _ = menu([(datetime.fromtimestamp(s[tskey] / 1000).isoformat(), '') for s in streams], 'Stream')
+    streams.sort(key = lambda s: -s.get(tskey, 0)) # Freshest first.
+    del streams[100:]
+    k, _ = menu([(datetime.fromtimestamp(s.get(tskey, 0) / 1000).isoformat(), s['storedBytes']) for s in streams], 'Stream')
     stream = streams[k - 1]['logStreamName']
     events = json.loads(subprocess.check_output(logs + ['get-log-events', '--log-group-name', group, '--log-stream-name', stream]))['events']
     for e in events:
