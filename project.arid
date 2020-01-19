@@ -4,3 +4,4 @@ projects += aridity
 deps +=
     pyyaml
     termcolor
+name = dev-bin
