@@ -1,3 +1,7 @@
 executable = true
 pyversions += 3
 projects += aridity
+deps +=
+    pyyaml
+    termcolor
+name = dev-bin
