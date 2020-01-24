@@ -1,4 +1,4 @@
-#!/usr/bin/env pyven
+#!/bin/null
 
 #HALP Show list of branches and outgoing changes.
 
