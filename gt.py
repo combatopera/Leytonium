@@ -2,7 +2,7 @@
 
 from common import run, findproject, runpy, runlines
 from pathlib import Path
-import subprocess, sys, aridity
+import subprocess, sys, aridity, st
 
 def main_gt():
     projectdir = Path(findproject()).resolve()
@@ -17,5 +17,5 @@ def main_gt():
         if toformat:
             stderrbytes = run(['black', '--line-length', '120'] + toformat, stderr = subprocess.PIPE).stderr
     run(['git', 'add'] + [str(p) for p in paths])
-    runpy(['st'])
+    st.main_st()
     sys.stderr.buffer.write(stderrbytes)
