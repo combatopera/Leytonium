@@ -1,5 +1,3 @@
-#!/bin/null
-
 #HALP Show list of branches and outgoing changes.
 
 from common import run, showmenu, UnknownParentException, showexception, unchecked_run, runlines, stripansi, getpublic, savedcommits, AllBranches, highlight, findproject, infodirname
@@ -56,7 +54,7 @@ def getprstatuses(branches):
     with cachepath.open('w') as f:
         yaml.dump(cache, f)
 
-def main():
+def main_st():
     run(['clear'])
     try:
         allbranches = AllBranches()
@@ -80,6 +78,3 @@ def main():
         showexception()
     unchecked_run(['git', 'status', '-v'])
     run(['git', 'stash', 'list'])
-
-if '__main__' == __name__:
-    main()
