@@ -1,11 +1,9 @@
-#!/usr/bin/env python3
-
 #HALP Go to next step in current git workflow.
 
 from common import findproject, run, runlines
 import os
 
-def main():
+def main_next():
     gitdir = os.path.join(findproject(), '.git')
     if os.path.isdir(os.path.join(gitdir, 'rebase-apply')):
         if runlines(['git', 'status', '--porcelain']):
@@ -20,6 +18,3 @@ def main():
         run(['git', 'revert', '--continue'])
     else:
         raise Exception('Unknown git workflow, giving up.')
-
-if '__main__' == __name__:
-    main()

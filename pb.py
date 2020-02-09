@@ -1,8 +1,6 @@
-#!/usr/bin/env python3
-
 #HALP Find parent branch.
 
 from common import pb
 
-if '__main__' == __name__:
+def main_pb():
     print(pb())
