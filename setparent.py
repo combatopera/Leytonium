@@ -1,10 +1,8 @@
-#!/usr/bin/env python3
-
 #HALP Change declared parent of current branch.
 
 from common import args as getargs, addparents, thisbranch, getpublic
 
-def main():
+def main_setparent():
     args = getargs()
     if args:
         newparent, = args
@@ -13,6 +11,3 @@ def main():
         if newparent is None:
             raise Exception('Please specify a branch to be parent.')
     addparents(thisbranch(), newparent, clobber = True)
-
-if '__main__' == __name__:
-    main()

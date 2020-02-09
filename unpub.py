@@ -1,12 +1,7 @@
-#!/usr/bin/env python3
-
 #HALP Unpublish this branch.
 
 from common import unchecked_run, thisbranch, chain
 
-def main():
+def main_unpub():
     unchecked_run(['git', 'push', 'origin', '--delete', thisbranch()]) # Idempotent.
     chain(['git', 'branch', '--unset-upstream'])
-
-if '__main__' == __name__:
-    main()

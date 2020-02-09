@@ -1,10 +1,8 @@
-#!/usr/bin/env python3
-
 import sys, subprocess, re
 
 pattern = re.compile('latest|.+[.]latest')
 
-def main():
+def main_shove():
     spec, = sys.argv[1:]
     slash = spec.index('/')
     colon = spec.rindex(':')
@@ -13,6 +11,3 @@ def main():
         raise Exception('REFUSAL!')
     subprocess.check_call(['bash', '-ic', 'aws ecr batch-delete-image --repository-name "$1" --image-ids "$2"', 'ecr', spec[slash + 1:colon], f"imageTag={tag}"])
     subprocess.check_call(['docker', 'push', spec])
-
-if '__main__' == __name__:
-    main()
