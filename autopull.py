@@ -1,10 +1,8 @@
-#!/usr/bin/env python3
-
 #HALP Pull master and releases with automatic stash and switch.
 
 from common import nicely, isgitpol, publicbranches, run, stderr
 
-def main():
+def main_autopull():
     def pullthem():
         for b in publicbranches():
             # TODO LATER: Also pull ticket branches owned by others.
@@ -14,6 +12,3 @@ def main():
                 run(['git', 'checkout', b])
                 run(['git', 'pull'])
     nicely(pullthem)
-
-if '__main__' == __name__:
-    main()

@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 #HALP Merge master into all PRs and carrion.
 
 from common import findproject, nicely, AllBranches, getpublic, stderr, run, runlines, touchmsg, runpy
@@ -85,9 +83,6 @@ def multimerge():
             raise Exception("Still remain: %s" % remaining)
         remaining = remaining2
 
-def main():
+def main_multimerge():
     os.chdir(findproject()) # Don't fail if working directory doesn't exist in some branch.
     nicely(multimerge)
-
-if '__main__' == __name__:
-    main()

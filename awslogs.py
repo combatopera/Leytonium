@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from common import menu
 from datetime import datetime
 import json, subprocess, argparse
@@ -13,7 +11,7 @@ def _shorten(line, radius = 250):
     sep = '...'
     return line[:radius - len(sep)] + sep + line[-radius:]
 
-def main():
+def main_awslogs():
     parser = argparse.ArgumentParser()
     parser.add_argument('--no-trunc', action='store_true')
     config = parser.parse_args()
@@ -28,6 +26,3 @@ def main():
     events = json.loads(subprocess.check_output(logs + ['get-log-events', '--log-group-name', group, '--log-stream-name', stream]))['events']
     for e in events:
         print(shorten(e['message']), end = '')
-
-if '__main__' == __name__:
-    main()

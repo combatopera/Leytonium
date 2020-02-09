@@ -1,17 +1,12 @@
-#!/usr/bin/env python3
-
 #HALP Rename current branch.
 
 from common import thisbranch, args, findproject, infodirname, run
 import os
 
-def main():
+def main_ren():
     fromname = thisbranch()
     run(['git', 'branch', '-m'] + args())
     d = os.path.join(findproject(), infodirname)
     target = os.path.join(d, thisbranch())
     os.makedirs(os.path.dirname(target), exist_ok = True)
     os.rename(os.path.join(d, fromname), target)
-
-if '__main__' == __name__:
-    main()

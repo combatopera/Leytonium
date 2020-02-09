@@ -1,12 +1,7 @@
-#!/usr/bin/env python3
-
 #HALP Publish this branch, accepts push options.
 
 from common import thisbranch, pb, run, args, runlines
 
-def main():
+def main_publish():
     remote, = runlines(['git', 'config', '--get', "branch.%s.remote" % pb()])
     run(['git', 'push', '-u', remote, thisbranch()] + args())
-
-if '__main__' == __name__:
-    main()
