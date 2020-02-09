@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 #HALP Create a branch for the given ticket(s) named according to git policy.
 
 from common import menu, run, addparents, AllBranches
@@ -7,7 +5,7 @@ import sys, subprocess, os, tempfile, re
 
 wordpattern = re.compile(r'[^\s/]+')
 
-def main():
+def main_mkbranch():
     tickets = sys.argv[1:]
     with tempfile.NamedTemporaryFile() as cookiesfile:
         subprocess.run([os.path.join(os.path.dirname(__file__), 'extract_cookies.sh')], stdout = cookiesfile, check = True)
@@ -20,6 +18,3 @@ def main():
     _, base = menu([[n, ''] for n in AllBranches().names], 'From')
     run(['git', 'checkout', '-b', name, base])
     addparents(name, base)
-
-if '__main__' == __name__:
-    main()

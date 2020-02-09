@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 #HALP Test the DataUploadServlet.
 
 import requests, io, zipfile, hashlib, base64, time
@@ -11,7 +9,7 @@ def createzip(filedata):
     zipdata.seek(0)
     return zipdata
 
-def main():
+def main_cupload():
     port = int(input('Port? '))
     prefix = input('Prefix? ')
     files = {"IGNORED%s" % k: createzip("%s%s" % (prefix, k)) for k in range(2)}
@@ -24,6 +22,3 @@ def main():
         print(r.url)
         print(r.text, end = '')
         time.sleep(.1) # The reponse is committed before processing (including webserver stdout) has finished.
-
-if '__main__' == __name__:
-    main()

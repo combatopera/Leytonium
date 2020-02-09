@@ -1,10 +1,8 @@
-#!/usr/bin/env python3
-
 #HALP Reset branch to given commit number.
 
 from common import AllBranches, args as getargs, showmenu, chain, pb, savecommits, savedcommits
 
-def main():
+def main_slam():
     items = AllBranches().branchcommits() + [[pb(), '']]
     args = getargs()
     if '-f' == args[0]:
@@ -26,6 +24,3 @@ def main():
         if save:
             savecommits(saved[:i], True)
         chain(['git', 'cherry-pick'] + list(reversed(saved[i:])))
-
-if '__main__' == __name__:
-    main()

@@ -1,11 +1,6 @@
-#!/usr/bin/env python3
-
 #HALP Run ag on all build.gradle files.
 
 from common import chain, args
 
-def main():
+def main_gag():
     chain(['find', '-name', 'build.gradle', '-exec', 'ag'] + args() + ['{}', '+'])
-
-if '__main__' == __name__:
-    main()

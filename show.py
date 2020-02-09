@@ -1,10 +1,8 @@
-#!/usr/bin/env python3
-
 #HALP Show a commit that was listed by st.
 
 from common import args, showmenu, chain, AllBranches, savedcommits
 
-def main():
+def main_show():
     items = AllBranches().branchcommits()
     n, = args()
     n = int(n)
@@ -14,6 +12,3 @@ def main():
         saved = savedcommits()
         commit = saved[len(saved) - 1 + n]
     chain(['git', 'show', commit])
-
-if '__main__' == __name__:
-    main()

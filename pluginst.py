@@ -1,14 +1,9 @@
-#!/usr/bin/env python3
-
 #HALP Reinstall corda gradle plugins.
 
 from common import findproject, runpy
 import os
 
-def main():
+def main_pluginst():
     projectdir = findproject()
     runpy(['gradle', '-u', 'clean', 'install'], cwd = os.path.join(projectdir, 'publish-utils'))
     runpy(['gradle', 'clean', 'install'], cwd = os.path.join(projectdir))
-
-if '__main__' == __name__:
-    main()

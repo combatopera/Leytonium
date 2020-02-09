@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 #HALP Show packages that exist in more than one module.
 
 import os
@@ -10,7 +8,7 @@ def relativise(context, path):
     else:
         return path[len(context + os.sep):].split(os.sep)
 
-def main():
+def main_splitpkgs():
     packagetomodules = {}
     def register(module, package):
         try:
@@ -44,6 +42,3 @@ def main():
             print(package)
             for m in modules:
                 print("\t%s" % m)
-
-if '__main__' == __name__:
-    main()
