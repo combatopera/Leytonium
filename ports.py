@@ -1,6 +1,6 @@
 #HALP Show listen ports of all Corda nodes.
 
-from common import runlines
+from dev_bin.common import runlines
 import re
 
 def lineport(line):

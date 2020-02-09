@@ -1,6 +1,6 @@
 #HALP Run the context gradlew.
 
-from common import chain, findproject, args
+from dev_bin.common import chain, findproject, args
 import os
 
 def main_gradle(cwd = None):

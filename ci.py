@@ -1,6 +1,6 @@
 #HALP Commit with the given args as message.
 
-from common import run, args, isgitpol
+from dev_bin.common import run, args, isgitpol
 
 def main_ci():
     message = ' '.join(args())

@@ -1,6 +1,6 @@
 #HALP Switch to the given branch, with completion.
 
-from common import run, args, AllBranches, addparents, getpublic
+from dev_bin.common import run, args, AllBranches, addparents, getpublic
 
 def main_co():
     name, = args()

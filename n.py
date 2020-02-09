@@ -1,6 +1,6 @@
 #HALP Switch to the next branch and run st.
 
-from common import runlines, chain, run
+from dev_bin.common import runlines, chain, run
 
 def main_n():
     lines = runlines(['git', 'branch'])

@@ -1,6 +1,6 @@
 #HALP Run git add on conflicted path, with completion.
 
-from common import chain, args
+from dev_bin.common import chain, args
 
 def main_rd():
     # FIXME: Reject directory args.

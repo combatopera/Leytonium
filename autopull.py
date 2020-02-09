@@ -1,6 +1,6 @@
 #HALP Pull master and releases with automatic stash and switch.
 
-from common import nicely, isgitpol, publicbranches, run, stderr
+from dev_bin.common import nicely, isgitpol, publicbranches, run, stderr
 
 def main_autopull():
     def pullthem():

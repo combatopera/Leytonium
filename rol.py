@@ -1,6 +1,6 @@
 #HALP Move given slammed commit (default top) to the bottom.
 
-from common import savedcommits, savecommits, args as getargs
+from dev_bin.common import savedcommits, savecommits, args as getargs
 
 def main_rol():
     v = savedcommits()

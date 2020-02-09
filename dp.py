@@ -1,6 +1,6 @@
 #HALP Diff from public branch.
 
-from common import getpublic, args, chain, stderr
+from dev_bin.common import getpublic, args, chain, stderr
 
 def main_dp():
     parent = getpublic()

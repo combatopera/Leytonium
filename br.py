@@ -1,6 +1,6 @@
 #HALP Create given branch with completion and dashes, show menu for parent.
 
-from common import run, addparents, args, AllBranches, menu
+from dev_bin.common import run, addparents, args, AllBranches, menu
 
 def main_br():
     _, base = menu([[n, ''] for n in AllBranches().names], 'From')

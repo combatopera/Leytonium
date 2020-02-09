@@ -1,6 +1,6 @@
 #HALP Create a master-based branch from this non-master-based one.
 
-from common import thisbranch, pb, AllBranches, runpy, run, addparents
+from dev_bin.common import thisbranch, pb, AllBranches, runpy, run, addparents
 
 def main_prepare():
     master = 'master'

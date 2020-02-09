@@ -1,6 +1,6 @@
 /node
 /npm
-/__pycache__/
+__pycache__/
 /dev_bin.egg-info/
 /setup.cfg
 /setup.py

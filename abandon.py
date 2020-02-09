@@ -1,6 +1,6 @@
 #HALP Discard all local changes, with confirmation step.
 
-from common import run
+from dev_bin.common import run
 
 def main_abandon():
     run(['git', 'status'])

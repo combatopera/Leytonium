@@ -1,6 +1,6 @@
 #HALP Resolve conflicts in imports and adjacent-line conflicts.
 
-from common import stderr, findproject, runlines
+from dev_bin.common import stderr, findproject, runlines
 import itertools, os, re
 
 def resimp(path):

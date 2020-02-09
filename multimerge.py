@@ -1,6 +1,6 @@
 #HALP Merge master into all PRs and carrion.
 
-from common import findproject, nicely, AllBranches, getpublic, stderr, run, runlines, touchmsg, runpy
+from dev_bin.common import findproject, nicely, AllBranches, getpublic, stderr, run, runlines, touchmsg, runpy
 import os
 
 def merge(b, check = True):

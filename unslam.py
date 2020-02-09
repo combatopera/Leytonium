@@ -1,6 +1,6 @@
 #HALP Cherry-pick commits lost in a previous slam.
 
-from common import findproject, thisbranch, infodirname, chain, os, stderr
+from dev_bin.common import findproject, thisbranch, infodirname, chain, os, stderr
 
 def main_unslam():
     path = os.path.join(findproject(), infodirname, "%s slammed" % thisbranch())

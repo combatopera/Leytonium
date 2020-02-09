@@ -1,6 +1,6 @@
 #HALP Reinstall corda gradle plugins.
 
-from common import findproject, runpy
+from dev_bin.common import findproject, runpy
 import os
 
 def main_pluginst():

@@ -1,6 +1,6 @@
 #HALP Publish this branch, accepts push options.
 
-from common import thisbranch, pb, run, args, runlines
+from dev_bin.common import thisbranch, pb, run, args, runlines
 
 def main_publish():
     remote, = runlines(['git', 'config', '--get', "branch.%s.remote" % pb()])

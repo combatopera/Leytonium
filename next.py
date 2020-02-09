@@ -1,6 +1,6 @@
 #HALP Go to next step in current git workflow.
 
-from common import findproject, run, runlines
+from dev_bin.common import findproject, run, runlines
 import os
 
 def main_next():

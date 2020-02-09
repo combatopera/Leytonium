@@ -1,6 +1,6 @@
 #HALP Change declared parent of current branch.
 
-from common import args as getargs, addparents, thisbranch, getpublic
+from dev_bin.common import args as getargs, addparents, thisbranch, getpublic
 
 def main_setparent():
     args = getargs()

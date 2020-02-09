@@ -1,6 +1,6 @@
 #HALP Satisfy PEP 8 with minimal impact.
 
-from common import findproject
+from dev_bin.common import findproject
 import subprocess, re
 
 cols = 120

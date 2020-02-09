@@ -1,6 +1,6 @@
 #HALP Show local changes.
 
-from common import run
+from dev_bin.common import run
 
 def main_d():
     run(['clear'])

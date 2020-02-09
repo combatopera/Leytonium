@@ -1,6 +1,6 @@
 #HALP Create a kitchen-sink branch.
 
-from common import run, addparents
+from dev_bin.common import run, addparents
 import os, re
 
 def githubuser():

@@ -1,6 +1,6 @@
 #HALP Create a branch for the given ticket(s) named according to git policy.
 
-from common import menu, run, addparents, AllBranches
+from dev_bin.common import menu, run, addparents, AllBranches
 import sys, subprocess, os, tempfile, re
 
 wordpattern = re.compile(r'[^\s/]+')

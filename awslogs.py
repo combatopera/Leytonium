@@ -1,4 +1,4 @@
-from common import menu
+from dev_bin.common import menu
 from datetime import datetime
 import json, subprocess, argparse
 

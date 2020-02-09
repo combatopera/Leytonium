@@ -1,6 +1,6 @@
 #HALP Find parent branch.
 
-from common import pb
+from dev_bin.common import pb
 
 def main_pb():
     print(pb())
