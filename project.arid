@@ -5,3 +5,4 @@ deps +=
     pyyaml
     termcolor
 name = dev-bin
+proprietary = true

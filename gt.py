@@ -1,6 +1,6 @@
 #HALP Stage all outgoing changes and show them.
 
-from common import run, findproject, runpy, runlines
+from common import run, findproject, runlines
 from pathlib import Path
 import subprocess, sys, aridity, st
 
