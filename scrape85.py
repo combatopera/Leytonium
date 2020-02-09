@@ -1,10 +1,8 @@
-#!/usr/bin/env python3
-
 import sys, re, base64, os
 
 pattern = re.compile('<~(.+?)~>', re.DOTALL)
 
-def main():
+def main_scrape85():
     if os.listdir():
         raise Exception
     path, = sys.argv[1:]
@@ -14,6 +12,3 @@ def main():
         print(i)
         with open("%s.png" % i, 'wb') as g:
             g.write(base64.a85decode(image))
-
-if '__main__' == __name__:
-    main()

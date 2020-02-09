@@ -1,12 +1,7 @@
-#!/usr/bin/env python3
-
 #HALP Run the context gradlew.
 
 from common import chain, findproject, args
 import os
 
-def main(cwd = None):
+def main_gradle(cwd = None):
     chain([os.path.join(findproject(cwd), 'gradlew')] + args(), cwd = cwd)
-
-if '__main__' == __name__:
-    main()

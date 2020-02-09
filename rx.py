@@ -1,11 +1,6 @@
-#!/usr/bin/env python3
-
 #HALP Restore given file to parent branch version.
 
 from common import run, pb, args
 
-def main():
+def main_rx():
     run(['git', 'checkout', pb()] + args())
-
-if '__main__' == __name__:
-    main()

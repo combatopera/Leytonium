@@ -1,10 +1,8 @@
-#!/usr/bin/env python3
-
 #HALP Move given slammed commit (default top) to the bottom.
 
 from common import savedcommits, savecommits, args as getargs
 
-def main():
+def main_rol():
     v = savedcommits()
     args = getargs()
     if args:
@@ -16,6 +14,3 @@ def main():
     else:
         i = 0
     savecommits(v[:i] + v[i + 1:] + [v[i]], True)
-
-if '__main__' == __name__:
-    main()

@@ -1,12 +1,10 @@
-#!/usr/bin/env python3
-
 #HALP You're looking at it!
 
 import os
 
 prefix = '#HALP '
 
-def main():
+def main_halp():
     halps = []
     dirpath = os.path.dirname(__file__)
     for script in sorted(os.listdir(dirpath)):
@@ -22,6 +20,3 @@ def main():
     format = "%%-%ss %%s" % max(len(halp[0]) for halp in halps)
     for halp in halps:
         print(format % halp)
-
-if '__main__' == __name__:
-    main()

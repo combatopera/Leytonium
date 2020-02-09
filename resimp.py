@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 #HALP Resolve conflicts in imports and adjacent-line conflicts.
 
 from common import stderr, findproject, runlines
@@ -125,11 +123,8 @@ def resadj(path):
                 g.write(line)
         stderr("[%s] Auto-resolved %s adjacent-line conflicts." % (path, resolved[0]))
 
-def main():
+def main_resimp():
     os.chdir(findproject()) # Paths below are relative to project root.
     for path in runlines(['git', 'diff', '--name-only', '--diff-filter=U']):
         for task in resimp, resadj:
             task(path)
-
-if '__main__' == __name__:
-    main()

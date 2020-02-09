@@ -1,14 +1,9 @@
-#!/usr/bin/env python3
-
 #HALP Commit with the given args as message.
 
 from common import run, args, isgitpol
 
-def main():
+def main_ci():
     message = ' '.join(args())
     if isgitpol():
         message = 'WIP ' + message[0].upper() + message[1:]
     run(['git', 'commit', '-m', message])
-
-if '__main__' == __name__:
-    main()
