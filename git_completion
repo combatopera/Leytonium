@@ -34,8 +34,12 @@ function _commonmessages {
 function _unconflictedpaths {
     local paths="$(git diff --name-only --diff-filter=U | while read path; do
         grep '^=======$' "$path" &>/dev/null || echo "$path"
-    done)"
-    COMPREPLY=($(compgen -W "$paths" $2)) # FIXME: Relativise against working dir.
+    done | python3 -c 'from pathlib import Path
+import sys
+top, = map(Path, sys.argv[1:])
+for p in sys.stdin:
+    print((top / p).relative_to(Path.cwd()))' "$(git rev-parse --show-toplevel)")"
+    COMPREPLY=($(compgen -W "$paths" $2))
 }
 
 complete -F _allbranches ren
