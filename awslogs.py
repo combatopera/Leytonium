@@ -29,6 +29,12 @@ def main_awslogs():
     config = parser.parse_args()
     shorten = (lambda x: x) if config.no_trunc else _shorten
     for stream in streamnames(config.group, int(subprocess.check_output(['date', '-d', f"{config.ago} ago", '+%s000']))):
-        events = json.loads(subprocess.check_output(logs + ['get-log-events', '--log-group-name', config.group, '--log-stream-name', stream]))['events']
-        for e in events:
-            print(shorten(e['message']), end = '')
+        token = []
+        while True:
+            page = json.loads(subprocess.check_output(logs + ['get-log-events', '--start-from-head', '--log-group-name', config.group, '--log-stream-name', stream] + token))
+            for e in page['events']:
+                print(shorten(e['message']), end = '')
+            t = page['nextForwardToken']
+            if token and t == token[1]: # Looks like first page can never be final page.
+                break
+            token = ['--next-token', t]
