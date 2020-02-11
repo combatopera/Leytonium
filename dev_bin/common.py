@@ -182,7 +182,8 @@ def showmenu(entries, show = True, xform = lambda i: 1 + i, print = print):
 
 def menu(entries, prompt):
     ids = showmenu(entries)
-    n = int(input("%s? " % prompt))
+    sys.stderr.write("%s? " % prompt)
+    n = int(input())
     return n, ids[n]
 
 def showexception():
