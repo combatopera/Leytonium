@@ -1,4 +1,4 @@
-import json, subprocess, argparse
+import json, subprocess, argparse, re
 
 logs = ['bash', '-ic', 'aws logs "$@"', 'logs']
 tskey = 'lastIngestionTime'
@@ -32,8 +32,15 @@ def main_awslogs():
         token = []
         while True:
             page = json.loads(subprocess.check_output(logs + ['get-log-events', '--start-from-head', '--log-group-name', config.group, '--log-stream-name', stream] + token))
-            for e in page['events']:
-                print(shorten(e['message']), end = '')
+            for m in (e['message'] for e in page['events']):
+                if m and '\n' == m[0]:
+                    print('$ ', end = '')
+                    m = m[1:]
+                for i, l in enumerate(m.split('\r')):
+                    if i:
+                        print()
+                        print('> ', end = '')
+                    print(shorten(l), end = '')
             t = page['nextForwardToken']
             if token and t == token[1]: # Looks like first page can never be final page.
                 break
