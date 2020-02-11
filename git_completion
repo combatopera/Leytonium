@@ -42,6 +42,13 @@ for p in sys.stdin:
     COMPREPLY=($(compgen -W "$paths" $2))
 }
 
+function _loggroups {
+    [[ "$_loggroups_names" ]] || _loggroups_names="$(aws logs describe-log-groups | python3 -c 'import json, sys
+for group in json.load(sys.stdin)["logGroups"]:
+    print(group["logGroupName"])')"
+    COMPREPLY=($(compgen -W "$_loggroups_names" $2))
+}
+
 complete -F _allbranches ren
 complete -F _otherbranches co
 complete -F _otherbranches eb
@@ -51,3 +58,4 @@ complete -F _demonames demo
 complete -F _commonmessages ci
 complete -F _unconflictedpaths rd
 complete -F _unconflictedpaths rdx
+complete -F _loggroups awslogs
