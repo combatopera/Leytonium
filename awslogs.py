@@ -1,4 +1,4 @@
-import json, subprocess, argparse, re
+import json, subprocess, argparse
 
 logs = ['bash', '-ic', 'aws logs "$@"', 'logs']
 tskey = 'lastIngestionTime'
