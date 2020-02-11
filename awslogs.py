@@ -1,7 +1,7 @@
 import json, subprocess, argparse
 
 logs = ['bash', '-ic', 'aws logs "$@"', 'logs']
-tskey = 'lastEventTimestamp'
+tskey = 'lastIngestionTime'
 
 def _shorten(line, radius = 250):
     if len(line) <= 2 * radius:
