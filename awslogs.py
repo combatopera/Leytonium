@@ -11,6 +11,13 @@ def _shorten(line, radius = 250):
     sep = '...'
     return line[:radius - len(sep)] + sep + line[-radius:]
 
+def choosestream(group):
+    streams = json.loads(subprocess.check_output(logs + ['describe-log-streams', '--log-group-name', group]))['logStreams']
+    streams.sort(key = lambda s: -s.get(tskey, 0)) # Freshest first.
+    del streams[100:]
+    k, _ = menu([(datetime.fromtimestamp(s.get(tskey, 0) / 1000).isoformat(), s['storedBytes']) for s in streams], 'Stream')
+    return streams[k - 1]['logStreamName']
+
 def main_awslogs():
     parser = argparse.ArgumentParser()
     parser.add_argument('--no-trunc', action='store_true')
@@ -18,11 +25,7 @@ def main_awslogs():
     shorten = (lambda x: x) if config.no_trunc else _shorten
     names = [g['logGroupName'] for g in json.loads(subprocess.check_output(logs + ['describe-log-groups']))['logGroups']]
     _, group = menu([(n, '') for n in names], 'Group')
-    streams = json.loads(subprocess.check_output(logs + ['describe-log-streams', '--log-group-name', group]))['logStreams']
-    streams.sort(key = lambda s: -s.get(tskey, 0)) # Freshest first.
-    del streams[100:]
-    k, _ = menu([(datetime.fromtimestamp(s.get(tskey, 0) / 1000).isoformat(), s['storedBytes']) for s in streams], 'Stream')
-    stream = streams[k - 1]['logStreamName']
+    stream = choosestream(group)
     events = json.loads(subprocess.check_output(logs + ['get-log-events', '--log-group-name', group, '--log-stream-name', stream]))['events']
     for e in events:
         print(shorten(e['message']), end = '')
