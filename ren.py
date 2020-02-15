@@ -1,9 +1,8 @@
-#HALP Rename current branch.
-
 from dev_bin.common import thisbranch, args, findproject, infodirname, run
 import os
 
 def main_ren():
+    'Rename current branch.'
     fromname = thisbranch()
     run(['git', 'branch', '-m'] + args())
     d = os.path.join(findproject(), infodirname)

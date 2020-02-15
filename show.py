@@ -1,8 +1,7 @@
-#HALP Show a commit that was listed by st.
-
 from dev_bin.common import args, showmenu, chain, AllBranches, savedcommits
 
 def main_show():
+    'Show a commit that was listed by st.'
     items = AllBranches().branchcommits()
     n, = args()
     n = int(n)
