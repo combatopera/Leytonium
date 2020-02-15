@@ -21,16 +21,16 @@ function kind {
 }
 
 function forprojects {
+    local contextdir="$PWD"
     for d in $(find -mindepth 2 -maxdepth 2 -name $1 | sort); do
         cd ${d%/*}
-        echo -n "$(kind $2) "
+        echo "$(kind $2) ${PWD#$contextdir/}:"
         $2 ${PWD#$effectivehome/}
         cd - >/dev/null
     done
 }
 
 function hgtask {
-    echo $1:
     if pull; then
         hg pull $repo/arc/$1 && hg update
     elif push; then
@@ -41,7 +41,6 @@ function hgtask {
 }
 
 function gittask {
-    echo $1:
     if pull; then
         local restore="$(git rev-parse --abbrev-ref HEAD)"
         git branch | cut -c 3- | while read branch; do
@@ -73,7 +72,6 @@ function gittask {
 }
 
 function rsynctask {
-    echo $1:
     if pull; then
         lhs=(rsync -avzu --exclude /.rsync)
         rhs=(lave.local::$reponame/$1/ .)
