@@ -16,7 +16,7 @@ def main_checkremotes():
     tempdir, = subprocess.check_output(['mktemp', '-d'], universal_newlines = True).splitlines()
     try:
         fifo = Path(tempdir, 'fifo')
-        subprocess.check_call(['mkfifo', fifo])
+        subprocess.check_call(['mkfifo', str(fifo)])
         print(fifo)
         closef(sys.stdout)
         control = not os.fork()
