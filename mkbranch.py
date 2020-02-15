@@ -1,11 +1,10 @@
-#HALP Create a branch for the given ticket(s) named according to git policy.
-
 from dev_bin.common import menu, run, addparents, AllBranches
 import sys, subprocess, os, tempfile, re
 
 wordpattern = re.compile(r'[^\s/]+')
 
 def main_mkbranch():
+    'Create a branch for the given ticket(s) named according to git policy.'
     tickets = sys.argv[1:]
     with tempfile.NamedTemporaryFile() as cookiesfile:
         subprocess.run([os.path.join(os.path.dirname(__file__), 'extract_cookies.sh')], stdout = cookiesfile, check = True)

@@ -1,8 +1,7 @@
-#HALP Reset branch to given commit number.
-
 from dev_bin.common import AllBranches, args as getargs, showmenu, chain, pb, savecommits, savedcommits
 
 def main_slam():
+    'Reset branch to given commit number.'
     items = AllBranches().branchcommits() + [[pb(), '']]
     args = getargs()
     if '-f' == args[0]:

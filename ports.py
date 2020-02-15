@@ -1,5 +1,3 @@
-#HALP Show listen ports of all Corda nodes.
-
 from dev_bin.common import runlines
 import re
 
@@ -10,6 +8,7 @@ def minport(lines):
     return min(p for p in (lineport(line) for line in lines) if p >= 10000)
 
 def main_ports():
+    'Show listen ports of all Corda nodes.'
     def pidstrs():
         for line in runlines(['ps', '-ef']):
             if 'Corda' in line:

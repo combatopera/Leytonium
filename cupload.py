@@ -1,5 +1,3 @@
-#HALP Test the DataUploadServlet.
-
 import requests, io, zipfile, hashlib, base64, time
 
 def createzip(filedata):
@@ -10,6 +8,7 @@ def createzip(filedata):
     return zipdata
 
 def main_cupload():
+    'Test the DataUploadServlet.'
     port = int(input('Port? '))
     prefix = input('Prefix? ')
     files = {"IGNORED%s" % k: createzip("%s%s" % (prefix, k)) for k in range(2)}

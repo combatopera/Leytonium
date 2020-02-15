@@ -1,8 +1,7 @@
-#HALP Short diff from parent branch or of passed-in commit number.
-
 from dev_bin.common import args as getargs, AllBranches, showmenu, pb, stderr, chain
 
 def main_dxx():
+    'Short diff from parent branch or of passed-in commit number.'
     args = getargs()
     if args:
         n, = args

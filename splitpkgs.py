@@ -1,5 +1,3 @@
-#HALP Show packages that exist in more than one module.
-
 import os
 
 def relativise(context, path):
@@ -9,6 +7,7 @@ def relativise(context, path):
         return path[len(context + os.sep):].split(os.sep)
 
 def main_splitpkgs():
+    'Show packages that exist in more than one module.'
     packagetomodules = {}
     def register(module, package):
         try:
