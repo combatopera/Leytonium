@@ -55,13 +55,7 @@ function gittask {
         co "$restore"
     else
         git status -s
-        git remote -v | while read line; do
-            if [[ "$line" =~ ^lave$'\t'"$repo/arc/$1.git"' ' ]]; then
-                echo Remote lave OK.
-            elif [[ "$line" != *$'\tgit@'* ]]; then
-                echo Remote is not SSH: "$line"
-            fi >&2
-        done
+        { pwd; echo $1; } >$fifo
         [[ "$(md5sum .git/hooks/post-commit)" = d92ab6d4b18b4bf64976d3bae7b32bd7* ]] || {
             echo Bad hook: post-commit >&2
         }
@@ -88,6 +82,10 @@ function rsynctask {
 }
 
 clear
+fifo=$(checkremotes)
+sleep inf >$fifo &
+holdpid=$!
 forprojects .hg hgtask
 forprojects .git gittask
 forprojects .rsync rsynctask
+kill $holdpid
