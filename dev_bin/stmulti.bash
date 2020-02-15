@@ -54,6 +54,7 @@ function gittask {
         done
         co "$restore"
     else
+        git branch -vv
         git status -s
         { pwd; echo $1; } >$fifo
         [[ "$(md5sum .git/hooks/post-commit)" = d92ab6d4b18b4bf64976d3bae7b32bd7* ]] || {
