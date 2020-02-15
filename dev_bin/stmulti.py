@@ -1,4 +1,4 @@
-from dev_bin import delegate
+from . import delegate
 
 def main_stmulti():
     delegate('stmulti.bash')
