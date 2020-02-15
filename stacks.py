@@ -1,5 +1,3 @@
-#HALP Compare stack traces across build logs.
-
 import sys, tempfile, subprocess, re, datetime
 
 class Stack:
@@ -84,6 +82,7 @@ def compare(stackslist):
         f.close()
 
 def main_stacks():
+    'Compare stack traces across build logs.'
     paths = sys.argv[1:]
     stackslist = []
     for path in paths:

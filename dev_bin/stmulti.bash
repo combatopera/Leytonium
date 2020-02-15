@@ -1,5 +1,3 @@
-#HALP Short status of all shallow projects in directory.
-
 set -e
 
 IFS=$'\n'

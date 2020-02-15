@@ -1,5 +1,3 @@
-#HALP Create a kitchen-sink branch.
-
 from dev_bin.common import run, addparents
 import os, re
 
@@ -8,6 +6,7 @@ def githubuser():
         return re.search('//([^:]+):.*github', f.read()).group(1)
 
 def main_ks():
+    'Create a kitchen-sink branch.'
     master, ks = 'master', 'kitchen-sink'
     run(['git', 'checkout', '-b', ks, master])
     addparents(ks, master, 'controversial/*', "public/%s-*" % githubuser())
