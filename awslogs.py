@@ -28,7 +28,7 @@ def main_awslogs():
     parser.add_argument('group')
     config = parser.parse_args()
     shorten = (lambda x: x) if config.no_trunc else _shorten
-    for stream in streamnames(config.group, int(subprocess.check_output(['date', '-d', f"{config.ago} ago", '+%s000']))):
+    for stream in streamnames(config.group, int(subprocess.check_output(['date', '-d', "%s ago" % config.ago, '+%s000']))):
         token = []
         while True:
             page = json.loads(subprocess.check_output(logs + ['get-log-events', '--start-from-head', '--log-group-name', config.group, '--log-stream-name', stream] + token))
