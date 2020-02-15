@@ -1,10 +1,9 @@
-#HALP Stage all outgoing changes and show them.
-
 from dev_bin.common import run, findproject, runlines
 from pathlib import Path
 import subprocess, sys, aridity, st
 
 def main_gt():
+    'Stage all outgoing changes and show them.'
     projectdir = Path(findproject()).resolve()
     paths = [projectdir / line[line.index("'") + 1:-1] for line in runlines(['git', 'add', '-n', str(projectdir)])]
     context = aridity.Context()

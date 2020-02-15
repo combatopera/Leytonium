@@ -1,8 +1,7 @@
-#HALP Pull master and releases with automatic stash and switch.
-
 from dev_bin.common import nicely, isgitpol, publicbranches, run, stderr
 
 def main_autopull():
+    'Pull master and releases with automatic stash and switch.'
     def pullthem():
         for b in publicbranches():
             # TODO LATER: Also pull ticket branches owned by others.

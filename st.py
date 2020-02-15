@@ -1,5 +1,3 @@
-#HALP Show list of branches and outgoing changes.
-
 from dev_bin.common import run, showmenu, UnknownParentException, showexception, unchecked_run, runlines, stripansi, getpublic, savedcommits, AllBranches, highlight, findproject, infodirname
 from termcolor import colored
 from pathlib import Path
@@ -55,6 +53,7 @@ def getprstatuses(branches):
         yaml.dump(cache, f)
 
 def main_st():
+    'Show list of branches and outgoing changes.'
     run(['clear'])
     try:
         allbranches = AllBranches()

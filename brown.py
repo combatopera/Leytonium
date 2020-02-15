@@ -1,11 +1,10 @@
-#HALP Satisfy PEP 8 with minimal impact.
-
 from dev_bin.common import findproject
 import subprocess, re
 
 cols = 120
 
 def main_brown():
+    'Satisfy PEP 8 with minimal impact.'
     command = ['autopep8', '-rv', '--max-line-length', str(cols), findproject()]
     result = subprocess.run(command + ['-d'], stdout = subprocess.DEVNULL, stderr = subprocess.PIPE, universal_newlines = True)
     assert not result.returncode

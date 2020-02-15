@@ -1,5 +1,3 @@
-#HALP Merge master into all PRs and carrion.
-
 from dev_bin.common import findproject, nicely, AllBranches, getpublic, stderr, run, runlines, touchmsg, runpy
 import os
 
@@ -84,5 +82,6 @@ def multimerge():
         remaining = remaining2
 
 def main_multimerge():
+    'Merge master into all PRs and carrion.'
     os.chdir(findproject()) # Don't fail if working directory doesn't exist in some branch.
     nicely(multimerge)
