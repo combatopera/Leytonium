@@ -1,9 +1,8 @@
-#HALP Go to next step in current git workflow.
-
 from dev_bin.common import findproject, run, runlines
 import os
 
 def main_next():
+    'Go to next step in current git workflow.'
     gitdir = os.path.join(findproject(), '.git')
     if os.path.isdir(os.path.join(gitdir, 'rebase-apply')):
         if runlines(['git', 'status', '--porcelain']):
