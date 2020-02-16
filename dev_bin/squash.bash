@@ -1,5 +1,3 @@
-#!/bin/bash
-
 #HALP Semi-interactively squash a most-recent chunk of commits.
 
 set -e

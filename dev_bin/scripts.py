@@ -9,3 +9,6 @@ def main_pullall():
 
 def main_pushall():
     delegate('stmulti.bash')
+
+def main_squash():
+    delegate('squash.bash')
