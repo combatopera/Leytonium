@@ -1,4 +1,4 @@
-from .common import pb, run
+from .common import args, chain, pb, run
 import os
 
 def main_showstash():
@@ -14,3 +14,15 @@ def main_d():
     'Show local changes.'
     run(['clear'])
     run(['git', 'diff'])
+
+def main_rdx():
+    'Run git rm on conflicted path, with completion.'
+    chain(['git', 'rm'] + args())
+
+def main_rx():
+    'Restore given file to parent branch version.'
+    run(['git', 'checkout', pb()] + args())
+
+def main_gag():
+    'Run ag on all build.gradle files.'
+    chain(['find', '-name', 'build.gradle', '-exec', 'ag'] + args() + ['{}', '+'])
