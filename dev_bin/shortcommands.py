@@ -30,3 +30,6 @@ def main_gag():
 
 def main_git_completion_path():
     print(Path(__file__).parent / 'git_completion')
+
+def main_git_functions_path():
+    print(Path(__file__).parent / 'git_functions')

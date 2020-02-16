@@ -1,7 +1,4 @@
-function whereami {
-    echo "$(dirname "$BASH_SOURCE")"
-}
-. "$(whereami)/git_functions"
+. "$(git_functions_path)"
 
 function _allbranches {
     local branches="$(git branch | cut -c 3-)"

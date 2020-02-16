@@ -1,6 +1,6 @@
 set -e
 
-. "$GIT_FUNCTIONS"
+. "$(git_functions_path)"
 
 b=$(thisbranch)
 ks=kitchen-sink
