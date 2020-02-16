@@ -1,4 +1,5 @@
 from .common import args, chain, pb, run
+from pathlib import Path
 import os
 
 def main_showstash():
@@ -26,3 +27,6 @@ def main_rx():
 def main_gag():
     'Run ag on all build.gradle files.'
     chain(['find', '-name', 'build.gradle', '-exec', 'ag'] + args() + ['{}', '+'])
+
+def main_git_completion_path():
+    print(Path(__file__).parent / 'git_completion')
