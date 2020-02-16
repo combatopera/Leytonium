@@ -1,5 +1,5 @@
 from pathlib import Path
-import logging, os, re, shutil, subprocess, sys, tempfile
+import logging, os, re, shutil, subprocess, sys
 
 log = logging.getLogger(__name__)
 pattern = re.compile('(.+)\t(.+) [(].+[)]')
