@@ -33,7 +33,7 @@ function cherry {
     done
 }
 
-. git_functions
+. "$GIT_FUNCTIONS"
 
 menu cherry Which commit should absorb all newer commits
 

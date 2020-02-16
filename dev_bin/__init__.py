@@ -7,6 +7,7 @@ class Interpreter:
         with path.open('rb') as f:
             text = f.read()
         command = ['bash', '-c', text] + sys.argv
+        os.environ['GIT_FUNCTIONS'] = str(path.parent / 'git_functions')
         os.execvp(command[0], command)
 
 def delegate(*relpath):
