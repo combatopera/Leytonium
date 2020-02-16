@@ -1,7 +1,3 @@
-#!/bin/bash
-
-#HALP Open a shell in a throwaway container of the given image.
-
 set -ex
 
 unset context delimage

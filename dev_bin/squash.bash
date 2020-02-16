@@ -1,5 +1,3 @@
-#HALP Semi-interactively squash a most-recent chunk of commits.
-
 set -e
 
 base=$(pb)
