@@ -46,3 +46,13 @@ def main_fixemails():
 def main_killnodes():
     'Kill all Corda nodes.'
     delegate('killnodes.bash')
+
+def main_mdview():
+    delegate('mdview.bash')
+
+def main_upgrade():
+    'Upgrade the system and silence the nag.'
+    delegate('upgrade.bash')
+
+def main_vpn():
+    delegate('vpn.bash')

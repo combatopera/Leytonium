@@ -1,7 +1,3 @@
-#!/bin/bash
-
-#HALP Upgrade the system and silence the nag.
-
 set -e
 
 sudo apt-get update

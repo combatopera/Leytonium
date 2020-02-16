@@ -1,5 +1,3 @@
-#!/bin/bash
-
 set -e
 
 eval "$(arid-config ~/.settings.arid vpn)"
