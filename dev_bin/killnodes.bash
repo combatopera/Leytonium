@@ -1,7 +1,3 @@
-#!/bin/bash
-
-#HALP Kill all Corda nodes.
-
 set -ex
 
 kill "$@" $(ps -ef | egrep '[C]orda|[I]rsDemoWebApplication' | awk '{ print $2 }')

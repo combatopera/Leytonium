@@ -35,3 +35,14 @@ def main_gimports():
 def main_reks():
     'Rebase on a new kitchen-sink branch.'
     delegate('reks.bash')
+
+def main_eb():
+    'Rebase on the given branch with completion, or parent with confirmation.'
+    delegate('eb.bash')
+
+def main_fixemails():
+    delegate('fixemails.bash')
+
+def main_killnodes():
+    'Kill all Corda nodes.'
+    delegate('killnodes.bash')

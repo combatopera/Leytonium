@@ -1,5 +1,3 @@
-#!/bin/bash
-
 function summary {
     git log --pretty="%an %ae%n%cn %ce" | sort -u
 }

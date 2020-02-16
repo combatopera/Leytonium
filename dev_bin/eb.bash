@@ -1,7 +1,3 @@
-#!/bin/bash
-
-#HALP Rebase on the given branch with completion, or parent with confirmation.
-
 set -e
 
 if [[ "$@" ]]; then
