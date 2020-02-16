@@ -1,10 +1,6 @@
-#!/bin/bash
-
-#HALP Stage all imports-only changes and show them.
-
 set -ex
 
-. git_functions
+. "$GIT_FUNCTIONS"
 
 cdtoproject
 

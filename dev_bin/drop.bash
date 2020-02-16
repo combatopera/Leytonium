@@ -1,10 +1,6 @@
-#!/bin/bash
-
-#HALP Drop this branch.
-
 set -ex
 
-. git_functions
+. "$GIT_FUNCTIONS"
 
 [[ "$1" != '-f' && "$(dxx)" ]] && {
     echo 'Unmerged changes!' >&2

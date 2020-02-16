@@ -23,3 +23,15 @@ def main_drst():
 def main_examine():
     'Open a shell in a throwaway container of the given image.'
     delegate('examine.bash')
+
+def main_drop():
+    'Drop this branch.'
+    delegate('drop.bash')
+
+def main_gimports():
+    'Stage all imports-only changes and show them.'
+    delegate('gimports.bash')
+
+def main_reks():
+    'Rebase on a new kitchen-sink branch.'
+    delegate('reks.bash')

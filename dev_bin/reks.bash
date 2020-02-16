@@ -1,10 +1,6 @@
-#!/bin/bash
-
-#HALP Rebase on a new kitchen-sink branch.
-
 set -e
 
-. git_functions
+. "$GIT_FUNCTIONS"
 
 b=$(thisbranch)
 ks=kitchen-sink
