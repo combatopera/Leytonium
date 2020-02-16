@@ -1,4 +1,4 @@
-from .common import args, chain, pb, run
+from .common import AllBranches, args, chain, findproject, infodirname, pb, run, savecommits
 from pathlib import Path
 import os
 
@@ -33,3 +33,20 @@ def main_git_completion_path():
 
 def main_git_functions_path():
     print(Path(__file__).parent / 'git_functions')
+
+def main_rd():
+    'Run git add on conflicted path, with completion.'
+    # FIXME: Reject directory args.
+    chain(['git', 'add'] + args())
+
+def main_dup():
+    'Add the top commit to the list of slammed commits.'
+    savecommits([AllBranches().branchcommits()[0][0]])
+
+def main_gradle(cwd = None):
+    'Run the context gradlew.'
+    chain([os.path.join(findproject(cwd), 'gradlew')] + args(), cwd = cwd)
+
+def main_scrub():
+    'Remove all untracked items, including the git-ignored.'
+    run(['git', 'clean', '-xdi', '-e', infodirname], cwd = findproject())
