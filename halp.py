@@ -21,7 +21,7 @@ def main_halp():
     for path in Path(dirpath).rglob('*.py'):
         if path.relative_to(dirpath).parts[0] in {'.pyven', 'build'}:
             continue
-        with open(path) as f:
+        with path.open() as f:
             m = ast.parse(f.read())
         for obj in m.body:
             if isinstance(obj, ast.FunctionDef) and obj.name.startswith(mainprefix):
