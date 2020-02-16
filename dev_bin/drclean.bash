@@ -1,5 +1,3 @@
-#!/bin/bash
-
 set -e
 
 [[ $(basename "$0") = drclean ]] && armed=armed

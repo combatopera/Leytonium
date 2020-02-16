@@ -12,3 +12,9 @@ def main_pushall():
 
 def main_squash():
     delegate('squash.bash')
+
+def main_drclean():
+    delegate('drclean.bash')
+
+def main_drst():
+    delegate('drclean.bash')
