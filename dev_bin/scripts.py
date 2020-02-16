@@ -18,3 +18,6 @@ def main_drclean():
 
 def main_drst():
     delegate('drclean.bash')
+
+def main_examine():
+    delegate('examine.bash')
