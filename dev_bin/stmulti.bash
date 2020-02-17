@@ -84,8 +84,7 @@ function rsynctask {
 
 clear
 fifo=$(checkremotes)
-sleep inf >$fifo &
-trap "kill $!" EXIT
 forprojects .hg hgtask
 forprojects .git gittask
 forprojects .rsync rsynctask
+echo >$fifo
