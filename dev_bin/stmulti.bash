@@ -57,7 +57,7 @@ function gittask {
         git branch -vv
         git status -s
         [[ ! -d $repo ]] || {
-            { pwd; echo $1; } >$fifo
+            { pwd; echo $1; } >$fifo # FIXME LATER: Sync with end of task.
             [[ "$(md5sum .git/hooks/post-commit)" = d92ab6d4b18b4bf64976d3bae7b32bd7* ]] || {
                 echo Bad hook: post-commit >&2
             }
