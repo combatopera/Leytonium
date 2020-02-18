@@ -56,9 +56,11 @@ function gittask {
     else
         git branch -vv
         git status -s
-        { pwd; echo $1; } >$fifo
-        [[ "$(md5sum .git/hooks/post-commit)" = d92ab6d4b18b4bf64976d3bae7b32bd7* ]] || {
-            echo Bad hook: post-commit >&2
+        [[ ! -d $repo ]] || {
+            { pwd; echo $1; } >$fifo
+            [[ "$(md5sum .git/hooks/post-commit)" = d92ab6d4b18b4bf64976d3bae7b32bd7* ]] || {
+                echo Bad hook: post-commit >&2
+            }
         }
         git stash list
     fi
