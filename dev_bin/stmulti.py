@@ -1,18 +1,6 @@
-set -e
-
-IFS=$'\n'
-
 reponame=Seagate3
 repo=/mnt/$reponame
 effectivehome=$(eval echo ~$SUDO_USER)
-
-function pull {
-    [[ pullall = "$(basename "$0")" ]]
-}
-
-function push {
-    [[ pushall = "$(basename "$0")" ]]
-}
 
 function kind {
     printf '%-3s' ${1%task} | cut -c -3
@@ -56,7 +44,7 @@ function gittask {
     else
         git branch -vv
         git status -s
-        { pwd; echo $1; } >$fifo
+        checkremotes($PWD, $1)
         [[ "$(md5sum .git/hooks/post-commit)" = d92ab6d4b18b4bf64976d3bae7b32bd7* ]] || {
             echo Bad hook: post-commit >&2
         }
@@ -84,9 +72,6 @@ function rsynctask {
 
 def main(action):
     clear
-    fifo=$(checkremotes)
-    sleep inf >$fifo &
-    trap "kill $!" EXIT
     forprojects .hg hgtask
     forprojects .git gittask
     forprojects .rsync rsynctask
