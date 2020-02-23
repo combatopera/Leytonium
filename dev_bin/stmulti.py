@@ -1,20 +1,20 @@
-reponame=Seagate3
-repo=/mnt/$reponame
+from pathlib import Path
+
+reponame = 'Seagate3'
+repo = Path('/mnt', reponame)
 effectivehome=$(eval echo ~$SUDO_USER)
 
 function kind {
     printf '%-3s' ${1%task} | cut -c -3
 }
 
-function forprojects {
+def forprojects(projecttype):
     local contextdir="$PWD"
     for d in $(find -mindepth 2 -maxdepth 2 -name $1 | sort); do
         cd ${d%/*}
         echo "$(kind $2) ${PWD#$contextdir/}:"
         $2 ${PWD#$effectivehome/}
         cd - >/dev/null
-    done
-}
 
 class Mercurial:
 
