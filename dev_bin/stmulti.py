@@ -82,10 +82,21 @@ function rsynctask {
     fi
 }
 
-clear
-fifo=$(checkremotes)
-sleep inf >$fifo &
-trap "kill $!" EXIT
-forprojects .hg hgtask
-forprojects .git gittask
-forprojects .rsync rsynctask
+def main(action):
+    clear
+    fifo=$(checkremotes)
+    sleep inf >$fifo &
+    trap "kill $!" EXIT
+    forprojects .hg hgtask
+    forprojects .git gittask
+    forprojects .rsync rsynctask
+
+def main_stmulti():
+    'Short status of all shallow projects in directory.'
+    main('status')
+
+def main_pullall():
+    main('pull')
+
+def main_pushall():
+    main('push')
