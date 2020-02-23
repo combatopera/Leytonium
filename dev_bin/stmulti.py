@@ -16,32 +16,36 @@ function forprojects {
     done
 }
 
-function hgtask {
-    if pull; then
-        hg pull $repo/arc/$1 && hg update
-    elif push; then
-        hgcommit
-    else
-        hg st
-    fi
-}
+class Mercurial:
 
-function gittask {
-    if pull; then
+    def pull(self):
+        hg pull $repo/arc/$1 && hg update
+
+    def push(self):
+        hgcommit
+
+    def status(self):
+        hg st
+
+class Git:
+
+    def pull(self):
         local restore="$(git rev-parse --abbrev-ref HEAD)"
         git branch | cut -c 3- | while read branch; do
             co "$branch"
             git pull --ff-only $repo/arc/$1 "$branch"
         done
         co "$restore"
-    elif push; then
+
+    def push(self):
         local restore="$(git rev-parse --abbrev-ref HEAD)"
         git branch | cut -c 3- | while read branch; do
             co "$branch"
             hgcommit
         done
         co "$restore"
-    else
+
+    def status(self):
         git branch -vv
         git status -s
         checkremotes($PWD, $1)
@@ -49,26 +53,25 @@ function gittask {
             echo Bad hook: post-commit >&2
         }
         git stash list
-    fi
-}
 
-function rsynctask {
-    if pull; then
+class Rsync:
+
+    def pull(self):
         lhs=(rsync -avzu --exclude /.rsync)
         rhs=(lave.local::$reponame/$1/ .)
         ${lhs[@]} ${rhs[@]}
         lhs+=(--del)
         ${lhs[@]} --dry-run ${rhs[@]}
         echo "(cd $PWD && ${lhs[@]} ${rhs[@]})"
-    elif push; then
+
+    def push(self):
         hgcommit
-    else
+
+    def status(self):
         tput setf 1
         tput bold
         find -newer .rsync
         tput sgr0
-    fi
-}
 
 def main(action):
     clear
