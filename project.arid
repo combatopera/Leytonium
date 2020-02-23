@@ -1,6 +1,8 @@
 executable = true
 pyversions += 3
-projects += aridity
+projects +=
+    aridity
+    lagoon
 deps +=
     pyyaml
     termcolor
