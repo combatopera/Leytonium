@@ -11,17 +11,22 @@ function kind {
 }
 '''
 
-def forprojects(projecttype):
-    '''
-    local contextdir="$PWD"
-    for d in $(find -mindepth 2 -maxdepth 2 -name $1 | sort); do
-        cd ${d%/*}
-        echo "$(kind $2) ${PWD#$contextdir/}:"
-        $2 ${PWD#$effectivehome/}
-        cd - >/dev/null
-    '''
+class Project:
 
-class Mercurial:
+    @classmethod
+    def forprojects(cls, action):
+        '''
+        local contextdir="$PWD"
+        for d in $(find -mindepth 2 -maxdepth 2 -name $1 | sort); do
+            cd ${d%/*}
+            echo "$(kind $2) ${PWD#$contextdir/}:"
+            $2 ${PWD#$effectivehome/}
+            cd - >/dev/null
+        '''
+
+class Mercurial(Project):
+
+    dirname = '.hg'
 
     def pull(self):
         '''
@@ -38,7 +43,9 @@ class Mercurial:
         hg st
         '''
 
-class Git:
+class Git(Project):
+
+    dirname = '.git'
 
     def pull(self):
         '''
@@ -71,7 +78,9 @@ class Git:
         git stash list
         '''
 
-class Rsync:
+class Rsync(Project):
+
+    dirname = '.rsync'
 
     def pull(self):
         '''
@@ -98,11 +107,8 @@ class Rsync:
 
 def main(action):
     clear.print()
-    '''
-    forprojects .hg hgtask
-    forprojects .git gittask
-    forprojects .rsync rsynctask
-    '''
+    for projecttype in Mercurial, Git, Rsync:
+        projecttype.forprojects(action)
 
 def main_stmulti():
     'Short status of all shallow projects in directory.'
