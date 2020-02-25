@@ -1,28 +1,23 @@
 from lagoon import clear
 from pathlib import Path
+import glob
 
 reponame = 'Seagate3'
 repo = Path('/mnt', reponame)
 '''
 effectivehome=$(eval echo ~$SUDO_USER)
-
-function kind {
-    printf '%-3s' ${1%task} | cut -c -3
-}
 '''
 
 class Project:
 
+    kindwidth = 3
+    kindformat = "%%-%ss" % kindwidth
+
     @classmethod
     def forprojects(cls, action):
-        '''
-        local contextdir="$PWD"
-        for d in $(find -mindepth 2 -maxdepth 2 -name $1 | sort); do
-            cd ${d%/*}
-            echo "$(kind $2) ${PWD#$contextdir/}:"
-            $2 ${PWD#$effectivehome/}
-            cd - >/dev/null
-        '''
+        for d in sorted(Path('.').glob(f"*/{glob.escape(cls.dirname)}")):
+            print(cls.kindformat % cls.dirname[1:1 + cls.kindwidth], d.parent)
+            getattr(cls(), action)()
 
 class Mercurial(Project):
 
