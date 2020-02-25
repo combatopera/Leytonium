@@ -1,12 +1,11 @@
+from . import checkremotes
 from lagoon import clear, git
 from pathlib import Path
-import glob
+import glob, os
 
 reponame = 'Seagate3'
 repo = Path('/mnt', reponame)
-'''
-effectivehome=$(eval echo ~$SUDO_USER)
-'''
+effectivehome = Path(f"~{os.environ.get('SUDO_USER', '')}").expanduser()
 
 class Project:
 
@@ -17,7 +16,7 @@ class Project:
     def forprojects(cls, action):
         for path in sorted(d.parent for d in Path('.').glob(f"*/{glob.escape(cls.dirname)}")):
             print(cls.kindformat % cls.dirname[1:1 + cls.kindwidth], path)
-            getattr(cls(path), action)()
+            getattr(cls(path.resolve()), action)()
 
     def __init__(self, path):
         pass
@@ -47,6 +46,7 @@ class Git(Project):
 
     def __init__(self, path):
         self.git = git.cd(path)
+        self.path = path
 
     def pull(self):
         '''
@@ -71,6 +71,7 @@ class Git(Project):
     def status(self):
         self.git.print('branch', '-vv')
         self.git.print('status', '-s')
+        checkremotes.check(self.path, self.path.relative_to(effectivehome))
         '''
         checkremotes($PWD, $1)
         [[ "$(md5sum .git/hooks/post-commit)" = d92ab6d4b18b4bf64976d3bae7b32bd7* ]] || {

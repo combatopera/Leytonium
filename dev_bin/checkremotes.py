@@ -1,35 +1,8 @@
-from pathlib import Path
-import logging, os, re, shutil, subprocess, sys
+import logging, re, subprocess
 
 log = logging.getLogger(__name__)
 pattern = re.compile('(.+)\t(.+) [(].+[)]')
 lave = 'lave'
-
-def closef(f):
-    fileno = f.fileno()
-    f.close()
-    os.close(fileno)
-
-def main_checkremotes():
-    logging.basicConfig(format = "%(message)s")
-    control = True
-    tempdir, = subprocess.check_output(['mktemp', '-d'], universal_newlines = True).splitlines()
-    try:
-        fifo = Path(tempdir, 'fifo')
-        subprocess.check_call(['mkfifo', str(fifo)])
-        print(fifo)
-        closef(sys.stdout)
-        control = not os.fork()
-        if control:
-            with fifo.open() as f:
-                while True:
-                    l = f.readline()
-                    if not l:
-                        break
-                    check(l.rstrip(), f.readline().rstrip())
-    finally:
-        if control:
-            shutil.rmtree(tempdir)
 
 def check(dirpath, relpath):
     d = {}
