@@ -1,8 +1,9 @@
 from . import checkremotes
-from lagoon import clear, git
+from lagoon import clear, git, md5sum
 from pathlib import Path
-import glob, os
+import glob, logging, os
 
+log = logging.getLogger(__name__)
 reponame = 'Seagate3'
 repo = Path('/mnt', reponame)
 effectivehome = Path(f"~{os.environ.get('SUDO_USER', '')}").expanduser()
@@ -46,6 +47,7 @@ class Git(Project):
 
     def __init__(self, path):
         self.git = git.cd(path)
+        self.md5sum = md5sum.cd(path)
         self.path = path
 
     def pull(self):
@@ -72,11 +74,8 @@ class Git(Project):
         self.git.print('branch', '-vv')
         self.git.print('status', '-s')
         checkremotes.check(self.path, self.path.relative_to(effectivehome))
-        '''
-        [[ "$(md5sum .git/hooks/post-commit)" = d92ab6d4b18b4bf64976d3bae7b32bd7* ]] || {
-            echo Bad hook: post-commit >&2
-        }
-        '''
+        if self.md5sum('.git/hooks/post-commit', check = False).stdout[:32] != 'd92ab6d4b18b4bf64976d3bae7b32bd7':
+            log.error('Bad hook: post-commit')
         self.git.print('stash', 'list')
 
 class Rsync(Project):
