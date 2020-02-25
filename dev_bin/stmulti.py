@@ -17,11 +17,12 @@ class Project:
     def forprojects(cls, action):
         for path in sorted(d.parent for d in Path('.').glob(f"*/{glob.escape(cls.dirname)}")):
             print(cls.kindformat % cls.dirname[1:1 + cls.kindwidth], path)
-            getattr(cls(path.resolve()), action)()
+            getattr(cls(path), action)()
 
     def __init__(self, path):
         for command in self.commands:
             setattr(self, Path(command.path).name, command.cd(path))
+        self.repopath = path.resolve().relative_to(effectivehome)
         self.path = path
 
 class Mercurial(Project):
@@ -57,7 +58,7 @@ class Git(Project):
         self.co.print(restore)
 
     def pull(self):
-        self._allbranches(lambda branch: self.git.print('pull', '--ff-only', repo / 'arc' / self.path.relative_to(effectivehome), branch))
+        self._allbranches(lambda branch: self.git.print('pull', '--ff-only', repo / 'arc' / self.repopath, branch))
 
     def push(self):
         self._allbranches(lambda branch: self.hgcommit.print())
@@ -65,7 +66,7 @@ class Git(Project):
     def status(self):
         self.git.print('branch', '-vv')
         self.git.print('status', '-s')
-        checkremotes.check(self.path, self.path.relative_to(effectivehome))
+        checkremotes.check(self.path, self.repopath)
         if self.md5sum('.git/hooks/post-commit', check = False).stdout[:32] != 'd92ab6d4b18b4bf64976d3bae7b32bd7':
             log.error('Bad hook: post-commit')
         self.git.print('stash', 'list')
