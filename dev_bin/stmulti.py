@@ -20,11 +20,14 @@ class Project:
             getattr(cls(path.resolve()), action)()
 
     def __init__(self, path):
-        pass
+        for command in self.commands:
+            setattr(self, Path(command.path).name, command.cd(path))
+        self.path = path
 
 class Mercurial(Project):
 
     dirname = '.hg'
+    commands = ()
 
     def pull(self):
         '''
@@ -44,13 +47,7 @@ class Mercurial(Project):
 class Git(Project):
 
     dirname = '.git'
-
-    def __init__(self, path):
-        self.co = co.cd(path)
-        self.git = git.cd(path)
-        self.hgcommit = hgcommit.cd(path)
-        self.md5sum = md5sum.cd(path)
-        self.path = path
+    commands = co, git, hgcommit, md5sum
 
     def _allbranches(self, task):
         restore, = self.git('rev-parse', '--abbrev-ref', 'HEAD').splitlines()
@@ -76,6 +73,7 @@ class Git(Project):
 class Rsync(Project):
 
     dirname = '.rsync'
+    commands = ()
 
     def pull(self):
         '''
