@@ -53,17 +53,17 @@ class Git(Project):
         self.path = path
 
     def _allbranches(self, task):
-        restore = self.git('rev-parse', '--abbrev-ref', 'HEAD').rstrip()
+        restore, = self.git('rev-parse', '--abbrev-ref', 'HEAD').splitlines()
         for branch in (l[2:] for l in self.git('branch').splitlines()):
-            self.co(branch)
+            self.co.print(branch)
             task(branch)
-        self.co(restore)
+        self.co.print(restore)
 
     def pull(self):
-        self._allbranches(lambda branch: self.git('pull', '--ff-only', repo / 'arc' / self.path.relative_to(effectivehome), branch))
+        self._allbranches(lambda branch: self.git.print('pull', '--ff-only', repo / 'arc' / self.path.relative_to(effectivehome), branch))
 
     def push(self):
-        self._allbranches(lambda branch: self.hgcommit())
+        self._allbranches(lambda branch: self.hgcommit.print())
 
     def status(self):
         self.git.print('branch', '-vv')
