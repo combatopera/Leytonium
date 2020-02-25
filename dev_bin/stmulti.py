@@ -1,4 +1,4 @@
-from lagoon import clear
+from lagoon import clear, git
 from pathlib import Path
 import glob
 
@@ -15,9 +15,12 @@ class Project:
 
     @classmethod
     def forprojects(cls, action):
-        for d in sorted(Path('.').glob(f"*/{glob.escape(cls.dirname)}")):
-            print(cls.kindformat % cls.dirname[1:1 + cls.kindwidth], d.parent)
-            getattr(cls(), action)()
+        for path in sorted(d.parent for d in Path('.').glob(f"*/{glob.escape(cls.dirname)}")):
+            print(cls.kindformat % cls.dirname[1:1 + cls.kindwidth], path)
+            getattr(cls(path), action)()
+
+    def __init__(self, path):
+        pass
 
 class Mercurial(Project):
 
@@ -42,6 +45,9 @@ class Git(Project):
 
     dirname = '.git'
 
+    def __init__(self, path):
+        self.git = git.cd(path)
+
     def pull(self):
         '''
         local restore="$(git rev-parse --abbrev-ref HEAD)"
@@ -63,8 +69,8 @@ class Git(Project):
         '''
 
     def status(self):
+        self.git.print('branch', '-vv')
         '''
-        git branch -vv
         git status -s
         checkremotes($PWD, $1)
         [[ "$(md5sum .git/hooks/post-commit)" = d92ab6d4b18b4bf64976d3bae7b32bd7* ]] || {
