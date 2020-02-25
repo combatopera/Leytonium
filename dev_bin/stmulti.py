@@ -53,12 +53,9 @@ class Git(Project):
 
     def pull(self):
         restore = self.git('rev-parse', '--abbrev-ref', 'HEAD').rstrip()
-        '''
-        git branch | cut -c 3- | while read branch; do
-            co "$branch"
-            git pull --ff-only $repo/arc/$1 "$branch"
-        done
-        '''
+        for branch in (l[2:] for l in self.git('branch').splitlines()):
+            self.co(branch)
+            self.git('pull', '--ff-only', repo / 'arc' / self.path.relative_to(effectivehome), branch)
         self.co(restore)
 
     def push(self):
