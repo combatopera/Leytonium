@@ -1,5 +1,5 @@
 from . import checkremotes
-from lagoon import clear, co, git, md5sum
+from lagoon import clear, co, git, hgcommit, md5sum
 from pathlib import Path
 import glob, logging, os
 
@@ -48,25 +48,22 @@ class Git(Project):
     def __init__(self, path):
         self.co = co.cd(path)
         self.git = git.cd(path)
+        self.hgcommit = hgcommit.cd(path)
         self.md5sum = md5sum.cd(path)
         self.path = path
 
-    def pull(self):
+    def _allbranches(self, task):
         restore = self.git('rev-parse', '--abbrev-ref', 'HEAD').rstrip()
         for branch in (l[2:] for l in self.git('branch').splitlines()):
             self.co(branch)
-            self.git('pull', '--ff-only', repo / 'arc' / self.path.relative_to(effectivehome), branch)
+            task(branch)
         self.co(restore)
 
+    def pull(self):
+        self._allbranches(lambda branch: self.git('pull', '--ff-only', repo / 'arc' / self.path.relative_to(effectivehome), branch))
+
     def push(self):
-        '''
-        local restore="$(git rev-parse --abbrev-ref HEAD)"
-        git branch | cut -c 3- | while read branch; do
-            co "$branch"
-            hgcommit
-        done
-        co "$restore"
-        '''
+        self._allbranches(lambda branch: self.hgcommit())
 
     def status(self):
         self.git.print('branch', '-vv')
