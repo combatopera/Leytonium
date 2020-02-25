@@ -66,9 +66,10 @@ class Git(Project):
     def status(self):
         self.git.print('branch', '-vv')
         self.git.print('status', '-s')
-        checkremotes.check(self.path, self.repopath)
-        if self.md5sum('.git/hooks/post-commit', check = False).stdout[:32] != 'd92ab6d4b18b4bf64976d3bae7b32bd7':
-            log.error('Bad hook: post-commit')
+        if repo.is_dir():
+            checkremotes.check(self.path, self.repopath)
+            if self.md5sum('.git/hooks/post-commit', check = False).stdout[:32] != 'd92ab6d4b18b4bf64976d3bae7b32bd7':
+                log.error('Bad hook: post-commit')
         self.git.print('stash', 'list')
 
 class Rsync(Project):
