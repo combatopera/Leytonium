@@ -1,5 +1,5 @@
 from . import checkremotes
-from lagoon import clear, git, md5sum
+from lagoon import clear, co, git, md5sum
 from pathlib import Path
 import glob, logging, os
 
@@ -46,19 +46,20 @@ class Git(Project):
     dirname = '.git'
 
     def __init__(self, path):
+        self.co = co.cd(path)
         self.git = git.cd(path)
         self.md5sum = md5sum.cd(path)
         self.path = path
 
     def pull(self):
+        restore = self.git('rev-parse', '--abbrev-ref', 'HEAD').rstrip()
         '''
-        local restore="$(git rev-parse --abbrev-ref HEAD)"
         git branch | cut -c 3- | while read branch; do
             co "$branch"
             git pull --ff-only $repo/arc/$1 "$branch"
         done
-        co "$restore"
         '''
+        self.co(restore)
 
     def push(self):
         '''
