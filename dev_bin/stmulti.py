@@ -70,14 +70,14 @@ class Git(Project):
 
     def status(self):
         self.git.print('branch', '-vv')
+        self.git.print('status', '-s')
         '''
-        git status -s
         checkremotes($PWD, $1)
         [[ "$(md5sum .git/hooks/post-commit)" = d92ab6d4b18b4bf64976d3bae7b32bd7* ]] || {
             echo Bad hook: post-commit >&2
         }
-        git stash list
         '''
+        self.git.print('stash', 'list')
 
 class Rsync(Project):
 
