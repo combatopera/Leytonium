@@ -73,7 +73,6 @@ class Git(Project):
         self.git.print('status', '-s')
         checkremotes.check(self.path, self.path.relative_to(effectivehome))
         '''
-        checkremotes($PWD, $1)
         [[ "$(md5sum .git/hooks/post-commit)" = d92ab6d4b18b4bf64976d3bae7b32bd7* ]] || {
             echo Bad hook: post-commit >&2
         }
