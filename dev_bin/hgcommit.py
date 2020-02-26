@@ -1,4 +1,5 @@
 from diapyr.util import singleton
+from lagoon import git
 import os, subprocess, multiprocessing as mp, queue, logging
 
 log = logging.getLogger(__name__)
@@ -51,10 +52,7 @@ class Git:
 
     @staticmethod
     def currentbranch():
-        p = subprocess.Popen(['git', 'rev-parse', '--abbrev-ref', 'HEAD'], stdout = subprocess.PIPE)
-        branch, = p.communicate()[0].splitlines()
-        if p.wait():
-            raise Exception
+        branch, = git('rev-parse', '--abbrev-ref', 'HEAD').splitlines()
         return branch
 
 @singleton
