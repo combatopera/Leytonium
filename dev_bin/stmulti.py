@@ -1,13 +1,18 @@
 from lagoon import clear, co, find, git, hg, hgcommit, md5sum, rsync, tput
 from pathlib import Path
-import glob, logging, os, re, shlex
+import aridity, glob, logging, os, re, shlex
 
 log = logging.getLogger(__name__)
-repohost = 'lave.local'
 reponame = 'Seagate3'
 repomount = Path('/mnt', reponame)
 effectivehome = Path(f"~{os.environ.get('SUDO_USER', '')}").expanduser()
 nethome = repomount / effectivehome.name
+
+class Config:
+
+    def __init__(self, context):
+        self.repohost = context.resolved('stmulti', 'repohost').value
+        self.netremotename = context.resolved('stmulti', 'netremotename').value
 
 class Project:
 
@@ -15,15 +20,16 @@ class Project:
     kindformat = "%%-%ss" % kindwidth
 
     @classmethod
-    def forprojects(cls, action):
+    def forprojects(cls, config, action):
         for path in sorted(d.parent for d in Path('.').glob(f"*/{glob.escape(cls.dirname)}")):
             print(cls.kindformat % cls.dirname[1:1 + cls.kindwidth], path)
-            getattr(cls(path), action)()
+            getattr(cls(config, path), action)()
 
-    def __init__(self, path):
+    def __init__(self, config, path):
         for command in self.commands:
             setattr(self, Path(command.path).name, command.cd(path))
         self.homerelpath = path.resolve().relative_to(effectivehome)
+        self.config = config
         self.path = path
 
 class Mercurial(Project):
@@ -46,7 +52,6 @@ class Git(Project):
     dirname = '.git'
     commands = co, git, hgcommit, md5sum
     remotepattern = re.compile('(.+)\t(.+) [(].+[)]')
-    netremotename = 'lave'
     hookname = 'post-commit'
     hookmd5 = 'd92ab6d4b18b4bf64976d3bae7b32bd7'
 
@@ -58,11 +63,11 @@ class Git(Project):
                 assert d[name] == loc
             else:
                 d[name] = loc
-        netremotepath = d.get(self.netremotename)
+        netremotepath = d.get(self.config.netremotename)
         if f"{nethome / self.homerelpath}.git" != netremotepath:
-            log.error("Bad %s: %s", self.netremotename, netremotepath)
+            log.error("Bad %s: %s", self.config.netremotename, netremotepath)
         for name, loc in d.items():
-            if name != self.netremotename and not loc.startswith('git@'):
+            if name != self.config.netremotename and not loc.startswith('git@'):
                 log.error("Non-SSH remote: %s %s", name, loc)
 
     def _allbranches(self, task):
@@ -95,7 +100,7 @@ class Rsync(Project):
 
     def pull(self):
         lhs = '-avzu', '--exclude', f"/{self.dirname}"
-        rhs = f"{repohost}::{reponame}/{self.homerelpath}/", '.'
+        rhs = f"{self.config.repohost}::{reponame}/{self.homerelpath}/", '.'
         self.rsync.print(*lhs, *rhs)
         lhs += '--del',
         self.rsync.print(*lhs, '--dry-run', *rhs)
@@ -111,9 +116,14 @@ class Rsync(Project):
         self.tput.print('sgr0')
 
 def main(action):
+    context = aridity.Context()
+    with aridity.Repl(context) as repl, (Path.home() / '.settings.arid').open() as f:
+        for line in f:
+            repl(line)
+    config = Config(context)
     clear.print()
     for projecttype in Mercurial, Git, Rsync:
-        projecttype.forprojects(action)
+        projecttype.forprojects(config, action)
 
 def main_stmulti():
     'Short status of all shallow projects in directory.'
