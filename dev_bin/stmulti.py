@@ -43,22 +43,22 @@ class Git(Project):
 
     dirname = '.git'
     commands = co, git, hgcommit, md5sum
-    pattern = re.compile('(.+)\t(.+) [(].+[)]')
-    serverremotename = 'lave'
+    remotepattern = re.compile('(.+)\t(.+) [(].+[)]')
+    netremotename = 'lave'
 
     def _checkremotes(self):
         d = {}
         for l in git('remote', '-v', cwd = self.path).splitlines():
-            name, loc = self.pattern.fullmatch(l).groups()
+            name, loc = self.remotepattern.fullmatch(l).groups()
             if name in d:
                 assert d[name] == loc
             else:
                 d[name] = loc
-        serverremoteloc = d.get(self.serverremotename)
-        if "/mnt/Seagate3/arc/%s.git" % self.repopath != serverremoteloc:
-            log.error("Bad %s: %s", self.serverremotename, serverremoteloc)
+        netremotepath = d.get(self.netremotename)
+        if "/mnt/Seagate3/arc/%s.git" % self.repopath != netremotepath:
+            log.error("Bad %s: %s", self.netremotename, netremotepath)
         for name, loc in d.items():
-            if name != self.serverremotename and not loc.startswith('git@'):
+            if name != self.netremotename and not loc.startswith('git@'):
                 log.error("Non-SSH remote: %s %s", name, loc)
 
     def _allbranches(self, task):
