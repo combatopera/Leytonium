@@ -48,7 +48,7 @@ class Git(Project):
 
     def _checkremotes(self):
         d = {}
-        for l in git('remote', '-v', cwd = self.path).splitlines():
+        for l in self.git('remote', '-v').splitlines():
             name, loc = self.remotepattern.fullmatch(l).groups()
             if name in d:
                 assert d[name] == loc
