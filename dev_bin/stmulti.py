@@ -73,6 +73,7 @@ class Git(Project):
         self.co.print(restore)
 
     def pull(self):
+        # TODO: Only fetch once.
         self._allbranches(lambda branch: self.git.pull.print('--ff-only', nethome / self.homerelpath, branch))
 
     def push(self):
