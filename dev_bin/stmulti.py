@@ -21,7 +21,7 @@ class Project:
     def __init__(self, path):
         for command in self.commands:
             setattr(self, Path(command.path).name, command.cd(path))
-        self.repopath = path.resolve().relative_to(effectivehome)
+        self.homerelpath = path.resolve().relative_to(effectivehome)
         self.path = path
 
 class Mercurial(Project):
@@ -30,7 +30,7 @@ class Mercurial(Project):
     commands = hg, hgcommit
 
     def pull(self):
-        self.hg.print('pull', repo / 'arc' / self.repopath)
+        self.hg.print('pull', repo / 'arc' / self.homerelpath)
         self.hg.print('update')
 
     def push(self):
@@ -55,7 +55,7 @@ class Git(Project):
             else:
                 d[name] = loc
         netremotepath = d.get(self.netremotename)
-        if "/mnt/Seagate3/arc/%s.git" % self.repopath != netremotepath:
+        if "/mnt/Seagate3/arc/%s.git" % self.homerelpath != netremotepath:
             log.error("Bad %s: %s", self.netremotename, netremotepath)
         for name, loc in d.items():
             if name != self.netremotename and not loc.startswith('git@'):
@@ -69,7 +69,7 @@ class Git(Project):
         self.co.print(restore)
 
     def pull(self):
-        self._allbranches(lambda branch: self.git.print('pull', '--ff-only', repo / 'arc' / self.repopath, branch))
+        self._allbranches(lambda branch: self.git.print('pull', '--ff-only', repo / 'arc' / self.homerelpath, branch))
 
     def push(self):
         self._allbranches(lambda branch: self.hgcommit.print())
@@ -90,7 +90,7 @@ class Rsync(Project):
 
     def pull(self):
         lhs = '-avzu', '--exclude', f"/{self.dirname}"
-        rhs = f"lave.local::{reponame}/{self.repopath}/", '.'
+        rhs = f"lave.local::{reponame}/{self.homerelpath}/", '.'
         self.rsync.print(*lhs, *rhs)
         lhs += '--del',
         self.rsync.print(*lhs, '--dry-run', *rhs)
