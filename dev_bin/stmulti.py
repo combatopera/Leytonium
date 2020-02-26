@@ -6,6 +6,7 @@ log = logging.getLogger(__name__)
 reponame = 'Seagate3'
 repo = Path('/mnt', reponame)
 effectivehome = Path(f"~{os.environ.get('SUDO_USER', '')}").expanduser()
+nethome = repo / effectivehome.name
 
 class Project:
 
@@ -30,7 +31,7 @@ class Mercurial(Project):
     commands = hg, hgcommit
 
     def pull(self):
-        self.hg.print('pull', repo / 'arc' / self.homerelpath)
+        self.hg.print('pull', nethome / self.homerelpath)
         self.hg.print('update')
 
     def push(self):
@@ -55,7 +56,7 @@ class Git(Project):
             else:
                 d[name] = loc
         netremotepath = d.get(self.netremotename)
-        if "/mnt/Seagate3/arc/%s.git" % self.homerelpath != netremotepath:
+        if "%s/%s.git" % (nethome, self.homerelpath) != netremotepath:
             log.error("Bad %s: %s", self.netremotename, netremotepath)
         for name, loc in d.items():
             if name != self.netremotename and not loc.startswith('git@'):
@@ -69,7 +70,7 @@ class Git(Project):
         self.co.print(restore)
 
     def pull(self):
-        self._allbranches(lambda branch: self.git.print('pull', '--ff-only', repo / 'arc' / self.homerelpath, branch))
+        self._allbranches(lambda branch: self.git.print('pull', '--ff-only', nethome / self.homerelpath, branch))
 
     def push(self):
         self._allbranches(lambda branch: self.hgcommit.print())
