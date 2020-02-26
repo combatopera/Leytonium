@@ -31,9 +31,7 @@ class Mercurial(Project):
     commands = hg, hgcommit
 
     def pull(self):
-        '''
-        hg pull $repo/arc/$1
-        '''
+        self.hg.print('pull', repo / 'arc' / self.repopath)
         self.hg.print('update')
 
     def push(self):
