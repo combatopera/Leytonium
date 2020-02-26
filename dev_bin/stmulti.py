@@ -1,7 +1,7 @@
 from . import checkremotes
-from lagoon import clear, co, find, git, hg, hgcommit, md5sum, tput
+from lagoon import clear, co, find, git, hg, hgcommit, md5sum, rsync, tput
 from pathlib import Path
-import glob, logging, os
+import glob, logging, os, shlex
 
 log = logging.getLogger(__name__)
 reponame = 'Seagate3'
@@ -70,17 +70,15 @@ class Git(Project):
 class Rsync(Project):
 
     dirname = '.rsync'
-    commands = find, hgcommit, tput
+    commands = find, hgcommit, rsync, tput
 
     def pull(self):
-        '''
-        lhs=(rsync -avzu --exclude /.rsync)
-        rhs=(lave.local::$reponame/$1/ .)
-        ${lhs[@]} ${rhs[@]}
-        lhs+=(--del)
-        ${lhs[@]} --dry-run ${rhs[@]}
-        echo "(cd $PWD && ${lhs[@]} ${rhs[@]})"
-        '''
+        lhs = '-avzu', '--exclude', f"/{self.dirname}"
+        rhs = f"lave.local::{reponame}/{self.repopath}/", '.'
+        self.rsync.print(*lhs, *rhs)
+        lhs += '--del',
+        self.rsync.print(*lhs, '--dry-run', *rhs)
+        print(f"(cd {shlex.quote(str(self.path))} && rsync {' '.join(map(shlex.quote, lhs + rhs))})")
 
     def push(self):
         self.hgcommit.print()
