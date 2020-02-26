@@ -3,10 +3,11 @@ from pathlib import Path
 import glob, logging, os, re, shlex
 
 log = logging.getLogger(__name__)
+repohost = 'lave.local'
 reponame = 'Seagate3'
-repo = Path('/mnt', reponame)
+repomount = Path('/mnt', reponame)
 effectivehome = Path(f"~{os.environ.get('SUDO_USER', '')}").expanduser()
-nethome = repo / effectivehome.name
+nethome = repomount / effectivehome.name
 
 class Project:
 
@@ -78,7 +79,7 @@ class Git(Project):
     def status(self):
         self.git.print('branch', '-vv')
         self.git.print('status', '-s')
-        if repo.is_dir():
+        if repomount.is_dir():
             self._checkremotes()
             if self.md5sum('.git/hooks/post-commit', check = False).stdout[:32] != 'd92ab6d4b18b4bf64976d3bae7b32bd7':
                 log.error('Bad hook: post-commit')
@@ -91,7 +92,7 @@ class Rsync(Project):
 
     def pull(self):
         lhs = '-avzu', '--exclude', f"/{self.dirname}"
-        rhs = f"lave.local::{reponame}/{self.homerelpath}/", '.'
+        rhs = f"{repohost}::{reponame}/{self.homerelpath}/", '.'
         self.rsync.print(*lhs, *rhs)
         lhs += '--del',
         self.rsync.print(*lhs, '--dry-run', *rhs)
