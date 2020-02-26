@@ -32,14 +32,14 @@ class Mercurial(Project):
     commands = hg, hgcommit
 
     def pull(self):
-        self.hg.print('pull', nethome / self.homerelpath)
-        self.hg.print('update')
+        self.hg.pull.print(nethome / self.homerelpath)
+        self.hg.update.print()
 
     def push(self):
         self.hgcommit.print()
 
     def status(self):
-        self.hg.print('st')
+        self.hg.st.print()
 
 class Git(Project):
 
