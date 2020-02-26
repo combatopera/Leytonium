@@ -6,23 +6,6 @@ log = logging.getLogger(__name__)
 reponame = 'Seagate3'
 repo = Path('/mnt', reponame)
 effectivehome = Path(f"~{os.environ.get('SUDO_USER', '')}").expanduser()
-pattern = re.compile('(.+)\t(.+) [(].+[)]')
-lave = 'lave'
-
-def checkremotes(dirpath, relpath):
-    d = {}
-    for l in git('remote', '-v', cwd = dirpath).splitlines():
-        name, loc = pattern.fullmatch(l).groups()
-        if name in d:
-            assert d[name] == loc
-        else:
-            d[name] = loc
-    laveloc = d.get(lave)
-    if "/mnt/Seagate3/arc/%s.git" % relpath != laveloc:
-        log.error("Bad %s: %s", lave, laveloc)
-    for name, loc in d.items():
-        if name != lave and not loc.startswith('git@'):
-            log.error("Non-SSH remote: %s %s", name, loc)
 
 class Project:
 
@@ -60,6 +43,23 @@ class Git(Project):
 
     dirname = '.git'
     commands = co, git, hgcommit, md5sum
+    pattern = re.compile('(.+)\t(.+) [(].+[)]')
+    serverremotename = 'lave'
+
+    def _checkremotes(self):
+        d = {}
+        for l in git('remote', '-v', cwd = self.path).splitlines():
+            name, loc = self.pattern.fullmatch(l).groups()
+            if name in d:
+                assert d[name] == loc
+            else:
+                d[name] = loc
+        serverremoteloc = d.get(self.serverremotename)
+        if "/mnt/Seagate3/arc/%s.git" % self.repopath != serverremoteloc:
+            log.error("Bad %s: %s", self.serverremotename, serverremoteloc)
+        for name, loc in d.items():
+            if name != self.serverremotename and not loc.startswith('git@'):
+                log.error("Non-SSH remote: %s %s", name, loc)
 
     def _allbranches(self, task):
         restore, = self.git('rev-parse', '--abbrev-ref', 'HEAD').splitlines()
@@ -78,7 +78,7 @@ class Git(Project):
         self.git.print('branch', '-vv')
         self.git.print('status', '-s')
         if repo.is_dir():
-            checkremotes(self.path, self.repopath)
+            self._checkremotes()
             if self.md5sum('.git/hooks/post-commit', check = False).stdout[:32] != 'd92ab6d4b18b4bf64976d3bae7b32bd7':
                 log.error('Bad hook: post-commit')
         self.git.print('stash', 'list')
