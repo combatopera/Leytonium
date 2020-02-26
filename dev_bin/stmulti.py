@@ -70,7 +70,7 @@ class Git(Project):
 class Rsync(Project):
 
     dirname = '.rsync'
-    commands = find, tput
+    commands = find, hgcommit, tput
 
     def pull(self):
         '''
@@ -83,9 +83,7 @@ class Rsync(Project):
         '''
 
     def push(self):
-        '''
-        hgcommit
-        '''
+        self.hgcommit.print()
 
     def status(self):
         self.tput.print('setaf', 4)
