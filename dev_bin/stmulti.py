@@ -3,14 +3,14 @@ from pathlib import Path
 import aridity, glob, logging, os, re, shlex
 
 log = logging.getLogger(__name__)
-reponame = 'Seagate3'
-repomount = Path('/mnt', reponame)
 
 class Config:
 
     def __init__(self, context):
         self.repohost = context.resolved('stmulti', 'repohost').value
         self.netremotename = context.resolved('stmulti', 'netremotename').value
+        self.reponame = context.resolved('stmulti', 'reponame').value
+        self.repomount = Path(context.resolved('stmulti', 'repomount').value)
 
 class Project:
 
@@ -27,7 +27,7 @@ class Project:
     def __init__(self, config, path):
         for command in self.commands:
             setattr(self, Path(command.path).name, command.cd(path))
-        self.netpath = repomount / self.effectivehome.name / path.resolve().relative_to(self.effectivehome)
+        self.netpath = config.repomount / self.effectivehome.name / path.resolve().relative_to(self.effectivehome)
         self.config = config
         self.path = path
 
@@ -86,7 +86,7 @@ class Git(Project):
     def status(self):
         self.git.branch.print('-vv')
         self.git.status.print('-s')
-        if repomount.is_dir(): # Needn't actually be mounted.
+        if self.config.repomount.is_dir(): # Needn't actually be mounted.
             self._checkremotes()
             if self.md5sum(Path('.git', 'hooks', self.hookname), check = False).stdout[:32] != self.hookmd5:
                 log.error("Bad hook: %s", self.hookname)
@@ -99,7 +99,7 @@ class Rsync(Project):
 
     def pull(self):
         lhs = '-avzu', '--exclude', f"/{self.dirname}"
-        rhs = f"{self.config.repohost}::{reponame}/{self.homerelpath}/", '.'
+        rhs = f"{self.config.repohost}::{self.config.reponame}/{self.homerelpath}/", '.'
         self.rsync.print(*lhs, *rhs)
         lhs += '--del',
         self.rsync.print(*lhs, '--dry-run', *rhs)
