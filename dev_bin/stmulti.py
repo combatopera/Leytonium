@@ -79,7 +79,7 @@ class Git(Project):
     def status(self):
         self.git.print('branch', '-vv')
         self.git.print('status', '-s')
-        if repomount.is_dir():
+        if repomount.is_dir(): # Needn't actually be mounted.
             self._checkremotes()
             if self.md5sum('.git/hooks/post-commit', check = False).stdout[:32] != 'd92ab6d4b18b4bf64976d3bae7b32bd7':
                 log.error('Bad hook: post-commit')
