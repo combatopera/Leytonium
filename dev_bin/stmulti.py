@@ -50,7 +50,7 @@ class Git(Project):
 
     def _checkremotes(self):
         d = {}
-        for l in self.git('remote', '-v').splitlines():
+        for l in self.git.remote('-v').splitlines():
             name, loc = self.remotepattern.fullmatch(l).groups()
             if name in d:
                 assert d[name] == loc
@@ -65,25 +65,25 @@ class Git(Project):
 
     def _allbranches(self, task):
         restore, = self.git('rev-parse', '--abbrev-ref', 'HEAD').splitlines()
-        for branch in (l[2:] for l in self.git('branch').splitlines()):
+        for branch in (l[2:] for l in self.git.branch().splitlines()):
             self.co.print(branch)
             task(branch)
         self.co.print(restore)
 
     def pull(self):
-        self._allbranches(lambda branch: self.git.print('pull', '--ff-only', nethome / self.homerelpath, branch))
+        self._allbranches(lambda branch: self.git.pull.print('--ff-only', nethome / self.homerelpath, branch))
 
     def push(self):
         self._allbranches(lambda branch: self.hgcommit.print())
 
     def status(self):
-        self.git.print('branch', '-vv')
-        self.git.print('status', '-s')
+        self.git.branch.print('-vv')
+        self.git.status.print('-s')
         if repomount.is_dir(): # Needn't actually be mounted.
             self._checkremotes()
             if self.md5sum('.git/hooks/post-commit', check = False).stdout[:32] != 'd92ab6d4b18b4bf64976d3bae7b32bd7':
                 log.error('Bad hook: post-commit')
-        self.git.print('stash', 'list')
+        self.git.stash.list.print()
 
 class Rsync(Project):
 
