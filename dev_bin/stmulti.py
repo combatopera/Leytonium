@@ -5,8 +5,6 @@ import aridity, glob, logging, os, re, shlex
 log = logging.getLogger(__name__)
 reponame = 'Seagate3'
 repomount = Path('/mnt', reponame)
-effectivehome = Path(f"~{os.environ.get('SUDO_USER', '')}").expanduser()
-nethome = repomount / effectivehome.name
 
 class Config:
 
@@ -18,6 +16,7 @@ class Project:
 
     kindwidth = 3
     kindformat = "%%-%ss" % kindwidth
+    effectivehome = Path(f"~{os.environ.get('SUDO_USER', '')}").expanduser()
 
     @classmethod
     def forprojects(cls, config, action):
@@ -28,7 +27,7 @@ class Project:
     def __init__(self, config, path):
         for command in self.commands:
             setattr(self, Path(command.path).name, command.cd(path))
-        self.homerelpath = path.resolve().relative_to(effectivehome)
+        self.netpath = repomount / self.effectivehome.name / path.resolve().relative_to(self.effectivehome)
         self.config = config
         self.path = path
 
@@ -38,7 +37,7 @@ class Mercurial(Project):
     commands = hg, hgcommit
 
     def pull(self):
-        self.hg.pull.print(nethome / self.homerelpath)
+        self.hg.pull.print(self.netpath)
         self.hg.update.print()
 
     def push(self):
@@ -64,7 +63,7 @@ class Git(Project):
             else:
                 d[name] = loc
         netremotepath = d.get(self.config.netremotename)
-        if f"{nethome / self.homerelpath}.git" != netremotepath:
+        if f"{self.netpath}.git" != netremotepath:
             log.error("Bad %s: %s", self.config.netremotename, netremotepath)
         for name, loc in d.items():
             if name != self.config.netremotename and not loc.startswith('git@'):
@@ -79,7 +78,7 @@ class Git(Project):
 
     def pull(self):
         # TODO: Only fetch once.
-        self._allbranches(lambda branch: self.git.pull.print('--ff-only', nethome / self.homerelpath, branch))
+        self._allbranches(lambda branch: self.git.pull.print('--ff-only', self.netpath, branch))
 
     def push(self):
         self._allbranches(lambda branch: self.hgcommit.print())
