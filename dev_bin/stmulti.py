@@ -1,5 +1,5 @@
 from . import checkremotes
-from lagoon import clear, co, git, hgcommit, md5sum
+from lagoon import clear, co, git, hg, hgcommit, md5sum
 from pathlib import Path
 import glob, logging, os
 
@@ -28,22 +28,19 @@ class Project:
 class Mercurial(Project):
 
     dirname = '.hg'
-    commands = ()
+    commands = hg, hgcommit
 
     def pull(self):
         '''
-        hg pull $repo/arc/$1 && hg update
+        hg pull $repo/arc/$1
         '''
+        self.hg.print('update')
 
     def push(self):
-        '''
-        hgcommit
-        '''
+        self.hgcommit.print()
 
     def status(self):
-        '''
-        hg st
-        '''
+        self.hg.print('st')
 
 class Git(Project):
 
