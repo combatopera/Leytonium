@@ -59,7 +59,7 @@ class Git(Project):
             else:
                 d[name] = loc
         netremotepath = d.get(self.netremotename)
-        if "%s/%s.git" % (nethome, self.homerelpath) != netremotepath:
+        if f"{nethome / self.homerelpath}.git" != netremotepath:
             log.error("Bad %s: %s", self.netremotename, netremotepath)
         for name, loc in d.items():
             if name != self.netremotename and not loc.startswith('git@'):
