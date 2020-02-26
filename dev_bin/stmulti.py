@@ -1,5 +1,5 @@
 from . import checkremotes
-from lagoon import clear, co, git, hg, hgcommit, md5sum
+from lagoon import clear, co, find, git, hg, hgcommit, md5sum, tput
 from pathlib import Path
 import glob, logging, os
 
@@ -70,7 +70,7 @@ class Git(Project):
 class Rsync(Project):
 
     dirname = '.rsync'
-    commands = ()
+    commands = find, tput
 
     def pull(self):
         '''
@@ -88,12 +88,10 @@ class Rsync(Project):
         '''
 
     def status(self):
-        '''
-        tput setf 1
-        tput bold
-        find -newer .rsync
-        tput sgr0
-        '''
+        self.tput.print('setaf', 4)
+        self.tput.print('bold')
+        self.find.print('-newer', self.dirname)
+        self.tput.print('sgr0')
 
 def main(action):
     clear.print()
