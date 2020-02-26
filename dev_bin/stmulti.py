@@ -11,6 +11,7 @@ class Config:
         self.netremotename = context.resolved('stmulti', 'netremotename').value
         self.reponame = context.resolved('stmulti', 'reponame').value
         self.repomount = Path(context.resolved('stmulti', 'repomount').value)
+        self.hookmd5 = context.resolved('stmulti', 'hookmd5').value
 
 class Project:
 
@@ -52,7 +53,6 @@ class Git(Project):
     commands = co, git, hgcommit, md5sum
     remotepattern = re.compile('(.+)\t(.+) [(].+[)]')
     hookname = 'post-commit'
-    hookmd5 = 'd92ab6d4b18b4bf64976d3bae7b32bd7'
 
     def _checkremotes(self):
         d = {}
@@ -88,7 +88,7 @@ class Git(Project):
         self.git.status.print('-s')
         if self.config.repomount.is_dir(): # Needn't actually be mounted.
             self._checkremotes()
-            if self.md5sum(Path('.git', 'hooks', self.hookname), check = False).stdout[:32] != self.hookmd5:
+            if self.md5sum(Path('.git', 'hooks', self.hookname), check = False).stdout[:32] != self.config.hookmd5:
                 log.error("Bad hook: %s", self.hookname)
         self.git.stash.list.print()
 
