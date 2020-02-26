@@ -47,6 +47,8 @@ class Git(Project):
     commands = co, git, hgcommit, md5sum
     remotepattern = re.compile('(.+)\t(.+) [(].+[)]')
     netremotename = 'lave'
+    hookname = 'post-commit'
+    hookmd5 = 'd92ab6d4b18b4bf64976d3bae7b32bd7'
 
     def _checkremotes(self):
         d = {}
@@ -81,8 +83,8 @@ class Git(Project):
         self.git.status.print('-s')
         if repomount.is_dir(): # Needn't actually be mounted.
             self._checkremotes()
-            if self.md5sum('.git/hooks/post-commit', check = False).stdout[:32] != 'd92ab6d4b18b4bf64976d3bae7b32bd7':
-                log.error('Bad hook: post-commit')
+            if self.md5sum(Path('.git', 'hooks', self.hookname), check = False).stdout[:32] != self.hookmd5:
+                log.error("Bad hook: %s", self.hookname)
         self.git.stash.list.print()
 
 class Rsync(Project):
