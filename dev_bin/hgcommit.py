@@ -73,14 +73,14 @@ class Rsync:
         os.utime('.rsync')
         lhs += ['--del']
         subprocess.check_call(lhs + ['--dry-run'] + rhs)
-        print("(cd %s && %s %s)" % (os.getcwd(), ' '.join(lhs), ' '.join(rhs)))
+        print("(cd %s && %s %s)" % (Path.cwd(), ' '.join(lhs), ' '.join(rhs)))
 
 def main_hgcommit():
     logging.basicConfig(level = logging.DEBUG, format = "[%(levelname)s] %(message)s")
-    reldir = os.getcwd().relative_to(effectivehome)
-    if os.path.exists('.git'):
+    reldir = Path.cwd().relative_to(effectivehome)
+    if Path('.git').exists():
         command = Git
-    elif os.path.exists('.rsync'):
+    elif Path('.rsync').exists():
         command = Rsync
     if os.environ.get('LOCAL'):
         return
