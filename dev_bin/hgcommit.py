@@ -37,7 +37,8 @@ class PathDest:
 @singleton
 class Git:
 
-    def mangle(self, reldir): return reldir + '.git'
+    def mangle(self, reldir):
+        return reldir.parent / f"{reldir.name}.git"
 
     def pushorclone(self, dest):
         if dest.exists():
@@ -59,7 +60,8 @@ class Git:
 @singleton
 class Rsync:
 
-    def mangle(self, reldir): return reldir
+    def mangle(self, reldir):
+        return reldir
 
     def pushorclone(self, dest):
         self.push(dest)
@@ -75,10 +77,7 @@ class Rsync:
 
 def main_hgcommit():
     logging.basicConfig(level = logging.DEBUG, format = "[%(levelname)s] %(message)s")
-    projectdir = os.getcwd()
-    if not projectdir.startswith(str(effectivehome) + os.sep):
-        raise Exception("Not under %s: %s" % (effectivehome, projectdir))
-    reldir = projectdir[len(str(effectivehome) + os.sep):]
+    reldir = os.getcwd().relative_to(effectivehome)
     if os.path.exists('.git'):
         command = Git
     elif os.path.exists('.rsync'):
