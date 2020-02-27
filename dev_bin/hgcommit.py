@@ -23,8 +23,8 @@ def checkpath(path):
 class PathDest:
 
     def __init__(self, drive, reldir):
-        self.clonespath = "/mnt/%s/arc" % drive
-        self.path = os.path.join(self.clonespath, reldir)
+        self.clonespath = Path('/mnt', drive, 'arc')
+        self.path = self.clonespath / reldir
         self.drive = drive
         self.reldir = reldir
 
@@ -32,7 +32,7 @@ class PathDest:
         return checkpath(self.clonespath)
 
     def exists(self):
-        return os.path.exists(self.path)
+        return self.path.exists()
 
 @singleton
 class Git:
