@@ -1,9 +1,10 @@
 from diapyr.util import singleton
 from lagoon import git
+from pathlib import Path
 import os, subprocess, multiprocessing as mp, queue, logging
 
 log = logging.getLogger(__name__)
-projectsdir = os.path.expanduser('~' + os.environ.get('SUDO_USER', ''))
+effectivehome = Path(f"~{os.environ.get('SUDO_USER', '')}").expanduser()
 
 def trypath(path, q):
     q.put(subprocess.call(['ls', path], stdout = subprocess.DEVNULL)) # Must actually attempt NFS communication.
@@ -75,9 +76,9 @@ class Rsync:
 def main_hgcommit():
     logging.basicConfig(level = logging.DEBUG, format = "[%(levelname)s] %(message)s")
     projectdir = os.getcwd()
-    if not projectdir.startswith(projectsdir + os.sep):
-        raise Exception("Not under %s: %s" % (projectsdir, projectdir))
-    reldir = projectdir[len(projectsdir + os.sep):]
+    if not projectdir.startswith(str(effectivehome) + os.sep):
+        raise Exception("Not under %s: %s" % (effectivehome, projectdir))
+    reldir = projectdir[len(str(effectivehome) + os.sep):]
     if os.path.exists('.git'):
         command = Git
     elif os.path.exists('.rsync'):
