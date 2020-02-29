@@ -7,7 +7,7 @@ import os, subprocess, multiprocessing as mp, queue, logging
 log = logging.getLogger(__name__)
 
 def trypath(path, q):
-    q.put(subprocess.call(['ls', path], stdout = subprocess.DEVNULL)) # Must actually attempt NFS communication.
+    q.put(subprocess.call(['ls', str(path)], stdout = subprocess.DEVNULL)) # Must actually attempt NFS communication.
 
 def checkpath(path):
     q = mp.Queue()
@@ -49,7 +49,7 @@ class Git:
     def push(self, dest):
         command = ['git', 'push']
         if dest is not None:
-            command += [dest.path, self.currentbranch()]
+            command += [str(dest.path), self.currentbranch()]
         subprocess.check_call(command)
 
     @staticmethod
