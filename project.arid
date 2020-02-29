@@ -4,6 +4,7 @@ projects +=
     aridity
     lagoon
 deps +=
+    autopep8
     pyyaml
     termcolor
 name = dev-bin
