@@ -1,4 +1,5 @@
-from dev_bin.common import run, showmenu, UnknownParentException, showexception, unchecked_run, runlines, stripansi, getpublic, savedcommits, AllBranches, highlight, findproject, infodirname
+from dev_bin.common import run, showmenu, UnknownParentException, showexception, unchecked_run, stripansi, getpublic, savedcommits, AllBranches, highlight, findproject, infodirname
+from lagoon import git
 from termcolor import colored
 from pathlib import Path
 import subprocess, re, tempfile, aridity, yaml, time
@@ -28,7 +29,7 @@ class Row:
         return colored(self.line, 'green', attrs = ['reverse']) if ispr else self.line
 
 def title(commit):
-    return runlines(['git', 'log', '-n', '1', '--pretty=format:%B', commit])[0]
+    return git.log('-n', 1, '--pretty=format:%B', commit).splitlines()[0]
 
 def getprstatuses(branches):
     context = aridity.Context()
@@ -61,7 +62,7 @@ def main_st():
         run(['ls', '-l', '--color=always'])
         return
     prstatuses = getprstatuses(allbranches.names)
-    rows = [Row(allbranches, l[2:]) for l in runlines(['git', '-c', 'color.ui=always', 'branch', '-vv'])]
+    rows = [Row(allbranches, l[2:]) for l in git('-c', 'color.ui=always', 'branch', '-vv').splitlines()]
     fmt = "%%-%ss %%s" % max(len(r.parent) for r in rows)
     for r, ispr in zip(rows + [None], prstatuses):
         print(fmt % (r.parent, r.colorline(ispr)))
