@@ -38,7 +38,7 @@ class PathDest:
 class Git:
 
     def mangle(self, reldir):
-        return reldir.parent / f"{reldir.name}.git"
+        return reldir.parent / ("%s.git" % reldir.name)
 
     def pushorclone(self, dest):
         if dest.exists():
