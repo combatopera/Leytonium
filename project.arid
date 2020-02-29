@@ -4,6 +4,7 @@ projects +=
     aridity
     lagoon
 deps +=
+    awscli
     pyyaml
     termcolor
 name = dev-bin
