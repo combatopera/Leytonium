@@ -1,13 +1,13 @@
 from . import effectivehome
 from diapyr.util import singleton
-from lagoon import git
+from lagoon import git, ls
 from pathlib import Path
 import os, subprocess, multiprocessing as mp, queue, logging
 
 log = logging.getLogger(__name__)
 
 def trypath(path, q):
-    q.put(subprocess.call(['ls', str(path)], stdout = subprocess.DEVNULL)) # Must actually attempt NFS communication.
+    q.put(ls(path, check = False, stdout = subprocess.DEVNULL)) # Must actually attempt NFS communication.
 
 def checkpath(path):
     q = mp.Queue()
