@@ -1,7 +1,7 @@
 from . import effectivehome
 from lagoon import clear, co, find, git, hg, hgcommit, md5sum, rsync, tput
 from pathlib import Path
-import aridity, glob, logging, os, re, shlex
+import aridity, glob, logging, re, shlex
 
 log = logging.getLogger(__name__)
 
@@ -21,7 +21,7 @@ class Project:
 
     @classmethod
     def forprojects(cls, config, action):
-        for path in sorted(d.parent for d in Path('.').glob(f"*/{glob.escape(cls.dirname)}")):
+        for path in sorted(d.parent for d in Path('.').glob("*/%s" % glob.escape(cls.dirname))):
             print(cls.kindformat % cls.dirname[1:1 + cls.kindwidth], path)
             getattr(cls(config, path), action)()
 
@@ -63,7 +63,7 @@ class Git(Project):
             else:
                 d[name] = loc
         netremotepath = d.get(self.config.netremotename)
-        if f"{self.netpath}.git" != netremotepath:
+        if "%s.git" % self.netpath != netremotepath:
             log.error("Bad %s: %s", self.config.netremotename, netremotepath)
         for name, loc in d.items():
             if name != self.config.netremotename and not loc.startswith('git@'):
@@ -98,12 +98,12 @@ class Rsync(Project):
     commands = find, hgcommit, rsync, tput
 
     def pull(self):
-        lhs = '-avzu', '--exclude', f"/{self.dirname}"
-        rhs = f"{self.config.repohost}::{self.config.reponame}/{self.homerelpath}/", '.'
+        lhs = '-avzu', '--exclude', "/%s" % self.dirname
+        rhs = "%s::%s/%s/" % (self.config.repohost, self.config.reponame, self.homerelpath), '.'
         self.rsync.print(*lhs, *rhs)
         lhs += '--del',
         self.rsync.print(*lhs, '--dry-run', *rhs)
-        print(f"(cd {shlex.quote(str(self.path))} && rsync {' '.join(map(shlex.quote, lhs + rhs))})")
+        print("(cd %s && rsync %s)" % (shlex.quote(str(self.path)), ' '.join(map(shlex.quote, lhs + rhs))))
 
     def push(self):
         self.hgcommit.print()
