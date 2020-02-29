@@ -1,6 +1,8 @@
 from pathlib import Path
 import inspect, os, sys
 
+effectivehome = Path(f"~{os.environ.get('SUDO_USER', '')}").expanduser()
+
 class Interpreter:
 
     def bash(path):

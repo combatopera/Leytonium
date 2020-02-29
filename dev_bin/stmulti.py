@@ -1,3 +1,4 @@
+from . import effectivehome
 from lagoon import clear, co, find, git, hg, hgcommit, md5sum, rsync, tput
 from pathlib import Path
 import aridity, glob, logging, os, re, shlex
@@ -17,7 +18,6 @@ class Project:
 
     kindwidth = 3
     kindformat = "%%-%ss" % kindwidth
-    effectivehome = Path(f"~{os.environ.get('SUDO_USER', '')}").expanduser()
 
     @classmethod
     def forprojects(cls, config, action):
@@ -28,7 +28,7 @@ class Project:
     def __init__(self, config, path):
         for command in self.commands:
             setattr(self, Path(command.path).name, command.cd(path))
-        self.netpath = config.repomount / self.effectivehome.name / path.resolve().relative_to(self.effectivehome)
+        self.netpath = config.repomount / effectivehome.name / path.resolve().relative_to(effectivehome)
         self.config = config
         self.path = path
 
