@@ -71,7 +71,7 @@ class AllBranches:
         self.names = [line[2:] for line in git.branch().splitlines()]
         self.remotenames = set(git.remote().splitlines())
 
-    def matching(self, glob):
+    def _matching(self, glob):
         regex = re.compile('.*'.join(re.escape(text) for text in re.split('[*]', glob)))
         for name in self.names:
             if regex.fullmatch(name):
@@ -88,7 +88,7 @@ class AllBranches:
                     if '*' in line:
                         public = line.startswith(publicprefix)
                         glob = line[len(publicprefix):] if public else line
-                        for match in self.matching(glob):
+                        for match in self._matching(glob):
                             if public:
                                 mergeable = self._published(match)
                                 if mergeable is not None:
