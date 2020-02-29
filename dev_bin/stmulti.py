@@ -28,7 +28,8 @@ class Project:
     def __init__(self, config, path):
         for command in self.commands:
             setattr(self, Path(command.path).name, command.cd(path))
-        self.netpath = config.repomount / effectivehome.name / path.resolve().relative_to(effectivehome)
+        self.homerelpath = path.resolve().relative_to(effectivehome)
+        self.netpath = config.repomount / effectivehome.name / self.homerelpath
         self.config = config
         self.path = path
 
