@@ -1,5 +1,5 @@
 from dev_bin.common import findproject
-from lagoon import autopep8
+from lagoon import autopep8, sed
 import subprocess, re
 
 cols = 120
@@ -13,5 +13,5 @@ def main_brown():
             m = re.fullmatch(r'\[file:(.+)]', line)
             if m is not None:
                 yield m.group(1)
-    subprocess.check_call(['sed', '-ni', r'/\S/p'] + list(paths()))
+    sed.print('-ni', r'/\S/p', *paths())
     autopep8.print(*command, '-i')
