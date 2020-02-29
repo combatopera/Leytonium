@@ -1,6 +1,6 @@
 from . import effectivehome
 from diapyr.util import singleton
-from lagoon import git, ls
+from lagoon import git, ls, rsync
 from pathlib import Path
 import os, subprocess, multiprocessing as mp, queue, logging
 
@@ -64,13 +64,13 @@ class Rsync:
         self.push(dest)
 
     def push(self, dest):
-        lhs = ['rsync', '-avzu', '--exclude', '/.rsync']
-        rhs = [".%s" % os.sep, "lave.local::%s/%s" % (dest.drive, dest.reldir)]
-        subprocess.check_call(lhs + rhs)
+        lhs = '-avzu', '--exclude', '/.rsync'
+        rhs = ".%s" % os.sep, "lave.local::%s/%s" % (dest.drive, dest.reldir)
+        rsync.print(*lhs, *rhs)
         os.utime('.rsync')
-        lhs += ['--del']
-        subprocess.check_call(lhs + ['--dry-run'] + rhs)
-        print("(cd %s && %s %s)" % (Path.cwd(), ' '.join(lhs), ' '.join(rhs)))
+        lhs += '--del',
+        rsync.print(*lhs, '--dry-run', *rhs)
+        print("(cd %s && rsync %s %s)" % (Path.cwd(), ' '.join(lhs), ' '.join(rhs)))
 
 def main_hgcommit():
     logging.basicConfig(level = logging.DEBUG, format = "[%(levelname)s] %(message)s")
