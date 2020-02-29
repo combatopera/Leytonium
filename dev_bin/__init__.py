@@ -1,7 +1,7 @@
 from pathlib import Path
 import inspect, os, sys
 
-effectivehome = Path(f"~{os.environ.get('SUDO_USER', '')}").expanduser()
+effectivehome = Path("~%s" % os.environ.get('SUDO_USER', '')).expanduser()
 
 class Interpreter:
 
