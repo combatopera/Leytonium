@@ -44,7 +44,7 @@ class Git:
         if dest.exists():
             self.push(dest)
         else:
-            subprocess.check_call(['git', 'clone', '--bare', '.', dest.path])
+            git.clone.print('--bare', '.', dest.path)
 
     def push(self, dest):
         git.push.print(*[] if dest is None else [dest.path, self.currentbranch()])
