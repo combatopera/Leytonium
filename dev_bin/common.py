@@ -50,7 +50,7 @@ def pb(b = None):
 
 class AllBranches:
 
-    def published(self, name):
+    def _published(self, name):
         try:
             lines = runlines(['git', 'rev-parse', "origin/%s" % name], stderr = subprocess.DEVNULL)
         except:
@@ -90,7 +90,7 @@ class AllBranches:
                         glob = line[len(publicprefix):] if public else line
                         for match in self.matching(glob):
                             if public:
-                                mergeable = self.published(match)
+                                mergeable = self._published(match)
                                 if mergeable is not None:
                                     yield mergeable
                             else:
