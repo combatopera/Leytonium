@@ -47,10 +47,7 @@ class Git:
             subprocess.check_call(['git', 'clone', '--bare', '.', dest.path])
 
     def push(self, dest):
-        command = ['git', 'push']
-        if dest is not None:
-            command += [str(dest.path), self.currentbranch()]
-        subprocess.check_call(command)
+        git.push.print(*[] if dest is None else [dest.path, self.currentbranch()])
 
     @staticmethod
     def currentbranch():
