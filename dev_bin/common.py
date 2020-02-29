@@ -1,3 +1,4 @@
+from lagoon import git
 import subprocess, os, sys, traceback, re, collections, importlib.machinery, termcolor
 
 infodirname = '.pb'
@@ -67,8 +68,8 @@ class AllBranches:
         return published # What commit is this?
 
     def __init__(self):
-        self.names = [line[2:] for line in runlines(['git', 'branch'])]
-        self.remotenames = set(runlines(['git', 'remote']))
+        self.names = [line[2:] for line in git.branch().splitlines()]
+        self.remotenames = set(git.remote().splitlines())
 
     def matching(self, glob):
         regex = re.compile('.*'.join(re.escape(text) for text in re.split('[*]', glob)))
