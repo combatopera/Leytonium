@@ -1,4 +1,5 @@
 from . import effectivehome
+from .stmulti import Config
 from diapyr.util import singleton
 from lagoon import git, ls, rsync
 from pathlib import Path
@@ -74,6 +75,7 @@ class Rsync:
 
 def main_hgcommit():
     logging.basicConfig(level = logging.DEBUG, format = "[%(levelname)s] %(message)s")
+    config = Config.load()
     reldir = Path.cwd().relative_to(effectivehome)
     if Path('.git').exists():
         command = Git
