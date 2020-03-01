@@ -7,6 +7,14 @@ log = logging.getLogger(__name__)
 
 class Config:
 
+    @classmethod
+    def load(cls):
+        context = aridity.Context()
+        with aridity.Repl(context) as repl, (Path.home() / '.settings.arid').open() as f:
+            for line in f:
+                repl(line)
+        return cls(context)
+
     def __init__(self, context):
         self.repohost = context.resolved('stmulti', 'repohost').value
         self.netremotename = context.resolved('stmulti', 'netremotename').value
@@ -116,11 +124,7 @@ class Rsync(Project):
         self.tput.print('sgr0')
 
 def main(action):
-    context = aridity.Context()
-    with aridity.Repl(context) as repl, (Path.home() / '.settings.arid').open() as f:
-        for line in f:
-            repl(line)
-    config = Config(context)
+    config = Config.load()
     clear.print()
     for projecttype in Mercurial, Git, Rsync:
         projecttype.forprojects(config, action)
