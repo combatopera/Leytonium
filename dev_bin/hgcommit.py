@@ -23,10 +23,10 @@ def checkpath(path):
 
 class PathDest:
 
-    def __init__(self, drive, reldir):
-        self.clonespath = Path('/mnt', drive, 'arc')
+    def __init__(self, config, reldir):
+        self.clonespath = config.repomount / effectivehome.name
         self.path = self.clonespath / reldir
-        self.drive = drive
+        self.drive = config.reponame
         self.reldir = reldir
 
     def check(self):
@@ -83,7 +83,7 @@ def main_hgcommit():
         command = Rsync
     if os.environ.get('LOCAL'):
         return
-    dest = PathDest('Seagate3', command.mangle(reldir))
+    dest = PathDest(config, command.mangle(reldir))
     if dest.check():
         command.pushorclone(dest)
     else:
