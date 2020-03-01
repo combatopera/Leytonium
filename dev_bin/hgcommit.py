@@ -26,7 +26,7 @@ class PathDest:
     def __init__(self, config, reldir):
         self.clonespath = config.repomount / effectivehome.name
         self.path = self.clonespath / reldir
-        self.drive = config.reponame
+        self.reponame = config.reponame
         self.reldir = reldir
 
     def check(self):
@@ -66,7 +66,7 @@ class Rsync:
 
     def push(self, dest):
         lhs = '-avzu', '--exclude', '/.rsync'
-        rhs = ".%s" % os.sep, "lave.local::%s/%s" % (dest.drive, dest.reldir)
+        rhs = ".%s" % os.sep, "lave.local::%s/%s" % (dest.reponame, dest.reldir)
         rsync.print(*lhs, *rhs)
         os.utime('.rsync')
         lhs += '--del',
