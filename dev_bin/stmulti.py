@@ -111,7 +111,7 @@ class Git(Project):
 class Rsync(Project):
 
     dirname = '.rsync'
-    commands = find, hgcommit, rsync, tput
+    commands = find, hgcommit, rsync
 
     def pull(self):
         lhs = '-avzu', '--exclude', "/%s" % self.dirname
@@ -125,10 +125,10 @@ class Rsync(Project):
         self.hgcommit.print()
 
     def status(self):
-        self.tput.print('setaf', 4)
-        self.tput.print('bold')
+        tput.setaf.print(4)
+        tput.bold.print()
         self.find.print('-newer', self.dirname)
-        self.tput.print('sgr0')
+        tput.sgr0.print()
 
 def main(action):
     config = Config.load()
