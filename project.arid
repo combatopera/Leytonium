@@ -5,7 +5,8 @@ requires +=
     autopep8
     awscli
     lagoon
-    PyYAML
+    pyven
+    PyYAML==5.2
     termcolor
 name = dev-bin
 proprietary = true
