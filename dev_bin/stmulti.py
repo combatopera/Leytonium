@@ -105,7 +105,7 @@ class Git(Project):
                 log.error("Unexecutable hook: %s", self.hookname)
         if not ProjectInfo(self.path)['proprietary']:
             lastrelease = max((t for t in self.git.tag().splitlines() if t.startswith('v')), key = lambda t: int(t[1:]))
-            self.git.diff.print('--stat', lastrelease, ':(exclude).travis.yml', ':(exclude)project.arid')
+            self.git.diff.print('--stat', lastrelease, *(":(exclude,glob)%s" % glob for glob in ['.travis.yml', 'project.arid', '**/test_*.py']))
         self.git.stash.list.print()
 
 class Rsync(Project):
