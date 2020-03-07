@@ -4,4 +4,3 @@ __pycache__/
 /dev_bin.egg-info/
 /setup.cfg
 /setup.py
-/nosetests.xml
