@@ -1,12 +1,11 @@
 executable = true
 pyversions += 3
-projects +=
+requires +=
     aridity
-    lagoon
-deps +=
     autopep8
     awscli
-    pyyaml
+    lagoon
+    PyYAML
     termcolor
 name = dev-bin
 proprietary = true
