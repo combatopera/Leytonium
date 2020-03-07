@@ -1,5 +1,5 @@
 from . import effectivehome
-from lagoon import clear, co, find, git, hg, hgcommit, md5sum, rsync, tput
+from lagoon import clear, co, find, git, hg, hgcommit, md5sum, rsync, test, tput
 from pathlib import Path
 import aridity, glob, logging, re, shlex
 
@@ -59,7 +59,7 @@ class Mercurial(Project):
 class Git(Project):
 
     dirname = '.git'
-    commands = co, git, hgcommit, md5sum
+    commands = co, git, hgcommit, md5sum, test
     remotepattern = re.compile('(.+)\t(.+) [(].+[)]')
     hookname = 'post-commit'
 
@@ -97,8 +97,11 @@ class Git(Project):
         self.git.status.print('-s')
         if self.config.repomount.is_dir(): # Needn't actually be mounted.
             self._checkremotes()
-            if self.md5sum(Path('.git', 'hooks', self.hookname), check = False).stdout[:32] != self.config.hookmd5:
+            hookpath = Path('.git', 'hooks', self.hookname)
+            if self.md5sum(hookpath, check = False).stdout[:32] != self.config.hookmd5:
                 log.error("Bad hook: %s", self.hookname)
+            if self.test.print('-x', hookpath, check = False):
+                log.error("Unexecutable hook: %s", self.hookname)
         self.git.stash.list.print()
 
 class Rsync(Project):
