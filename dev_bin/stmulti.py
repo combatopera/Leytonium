@@ -103,7 +103,7 @@ class Git(Project):
                 log.error("Bad hook: %s", self.hookname)
             if self.test.print('-x', hookpath, check = False):
                 log.error("Unexecutable hook: %s", self.hookname)
-        if not ProjectInfo(self.path)['proprietary']:
+        if (self.path / 'project.arid').exists() and not ProjectInfo(self.path)['proprietary']:
             lastrelease = max((t for t in self.git.tag().splitlines() if t.startswith('v')), key = lambda t: int(t[1:]))
             self.git.diff.print('--stat', lastrelease, *(":(exclude,glob)%s" % glob for glob in ['.travis.yml', 'project.arid', '**/test_*.py', '.gitignore']))
         self.git.stash.list.print()
