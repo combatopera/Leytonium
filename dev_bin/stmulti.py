@@ -104,7 +104,9 @@ class Git(Project):
             if self.test.print('-x', hookpath, check = False):
                 log.error("Unexecutable hook: %s", self.hookname)
         if (self.path / 'project.arid').exists() and not ProjectInfo(self.path)['proprietary']:
-            lastrelease = max((t for t in self.git.tag().splitlines() if t.startswith('v')), key = lambda t: int(t[1:]))
+            lastrelease = max((t for t in self.git.tag().splitlines() if t.startswith('v')), default = None, key = lambda t: int(t[1:]))
+            if lastrelease is None:
+                lastrelease, = self.git('rev-list', '--max-parents=0', 'HEAD').splitlines() # Assume trivial initial commit.
             self.git.diff.print('--stat', lastrelease, *(":(exclude,glob)%s" % glob for glob in ['.travis.yml', 'project.arid', '**/test_*.py', '.gitignore']))
         self.git.stash.list.print()
 
