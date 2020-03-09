@@ -31,7 +31,7 @@ class Project:
     @classmethod
     def forprojects(cls, config, action):
         for path in sorted(d.parent for d in Path('.').glob("*/%s" % glob.escape(cls.dirname))):
-            print(cls.kindformat % cls.dirname[1:1 + cls.kindwidth], path)
+            print(cls.kindformat % cls.dirname[1:1 + cls.kindwidth], "%s%s%s" % (tput.setaf(7), path, tput.sgr0()))
             getattr(cls(config, path), action)()
 
     def __init__(self, config, path):
