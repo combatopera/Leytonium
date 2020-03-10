@@ -47,6 +47,9 @@ class Mercurial(Project):
     dirname = '.hg'
     commands = hg, hgcommit
 
+    def fetch(self):
+        pass
+
     def pull(self):
         self.hg.pull.print(self.netpath)
         self.hg.update.print()
@@ -86,6 +89,9 @@ class Git(Project):
             task(branch)
         self.co.print(restore)
 
+    def fetch(self):
+        self.git.fetch.print('--all')
+
     def pull(self):
         # TODO: Only fetch once.
         self._allbranches(lambda branch: self.git.pull.print('--ff-only', self.netpath, branch))
@@ -115,6 +121,9 @@ class Rsync(Project):
     dirname = '.rsync'
     commands = find, hgcommit, rsync
 
+    def fetch(self):
+        pass
+
     def pull(self):
         lhs = '-avzu', '--exclude', "/%s" % self.dirname
         rhs = "%s::%s/%s/" % (self.config.repohost, self.config.reponame, self.homerelpath), '.'
@@ -141,6 +150,9 @@ def main(action):
 def main_stmulti():
     'Short status of all shallow projects in directory.'
     main('status')
+
+def main_fetchall():
+    main('fetch')
 
 def main_pullall():
     main('pull')
