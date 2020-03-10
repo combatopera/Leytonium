@@ -37,6 +37,7 @@ def main_git_functions_path():
 def main_rd():
     'Run git add on conflicted path, with completion.'
     # FIXME: Reject directory args.
+    # FIXME: Refuse to add file with outstanding conflicts.
     chain(['git', 'add'] + args())
 
 def main_dup():
