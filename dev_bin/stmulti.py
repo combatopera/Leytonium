@@ -102,18 +102,19 @@ class Git(Project):
     def status(self):
         self.git.branch.print('-vv')
         self.git.status.print('-s')
-        if self.config.repomount.is_dir(): # Needn't actually be mounted.
-            self._checkremotes()
-            hookpath = Path('.git', 'hooks', self.hookname)
-            if self.md5sum(hookpath, check = False).stdout[:32] != self.config.hookmd5:
-                log.error("Bad hook: %s", self.hookname)
-            if self.test.print('-x', hookpath, check = False):
-                log.error("Unexecutable hook: %s", self.hookname)
-        if (self.path / 'project.arid').exists() and not ProjectInfo(self.path)['proprietary']:
-            lastrelease = max((t for t in self.git.tag().splitlines() if t.startswith('v')), default = None, key = lambda t: int(t[1:]))
-            if lastrelease is None:
-                lastrelease, = self.git('rev-list', '--max-parents=0', 'HEAD').splitlines() # Assume trivial initial commit.
-            self.git.diff.print('--stat', lastrelease, *(":(exclude,glob)%s" % glob for glob in ['.travis.yml', 'project.arid', '**/test_*.py', '.gitignore']))
+        if (self.path / 'project.arid').exists():
+            if self.config.repomount.is_dir(): # Needn't actually be mounted.
+                self._checkremotes()
+                hookpath = Path('.git', 'hooks', self.hookname)
+                if self.md5sum(hookpath, check = False).stdout[:32] != self.config.hookmd5:
+                    log.error("Bad hook: %s", self.hookname)
+                if self.test.print('-x', hookpath, check = False):
+                    log.error("Unexecutable hook: %s", self.hookname)
+            if not ProjectInfo(self.path)['proprietary']:
+                lastrelease = max((t for t in self.git.tag().splitlines() if t.startswith('v')), default = None, key = lambda t: int(t[1:]))
+                if lastrelease is None:
+                    lastrelease, = self.git('rev-list', '--max-parents=0', 'HEAD').splitlines() # Assume trivial initial commit.
+                self.git.diff.print('--stat', lastrelease, *(":(exclude,glob)%s" % glob for glob in ['.travis.yml', 'project.arid', '**/test_*.py', '.gitignore']))
         self.git.stash.list.print()
 
 class Rsync(Project):
