@@ -44,7 +44,7 @@ class Git:
 
     def pushorclone(self, dest):
         if dest.exists():
-            git.push.print(*[] if dest is None else [dest.path, self.currentbranch()])
+            git.push.print(dest.path, self.currentbranch())
         else:
             git.clone.print('--bare', '.', dest.path)
 
