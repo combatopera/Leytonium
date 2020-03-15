@@ -28,6 +28,7 @@ class PathDest:
         self.path = self.clonespath / reldir
         self.repohost = config.repohost
         self.reponame = config.reponame
+        self.netremotename = config.netremotename
         self.reldir = reldir
 
     def check(self):
@@ -47,7 +48,7 @@ class Git:
     def pushorclone(self, dest):
         if dest.exists():
             branch, = git('rev-parse', '--abbrev-ref', 'HEAD').splitlines()
-            git.push.print(dest.path, branch)
+            git.push.print(dest.netremotename, branch)
         else:
             git.clone.print('--bare', '.', dest.path)
 
