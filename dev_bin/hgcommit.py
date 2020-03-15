@@ -39,6 +39,8 @@ class PathDest:
 @singleton
 class Git:
 
+    dirname = '.git'
+
     def mangle(self, reldir):
         return reldir.parent / f"{reldir.name}.git"
 
@@ -51,6 +53,8 @@ class Git:
 
 @singleton
 class Rsync:
+
+    dirname = '.rsync'
 
     def mangle(self, reldir):
         return reldir
@@ -68,10 +72,10 @@ def main_hgcommit():
     logging.basicConfig(level = logging.DEBUG, format = "[%(levelname)s] %(message)s")
     config = Config.load()
     reldir = Path.cwd().relative_to(effectivehome)
-    if Path('.git').exists():
-        command = Git
-    elif Path('.rsync').exists():
-        command = Rsync
+    for c in Git, Rsync:
+        if Path(c.dirname).exists():
+            command = c
+            break
     if os.environ.get('LOCAL'):
         return
     dest = PathDest(config, command.mangle(reldir))
