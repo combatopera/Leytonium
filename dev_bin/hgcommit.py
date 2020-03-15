@@ -44,14 +44,10 @@ class Git:
 
     def pushorclone(self, dest):
         if dest.exists():
-            git.push.print(dest.path, self.currentbranch())
+            branch, = git('rev-parse', '--abbrev-ref', 'HEAD').splitlines()
+            git.push.print(dest.path, branch)
         else:
             git.clone.print('--bare', '.', dest.path)
-
-    @staticmethod
-    def currentbranch():
-        branch, = git('rev-parse', '--abbrev-ref', 'HEAD').splitlines()
-        return branch
 
 @singleton
 class Rsync:
