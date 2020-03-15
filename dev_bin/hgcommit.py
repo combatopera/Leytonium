@@ -44,12 +44,9 @@ class Git:
 
     def pushorclone(self, dest):
         if dest.exists():
-            self.push(dest)
+            git.push.print(*[] if dest is None else [dest.path, self.currentbranch()])
         else:
             git.clone.print('--bare', '.', dest.path)
-
-    def push(self, dest):
-        git.push.print(*[] if dest is None else [dest.path, self.currentbranch()])
 
     @staticmethod
     def currentbranch():
@@ -63,9 +60,6 @@ class Rsync:
         return reldir
 
     def pushorclone(self, dest):
-        self.push(dest)
-
-    def push(self, dest):
         lhs = '-avzu', '--exclude', '/.rsync'
         rhs = ".%s" % os.sep, "%s::%s/%s" % (dest.repohost, dest.reponame, dest.reldir)
         rsync.print(*lhs, *rhs)
