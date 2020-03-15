@@ -76,8 +76,6 @@ def main_hgcommit():
         if Path(c.dirname).exists():
             command = c
             break
-    if os.environ.get('LOCAL'):
-        return
     dest = PathDest(config, command.mangle(reldir))
     if dest.check():
         command.pushorclone(dest)
