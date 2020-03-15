@@ -14,14 +14,14 @@ class Config:
         with aridity.Repl(context) as repl, (Path.home() / '.settings.arid').open() as f:
             for line in f:
                 repl(line)
-        return cls(context)
+        return cls(context.resolved('stmulti'))
 
     def __init__(self, context):
-        self.repohost = context.resolved('stmulti', 'repohost').value
-        self.netremotename = context.resolved('stmulti', 'netremotename').value
-        self.reponame = context.resolved('stmulti', 'reponame').value
-        self.repomount = Path(context.resolved('stmulti', 'repomount').value)
-        self.hookmd5 = context.resolved('stmulti', 'hookmd5').value
+        self.repohost = context.resolved('repohost').value
+        self.netremotename = context.resolved('netremotename').value
+        self.reponame = context.resolved('reponame').value
+        self.repomount = Path(context.resolved('repomount').value)
+        self.hookmd5 = context.resolved('hookmd5').value
 
 class Project:
 
