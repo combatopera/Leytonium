@@ -51,6 +51,8 @@ class Git:
             git.push.print(dest.netremotename, branch)
         else:
             git.clone.print('--bare', '.', dest.path)
+        if {'* master', '  public'} <= set(git.branch().splitlines()):
+            git.print('update-ref', 'refs/heads/public', 'master')
 
 @singleton
 class Rsync:
