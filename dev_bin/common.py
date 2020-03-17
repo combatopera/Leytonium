@@ -110,7 +110,7 @@ class AllBranches:
         intersection = None # Logically this is the set of all commits.
         for pb in self.parents(b):
             nextinter = collections.OrderedDict()
-            for line in reversed(git.cherry('-v', pb, b).splitlines()):
+            for line in reversed(git.cherry._v(pb, b).splitlines()):
                 if intersection is None or line in intersection:
                     nextinter[line] = None
             intersection = nextinter
@@ -119,7 +119,7 @@ class AllBranches:
         def g():
             for line in intersection:
                 commit, message = line.split(' ', 2)[1:]
-                stat = ''.join("%%%sd%%s" % w % (n, u) for n, w, u in zip(map(int, re.findall('[0-9]+', git.show('--shortstat', commit).splitlines()[-1])), [2, 3, 3], 'f+-'))
+                stat = ''.join("%%%sd%%s" % w % (n, u) for n, w, u in zip(map(int, re.findall('[0-9]+', git.show.__shortstat(commit).splitlines()[-1])), [2, 3, 3], 'f+-'))
                 yield commit, "%s %s" % (stat, message)
         return list(g())
 
@@ -153,7 +153,7 @@ def chain(*args, **kwargs):
         sys.exit(status)
 
 def thisbranch():
-    line, = git('rev-parse', '--abbrev-ref', 'HEAD').splitlines()
+    line, = git.rev_parse.__abbrev_ref.HEAD().splitlines()
     return line
 
 def findproject(context = None):
