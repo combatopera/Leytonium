@@ -69,7 +69,7 @@ class Git(Project):
 
     def _checkremotes(self):
         d = {}
-        for l in self.git.remote('-v').splitlines():
+        for l in self.git.remote._v().splitlines():
             name, loc = self.remotepattern.fullmatch(l).groups()
             if name in d:
                 assert d[name] == loc
@@ -83,38 +83,38 @@ class Git(Project):
                 log.error("Non-SSH remote: %s %s", name, loc)
 
     def _allbranches(self, task):
-        restore, = self.git('rev-parse', '--abbrev-ref', 'HEAD').splitlines()
+        restore, = self.git.rev_parse.__abbrev_ref.HEAD().splitlines()
         for branch in (l[2:] for l in self.git.branch().splitlines()):
             self.co.print(branch)
             task(branch)
         self.co.print(restore)
 
     def fetch(self):
-        self.git.fetch.print('--all')
+        self.git.fetch.__all.print()
 
     def pull(self):
         # TODO: Only fetch once.
-        self._allbranches(lambda branch: self.git.pull.print('--ff-only', self.netpath, branch))
+        self._allbranches(lambda branch: self.git.pull.__ff_only.print(self.netpath, branch))
 
     def push(self):
         self._allbranches(lambda branch: self.hgcommit.print())
 
     def status(self):
-        self.git.branch.print('-vv')
-        self.git.status.print('-s')
+        self.git.branch._vv.print()
+        self.git.status._s.print()
         if (self.path / 'project.arid').exists():
             if self.config.repomount.is_dir(): # Needn't actually be mounted.
                 self._checkremotes()
                 hookpath = Path('.git', 'hooks', self.hookname)
                 if self.md5sum(hookpath, check = False).stdout[:32] != self.config.hookmd5:
                     log.error("Bad hook: %s", self.hookname)
-                if self.test.print('-x', hookpath, check = False):
+                if self.test._x.print(hookpath, check = False):
                     log.error("Unexecutable hook: %s", self.hookname)
             if not ProjectInfo(self.path)['proprietary']:
                 lastrelease = max((t for t in self.git.tag().splitlines() if t.startswith('v')), default = None, key = lambda t: int(t[1:]))
                 if lastrelease is None:
-                    lastrelease, = self.git('rev-list', '--max-parents=0', 'HEAD').splitlines() # Assume trivial initial commit.
-                self.git.diff.print('--stat', lastrelease, '--', '.', *(":(exclude,glob)%s" % glob for glob in ['.travis.yml', 'project.arid', '**/test_*.py', '.gitignore']))
+                    lastrelease, = self.git.rev_list('--max-parents=0', 'HEAD').splitlines() # Assume trivial initial commit.
+                self.git.diff.__stat.print(lastrelease, '--', '.', *(":(exclude,glob)%s" % glob for glob in ['.travis.yml', 'project.arid', '**/test_*.py', '.gitignore']))
         self.git.stash.list.print()
 
 class Rsync(Project):
@@ -139,7 +139,7 @@ class Rsync(Project):
     def status(self):
         tput.setaf.print(4)
         tput.bold.print()
-        self.find.print('-newer', self.dirname)
+        self.find._newer.print(self.dirname)
         tput.sgr0.print()
 
 def main(action):
