@@ -1,7 +1,7 @@
 from lagoon.binary import bash, date
 import argparse, json
 
-logs = '-ic', 'aws logs "$@"', 'logs'
+logs = bash._ic.partial('aws logs "$@"', 'logs')
 tskey = 'lastIngestionTime'
 
 def _shorten(line, radius = 250):
@@ -11,7 +11,7 @@ def _shorten(line, radius = 250):
     return line[:radius - len(sep)] + sep + line[-radius:]
 
 def streamnames(group, starttime):
-    streams = json.loads(bash(*logs, 'describe-log-streams', '--log-group-name', group))['logStreams']
+    streams = json.loads(logs.describe_log_streams('--log-group-name', group))['logStreams']
     streams.sort(key = lambda s: -s.get(tskey, 0)) # Freshest first.
     def g():
         for s in streams:
@@ -32,7 +32,7 @@ def main_awslogs():
     for stream in streamnames(config.group, int(date('-d', "%s ago" % config.ago, '+%s000'))):
         token = []
         while True:
-            page = json.loads(bash(*logs, 'get-log-events', '--start-from-head', '--log-group-name', config.group, '--log-stream-name', stream, *token))
+            page = json.loads(logs.get_log_events.__start_from_head('--log-group-name', config.group, '--log-stream-name', stream, *token))
             for m in (e['message'] for e in page['events']):
                 if m and '\n' == m[0]:
                     print('$ ', end = '')
