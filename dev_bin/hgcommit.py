@@ -47,12 +47,12 @@ class Git:
 
     def pushorclone(self, dest):
         if dest.exists():
-            branch, = git('rev-parse', '--abbrev-ref', 'HEAD').splitlines()
+            branch, = git.rev_parse.__abbrev_ref.HEAD().splitlines()
             git.push.print(dest.netremotename, branch)
         else:
-            git.clone.print('--bare', '.', dest.path)
+            git.clone.__bare.print('.', dest.path)
         if {'* master', '  public'} <= set(git.branch().splitlines()):
-            git.print('update-ref', 'refs/heads/public', 'master')
+            git.update_ref.print('refs/heads/public', 'master')
 
 @singleton
 class Rsync:
