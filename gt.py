@@ -6,7 +6,7 @@ import subprocess, sys, aridity, st
 def main_gt():
     'Stage all outgoing changes and show them.'
     projectdir = Path(findproject()).resolve()
-    paths = [projectdir / line[line.index("'") + 1:-1] for line in git.add('-n', projectdir).splitlines()]
+    paths = [projectdir / line[line.index("'") + 1:-1] for line in git.add._n(projectdir).splitlines()]
     context = aridity.Context()
     with aridity.Repl(context) as repl:
         repl.printf('formattedprojects := $list()')
