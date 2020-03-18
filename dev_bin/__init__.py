@@ -1,3 +1,4 @@
+from lagoon import bash
 from pathlib import Path
 import inspect, os, sys
 
@@ -8,8 +9,7 @@ class Interpreter:
     def bash(path):
         with path.open('rb') as f:
             text = f.read()
-        command = ['bash', '-c', text] + sys.argv
-        os.execvp(command[0], command)
+        bash._c.exec(text, *sys.argv)
 
 def delegate(*relpath):
     path = Path(Path(inspect.stack()[1].filename).parent, *relpath)
