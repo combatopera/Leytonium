@@ -1,4 +1,4 @@
-from lagoon import git
+from lagoon import git, toilet
 import subprocess, os, sys, traceback, re, collections, importlib.machinery, termcolor
 
 infodirname = '.pb'
@@ -209,12 +209,12 @@ def nicelyimpl(task):
         task()
     except:
         if stashed:
-            run(['toilet', '-w', '500', '-f', 'smmono12', '--metal', 'You have a new stash:'])
-            run(['git', 'stash', 'list'])
+            toilet.print('-w', 500, '-f', 'smmono12', '--metal', 'You have a new stash:')
+            git.stash.list.print()
         raise
-    run(['git', 'checkout', branch])
+    git.checkout.print(branch)
     if stashed:
-        run(['git', 'stash', 'pop'])
+        git.stash.pop.print()
 
 def touchmsg():
     return "WIP Touch %s" % thisbranch()
