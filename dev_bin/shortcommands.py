@@ -1,5 +1,5 @@
-from .common import AllBranches, args, chain, findproject, infodirname, pb, savecommits
-from lagoon import clear, git
+from .common import AllBranches, args, findproject, infodirname, pb, savecommits
+from lagoon import clear, find, git
 from pathlib import Path
 import os
 
@@ -19,7 +19,7 @@ def main_d():
 
 def main_rdx():
     'Run git rm on conflicted path, with completion.'
-    chain(['git', 'rm'] + args())
+    git.rm.exec(*args())
 
 def main_rx():
     'Restore given file to parent branch version.'
@@ -27,7 +27,7 @@ def main_rx():
 
 def main_gag():
     'Run ag on all build.gradle files.'
-    chain(['find', '-name', 'build.gradle', '-exec', 'ag'] + args() + ['{}', '+'])
+    find._name.exec('build.gradle', '-exec', 'ag', *args(), '{}', '+')
 
 def main_git_completion_path():
     print(Path(__file__).parent / 'git_completion')
@@ -39,7 +39,7 @@ def main_rd():
     'Run git add on conflicted path, with completion.'
     # FIXME: Reject directory args.
     # FIXME: Refuse to add file with outstanding conflicts.
-    chain(['git', 'add'] + args())
+    git.add.exec(*args())
 
 def main_dup():
     'Add the top commit to the list of slammed commits.'
