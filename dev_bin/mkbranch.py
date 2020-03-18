@@ -1,4 +1,5 @@
-from .common import menu, run, addparents, AllBranches
+from .common import menu, addparents, AllBranches
+from lagoon import git
 import sys, subprocess, os, tempfile, re
 
 wordpattern = re.compile(r'[^\s/]+')
@@ -15,5 +16,5 @@ def main_mkbranch():
     options = [prefix + '_'.join(words[:i + 1]) for i in range(len(words))]
     _, name = menu([[o, ''] for o in options], 'Branch name')
     _, base = menu([[n, ''] for n in AllBranches().names], 'From')
-    run(['git', 'checkout', '-b', name, base])
+    git.checkout._b.print(name, base)
     addparents(name, base)
