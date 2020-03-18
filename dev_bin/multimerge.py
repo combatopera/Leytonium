@@ -3,7 +3,7 @@ from lagoon import git, touchb
 import os
 
 def merge(b, check = True):
-    return runlines(['git', 'merge', b, '--no-edit'], check = check)
+    return runlines(['git', 'merge', '--no-edit', b], check = check)
 
 def reportornone(b):
     status = merge(b, False)
