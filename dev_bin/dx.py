@@ -1,4 +1,4 @@
-from dev_bin.common import pb, args, chain, stderr
+from .common import pb, args, chain, stderr
 
 def main_dx():
     'Diff from parent branch.'
