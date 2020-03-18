@@ -1,4 +1,5 @@
-from .common import runlines, chain, run
+from .common import runlines
+from lagoon import co, st
 
 def main_n():
     'Switch to the next branch and run st.'
@@ -7,5 +8,5 @@ def main_n():
         if line.startswith('*'):
             b = lines[i + 1].strip()
             break
-    run(['co', b])
-    chain(['st'])
+    co.print(b)
+    st.exec()
