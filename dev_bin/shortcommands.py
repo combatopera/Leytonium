@@ -1,7 +1,6 @@
-from .common import AllBranches, args, findproject, infodirname, pb, savecommits, chain
+from .common import AllBranches, args, findproject, infodirname, pb, savecommits
 from lagoon import clear, find, git
 from pathlib import Path
-import os
 
 def main_showstash():
     'Show stash as patch.'
@@ -43,10 +42,6 @@ def main_rd():
 def main_dup():
     'Add the top commit to the list of slammed commits.'
     savecommits([AllBranches().branchcommits()[0][0]])
-
-def main_gradle(cwd = None):
-    'Run the context gradlew.'
-    chain([os.path.join(findproject(cwd), 'gradlew')] + args(), cwd = cwd)
 
 def main_scrub():
     'Remove all untracked items, including the git-ignored.'
