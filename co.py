@@ -1,9 +1,10 @@
-from dev_bin.common import run, args, AllBranches, addparents, getpublic
+from dev_bin.common import args, AllBranches, addparents, getpublic
+from lagoon import git
 
 def main_co():
     'Switch to the given branch, with completion.'
     name, = args()
     new = name not in AllBranches().names
-    run(['git', 'checkout', name])
+    git.checkout.print(name)
     if new:
         addparents(name, getpublic())
