@@ -1,4 +1,5 @@
-from .common import args, showmenu, chain, AllBranches, savedcommits
+from .common import args, showmenu, AllBranches, savedcommits
+from lagoon import git
 
 def main_show():
     'Show a commit that was listed by st.'
@@ -10,4 +11,4 @@ def main_show():
     else:
         saved = savedcommits()
         commit = saved[len(saved) - 1 + n]
-    chain(['git', 'show', commit])
+    git.show.exec(commit)
