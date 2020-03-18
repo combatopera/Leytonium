@@ -6,4 +6,4 @@ def main_ci():
     message = ' '.join(args())
     if isgitpol():
         message = 'WIP ' + message[0].upper() + message[1:]
-    git.commit._m(message)
+    git.commit._m.print(message)
