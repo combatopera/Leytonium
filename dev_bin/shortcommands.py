@@ -1,4 +1,5 @@
-from .common import AllBranches, args, chain, findproject, infodirname, pb, run, savecommits
+from .common import AllBranches, args, chain, findproject, infodirname, pb, savecommits
+from lagoon import clear, git
 from pathlib import Path
 import os
 
@@ -13,8 +14,8 @@ def main_pb():
 
 def main_d():
     'Show local changes.'
-    run(['clear'])
-    run(['git', 'diff'])
+    clear.print()
+    git.diff.print()
 
 def main_rdx():
     'Run git rm on conflicted path, with completion.'
@@ -22,7 +23,7 @@ def main_rdx():
 
 def main_rx():
     'Restore given file to parent branch version.'
-    run(['git', 'checkout', pb()] + args())
+    git.checkout.print(pb(), *args())
 
 def main_gag():
     'Run ag on all build.gradle files.'
@@ -50,4 +51,4 @@ def main_gradle(cwd = None):
 
 def main_scrub():
     'Remove all untracked items, including the git-ignored.'
-    run(['git', 'clean', '-xdi', '-e', infodirname], cwd = findproject())
+    git.clean._xdi.print('-e', infodirname, cwd = findproject())
