@@ -5,8 +5,7 @@ import os
 
 def main_showstash():
     'Show stash as patch.'
-    command = 'git', 'stash', 'show', '-p'
-    os.execvp(command[0], command)
+    git.stash.show._p.exec()
 
 def main_pb():
     'Find parent branch.'
