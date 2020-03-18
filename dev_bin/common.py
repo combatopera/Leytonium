@@ -122,9 +122,6 @@ def run(*args, **kwargs):
         kwargs = dict(kwargs, check = True)
     return subprocess.run(*args, **kwargs)
 
-def runlines(*args, keepends = False, **kwargs):
-    return run(*args, stdout = subprocess.PIPE, **kwargs).stdout.decode().splitlines(keepends)
-
 def thisbranch():
     line, = git.rev_parse.__abbrev_ref.HEAD().splitlines()
     return line
