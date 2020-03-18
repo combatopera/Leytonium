@@ -123,32 +123,16 @@ class AllBranches:
                 yield commit, "%s %s" % (stat, message)
         return list(g())
 
-try:
-    unchecked_run = subprocess.run
-except AttributeError:
-    def unchecked_run(*args, **kwargs):
-        if 'check' in kwargs:
-            popenkwargs = kwargs.copy()
-            del popenkwargs['check']
-        else:
-            popenkwargs = kwargs
-        process = subprocess.Popen(*args, **popenkwargs)
-        stdout, stderr = process.communicate()
-        returncode = process.wait()
-        if kwargs.get('check', False) and returncode:
-            raise subprocess.CalledProcessError(returncode, args[0])
-        return collections.namedtuple('CompletedProcess', 'returncode stdout stderr')(returncode, stdout, stderr)
-
 def run(*args, **kwargs):
     if 'check' not in kwargs:
         kwargs = dict(kwargs, check = True)
-    return unchecked_run(*args, **kwargs)
+    return subprocess.run(*args, **kwargs)
 
 def runlines(*args, keepends = False, **kwargs):
     return run(*args, stdout = subprocess.PIPE, **kwargs).stdout.decode().splitlines(keepends)
 
 def chain(*args, **kwargs):
-    status = unchecked_run(*args, **kwargs).returncode
+    status = subprocess.run(*args, **kwargs).returncode
     if status:
         sys.exit(status)
 
@@ -211,7 +195,7 @@ def getpublic(b = None):
         return pub
 
 def nicely(task):
-    killide = lambda sig: unchecked_run(['pkill', '-f', "-%s" % sig, 'com.intellij.idea.Main'])
+    killide = lambda sig: subprocess.run(['pkill', '-f', "-%s" % sig, 'com.intellij.idea.Main'])
     killide('STOP')
     try:
         nicelyimpl(task)
