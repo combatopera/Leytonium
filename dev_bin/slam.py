@@ -1,4 +1,5 @@
-from .common import AllBranches, args as getargs, showmenu, chain, pb, savecommits, savedcommits, findproject, thisbranch, infodirname, os, stderr
+from .common import AllBranches, args as getargs, showmenu, pb, savecommits, savedcommits, findproject, thisbranch, infodirname, os, stderr
+from lagoon import git
 
 def main_slam():
     'Reset branch to given commit number.'
@@ -15,14 +16,14 @@ def main_slam():
         commit = showmenu(items, False)[n - 1] + '^'
         if save:
             savecommits([item[0] for item in items[:n - 1]])
-        chain(['git', 'reset', '--hard', commit])
+        git.reset.__hard.exec(commit)
     else:
         saved = savedcommits()
         i = len(saved) - 1 + n
         commit = saved[i]
         if save:
             savecommits(saved[:i], True)
-        chain(['git', 'cherry-pick'] + list(reversed(saved[i:])))
+        git.cherry_pick.exec(*reversed(saved[i:]))
 
 def main_unslam():
     'Cherry-pick commits lost in a previous slam.'
@@ -30,7 +31,7 @@ def main_unslam():
     with open(path) as f:
         commits = f.read().splitlines()
     commits.reverse()
-    command = ['git', 'cherry-pick'] + commits
-    stderr("Command: %s" % ' '.join(command))
+    command = git.cherry_pick.partial(*commits)
+    stderr("Command: git %s" % ' '.join(command.args))
     os.remove(path)
-    chain(command)
+    command.exec()
