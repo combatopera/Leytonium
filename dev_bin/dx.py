@@ -1,10 +1,11 @@
-from .common import pb, args as getargs, chain, stderr, AllBranches, showmenu
+from .common import pb, args as getargs, stderr, AllBranches, showmenu
+from lagoon import git
 
 def main_dx():
     'Diff from parent branch.'
     parent = pb()
     stderr("Parent branch: %s" % parent)
-    chain(['git', 'diff', '-M25'] + getargs() + [parent])
+    git.diff._M25.exec(*getargs(), parent)
 
 def main_dxx():
     'Short diff from parent branch or of passed-in commit number.'
@@ -18,4 +19,4 @@ def main_dxx():
         parent = pb()
         stderr("Parent branch: %s" % parent)
         commits = [parent]
-    chain(['git', 'diff', '-M25', '--name-status'] + commits)
+    git.diff._M25.__name_status.exec(*commits)
