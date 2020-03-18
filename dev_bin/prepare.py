@@ -1,5 +1,5 @@
-from .common import thisbranch, pb, AllBranches, run, addparents
-from lagoon import ren
+from .common import thisbranch, pb, AllBranches, addparents
+from lagoon import git, ren
 
 def main_prepare():
     'Create a master-based branch from this non-master-based one.'
@@ -11,6 +11,6 @@ def main_prepare():
     allbranches = AllBranches()
     commits = [commit for commit, _ in allbranches.branchcommits(name)]
     ren.print("%s.bak" % name)
-    run(['git', 'checkout', '-b', name, master])
+    git.checkout._b.print(name, master)
     addparents(name, master)
-    run(['git', 'cherry-pick'] + commits)
+    git.cherry_pick.print(*commits)
