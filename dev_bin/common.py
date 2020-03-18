@@ -117,11 +117,6 @@ class AllBranches:
                 yield commit, "%s %s" % (stat, message)
         return list(g())
 
-def run(*args, **kwargs):
-    if 'check' not in kwargs:
-        kwargs = dict(kwargs, check = True)
-    return subprocess.run(*args, **kwargs)
-
 def thisbranch():
     line, = git.rev_parse.__abbrev_ref.HEAD().splitlines()
     return line
