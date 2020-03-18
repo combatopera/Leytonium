@@ -125,11 +125,6 @@ def run(*args, **kwargs):
 def runlines(*args, keepends = False, **kwargs):
     return run(*args, stdout = subprocess.PIPE, **kwargs).stdout.decode().splitlines(keepends)
 
-def chain(*args, **kwargs):
-    status = subprocess.run(*args, **kwargs).returncode
-    if status:
-        sys.exit(status)
-
 def thisbranch():
     line, = git.rev_parse.__abbrev_ref.HEAD().splitlines()
     return line
