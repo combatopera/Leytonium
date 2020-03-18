@@ -1,5 +1,5 @@
-from dev_bin.common import run, showmenu, UnknownParentException, showexception, stripansi, getpublic, savedcommits, AllBranches, highlight, findproject, infodirname
-from lagoon import git
+from dev_bin.common import showmenu, UnknownParentException, showexception, stripansi, getpublic, savedcommits, AllBranches, highlight, findproject, infodirname
+from lagoon import clear, git, ls
 from termcolor import colored
 from pathlib import Path
 import subprocess, re, tempfile, aridity, yaml, time
@@ -55,11 +55,11 @@ def getprstatuses(branches):
 
 def main_st():
     'Show list of branches and outgoing changes.'
-    run(['clear'])
+    clear.print()
     try:
         allbranches = AllBranches()
     except subprocess.CalledProcessError:
-        run(['ls', '-l', '--color=always'])
+        ls._l.print('--color=always')
         return
     prstatuses = getprstatuses(allbranches.names)
     rows = [Row(allbranches, l[2:]) for l in git('-c', 'color.ui=always', 'branch', '-vv').splitlines()]
@@ -77,4 +77,4 @@ def main_st():
     except UnknownParentException:
         showexception()
     subprocess.run(['git', 'status', '-v'])
-    run(['git', 'stash', 'list'])
+    git.stash.list.print()
