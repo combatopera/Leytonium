@@ -1,4 +1,4 @@
-from .common import AllBranches, args, findproject, infodirname, pb, savecommits
+from .common import AllBranches, args, findproject, infodirname, pb, savecommits, chain
 from lagoon import clear, find, git
 from pathlib import Path
 import os
