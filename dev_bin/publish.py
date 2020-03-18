@@ -1,4 +1,4 @@
-from dev_bin.common import thisbranch, pb, run, args, runlines
+from .common import thisbranch, pb, run, args, runlines
 
 def main_publish():
     'Publish this branch, accepts push options.'
