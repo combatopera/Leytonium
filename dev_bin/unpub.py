@@ -1,7 +1,7 @@
 from .common import thisbranch, chain
-import subprocess
+from lagoon import git
 
 def main_unpub():
     'Unpublish this branch.'
-    subprocess.run(['git', 'push', 'origin', '--delete', thisbranch()]) # Idempotent.
+    git.push.origin.__delete.print(thisbranch(), check = False) # Idempotent.
     chain(['git', 'branch', '--unset-upstream'])
