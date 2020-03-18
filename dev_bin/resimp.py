@@ -1,4 +1,5 @@
-from .common import stderr, findproject, runlines
+from .common import stderr, findproject
+from lagoon import git
 import itertools, os, re
 
 def resimp(path):
@@ -65,7 +66,7 @@ def getconflictinfos(path):
         def shape(self):
             return [''.join(l[0] for l in part) for part in [self.upper, self.lower]]
     handler = outer
-    for line in runlines(['git', 'diff', '--base', '--', path], keepends = True):
+    for line in git.diff.__base.__(path).splitlines(keepends = True):
         handler = handler(line) or handler
     return conflictinfos
 
@@ -124,6 +125,6 @@ def resadj(path):
 def main_resimp():
     'Resolve conflicts in imports and adjacent-line conflicts.'
     os.chdir(findproject()) # Paths below are relative to project root.
-    for path in runlines(['git', 'diff', '--name-only', '--diff-filter=U']):
+    for path in git.diff.__name_only('--diff-filter=U').splitlines():
         for task in resimp, resadj:
             task(path)
