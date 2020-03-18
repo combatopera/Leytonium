@@ -1,4 +1,4 @@
-from dev_bin.common import run, showmenu, UnknownParentException, showexception, unchecked_run, stripansi, getpublic, savedcommits, AllBranches, highlight, findproject, infodirname
+from dev_bin.common import run, showmenu, UnknownParentException, showexception, stripansi, getpublic, savedcommits, AllBranches, highlight, findproject, infodirname
 from lagoon import git
 from termcolor import colored
 from pathlib import Path
@@ -76,5 +76,5 @@ def main_st():
             print("(%s more)" % count)
     except UnknownParentException:
         showexception()
-    unchecked_run(['git', 'status', '-v'])
+    subprocess.run(['git', 'status', '-v'])
     run(['git', 'stash', 'list'])
