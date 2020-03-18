@@ -36,7 +36,7 @@ def mergeintocurrent(parents):
         merge(b)
 
 def touchifnecessary():
-    if [touchmsg()] == runlines(['git', 'log', '-1', '--pretty=format:%B']):
+    if [touchmsg()] == git.log._1('--pretty=format:%B').splitlines():
         stderr('No changes, touch not needed.')
     else:
         touchb.print()
