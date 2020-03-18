@@ -1,4 +1,5 @@
-from .common import nicely, isgitpol, publicbranches, run, stderr
+from .common import nicely, isgitpol, publicbranches, stderr
+from lagoon import git
 
 def main_autopull():
     'Pull master and releases with automatic stash and switch.'
@@ -8,6 +9,6 @@ def main_autopull():
             if isgitpol(b):
                 stderr("Skip: %s" % b)
             else:
-                run(['git', 'checkout', b])
-                run(['git', 'pull'])
+                git.checkout.print(b)
+                git.pull.print()
     nicely(pullthem)
