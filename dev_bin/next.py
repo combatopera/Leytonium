@@ -1,4 +1,4 @@
-from dev_bin.common import findproject, run, runlines
+from .common import findproject, run, runlines
 import os
 
 def main_next():
