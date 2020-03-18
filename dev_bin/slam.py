@@ -1,4 +1,4 @@
-from .common import AllBranches, args as getargs, showmenu, chain, pb, savecommits, savedcommits
+from .common import AllBranches, args as getargs, showmenu, chain, pb, savecommits, savedcommits, findproject, thisbranch, infodirname, os, stderr
 
 def main_slam():
     'Reset branch to given commit number.'
@@ -23,3 +23,14 @@ def main_slam():
         if save:
             savecommits(saved[:i], True)
         chain(['git', 'cherry-pick'] + list(reversed(saved[i:])))
+
+def main_unslam():
+    'Cherry-pick commits lost in a previous slam.'
+    path = os.path.join(findproject(), infodirname, "%s slammed" % thisbranch())
+    with open(path) as f:
+        commits = f.read().splitlines()
+    commits.reverse()
+    command = ['git', 'cherry-pick'] + commits
+    stderr("Command: %s" % ' '.join(command))
+    os.remove(path)
+    chain(command)
