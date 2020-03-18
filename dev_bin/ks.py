@@ -1,4 +1,5 @@
-from .common import run, addparents
+from .common import addparents
+from lagoon import git
 import os, re
 
 def githubuser():
@@ -8,5 +9,5 @@ def githubuser():
 def main_ks():
     'Create a kitchen-sink branch.'
     master, ks = 'master', 'kitchen-sink'
-    run(['git', 'checkout', '-b', ks, master])
+    git.checkout._b.print(ks, master)
     addparents(ks, master, 'controversial/*', "public/%s-*" % githubuser())
