@@ -16,6 +16,6 @@ def main_gt():
         toformat = [path for path in paths if path.exists() and path.name.endswith('.py')]
         if toformat:
             stderrbytes = run(['black', '--line-length', '120'] + toformat, stderr = subprocess.PIPE).stderr
-    run(['git', 'add'] + [str(p) for p in paths])
+    git.add.print(*paths)
     st.main_st()
     sys.stderr.buffer.write(stderrbytes)
