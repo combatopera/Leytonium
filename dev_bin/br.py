@@ -1,4 +1,4 @@
-from dev_bin.common import addparents, args, AllBranches, menu
+from .common import addparents, args, AllBranches, menu
 from lagoon import git
 
 def main_br():

@@ -1,7 +1,7 @@
-from dev_bin.common import showmenu, UnknownParentException, showexception, stripansi, getpublic, savedcommits, AllBranches, highlight, findproject, infodirname
+from .common import showmenu, UnknownParentException, showexception, stripansi, getpublic, savedcommits, AllBranches, highlight, findproject, infodirname
 from lagoon import clear, git, ls
-from termcolor import colored
 from pathlib import Path
+from termcolor import colored
 import subprocess, re, tempfile, aridity, yaml, time
 
 limit = 20

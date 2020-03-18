@@ -1,4 +1,4 @@
-from dev_bin.common import thisbranch, chain
+from .common import thisbranch, chain
 import subprocess
 
 def main_unpub():

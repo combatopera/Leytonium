@@ -1,7 +1,8 @@
-from dev_bin.common import run, findproject
+from . import st
+from .common import run, findproject
 from lagoon import git
 from pathlib import Path
-import subprocess, sys, aridity, st
+import subprocess, sys, aridity
 
 def main_gt():
     'Stage all outgoing changes and show them.'

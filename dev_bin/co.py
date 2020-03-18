@@ -1,4 +1,4 @@
-from dev_bin.common import args, AllBranches, addparents, getpublic
+from .common import args, AllBranches, addparents, getpublic
 from lagoon import git
 
 def main_co():
