@@ -184,7 +184,7 @@ def getpublic(b = None):
         return pub
 
 def nicely(task):
-    killide = lambda sig: pkill._f("-%s" % sig, 'com.intellij.idea.Main', check = False)
+    killide = lambda sig: pkill._f.print("-%s" % sig, 'com.intellij.idea.Main', check = False)
     killide('STOP')
     try:
         nicelyimpl(task)
