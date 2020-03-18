@@ -1,6 +1,7 @@
-from .common import thisbranch, pb, run, args, runlines
+from .common import thisbranch, pb, args, runlines
+from lagoon import git
 
 def main_publish():
     'Publish this branch, accepts push options.'
     remote, = runlines(['git', 'config', '--get', "branch.%s.remote" % pb()])
-    run(['git', 'push', '-u', remote, thisbranch()] + args())
+    git.push._u.print(remote, thisbranch(), *args())
