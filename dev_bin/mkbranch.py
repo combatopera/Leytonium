@@ -1,4 +1,4 @@
-from dev_bin.common import menu, run, addparents, AllBranches
+from .common import menu, run, addparents, AllBranches
 import sys, subprocess, os, tempfile, re
 
 wordpattern = re.compile(r'[^\s/]+')

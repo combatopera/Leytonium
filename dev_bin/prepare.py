@@ -1,4 +1,4 @@
-from dev_bin.common import thisbranch, pb, AllBranches, run, addparents
+from .common import thisbranch, pb, AllBranches, run, addparents
 from lagoon import ren
 
 def main_prepare():
