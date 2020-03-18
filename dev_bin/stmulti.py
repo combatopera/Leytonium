@@ -2,7 +2,7 @@ from . import effectivehome
 from lagoon import clear, co, find, git, hg, hgcommit, md5sum, rsync, test, tput
 from pathlib import Path
 from pyven.projectinfo import ProjectInfo
-import aridity, glob, logging, re, shlex
+import aridity, glob, logging, re, shlex, sys
 
 log = logging.getLogger(__name__)
 
@@ -114,7 +114,9 @@ class Git(Project):
                 lastrelease = max((t for t in self.git.tag().splitlines() if t.startswith('v')), default = None, key = lambda t: int(t[1:]))
                 if lastrelease is None:
                     lastrelease, = self.git.rev_list('--max-parents=0', 'HEAD').splitlines() # Assume trivial initial commit.
-                self.git.diff.__stat.print(lastrelease, '--', '.', *(":(exclude,glob)%s" % glob for glob in ['.travis.yml', 'project.arid', '**/test_*.py', '.gitignore']))
+                shortstat = self.git.diff.__shortstat(lastrelease, '--', '.', *(":(exclude,glob)%s" % glob for glob in ['.travis.yml', 'project.arid', '**/test_*.py', '.gitignore']))
+                if shortstat:
+                    sys.stdout.write(f"{tput.rev()}{tput.setaf(5)}{lastrelease}{tput.sgr0()}{shortstat}")
         self.git.stash.list.print()
 
 class Rsync(Project):
