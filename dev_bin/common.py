@@ -46,13 +46,13 @@ class AllBranches:
 
     def _published(self, name):
         try:
-            lines = runlines(['git', 'rev-parse', "origin/%s" % name], stderr = subprocess.DEVNULL)
+            lines = git.rev_parse("origin/%s" % name, stderr = subprocess.DEVNULL).splitlines()
         except:
             return None
         published, = lines # May be a merge.
         # Find parent of the first unpublished non-merge commit:
         nonmerges = set(id for id, _ in self.branchcommits(name))
-        allcommits = runlines(['git', 'log', '--format=%H', name])
+        allcommits = git.log('--format=%H', name).splitlines()
         mergeableindex = 0
         for i, commit in enumerate(allcommits):
             if commit == published:
@@ -166,7 +166,7 @@ def showexception():
 
 def publicbranches():
     def g():
-        for line in runlines(['git', 'branch', '-vv']):
+        for line in git.branch._vv().splitlines():
             if re.search(r' \[[^/]+/', line) is None:
                 continue
             yield re.search(r'\S+', line[2:]).group()
@@ -175,10 +175,9 @@ def publicbranches():
 def getpublic(b = None):
     if b is None:
         b = thisbranch()
-    lines = runlines(
-        ['git', 'rev-parse', '--abbrev-ref', "%s@{upstream}" % b],
-        check = False,
-        stderr = subprocess.DEVNULL)
+    lines = git.rev_parse.__abbrev_ref("%s@{upstream}" % b,
+            check = False,
+            stderr = subprocess.DEVNULL).stdout.splitlines()
     if lines:
         pub, = lines
         return pub
@@ -192,7 +191,7 @@ def nicely(task):
         killide('CONT')
 
 def nicelyimpl(task):
-    stashed = ['No local changes to save'] != runlines(['git', 'stash'])
+    stashed = ['No local changes to save'] != git.stash().splitlines()
     branch = thisbranch()
     try:
         task()
