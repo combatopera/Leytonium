@@ -1,5 +1,5 @@
-from .common import findproject, nicely, AllBranches, getpublic, stderr, run, runlines, touchmsg
-from lagoon import touchb
+from .common import findproject, nicely, AllBranches, getpublic, stderr, runlines, touchmsg
+from lagoon import git, touchb
 import os
 
 def merge(b, check = True):
@@ -9,7 +9,7 @@ def reportornone(b):
     status = merge(b, False)
     conflicts = sum(1 for line in status if 'CONFLICT' in line)
     if conflicts:
-        run(['git', 'reset', '--hard'])
+        git.reset.__hard.print()
         return conflicts, b
     for line in status:
         print(line)
@@ -51,7 +51,7 @@ def multimerge():
     branchtoparents = {b: allbranches.parents(b) for b in remaining}
     allparents = {p for parents in branchtoparents.values() for p in parents}
     def update(b):
-        run(['git', 'checkout', b])
+        git.checkout.print(b)
         parents = branchtoparents[b]
         if b in allparents or ispublished():
             mergeintocurrent(parents)
@@ -61,7 +61,7 @@ def multimerge():
             raise Exception("Too many parents for rebase: %s" % b)
         else:
             p, = parents
-            run(['git', 'rebase', p])
+            git.rebase.print(p)
     done = set()
     while remaining:
         stderr("Remaining: %s" % ' '.join(remaining))
