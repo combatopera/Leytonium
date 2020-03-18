@@ -1,14 +1,8 @@
 from lagoon import git, pkill, toilet
-import subprocess, os, sys, traceback, re, collections, importlib.machinery, termcolor
+import subprocess, os, sys, traceback, re, collections, termcolor
 
 infodirname = '.pb'
 publicprefix = 'public/'
-
-def runpy(command, **kwargs):
-    name = command[0]
-    m = importlib.machinery.SourceFileLoader(name, os.path.join(os.path.dirname(__file__), name)).load_module()
-    sys.argv[1:] = command[1:] # XXX: Really clobber existing args?
-    m.main(**kwargs)
 
 class UnknownParentException(Exception): pass
 

@@ -1,4 +1,5 @@
-from dev_bin.common import findproject, nicely, AllBranches, getpublic, stderr, run, runlines, touchmsg, runpy
+from dev_bin.common import findproject, nicely, AllBranches, getpublic, stderr, run, runlines, touchmsg
+from lagoon import touchb
 import os
 
 def merge(b, check = True):
@@ -38,7 +39,7 @@ def touchifnecessary():
     if [touchmsg()] == runlines(['git', 'log', '-1', '--pretty=format:%B']):
         stderr('No changes, touch not needed.')
     else:
-        runpy(['touchb'])
+        touchb.print()
 
 def ispublished(): # TODO: Really this should check whether PR.
     pb = getpublic()
