@@ -1,4 +1,4 @@
-from dev_bin.common import stderr, findproject, runlines
+from .common import stderr, findproject, runlines
 import itertools, os, re
 
 def resimp(path):

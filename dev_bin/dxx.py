@@ -1,4 +1,4 @@
-from dev_bin.common import args as getargs, AllBranches, showmenu, pb, stderr, chain
+from .common import args as getargs, AllBranches, showmenu, pb, stderr, chain
 
 def main_dxx():
     'Short diff from parent branch or of passed-in commit number.'

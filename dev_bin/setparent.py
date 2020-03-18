@@ -1,4 +1,4 @@
-from dev_bin.common import args as getargs, addparents, thisbranch, getpublic
+from .common import args as getargs, addparents, thisbranch, getpublic
 
 def main_setparent():
     'Change declared parent of current branch.'

@@ -1,4 +1,4 @@
-from dev_bin.common import runlines, chain, run
+from .common import runlines, chain, run
 
 def main_n():
     'Switch to the next branch and run st.'

@@ -1,4 +1,4 @@
-from dev_bin.common import AllBranches, args as getargs, showmenu, chain, pb, savecommits, savedcommits
+from .common import AllBranches, args as getargs, showmenu, chain, pb, savecommits, savedcommits
 
 def main_slam():
     'Reset branch to given commit number.'

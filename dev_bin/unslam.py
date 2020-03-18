@@ -1,4 +1,4 @@
-from dev_bin.common import findproject, thisbranch, infodirname, chain, os, stderr
+from .common import findproject, thisbranch, infodirname, chain, os, stderr
 
 def main_unslam():
     'Cherry-pick commits lost in a previous slam.'

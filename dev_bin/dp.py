@@ -1,4 +1,4 @@
-from dev_bin.common import getpublic, args, chain, stderr
+from .common import getpublic, args, chain, stderr
 
 def main_dp():
     'Diff from public branch.'

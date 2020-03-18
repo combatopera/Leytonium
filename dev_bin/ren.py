@@ -1,4 +1,4 @@
-from dev_bin.common import thisbranch, args, findproject, infodirname, run
+from .common import thisbranch, args, findproject, infodirname, run
 import os
 
 def main_ren():

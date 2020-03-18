@@ -1,4 +1,4 @@
-from dev_bin.common import findproject
+from .common import findproject
 from lagoon import autopep8, sed
 import subprocess, re
 

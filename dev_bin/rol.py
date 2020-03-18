@@ -1,4 +1,4 @@
-from dev_bin.common import savedcommits, savecommits, args as getargs
+from .common import savedcommits, savecommits, args as getargs
 
 def main_rol():
     'Move given slammed commit (default top) to the bottom.'
