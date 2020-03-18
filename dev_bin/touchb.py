@@ -1,4 +1,4 @@
-from dev_bin.common import touchmsg, run, findproject, thisbranch
+from .common import touchmsg, run, findproject, thisbranch
 import os, time
 
 def main_touchb():

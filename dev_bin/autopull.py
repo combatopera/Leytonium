@@ -1,4 +1,4 @@
-from dev_bin.common import nicely, isgitpol, publicbranches, run, stderr
+from .common import nicely, isgitpol, publicbranches, run, stderr
 
 def main_autopull():
     'Pull master and releases with automatic stash and switch.'

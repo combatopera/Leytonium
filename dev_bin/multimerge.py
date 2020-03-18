@@ -1,4 +1,4 @@
-from dev_bin.common import findproject, nicely, AllBranches, getpublic, stderr, run, runlines, touchmsg
+from .common import findproject, nicely, AllBranches, getpublic, stderr, run, runlines, touchmsg
 from lagoon import touchb
 import os
 
