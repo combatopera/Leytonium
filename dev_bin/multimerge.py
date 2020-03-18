@@ -1,12 +1,11 @@
-from .common import findproject, nicely, AllBranches, getpublic, stderr, runlines, touchmsg
+from .common import findproject, nicely, AllBranches, getpublic, stderr, touchmsg
 from lagoon import git, touchb
 import os
 
-def merge(b, check = True):
-    return runlines(['git', 'merge', '--no-edit', b], check = check)
+merge = git.merge.__no_edit
 
 def reportornone(b):
-    status = merge(b, False)
+    status = merge(b, check = False).stdout.splitlines()
     conflicts = sum(1 for line in status if 'CONFLICT' in line)
     if conflicts:
         git.reset.__hard.print()
