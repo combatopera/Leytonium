@@ -76,5 +76,5 @@ def main_st():
             print("(%s more)" % count)
     except UnknownParentException:
         showexception()
-    subprocess.run(['git', 'status', '-v'])
+    git.status._v.print(check = False)
     git.stash.list.print()
