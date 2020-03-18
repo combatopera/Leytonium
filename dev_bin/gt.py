@@ -1,5 +1,5 @@
 from . import st
-from .common import run, findproject
+from .common import findproject
 from lagoon import git
 from pathlib import Path
 import subprocess, sys, aridity
@@ -12,11 +12,12 @@ def main_gt():
     with aridity.Repl(context) as repl:
         repl.printf('formattedprojects := $list()')
         repl.printf(". %s", Path.home() / '.settings.arid')
-    stderrbytes = b''
+    stderr = ''
     if projectdir.name in context.resolved('formattedprojects').unravel():
         toformat = [path for path in paths if path.exists() and path.name.endswith('.py')]
         if toformat:
-            stderrbytes = run(['black', '--line-length', '120'] + toformat, stderr = subprocess.PIPE).stderr
+            from lagoon import black
+            stderr = black.print('--line-length', 120, *toformat, stderr = subprocess.PIPE)
     git.add.print(*paths)
     st.main_st()
-    sys.stderr.buffer.write(stderrbytes)
+    sys.stderr.write(stderr)
