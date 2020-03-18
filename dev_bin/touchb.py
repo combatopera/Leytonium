@@ -1,4 +1,5 @@
-from .common import touchmsg, run, findproject, thisbranch
+from .common import touchmsg, findproject, thisbranch
+from lagoon import git
 import os, time
 
 def main_touchb():
@@ -6,5 +7,5 @@ def main_touchb():
     path = os.path.join(findproject(), 'TOUCHME')
     with open(path, 'w') as f:
         print("%s %s" % (time.strftime('%c %Z'), thisbranch()), file = f)
-    run(['git', 'add', path])
-    run(['git', 'commit', '-m', touchmsg()])
+    git.add.print(path)
+    git.commit._m.print(touchmsg())
