@@ -1,4 +1,4 @@
-from dev_bin.common import runlines
+from .common import runlines
 import re
 
 def lineport(line):
