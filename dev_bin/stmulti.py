@@ -100,8 +100,6 @@ class Git(Project):
         self._allbranches(lambda branch: self.hgcommit.print())
 
     def status(self):
-        self.git.branch._vv.print()
-        self.git.status._s.print()
         if (self.path / 'project.arid').exists():
             if self.config.repomount.is_dir(): # Needn't actually be mounted.
                 self._checkremotes()
@@ -117,6 +115,8 @@ class Git(Project):
                 shortstat = self.git.diff.__shortstat(lastrelease, '--', '.', *(":(exclude,glob)%s" % glob for glob in ['.travis.yml', 'project.arid', '**/test_*.py', '.gitignore']))
                 if shortstat:
                     sys.stdout.write(f"{tput.rev()}{tput.setaf(5)}{lastrelease}{tput.sgr0()}{shortstat}")
+        self.git.branch._vv.print()
+        self.git.status._s.print()
         self.git.stash.list.print()
 
 class Rsync(Project):
