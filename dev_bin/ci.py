@@ -1,4 +1,4 @@
-from dev_bin.common import args, isgitpol
+from .common import args, isgitpol
 from lagoon import git
 
 def main_ci():
