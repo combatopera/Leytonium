@@ -1,4 +1,5 @@
-from .common import AllBranches, args, findproject, infodirname, pb, savecommits
+from . import st
+from .common import AllBranches, args, findproject, infodirname, pb, savecommits, savedcommits
 from lagoon import clear, find, git
 from pathlib import Path
 
@@ -40,8 +41,10 @@ def main_rd():
     git.add.exec(*args())
 
 def main_dup():
-    'Add the top commit to the list of slammed commits.'
-    savecommits([AllBranches().branchcommits()[0][0]])
+    'Apply the last slammed commit.'
+    git.cherry_pick.__no_commit.print(savedcommits()[-1])
+    git.reset.print()
+    st.main_st()
 
 def main_scrub():
     'Remove all untracked items, including the git-ignored.'
