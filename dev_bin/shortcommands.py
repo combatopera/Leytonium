@@ -1,5 +1,5 @@
 from . import st
-from .common import AllBranches, args, findproject, infodirname, pb, savecommits, savedcommits
+from .common import args, findproject, infodirname, pb, savedcommits
 from lagoon import clear, find, git
 from pathlib import Path
 
