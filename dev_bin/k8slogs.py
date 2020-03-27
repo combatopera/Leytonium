@@ -22,7 +22,7 @@ def main_k8slogs():
         pass
     es = Elasticsearch(context.resolved('elasticsearch', 'hosts').unravel())
     res = es.search(body = dict(query = dict(bool = dict(must = [
-        dict(match = {'kubernetes.container_name': config.container_name}),
+        dict(match = {'kubernetes.container_name': config.container_name}), # TODO: Match whole field not substring.
         dict(range = {'@timestamp': dict(gte = date._Iseconds._d(f"{config.ago} ago").rstrip())}),
     ]))))
     print(res)
