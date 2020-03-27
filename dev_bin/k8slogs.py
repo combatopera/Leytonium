@@ -3,12 +3,12 @@ from aridimpl.util import NoSuchPathException
 from aridity import Context, Repl
 from elasticsearch import Elasticsearch
 from lagoon import date
-import logging
+import logging, sys
 
 log = logging.getLogger(__name__)
 
 def main_k8slogs():
-    logging.basicConfig(format = "[%(levelname)s] %(message)s", level = logging.DEBUG)
+    logging.basicConfig(format = "[%(levelname)s] %(message)s", level = logging.INFO)
     parser = ArgumentParser()
     parser.add_argument('--ago', default='1 hour')
     parser.add_argument('container_name')
@@ -21,8 +21,9 @@ def main_k8slogs():
     except NoSuchPathException:
         pass
     es = Elasticsearch(context.resolved('elasticsearch', 'hosts').unravel())
-    res = es.search(body = dict(query = dict(bool = dict(must = [
+    result = es.search(body = dict(query = dict(bool = dict(must = [
         dict(match = {'kubernetes.container_name': config.container_name}), # TODO: Match whole field not substring.
         dict(range = {'@timestamp': dict(gte = date._Iseconds._d(f"{config.ago} ago").rstrip())}),
     ]))))
-    print(res)
+    for source in (hit['_source'] for hit in result['hits']['hits']):
+        getattr(sys, source['stream']).write(source['message'])
