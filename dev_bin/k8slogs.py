@@ -33,7 +33,7 @@ def main_k8slogs():
             sort = [{'@timestamp': 'asc'}],
         ))['hits']['hits']
         for source in (hit['_source'] for hit in hits):
-            getattr(sys, source['stream']).write(source['message'])
+            getattr(sys, source['stream']).write(source['@timestamp'] + ' ' + source['message'])
         if len(hits) < maxsize:
             break
         interval = dict(gt = hits[-1]['_source']['@timestamp'])
