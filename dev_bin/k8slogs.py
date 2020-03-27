@@ -21,17 +21,19 @@ def main_k8slogs():
         log.info(context.resolved('elasticsearch', 'motd').cat())
     except NoSuchPathException:
         pass
+    interval = dict(gte = date._Iseconds._d(f"{config.ago} ago").rstrip())
     es = Elasticsearch(context.resolved('elasticsearch', 'hosts').unravel())
-    # XXX: What does allow_partial_search_results actually do?
-    result = es.search(size = maxsize, allow_partial_search_results = False, body = dict(
-        query = dict(bool = dict(must = [
-            dict(match = {'kubernetes.container_name': config.container_name}), # TODO: Match whole field not substring.
-            dict(range = {'@timestamp': dict(gte = date._Iseconds._d(f"{config.ago} ago").rstrip())}),
-        ])),
-        sort = [{'@timestamp': 'asc'}],
-    ))
-    hits = result['hits']['hits']
-    for source in (hit['_source'] for hit in hits):
-        getattr(sys, source['stream']).write(source['message'])
-    if len(hits) == maxsize:
-        log.warning('Data likely truncated.')
+    while True:
+        # XXX: What does allow_partial_search_results actually do?
+        hits = es.search(size = maxsize, allow_partial_search_results = False, body = dict(
+            query = dict(bool = dict(must = [
+                dict(match = {'kubernetes.container_name': config.container_name}), # TODO: Match whole field not substring.
+                dict(range = {'@timestamp': interval}),
+            ])),
+            sort = [{'@timestamp': 'asc'}],
+        ))['hits']['hits']
+        for source in (hit['_source'] for hit in hits):
+            getattr(sys, source['stream']).write(source['message'])
+        if len(hits) < maxsize:
+            break
+        interval = dict(gt = hits[-1]['_source']['@timestamp'])
