@@ -7,12 +7,14 @@ import logging, sys
 
 log = logging.getLogger(__name__)
 maxsize = 10000
+xforms = {('message',): lambda m: m.rstrip()}
 
 def main_k8slogs():
     logging.basicConfig(format = "[%(levelname)s] %(message)s", level = logging.INFO)
     parser = ArgumentParser()
-    parser.add_argument('--ago', default='1 hour')
+    parser.add_argument('--ago', default = '1 hour')
     parser.add_argument('container_name')
+    parser.add_argument('path', nargs = '*', default = ['message'])
     config = parser.parse_args()
     context = Context()
     with Repl(context) as repl:
@@ -22,6 +24,7 @@ def main_k8slogs():
     except NoSuchPathException:
         pass
     interval = dict(gte = date._Iseconds._d(f"{config.ago} ago").rstrip())
+    xform = xforms.get(tuple(config.path), lambda x: x)
     es = Elasticsearch(context.resolved('elasticsearch', 'hosts').unravel())
     while True:
         # XXX: What does allow_partial_search_results actually do?
@@ -33,7 +36,10 @@ def main_k8slogs():
             sort = [{'@timestamp': 'asc'}],
         ))['hits']['hits']
         for source in (hit['_source'] for hit in hits):
-            getattr(sys, source['stream']).write(source['@timestamp'] + ' ' + source['message'])
+            field = source
+            for name in config.path:
+                field = field[name]
+            print(source['@timestamp'], xform(field), file = getattr(sys, source['stream']))
         if len(hits) < maxsize:
             break
         interval = dict(gt = hits[-1]['_source']['@timestamp'])
