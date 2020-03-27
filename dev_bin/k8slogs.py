@@ -1,4 +1,5 @@
 from argparse import ArgumentParser
+from aridimpl.util import NoSuchPathException
 from aridity import Context, Repl
 from elasticsearch import Elasticsearch
 from lagoon import date
@@ -15,7 +16,10 @@ def main_k8slogs():
     context = Context()
     with Repl(context) as repl:
         repl('. $/($(~) .settings.arid)')
-    log.info(context.resolved('elasticsearch', 'motd').cat())
+    try:
+        log.info(context.resolved('elasticsearch', 'motd').cat())
+    except NoSuchPathException:
+        pass
     es = Elasticsearch(context.resolved('elasticsearch', 'hosts').unravel())
     res = es.search(body = dict(query = dict(bool = dict(must = [
         dict(match = {'kubernetes.container_name': config.container_name}),
