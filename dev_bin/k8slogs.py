@@ -22,6 +22,7 @@ def main_k8slogs():
     except NoSuchPathException:
         pass
     es = Elasticsearch(context.resolved('elasticsearch', 'hosts').unravel())
+    # XXX: What does allow_partial_search_results actually do?
     result = es.search(size = maxsize, allow_partial_search_results = False, body = dict(
         query = dict(bool = dict(must = [
             dict(match = {'kubernetes.container_name': config.container_name}), # TODO: Match whole field not substring.
