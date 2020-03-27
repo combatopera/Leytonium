@@ -21,7 +21,7 @@ def main_k8slogs():
     except NoSuchPathException:
         pass
     es = Elasticsearch(context.resolved('elasticsearch', 'hosts').unravel())
-    result = es.search(body = dict(query = dict(bool = dict(must = [
+    result = es.search(allow_partial_search_results = False, body = dict(query = dict(bool = dict(must = [
         dict(match = {'kubernetes.container_name': config.container_name}), # TODO: Match whole field not substring.
         dict(range = {'@timestamp': dict(gte = date._Iseconds._d(f"{config.ago} ago").rstrip())}),
     ]))))
