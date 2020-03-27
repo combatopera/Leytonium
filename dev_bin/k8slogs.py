@@ -2,8 +2,12 @@ from argparse import ArgumentParser
 from aridity import Context, Repl
 from elasticsearch import Elasticsearch
 from lagoon import date
+import logging
+
+log = logging.getLogger(__name__)
 
 def main_k8slogs():
+    logging.basicConfig(format = "[%(levelname)s] %(message)s", level = logging.DEBUG)
     parser = ArgumentParser()
     parser.add_argument('--ago', default='1 hour')
     parser.add_argument('container_name')
@@ -11,6 +15,7 @@ def main_k8slogs():
     context = Context()
     with Repl(context) as repl:
         repl('. $/($(~) .settings.arid)')
+    log.info(context.resolved('elasticsearch', 'motd').cat())
     es = Elasticsearch(context.resolved('elasticsearch', 'hosts').unravel())
     res = es.search(body = dict(query = dict(bool = dict(must = [
         dict(match = {'kubernetes.container_name': config.container_name}),
