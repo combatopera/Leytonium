@@ -61,11 +61,10 @@ def main_st():
     except subprocess.CalledProcessError:
         ls._l.print('--color=always')
         return
-    prstatuses = getprstatuses(allbranches.names)
     rows = [Row(allbranches, l[2:]) for l in git('-c', 'color.ui=always', 'branch', '-vv').splitlines()]
     fmt = "%%-%ss %%s" % max(len(r.parent) for r in rows)
-    for r, ispr in zip(rows + [None], prstatuses):
-        print(fmt % (r.parent, r.colorline(ispr)))
+    for r in rows:
+        print(fmt % (r.parent, r.colorline(False)))
     saved = savedcommits()
     showmenu([(c, title(c)) for c in saved], xform = lambda i: i - len(saved) + 1, print = highlight)
     try:
