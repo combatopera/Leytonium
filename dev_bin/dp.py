@@ -6,3 +6,9 @@ def main_dp():
     parent = getpublic()
     stderr("Public branch: %s" % parent)
     git.diff._M25.exec(*args(), parent)
+
+def main_pd():
+    'Diff from public branch, the other way.'
+    parent = getpublic()
+    stderr("Public branch: %s" % parent)
+    git.diff._M25.exec(*args(), 'HEAD', parent)
