@@ -94,6 +94,7 @@ class Git(Project):
 
     def pull(self):
         # TODO: Only fetch once.
+        # FIXME: The public branch does not normally exist in netpath.
         self._allbranches(lambda branch: self.git.pull.__ff_only.print(self.netpath, branch))
 
     def push(self):
