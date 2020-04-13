@@ -115,7 +115,7 @@ class Git(Project):
                 shortstat = self.git.diff.__shortstat(lastrelease, '--', '.', *(":(exclude,glob)%s" % glob for glob in ['.travis.yml', 'project.arid', '**/test_*.py', '.gitignore']))
                 if shortstat:
                     sys.stdout.write(f"{tput.rev()}{tput.setaf(5)}{lastrelease}{tput.sgr0()}{shortstat}")
-        self.git.branch._vv.print()
+        sys.stdout.write(re.sub(':[^]]+', lambda m: f"{tput.setaf(3)}{tput.rev()}{m.group()}{tput.sgr0()}", self.git.branch._vv('--color=always')))
         self.git.status._s.print()
         self.git.stash.list.print()
 
