@@ -4,7 +4,7 @@ import os
 
 def main_agi():
     'Search for identifier.'
-    ag._ws.print(*args(), findproject())
+    ag._ws.exec(*args(), findproject())
 
 def main_agil():
     'Edit files containing identifier.'
