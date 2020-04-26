@@ -46,3 +46,7 @@ def main_upgrade():
 
 def main_vpn():
     delegate('vpn.bash')
+
+def main_vunzip():
+    'Extract a Docker volume.'
+    delegate('vunzip.bash')

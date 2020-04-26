@@ -46,6 +46,11 @@ for group in json.load(sys.stdin)["logGroups"]:
     COMPREPLY=($(compgen -W "$_loggroups_names" $2))
 }
 
+function _dockervolumes {
+    local names="$(docker volume ls --format '{{.Name}}')"
+    COMPREPLY=($(compgen -W "$names" $2))
+}
+
 complete -F _allbranches ren
 complete -F _otherbranches co
 complete -F _otherbranches eb
@@ -56,3 +61,4 @@ complete -F _commonmessages ci
 complete -F _unconflictedpaths rd
 complete -F _unconflictedpaths rdx
 complete -F _loggroups awslogs
+complete -F _dockervolumes vunzip
