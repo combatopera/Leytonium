@@ -4,6 +4,7 @@ requires +=
     aridity
     autopep8
     awscli
+    docutils==0.15.2
     elasticsearch
     lagoon
     pyven
