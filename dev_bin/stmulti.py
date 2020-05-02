@@ -109,7 +109,7 @@ class Git(Project):
                     log.error("Bad hook: %s", self.hookname)
                 if self.test._x.print(hookpath, check = False):
                     log.error("Unexecutable hook: %s", self.hookname)
-            if not ProjectInfo(self.path)['proprietary']:
+            if not ProjectInfo.seek(self.path)['proprietary']:
                 lastrelease = max((t for t in self.git.tag().splitlines() if t.startswith('v')), default = None, key = lambda t: int(t[1:]))
                 if lastrelease is None:
                     lastrelease, = self.git.rev_list('--max-parents=0', 'HEAD').splitlines() # Assume trivial initial commit.
