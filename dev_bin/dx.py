@@ -18,9 +18,9 @@ def main_dxx():
         else:
             saved = savedcommits()
             commit = saved[len(saved) - 1 + n]
-        commits = ["%s^" % commit, commit]
+        commits = "%s^" % commit, commit
     else:
         parent = pb()
         stderr("Parent branch: %s" % parent)
-        commits = [parent]
+        commits = parent,
     git.diff._M25.__name_status.exec(*commits)
