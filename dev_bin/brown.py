@@ -6,12 +6,10 @@ cols = 120
 
 def main_brown():
     'Satisfy PEP 8 with minimal impact.'
-    args = sys.argv[1:]
-    if args:
-        root, = args
-    else:
-        root = findproject()
-    command = autopep8._rv.partial('--max-line-length', cols, root)
+    roots = sys.argv[1:]
+    if not roots:
+        roots = [findproject()]
+    command = autopep8._rv.partial('--max-line-length', cols, *roots)
     result = command._d(stdout = subprocess.DEVNULL, stderr = subprocess.PIPE)
     def paths():
         for line in result.splitlines():
