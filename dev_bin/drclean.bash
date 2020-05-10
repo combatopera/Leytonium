@@ -27,7 +27,11 @@ ids=$(docker images | tail -n +2 | ag -v '^(?:rabbitmq|python|redis|postgres|adm
 
 docker volume ls
 
-yes | logged docker volume prune
+ids=$(docker volume ls --format '{{.Name}}' | grep -v '^mirror$') || true
+
+[[ "$ids" ]] && {
+    logged docker volume rm $ids
+}
 
 docker network ls
 
