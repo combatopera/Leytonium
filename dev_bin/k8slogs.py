@@ -33,7 +33,7 @@ def main_k8slogs():
                 dict(match = {'kubernetes.container_name': config.container_name}), # TODO: Match whole field not substring.
                 dict(range = {'@timestamp': interval}),
             ])),
-            sort = [{'@timestamp': 'asc'}],
+            sort = [{'@timestamp': 'asc'}], # FIXME: Not enough to reconstruct log correctly.
         ))['hits']['hits']
         for source in (hit['_source'] for hit in hits):
             field = source
