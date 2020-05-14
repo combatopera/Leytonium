@@ -35,6 +35,7 @@ function _unconflictedpaths {
 import sys
 top, = map(Path, sys.argv[1:])
 for p in sys.stdin:
+    # FIXME: Support paths between top and cwd.
     print((top / p).relative_to(Path.cwd()))' "$(git rev-parse --show-toplevel)")"
     COMPREPLY=($(compgen -W "$paths" $2))
 }
