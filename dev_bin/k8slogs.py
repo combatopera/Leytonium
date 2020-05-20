@@ -15,6 +15,7 @@ def main_k8slogs():
     parser.add_argument('--ago', default = '1 hour')
     parser.add_argument('container_name')
     parser.add_argument('path', nargs = '*', default = ['message'])
+    parser.add_argument('--env', default = 'non-prod')
     config = parser.parse_args()
     context = Context()
     with Repl(context) as repl:
@@ -25,7 +26,7 @@ def main_k8slogs():
         pass
     interval = dict(gte = date._Iseconds._d(f"{config.ago} ago").rstrip())
     xform = xforms.get(tuple(config.path), lambda x: x)
-    es = Elasticsearch(context.resolved('elasticsearch', 'hosts').unravel())
+    es = Elasticsearch(context.resolved('elasticsearch', 'host').unravel()[config.env])
     while True:
         # XXX: What does allow_partial_search_results actually do?
         hits = es.search(size = maxsize, allow_partial_search_results = False, body = dict(
