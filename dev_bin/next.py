@@ -2,7 +2,7 @@ from .common import findproject
 from lagoon import git
 import os
 
-def main_next():
+def main_next(): # FIXME: Does not work in submodule.
     'Go to next step in current git workflow.'
     gitdir = os.path.join(findproject(), '.git')
     if os.path.isdir(os.path.join(gitdir, 'rebase-apply')):
