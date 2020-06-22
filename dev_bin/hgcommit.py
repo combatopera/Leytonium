@@ -51,8 +51,12 @@ class Git:
             git.push.print(dest.netremotename, branch)
         else:
             git.clone.__bare.print('.', dest.path)
-        if {'* master', '  public'} <= set(git.branch().splitlines()):
-            git.update_ref.print('refs/heads/public', 'master')
+        branches = set(git.branch().splitlines())
+        if '  public' in branches:
+            currentbranch = {'* master', '* trunk'} & branches
+            if currentbranch:
+                mainbranch, = (b[2:] for b in currentbranch)
+                git.update_ref.print('refs/heads/public', mainbranch)
 
 @singleton
 class Rsync:
