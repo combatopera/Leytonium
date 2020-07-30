@@ -1,6 +1,6 @@
 set -ex
 
-. "$(git_functions_path)"
+. "$(git-functions-path)"
 
 [[ "$1" != '-f' && "$(dxx)" ]] && {
     echo 'Unmerged changes!' >&2
