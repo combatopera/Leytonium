@@ -1,7 +1,9 @@
 from argparse import ArgumentParser
-from aridity import Context, NoSuchPathException, Repl
+from aridity import NoSuchPathException
+from aridity.config import Config
 from elasticsearch import Elasticsearch
 from lagoon import date
+from pathlib import Path
 import logging, sys
 
 log = logging.getLogger(__name__)
@@ -16,16 +18,15 @@ def main_k8slogs():
     parser.add_argument('path', nargs = '*', default = ['message'])
     parser.add_argument('--env', default = 'non-prod')
     args = parser.parse_args()
-    context = Context()
-    with Repl(context) as repl:
-        repl('. $/($(~) .settings.arid)')
+    config = Config.blank()
+    config.load(Path.home() / '.settings.arid')
     try:
-        log.info(context.resolved('elasticsearch', 'motd').cat())
+        log.info(config.elasticsearch.motd)
     except NoSuchPathException:
         pass
     interval = dict(gte = date._Iseconds._d(f"{args.ago} ago").rstrip())
     xform = xforms.get(tuple(args.path), lambda x: x)
-    es = Elasticsearch(context.resolved('elasticsearch', 'host').unravel()[args.env])
+    es = Elasticsearch(getattr(config.elasticsearch.host, args.env))
     while True:
         # XXX: What does allow_partial_search_results actually do?
         hits = es.search(size = maxsize, allow_partial_search_results = False, body = dict(
