@@ -1,5 +1,4 @@
 from argparse import ArgumentParser
-from aridity import NoSuchPathException
 from aridity.config import Config
 from elasticsearch import Elasticsearch
 from lagoon import date
@@ -21,7 +20,7 @@ def main_k8slogs():
     config.loadsettings()
     try:
         log.info(config.elasticsearch.motd)
-    except NoSuchPathException:
+    except AttributeError:
         pass
     interval = dict(gte = date._Iseconds._d(f"{args.ago} ago").rstrip())
     xform = xforms.get(tuple(args.path), lambda x: x)
