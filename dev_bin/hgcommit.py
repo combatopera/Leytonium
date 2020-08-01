@@ -1,5 +1,5 @@
 from . import effectivehome
-from .stmulti import Config
+from .stmulti import loadconfig
 from diapyr.util import singleton
 from lagoon import git, ls, rsync
 from pathlib import Path
@@ -24,7 +24,7 @@ def checkpath(path):
 class PathDest:
 
     def __init__(self, config, reldir):
-        self.clonespath = config.repomount / effectivehome.name
+        self.clonespath = Path(config.repomount, effectivehome.name)
         self.path = self.clonespath / reldir
         self.repohost = config.repohost
         self.reponame = config.reponame
@@ -77,7 +77,7 @@ class Rsync:
 
 def main_hgcommit():
     logging.basicConfig(level = logging.DEBUG, format = "[%(levelname)s] %(message)s")
-    config = Config.load()
+    config = loadconfig()
     reldir = Path.cwd().relative_to(effectivehome)
     for c in Git, Rsync:
         if Path(c.dirname).exists():

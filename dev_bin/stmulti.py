@@ -1,5 +1,5 @@
 from . import effectivehome
-from aridity import Context, Repl
+from aridity.config import Config
 from lagoon import clear, co, find, git, hg, hgcommit, md5sum, rsync, test, tput
 from pathlib import Path
 from pyven.projectinfo import ProjectInfo
@@ -7,22 +7,10 @@ import glob, logging, re, shlex, sys
 
 log = logging.getLogger(__name__)
 
-class Config:
-
-    @classmethod
-    def load(cls):
-        context = Context()
-        with Repl(context) as repl, (Path.home() / '.settings.arid').open() as f:
-            for line in f:
-                repl(line)
-        return cls(context.resolved('stmulti'))
-
-    def __init__(self, context):
-        self.repohost = context.resolved('repohost').value
-        self.netremotename = context.resolved('netremotename').value
-        self.reponame = context.resolved('reponame').value
-        self.repomount = Path(context.resolved('repomount').value)
-        self.hookmd5 = context.resolved('hookmd5').value
+def loadconfig():
+    config = Config.blank()
+    config.load(Path.home() / '.settings.arid')
+    return config.stmulti
 
 class Project:
 
@@ -39,7 +27,7 @@ class Project:
         for command in self.commands:
             setattr(self, Path(command.path).name, command.cd(path))
         self.homerelpath = path.resolve().relative_to(effectivehome)
-        self.netpath = config.repomount / effectivehome.name / self.homerelpath
+        self.netpath = Path(config.repomount, effectivehome.name, self.homerelpath)
         self.config = config
         self.path = path
 
@@ -103,7 +91,7 @@ class Git(Project):
 
     def status(self):
         if (self.path / 'project.arid').exists():
-            if self.config.repomount.is_dir(): # Needn't actually be mounted.
+            if Path(self.config.repomount).is_dir(): # Needn't actually be mounted.
                 self._checkremotes()
                 hookpath = Path('.git', 'hooks', self.hookname)
                 if self.md5sum(hookpath, check = False).stdout[:32] != self.config.hookmd5:
@@ -147,7 +135,7 @@ class Rsync(Project):
         tput.sgr0.print()
 
 def main(action):
-    config = Config.load()
+    config = loadconfig()
     clear.print()
     for projecttype in Mercurial, Git, Rsync:
         projecttype.forprojects(config, action)
