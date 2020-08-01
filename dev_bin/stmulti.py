@@ -1,8 +1,9 @@
 from . import effectivehome
+from aridity import Context, Repl
 from lagoon import clear, co, find, git, hg, hgcommit, md5sum, rsync, test, tput
 from pathlib import Path
 from pyven.projectinfo import ProjectInfo
-import aridity, glob, logging, re, shlex, sys
+import glob, logging, re, shlex, sys
 
 log = logging.getLogger(__name__)
 
@@ -10,8 +11,8 @@ class Config:
 
     @classmethod
     def load(cls):
-        context = aridity.Context()
-        with aridity.Repl(context) as repl, (Path.home() / '.settings.arid').open() as f:
+        context = Context()
+        with Repl(context) as repl, (Path.home() / '.settings.arid').open() as f:
             for line in f:
                 repl(line)
         return cls(context.resolved('stmulti'))

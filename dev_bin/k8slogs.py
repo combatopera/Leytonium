@@ -1,6 +1,5 @@
 from argparse import ArgumentParser
-from aridimpl.util import NoSuchPathException
-from aridity import Context, Repl
+from aridity import Context, NoSuchPathException, Repl
 from elasticsearch import Elasticsearch
 from lagoon import date
 import logging, sys

@@ -1,8 +1,10 @@
 from .common import showmenu, UnknownParentException, showexception, stripansi, getpublic, savedcommits, AllBranches, highlight, findproject, infodirname
+from aridity import Context, Repl
 from lagoon import clear, git, ls
 from pathlib import Path
+from tempfile import NamedTemporaryFile
 from termcolor import colored
-import subprocess, re, tempfile, aridity, yaml, time
+import re, subprocess, time, yaml
 
 limit = 20
 
@@ -32,8 +34,8 @@ def title(commit):
     return git.log('-n', 1, '--pretty=format:%B', commit).splitlines()[0]
 
 def getprstatuses(branches):
-    context = aridity.Context()
-    with aridity.Repl(context) as repl:
+    context = Context()
+    with Repl(context) as repl:
         repl.printf(". %s", Path.home() / '.settings.arid')
     org = context.resolved('organization').unravel()
     projectdir = Path(findproject()).resolve()
@@ -43,7 +45,7 @@ def getprstatuses(branches):
             cache = yaml.safe_load(f)
     else:
         cache = {}
-    with tempfile.NamedTemporaryFile() as cookiesfile:
+    with NamedTemporaryFile() as cookiesfile:
         subprocess.run([str(Path(__file__).parent / 'extract_cookies.sh')], stdout = cookiesfile, check = True)
         for branch, wget in zip(branches, [None if branch in cache else subprocess.Popen(['wget', '-q', '-O', '-', "https://github.com/%s/%s/tree/%s" % (org, projectdir.name, branch), '--load-cookies', cookiesfile.name], stdout = subprocess.PIPE) for branch in branches]):
             if wget is not None:

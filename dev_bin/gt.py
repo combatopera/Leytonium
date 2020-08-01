@@ -1,15 +1,16 @@
 from . import st
 from .common import findproject
+from aridity import Context, Repl
 from lagoon import git
 from pathlib import Path
-import subprocess, sys, aridity
+import subprocess, sys
 
 def main_gt():
     'Stage all outgoing changes and show them.'
     projectdir = Path(findproject()).resolve()
     paths = [projectdir / line[line.index("'") + 1:-1] for line in git.add._n(projectdir).splitlines()]
-    context = aridity.Context()
-    with aridity.Repl(context) as repl:
+    context = Context()
+    with Repl(context) as repl:
         repl.printf('formattedprojects := $list()')
         repl.printf(". %s", Path.home() / '.settings.arid')
     stderr = ''
