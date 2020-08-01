@@ -1,5 +1,5 @@
 from .common import showmenu, UnknownParentException, showexception, stripansi, getpublic, savedcommits, AllBranches, highlight, findproject, infodirname
-from aridity import Context, Repl
+from aridity.config import Config
 from lagoon import clear, git, ls
 from pathlib import Path
 from tempfile import NamedTemporaryFile
@@ -34,10 +34,9 @@ def title(commit):
     return git.log('-n', 1, '--pretty=format:%B', commit).splitlines()[0]
 
 def getprstatuses(branches):
-    context = Context()
-    with Repl(context) as repl:
-        repl.printf(". %s", Path.home() / '.settings.arid')
-    org = context.resolved('organization').unravel()
+    config = Config()
+    config.load(Path.home() / '.settings.arid')
+    org = config.organization
     projectdir = Path(findproject()).resolve()
     cachepath = projectdir / infodirname / 'cache.yml'
     if cachepath.exists() and time.time() - cachepath.stat().st_mtime < 60 * 60 * 12:
