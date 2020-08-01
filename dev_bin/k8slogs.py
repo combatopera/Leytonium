@@ -15,7 +15,7 @@ def main_k8slogs():
     parser.add_argument('container_name')
     parser.add_argument('path', nargs = '*', default = ['message'])
     parser.add_argument('--env', default = 'non-prod')
-    config = parser.parse_args()
+    args = parser.parse_args()
     context = Context()
     with Repl(context) as repl:
         repl('. $/($(~) .settings.arid)')
@@ -23,21 +23,21 @@ def main_k8slogs():
         log.info(context.resolved('elasticsearch', 'motd').cat())
     except NoSuchPathException:
         pass
-    interval = dict(gte = date._Iseconds._d(f"{config.ago} ago").rstrip())
-    xform = xforms.get(tuple(config.path), lambda x: x)
-    es = Elasticsearch(context.resolved('elasticsearch', 'host').unravel()[config.env])
+    interval = dict(gte = date._Iseconds._d(f"{args.ago} ago").rstrip())
+    xform = xforms.get(tuple(args.path), lambda x: x)
+    es = Elasticsearch(context.resolved('elasticsearch', 'host').unravel()[args.env])
     while True:
         # XXX: What does allow_partial_search_results actually do?
         hits = es.search(size = maxsize, allow_partial_search_results = False, body = dict(
             query = dict(bool = dict(must = [
-                dict(match = {'kubernetes.container_name': config.container_name}), # FIXME: Match whole field not substring, or we get unrelated logs!
+                dict(match = {'kubernetes.container_name': args.container_name}), # FIXME: Match whole field not substring, or we get unrelated logs!
                 dict(range = {'@timestamp': interval}),
             ])),
             sort = [{'@timestamp': 'asc'}], # FIXME: Not enough to reconstruct log correctly.
         ))['hits']['hits']
         for source in (hit['_source'] for hit in hits):
             field = source
-            for name in config.path:
+            for name in args.path:
                 field = field[name]
             print(source['@timestamp'], xform(field), file = getattr(sys, source['stream']))
         if len(hits) < maxsize:
