@@ -3,7 +3,6 @@ from aridity import NoSuchPathException
 from aridity.config import Config
 from elasticsearch import Elasticsearch
 from lagoon import date
-from pathlib import Path
 import logging, sys
 
 log = logging.getLogger(__name__)
@@ -19,7 +18,7 @@ def main_k8slogs():
     parser.add_argument('--env', default = 'non-prod')
     args = parser.parse_args()
     config = Config.blank()
-    config.load(Path.home() / '.settings.arid')
+    config.loadsettings()
     try:
         log.info(config.elasticsearch.motd)
     except NoSuchPathException:

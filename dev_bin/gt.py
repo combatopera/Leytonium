@@ -12,7 +12,7 @@ def main_gt():
     config = Config.blank()
     with config.repl() as repl:
         repl.printf('formattedprojects := $list()')
-    config.load(Path.home() / '.settings.arid')
+    config.loadsettings()
     stderr = ''
     if projectdir.name in config.formattedprojects:
         toformat = [path for path in paths if path.exists() and path.name.endswith('.py')]

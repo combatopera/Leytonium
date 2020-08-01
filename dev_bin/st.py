@@ -35,7 +35,7 @@ def title(commit):
 
 def getprstatuses(branches):
     config = Config.blank()
-    config.load(Path.home() / '.settings.arid')
+    config.loadsettings()
     org = config.organization
     projectdir = Path(findproject()).resolve()
     cachepath = projectdir / infodirname / 'cache.yml'

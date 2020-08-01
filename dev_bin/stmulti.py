@@ -9,7 +9,7 @@ log = logging.getLogger(__name__)
 
 def loadconfig():
     config = Config.blank()
-    config.load(Path.home() / '.settings.arid')
+    config.loadsettings()
     return config.stmulti
 
 class Project:
