@@ -34,7 +34,7 @@ def title(commit):
     return git.log('-n', 1, '--pretty=format:%B', commit).splitlines()[0]
 
 def getprstatuses(branches):
-    config = Config()
+    config = Config.blank()
     config.load(Path.home() / '.settings.arid')
     org = config.organization
     projectdir = Path(findproject()).resolve()
