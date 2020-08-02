@@ -10,8 +10,7 @@ def main_gt():
     projectdir = Path(findproject()).resolve()
     paths = [projectdir / line[line.index("'") + 1:-1] for line in git.add._n(projectdir).splitlines()]
     config = Config.blank()
-    with config.repl() as repl:
-        repl.printf('formattedprojects := $list()')
+    config.printf('formattedprojects := $list()')
     config.loadsettings()
     stderr = ''
     if projectdir.name in config.formattedprojects:
