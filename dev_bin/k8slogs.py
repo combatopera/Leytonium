@@ -36,7 +36,7 @@ def main_k8slogs():
     parser.add_argument('--ago', default = '1 hour')
     parser.add_argument('--env', default = 'non-prod')
     parser.add_argument('-u', action = 'store_true')
-    parser.add_argument('k8s_pod_name')
+    parser.add_argument('k8s_pod_prefix')
     parser.add_argument('path', nargs = '?', type = lambda p: tuple(p.split('.')), default = ('message',))
     args = parser.parse_args()
     config = Config.blank()
@@ -51,16 +51,18 @@ def main_k8slogs():
     agg = (Unique if args.u else Display)()
     while True:
         must = [dict(range = {'@timestamp': interval})]
-        if args.k8s_pod_name:
-            must.append(dict(match = {'kubernetes.pod_name': args.k8s_pod_name})) # XXX: Really no way to match exact prefix?
-            accept = lambda hit: hit['_source']['kubernetes']['pod_name'].startswith(args.k8s_pod_name)
+        if args.k8s_pod_prefix:
+            # XXX: Really no way to match exact prefix?
+            must.append(dict(match = {'kubernetes.pod_name': args.k8s_pod_prefix}))
+            accept = lambda hit: hit['_source']['kubernetes']['pod_name'].startswith(args.k8s_pod_prefix)
         else:
             accept = lambda hit: hit.get('_source', {}).get('kubernetes', {}).get('pod_name') is not None
         log.info("Fetch: %s", interval)
-        # XXX: What does allow_partial_search_results actually do?
-        hits = [hit for hit in es.search(size = maxsize, allow_partial_search_results = False, body = dict(
-            query = dict(bool = dict(must = must)),
-        ))['hits']['hits'] if accept(hit)]
+        hits = [hit for hit in es.search(
+            size = maxsize,
+            allow_partial_search_results = False, # XXX: What does this actually do?
+            body = dict(query = dict(bool = dict(must = must))),
+        )['hits']['hits'] if accept(hit)]
         if not hits:
             break
         hits.sort(key = lambda hit: hit['_source']['@timestamp']) # Much less problematic than ES sort.
