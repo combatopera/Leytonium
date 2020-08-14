@@ -2,11 +2,12 @@ from argparse import ArgumentParser
 from aridity.config import Config
 from elasticsearch import Elasticsearch
 from lagoon import date
-import logging, sys
+import logging, re, sys
 
 log = logging.getLogger(__name__)
 maxsize = 10000
 xforms = {('message',): lambda m: m.rstrip()}
+tspattern = re.compile('[0-9]{2}[.][0-9]{9}')
 
 def main_k8slogs():
     logging.basicConfig(format = "[%(levelname)s] %(message)s", level = logging.INFO)
@@ -40,7 +41,7 @@ def main_k8slogs():
             if ('',) != args.path:
                 for name in args.path:
                     field = field[name]
-            print(source['@timestamp'], xform(field), file = getattr(sys, source['stream']))
+            print(tspattern.search(source['@timestamp']).group(), xform(field), file = getattr(sys, source['stream']))
         if len(hits) < maxsize:
             break
         interval = dict(gt = hits[-1]['_source']['@timestamp'])
