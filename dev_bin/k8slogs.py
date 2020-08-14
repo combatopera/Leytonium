@@ -53,7 +53,7 @@ def main_k8slogs():
         must = [dict(range = {'@timestamp': interval})]
         if args.k8s_pod_name:
             must.append(dict(match = {'kubernetes.pod_name': args.k8s_pod_name})) # XXX: Really no way to match exact prefix?
-            accept = lambda hit: hit['_source']['kubernetes']['pod_name'].startswith(f"{args.k8s_pod_name}-")
+            accept = lambda hit: hit['_source']['kubernetes']['pod_name'].startswith(args.k8s_pod_name)
         else:
             accept = lambda hit: hit.get('_source', {}).get('kubernetes', {}).get('pod_name') is not None
         # XXX: What does allow_partial_search_results actually do?
