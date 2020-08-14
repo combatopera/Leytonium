@@ -36,8 +36,9 @@ def main_k8slogs():
         ))['hits']['hits']
         for source in (hit['_source'] for hit in hits):
             field = source
-            for name in args.path:
-                field = field[name]
+            if ('',) != args.path:
+                for name in args.path:
+                    field = field[name]
             print(source['@timestamp'], xform(field), file = getattr(sys, source['stream']))
         if len(hits) < maxsize:
             break
