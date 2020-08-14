@@ -27,14 +27,17 @@ def main_k8slogs():
     xform = xforms.get(args.path, lambda x: x)
     es = Elasticsearch(getattr(config.elasticsearch.host, args.env))
     while True:
+        must = [dict(range = {'@timestamp': interval})]
+        if args.k8s_pod_name:
+            must.append(dict(match = {'kubernetes.pod_name': args.k8s_pod_name})) # XXX: Really no way to match exact prefix?
+            accept = lambda hit: hit['_source']['kubernetes']['pod_name'].startswith(f"{args.k8s_pod_name}-")
+        else:
+            accept = lambda x: x
         # XXX: What does allow_partial_search_results actually do?
         hits = [hit for hit in es.search(size = maxsize, allow_partial_search_results = False, body = dict(
-            query = dict(bool = dict(must = [
-                dict(match = {'kubernetes.pod_name': args.k8s_pod_name}), # XXX: Really no way to match exact prefix?
-                dict(range = {'@timestamp': interval}),
-            ])),
+            query = dict(bool = dict(must = must)),
             sort = [{'@timestamp': 'asc'}],
-        ))['hits']['hits'] if hit['_source']['kubernetes']['pod_name'].startswith(f"{args.k8s_pod_name}-")]
+        ))['hits']['hits'] if accept(hit)]
         hits.sort(key = lambda hit: hit['_source']['@timestamp']) # Not quite redundant apparently!
         for source in (hit['_source'] for hit in hits):
             field = source
