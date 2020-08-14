@@ -13,7 +13,7 @@ def main_k8slogs():
     parser = ArgumentParser()
     parser.add_argument('--ago', default = '1 hour')
     parser.add_argument('container_name')
-    parser.add_argument('path', nargs = '*', default = ['message'])
+    parser.add_argument('path', nargs = '?', type = lambda p: tuple(p.split('.')), default = ('message',))
     parser.add_argument('--env', default = 'non-prod')
     args = parser.parse_args()
     config = Config.blank()
@@ -23,7 +23,7 @@ def main_k8slogs():
     except AttributeError:
         pass
     interval = dict(gte = date._Iseconds._d(f"{args.ago} ago").rstrip())
-    xform = xforms.get(tuple(args.path), lambda x: x)
+    xform = xforms.get(args.path, lambda x: x)
     es = Elasticsearch(getattr(config.elasticsearch.host, args.env))
     while True:
         # XXX: What does allow_partial_search_results actually do?
