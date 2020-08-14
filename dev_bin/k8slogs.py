@@ -1,5 +1,6 @@
 from argparse import ArgumentParser
 from aridity.config import Config
+from collections import defaultdict
 from elasticsearch import Elasticsearch
 from lagoon import date
 import logging, re, sys
@@ -9,13 +10,34 @@ maxsize = 10000
 xforms = {('message',): lambda m: m.rstrip()}
 tspattern = re.compile('[0-9]{2}[.][0-9]{9}')
 
+class Display:
+
+    def add(self, source, value):
+        print(tspattern.search(source['@timestamp']).group(), value, file = getattr(sys, source['stream']))
+
+    def flush(self):
+        pass
+
+class Unique:
+
+    def __init__(self):
+        self.counts = defaultdict(int)
+
+    def add(self, source, value):
+        self.counts[value] += 1
+
+    def flush(self):
+        for c, v in sorted([c, v] for v, c in self.counts.items()):
+            print(c, v)
+
 def main_k8slogs():
     logging.basicConfig(format = "[%(levelname)s] %(message)s", level = logging.INFO)
     parser = ArgumentParser()
     parser.add_argument('--ago', default = '1 hour')
+    parser.add_argument('--env', default = 'non-prod')
+    parser.add_argument('-u', action = 'store_true')
     parser.add_argument('k8s_pod_name')
     parser.add_argument('path', nargs = '?', type = lambda p: tuple(p.split('.')), default = ('message',))
-    parser.add_argument('--env', default = 'non-prod')
     args = parser.parse_args()
     config = Config.blank()
     config.loadsettings()
@@ -26,6 +48,7 @@ def main_k8slogs():
     interval = dict(gte = date._Iseconds._d(f"{args.ago} ago").rstrip())
     xform = xforms.get(args.path, lambda x: x)
     es = Elasticsearch(getattr(config.elasticsearch.host, args.env))
+    agg = (Unique if args.u else Display)()
     while True:
         must = [dict(range = {'@timestamp': interval})]
         if args.k8s_pod_name:
@@ -44,7 +67,8 @@ def main_k8slogs():
             if ('',) != args.path:
                 for name in args.path:
                     field = field[name]
-            print(tspattern.search(source['@timestamp']).group(), xform(field), file = getattr(sys, source['stream']))
+            agg.add(source, xform(field))
         if len(hits) < maxsize:
             break
         interval = dict(gt = hits[-1]['_source']['@timestamp'])
+    agg.flush()
