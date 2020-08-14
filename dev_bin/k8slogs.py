@@ -56,19 +56,19 @@ def main_k8slogs():
             accept = lambda hit: hit['_source']['kubernetes']['pod_name'].startswith(args.k8s_pod_name)
         else:
             accept = lambda hit: hit.get('_source', {}).get('kubernetes', {}).get('pod_name') is not None
+        log.info("Fetch: %s", interval)
         # XXX: What does allow_partial_search_results actually do?
         hits = [hit for hit in es.search(size = maxsize, allow_partial_search_results = False, body = dict(
             query = dict(bool = dict(must = must)),
-            sort = [{'@timestamp': 'asc'}],
         ))['hits']['hits'] if accept(hit)]
-        hits.sort(key = lambda hit: hit['_source']['@timestamp']) # Not quite redundant apparently!
+        if not hits:
+            break
+        hits.sort(key = lambda hit: hit['_source']['@timestamp']) # Much less problematic than ES sort.
         for source in (hit['_source'] for hit in hits):
             field = source
             if ('',) != args.path:
                 for name in args.path:
                     field = field[name]
             agg.add(source, xform(field))
-        if len(hits) < maxsize:
-            break
         interval = dict(gt = hits[-1]['_source']['@timestamp'])
     agg.flush()
