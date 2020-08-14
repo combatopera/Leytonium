@@ -12,7 +12,7 @@ def main_k8slogs():
     logging.basicConfig(format = "[%(levelname)s] %(message)s", level = logging.INFO)
     parser = ArgumentParser()
     parser.add_argument('--ago', default = '1 hour')
-    parser.add_argument('container_name')
+    parser.add_argument('pod_name')
     parser.add_argument('path', nargs = '?', type = lambda p: tuple(p.split('.')), default = ('message',))
     parser.add_argument('--env', default = 'non-prod')
     args = parser.parse_args()
@@ -27,13 +27,13 @@ def main_k8slogs():
     es = Elasticsearch(getattr(config.elasticsearch.host, args.env))
     while True:
         # XXX: What does allow_partial_search_results actually do?
-        hits = es.search(size = maxsize, allow_partial_search_results = False, body = dict(
+        hits = [hit for hit in es.search(size = maxsize, allow_partial_search_results = False, body = dict(
             query = dict(bool = dict(must = [
-                dict(match = {'kubernetes.container_name': args.container_name}), # FIXME: Match whole field not substring, or we get unrelated logs!
+                dict(match = {'kubernetes.pod_name': args.pod_name}),
                 dict(range = {'@timestamp': interval}),
             ])),
             sort = [{'@timestamp': 'asc'}], # FIXME: Not enough to reconstruct log correctly.
-        ))['hits']['hits']
+        ))['hits']['hits'] if hit['_source']['kubernetes']['pod_name'].startswith(f"{args.pod_name}-")]
         for source in (hit['_source'] for hit in hits):
             field = source
             if ('',) != args.path:
