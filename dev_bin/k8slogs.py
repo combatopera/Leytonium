@@ -13,7 +13,7 @@ tspattern = re.compile('[0-9]{2}[.][0-9]{9}')
 class Display:
 
     def add(self, source, value):
-        print(tspattern.search(source['@timestamp']).group(), value, file = getattr(sys, source['stream']))
+        print(tspattern.search(source['@timestamp']).group(), source['stream'][-3], value)
 
     def flush(self):
         pass
