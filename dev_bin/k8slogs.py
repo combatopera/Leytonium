@@ -29,11 +29,12 @@ def main_k8slogs():
         # XXX: What does allow_partial_search_results actually do?
         hits = [hit for hit in es.search(size = maxsize, allow_partial_search_results = False, body = dict(
             query = dict(bool = dict(must = [
-                dict(match = {'kubernetes.pod_name': args.pod_name}),
+                dict(match = {'kubernetes.pod_name': args.pod_name}), # XXX: Really no way to match exact prefix?
                 dict(range = {'@timestamp': interval}),
             ])),
-            sort = [{'@timestamp': 'asc'}], # FIXME: Not enough to reconstruct log correctly.
+            sort = [{'@timestamp': 'asc'}],
         ))['hits']['hits'] if hit['_source']['kubernetes']['pod_name'].startswith(f"{args.pod_name}-")]
+        hits.sort(key = lambda hit: hit['_source']['@timestamp']) # Not quite redundant apparently!
         for source in (hit['_source'] for hit in hits):
             field = source
             if ('',) != args.path:
