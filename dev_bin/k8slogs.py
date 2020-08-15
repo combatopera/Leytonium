@@ -3,7 +3,7 @@ from aridity.config import Config
 from collections import defaultdict
 from elasticsearch import Elasticsearch
 from lagoon import date
-import logging, re, sys
+import logging, re
 
 log = logging.getLogger(__name__)
 maxsize = 10000
