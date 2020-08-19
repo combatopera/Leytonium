@@ -1,4 +1,4 @@
-from . import delegate
+from pyven.delegate import delegate
 
 def main_squash():
     'Semi-interactively squash a most-recent chunk of commits.'
