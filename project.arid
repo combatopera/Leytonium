@@ -12,3 +12,4 @@ requires +=
     termcolor
 name = dev-bin
 proprietary = true
+pypi participant = false
