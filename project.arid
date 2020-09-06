@@ -1,15 +1,15 @@
 executable = true
 pyversions += 3
 requires +=
-    aridity
-    autopep8
-    awscli
+    aridity>=35
+    autopep8>=1.5.4
+    awscli>=1.18.133
     docutils==0.15.2
-    elasticsearch
-    lagoon
-    pyven
+    elasticsearch>=7.9.1
+    lagoon>=17
+    pyven>=56
     PyYAML==5.2
-    termcolor
+    termcolor>=1.1.0
 name = dev-bin
 proprietary = true
 pypi participant = false
