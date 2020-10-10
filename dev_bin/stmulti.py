@@ -114,7 +114,7 @@ class Git(Project):
             idealpublic = None
         for line in lines:
             if idealpublic != line.parts:
-                print(line.highlight())
+                print(line.highlighted())
         self.git.status._s.print()
         self.git.stash.list.print()
 
@@ -133,7 +133,7 @@ class BranchLine:
     def publicparts(self):
         return ['', 'public', self.parts[2], f"[origin/{self.parts[1]}]", self.parts[4]]
 
-    def highlight(self):
+    def highlighted(self):
         return re.sub(r':[^]\n]+]', lambda m: f"{tput.setaf(3)}{tput.rev()}{m.group()}{tput.sgr0()}", self.line)
 
 class Rsync(Project):
