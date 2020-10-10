@@ -105,9 +105,33 @@ class Git(Project):
                 shortstat = self.git.diff.__shortstat(lastrelease, '--', '.', *(":(exclude,glob)%s" % glob for glob in ['.travis.yml', 'project.arid', '**/test_*.py', '.gitignore']))
                 if shortstat:
                     sys.stdout.write(f"{tput.rev()}{tput.setaf(5)}{lastrelease}{tput.sgr0()}{shortstat}")
-        sys.stdout.write(re.sub(r':[^]\n]+]', lambda m: f"{tput.setaf(3)}{tput.rev()}{m.group()}{tput.sgr0()}", self.git.branch._vv('--color=always')))
+        lines = [BranchLine(l) for l in self.git.branch._vv('--color=always').splitlines()]
+        trunklines = [l for l in lines if l.branch in {'master', 'trunk'}]
+        if 1 == len(trunklines):
+            l, = trunklines
+            idealpublic = l.publicparts()
+        else:
+            idealpublic = None
+        for line in lines:
+            if idealpublic != line.parts:
+                print(re.sub(r':[^]\n]+]', lambda m: f"{tput.setaf(3)}{tput.rev()}{m.group()}{tput.sgr0()}", line.text))
         self.git.status._s.print()
         self.git.stash.list.print()
+
+class BranchLine:
+
+    sgr = re.compile('\x1b[[][0-9;]*m')
+
+    @property
+    def branch(self):
+        return self.parts[1]
+
+    def __init__(self, text):
+        self.parts = re.split(' +', self.sgr.sub('', text), 4)
+        self.text = text
+
+    def publicparts(self):
+        return ['', 'public', self.parts[2], f"[origin/{self.parts[1]}]", self.parts[4]]
 
 class Rsync(Project):
 
