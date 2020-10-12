@@ -105,6 +105,7 @@ class Git(Project):
                 shortstat = self.git.diff.__shortstat(lastrelease, '--', '.', *(":(exclude,glob)%s" % glob for glob in ['.travis.yml', 'project.arid', '**/test_*.py', '.gitignore']))
                 if shortstat:
                     sys.stdout.write(f"{tput.rev()}{tput.setaf(5)}{lastrelease}{tput.sgr0()}{shortstat}")
+        # TODO: Highlight when current branch is not master/trunk.
         lines = [BranchLine(l) for l in self.git.branch._vv('--color=always').splitlines()]
         trunklines = [l for l in lines if l.branch in {'master', 'trunk'}]
         if 1 == len(trunklines):
