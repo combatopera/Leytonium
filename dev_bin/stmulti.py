@@ -120,7 +120,7 @@ class Git(Project):
 
 class BranchLine:
 
-    sgr = re.compile('\x1b\\[[0-9;]*m')
+    sgr = re.compile(r'\x1b\[[0-9;]*m')
 
     @property
     def branch(self):
