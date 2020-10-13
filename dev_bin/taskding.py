@@ -8,8 +8,7 @@ soundpath = Path('/usr/share/sounds/freedesktop/stereo/complete.oga')
 
 class Child:
 
-    def __init__(self, pid, start):
-        self.pid = pid
+    def __init__(self, start):
         self.start = start
 
     def fire(self, now):
@@ -25,11 +24,10 @@ def main_taskding():
         now = time.time()
         with pgrep.bg('-P', shpidstr, check = False) as p:
             for line in p.stdout:
-                c = Child(int(line), now)
-                newchildren[c.pid] = c
+                newchildren[int(line)] = Child(now)
         for pid in children.keys() - newchildren.keys():
             children.pop(pid).fire(now)
-        for c in newchildren.values():
-            if c.pid not in children:
-                children[c.pid] = c
+        for pid, child in newchildren.items():
+            if pid not in children:
+                children[pid] = child
         time.sleep(sleeptime)
