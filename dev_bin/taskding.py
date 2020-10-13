@@ -1,6 +1,6 @@
 from lagoon import paplay, pgrep
 from pathlib import Path
-import os, sys, time
+import os, subprocess, sys, time
 
 sleeptime = .5
 soundpath = Path('/usr/share/sounds/freedesktop/stereo/complete.oga')
@@ -17,14 +17,16 @@ class Child:
 
 def main_taskding():
     shpidstr, = sys.argv[1:]
-    procdir = Path('/proc', shpidstr)
     children = {}
-    while procdir.exists():
+    while True:
         nowchildren = {}
         now = time.time()
-        with pgrep.bg('-P', shpidstr, check = False) as p:
-            for line in p.stdout:
-                nowchildren[int(line)] = Child(now)
+        try:
+            with pgrep.bg('-P', shpidstr) as stdout:
+                for line in stdout:
+                    nowchildren[int(line)] = Child(now)
+        except subprocess.CalledProcessError:
+            break
         for pid in children.keys() - nowchildren.keys():
             children.pop(pid).fire(now)
         for pid, child in nowchildren.items():
