@@ -1,4 +1,4 @@
-from lagoon import pgrep
+from lagoon import paplay, pgrep
 from pathlib import Path
 import os, sys, time
 
@@ -14,8 +14,7 @@ class Child:
 
     def fire(self, now):
         if self.start + threshold <= now and soundpath.exists() and not os.fork():
-            command = 'paplay', soundpath
-            os.execvp(command[0], command)
+            paplay.exec(soundpath)
 
 def main_taskding():
     shpidstr, = sys.argv[1:]
