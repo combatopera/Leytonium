@@ -3,8 +3,8 @@ from pathlib import Path
 import os, sys, time
 
 sleeptime = .5
-threshold = 5
 soundpath = Path('/usr/share/sounds/freedesktop/stereo/complete.oga')
+threshold = 5
 
 class Child:
 
@@ -20,14 +20,14 @@ def main_taskding():
     procdir = Path('/proc', shpidstr)
     children = {}
     while procdir.exists():
-        newchildren = {}
+        nowchildren = {}
         now = time.time()
         with pgrep.bg('-P', shpidstr, check = False) as p:
             for line in p.stdout:
-                newchildren[int(line)] = Child(now)
-        for pid in children.keys() - newchildren.keys():
+                nowchildren[int(line)] = Child(now)
+        for pid in children.keys() - nowchildren.keys():
             children.pop(pid).fire(now)
-        for pid, child in newchildren.items():
+        for pid, child in nowchildren.items():
             if pid not in children:
                 children[pid] = child
         time.sleep(sleeptime)
