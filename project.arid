@@ -4,6 +4,7 @@ requires +=
     aridity>=35
     autopep8>=1.5.4
     awscli==1.18.133
+    colorama==0.4.3
     docutils==0.15.2
     elasticsearch>=7.9.1
     lagoon>=17
