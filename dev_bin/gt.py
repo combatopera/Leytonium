@@ -13,7 +13,7 @@ def main_gt():
     config.printf('formattedprojects := $list()')
     config.loadsettings()
     stderr = ''
-    if projectdir.name in config.formattedprojects:
+    if projectdir.name in config.node.formattedprojects:
         toformat = [path for path in paths if path.exists() and path.name.endswith('.py')]
         if toformat:
             from lagoon import black

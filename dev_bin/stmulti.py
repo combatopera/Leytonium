@@ -10,7 +10,7 @@ log = logging.getLogger(__name__)
 def loadconfig():
     config = Config.blank()
     config.loadsettings()
-    return config.stmulti
+    return config.node.stmulti
 
 class Project:
 

@@ -41,6 +41,7 @@ def main_k8slogs():
     args = parser.parse_args()
     config = Config.blank()
     config.loadsettings()
+    config = config.node
     try:
         log.info(config.elasticsearch.motd)
     except AttributeError:

@@ -36,7 +36,7 @@ def title(commit):
 def getprstatuses(branches):
     config = Config.blank()
     config.loadsettings()
-    org = config.organization
+    org = config.node.organization
     projectdir = Path(findproject()).resolve()
     cachepath = projectdir / infodirname / 'cache.yml'
     if cachepath.exists() and time.time() - cachepath.stat().st_mtime < 60 * 60 * 12:
