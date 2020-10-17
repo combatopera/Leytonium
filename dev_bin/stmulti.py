@@ -1,5 +1,5 @@
 from . import effectivehome
-from aridity.config import Config
+from aridity.config import ConfigCtrl
 from lagoon import clear, co, find, git, hg, hgcommit, md5sum, rsync, test, tput
 from pathlib import Path
 from pyven.projectinfo import ProjectInfo
@@ -8,7 +8,7 @@ import glob, logging, re, shlex, sys
 log = logging.getLogger(__name__)
 
 def loadconfig():
-    config = Config.blank()
+    config = ConfigCtrl()
     config.loadsettings()
     return config.node.stmulti
 

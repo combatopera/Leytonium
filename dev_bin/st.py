@@ -1,5 +1,5 @@
 from .common import showmenu, UnknownParentException, showexception, stripansi, getpublic, savedcommits, AllBranches, highlight, findproject, infodirname
-from aridity.config import Config
+from aridity.config import ConfigCtrl
 from lagoon import clear, git, ls
 from pathlib import Path
 from tempfile import NamedTemporaryFile
@@ -34,7 +34,7 @@ def title(commit):
     return git.log('-n', 1, '--pretty=format:%B', commit).splitlines()[0]
 
 def getprstatuses(branches):
-    config = Config.blank()
+    config = ConfigCtrl()
     config.loadsettings()
     org = config.node.organization
     projectdir = Path(findproject()).resolve()

@@ -1,5 +1,5 @@
 from argparse import ArgumentParser
-from aridity.config import Config
+from aridity.config import ConfigCtrl
 from collections import defaultdict
 from elasticsearch import Elasticsearch
 from lagoon import date
@@ -39,7 +39,7 @@ def main_k8slogs():
     parser.add_argument('k8s_pod_prefix')
     parser.add_argument('path', nargs = '?', type = lambda p: tuple(p.split('.')), default = ('message',))
     args = parser.parse_args()
-    config = Config.blank()
+    config = ConfigCtrl()
     config.loadsettings()
     config = config.node
     try:
