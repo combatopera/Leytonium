@@ -11,5 +11,7 @@ def main_tempvenv():
     with TemporaryDirectory() as venvdir:
         venvdir = Path(venvdir)
         python3._m.venv.print(venvdir) # Must use host executable to get pip apparently.
-        Program.text(venvdir / 'bin' / 'pip').install.print(*sys.argv[1:])
+        reqs = sys.argv[1:]
+        if reqs:
+            Program.text(venvdir / 'bin' / 'pip').install.print(*reqs)
         Program.text(shellpath)._c.print('. "$1" && "$2"', '-c', venvdir / 'bin' / 'activate', shellpath)
