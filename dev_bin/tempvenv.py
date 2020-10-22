@@ -14,4 +14,4 @@ def main_tempvenv():
         reqs = sys.argv[1:]
         if reqs:
             Program.text(venvdir / 'bin' / 'pip').install.print(*reqs)
-        Program.text(shellpath)._c.print('. "$1" && "$2"', '-c', venvdir / 'bin' / 'activate', shellpath)
+        Program.text(shellpath)._c.print('. "$1" && exec "$2"', '-c', venvdir / 'bin' / 'activate', shellpath)
