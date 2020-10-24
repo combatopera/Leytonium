@@ -6,6 +6,7 @@ from pyven.projectinfo import ProjectInfo
 import glob, logging, re, shlex, sys
 
 log = logging.getLogger(__name__)
+trunknames = {'master', 'trunk'}
 
 def loadconfig():
     config = ConfigCtrl()
@@ -105,9 +106,8 @@ class Git(Project):
                 shortstat = self.git.diff.__shortstat(lastrelease, '--', '.', *(":(exclude,glob)%s" % glob for glob in ['.travis.yml', 'project.arid', '**/test_*.py', '.gitignore']))
                 if shortstat:
                     sys.stdout.write(f"{tput.rev()}{tput.setaf(5)}{lastrelease}{tput.sgr0()}{shortstat}")
-        # TODO: Highlight when current branch is not master/trunk.
         lines = [BranchLine(l) for l in self.git.branch._vv('--color=always').splitlines()]
-        trunklines = [l for l in lines if l.branch in {'master', 'trunk'}]
+        trunklines = [l for l in lines if l.branch in trunknames]
         if 1 == len(trunklines):
             l, = trunklines
             idealpublic = l.publicparts()
@@ -135,7 +135,10 @@ class BranchLine:
         return ['', 'public', self.parts[2], f"[origin/{self.parts[1]}]", self.parts[4]]
 
     def highlighted(self):
-        return re.sub(r':[^]\n]+]', lambda m: f"{tput.setaf(3)}{tput.rev()}{m.group()}{tput.sgr0()}", self.line)
+        line = re.sub(r':[^]\n]+]', lambda m: f"{tput.setaf(3)}{tput.rev()}{m.group()}{tput.sgr0()}", self.line)
+        if '*' == self.parts[0] and self.parts[1] not in trunknames:
+            line = re.sub(re.escape(self.parts[1]), lambda m: f"{tput.setaf(6)}{tput.bold()}{m.group()}{tput.sgr0()}", line, 1)
+        return line
 
 class Rsync(Project):
 
