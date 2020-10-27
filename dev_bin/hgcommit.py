@@ -1,5 +1,5 @@
 from . import effectivehome
-from .stmulti import loadconfig
+from .stmulti import loadconfig, trunknames
 from diapyr.util import singleton
 from lagoon import git, ls, rsync
 from pathlib import Path
@@ -53,7 +53,7 @@ class Git:
             git.clone.__bare.print('.', dest.path)
         branches = set(git.branch().splitlines())
         if '  public' in branches:
-            currentbranch = {'* master', '* trunk'} & branches
+            currentbranch = {f"* {b}" for b in trunknames} & branches
             if currentbranch:
                 mainbranch, = (b[2:] for b in currentbranch)
                 git.update_ref.print('refs/heads/public', mainbranch)

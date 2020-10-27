@@ -6,7 +6,7 @@ from pyven.projectinfo import ProjectInfo
 import glob, logging, re, shlex, sys
 
 log = logging.getLogger(__name__)
-trunknames = {'master', 'trunk'}
+trunknames = {'main', 'master', 'trunk'}
 
 def loadconfig():
     config = ConfigCtrl()
