@@ -6,7 +6,6 @@ requires +=
     awscli==1.18.133
     colorama==0.4.3
     docutils==0.15.2
-    elasticsearch>=7.9.1
     lagoon>=17
     pyven>=56
     PyYAML==5.2
