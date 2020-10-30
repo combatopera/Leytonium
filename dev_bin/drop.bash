@@ -25,7 +25,7 @@ for next in $v $v; do
 
 done
 
-co $next
+co $next # FIXME: Wraparound is surprising, select nearest with preference for next.
 
 git branch -D $todrop
 
