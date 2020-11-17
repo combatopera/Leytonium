@@ -2,9 +2,15 @@ from .common import AllBranches, args as getargs, pb, savedcommits, showmenu, st
 from lagoon import git
 
 def main_dx():
-    'Diff from parent branch.'
-    parent = pb()
-    stderr("Parent branch: %s" % parent)
+    'Diff from parent branch or from passed-in commit number.'
+    args = getargs()
+    if args:
+        n, = args
+        n = int(n)
+        parent = showmenu(AllBranches().branchcommits(), False)[n]
+    else:
+        parent = pb()
+        stderr("Parent branch: %s" % parent)
     git.diff._M25.exec(*getargs(), parent)
 
 def main_dxx():
