@@ -10,6 +10,7 @@ requires +=
     pyven>=56
     PyYAML==5.2
     termcolor>=1.1.0
+    urllib3<1.26 : Satisfy botocore restriction.
 name = dev-bin
 proprietary = true
 pypi participant = false
