@@ -5,14 +5,23 @@ import os, subprocess, sys, time
 sleeptime = .5
 soundpath = Path('/usr/share/sounds/freedesktop/stereo/complete.oga')
 threshold = 5
+interactivecommands = {'vim'}
 
 class Child:
 
     def __init__(self, start):
         self.start = start
 
+    def fetch(self, pid):
+        try:
+            with open(f"/proc/{pid}/cmdline") as f:
+                self.armed = f.read().split('\0')[0].split(os.sep)[-1] not in interactivecommands
+                return True
+        except FileNotFoundError:
+            pass
+
     def fire(self, now):
-        if self.start + threshold <= now and soundpath.exists() and not os.fork():
+        if self.start + threshold <= now and self.armed and soundpath.exists() and not os.fork():
             paplay.exec(soundpath)
 
 def main_taskding():
@@ -30,6 +39,6 @@ def main_taskding():
         for pid in children.keys() - nowchildren.keys():
             children.pop(pid).fire(now)
         for pid, child in nowchildren.items():
-            if pid not in children:
+            if pid not in children and child.fetch(pid):
                 children[pid] = child
         time.sleep(sleeptime)
