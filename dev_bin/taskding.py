@@ -5,7 +5,7 @@ import os, subprocess, sys, time
 sleeptime = .5
 soundpath = Path('/usr/share/sounds/freedesktop/stereo/complete.oga')
 threshold = 5
-interactivecommands = {'vim'}
+interactivecommands = {'diffuse', 'vim'}
 
 class Child:
 
