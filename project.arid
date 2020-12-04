@@ -3,15 +3,12 @@ pyversions += 3
 requires +=
     aridity>=35
     autopep8>=1.5.4
-    awscli==1.18.133
-    colorama==0.4.3
-    docutils==0.15.2
+    awscli>=1.18.133
     lagoon>=17
     pytz>=2020.4
     pyven>=56
-    PyYAML==5.2
+    PyYAML>=5.2
     termcolor>=1.1.0
-    urllib3==1.25.11 : Satisfy botocore restriction.
 name = dev-bin
 proprietary = true
 pypi participant = false
