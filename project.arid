@@ -5,6 +5,7 @@ requires +=
     autopep8>=1.5.4
     awscli>=1.18.133
     lagoon>=17
+    PyGObject>=3.38.0
     pytz>=2020.4
     pyven>=56
     PyYAML>=5.2
