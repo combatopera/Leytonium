@@ -11,5 +11,5 @@ requires +=
     PyYAML>=5.2
     termcolor>=1.1.0
 name = dev-bin
-proprietary = true
+licheck enabled = false
 pypi participant = false
