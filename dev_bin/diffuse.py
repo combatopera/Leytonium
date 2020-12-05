@@ -67,8 +67,14 @@ COPYRIGHT =  '''{copyright} © 2006-2019 Derrick Moser
 {copyright} © 2015-2020 Romain Failliot'''.format(copyright=_("Copyright"))
 WEBSITE = 'https://github.com/MightyCreak/diffuse'
 
+def main_diffuse():
+    main1()
+    main2()
+    main3()
+
 # process help options
-if __name__ == '__main__':
+def main1():
+    global args, argc
     args = sys.argv
     argc = len(args)
     if argc == 2 and args[1] in [ '-v', '--version' ]:
@@ -140,7 +146,6 @@ import glob
 import re
 import shlex
 import stat
-import string
 import subprocess
 import unicodedata
 import webbrowser
@@ -165,7 +170,7 @@ def globEscape(s):
     return ''.join([ m.get(c, c) for c in s ])
 
 # associate our icon with all of our windows
-if __name__ == '__main__':
+def main2():
     # this is not automatically set on some older version of PyGTK
     Gtk.Window.set_default_icon_name('diffuse')
 
@@ -8316,7 +8321,7 @@ def make_subdirs(p, ss):
     return p
 
 # process the command line arguments
-if __name__ == '__main__':
+def main3():
     # find the config directory and create it if it didn't exist
     rc_dir, subdirs = os.environ.get('XDG_CONFIG_HOME', None), ['diffuse']
     if rc_dir is None:
@@ -8375,7 +8380,6 @@ if __name__ == '__main__':
                 # specified revision
                 funcs[mode](specs, labels, options)
                 i += 1
-                rev = args[i]
                 specs, labels, options = [], [], { 'commit': args[i] }
                 mode = 'commit'
             elif arg in [ '-D', '--close-if-same' ]:
