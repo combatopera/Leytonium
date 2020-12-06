@@ -16,7 +16,7 @@ def main_gt():
     if projectdir.name in config.node.formattedprojects:
         toformat = [path for path in paths if path.exists() and path.name.endswith('.py')]
         if toformat:
-            from lagoon import black
+            from lagoon import black # TODO: No!
             stderr = black.print('--line-length', 120, *toformat, stderr = subprocess.PIPE)
     git.add.print(*paths)
     st.main_st()

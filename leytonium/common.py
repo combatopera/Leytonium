@@ -200,4 +200,4 @@ def touchmsg():
     return "WIP Touch %s" % thisbranch()
 
 def stripansi(text):
-    return re.sub('\x1b\\[[\x30-\x3f]*[\x20-\x2f]*[\x40-\x7e]', '', text)
+    return re.sub('\x1b\\[[\x30-\x3f]*[\x20-\x2f]*[\x40-\x7e]', '', text) # XXX: Duplicated code?

@@ -2,7 +2,7 @@ from .common import findproject
 from lagoon import autopep8, sed
 import re, subprocess, sys
 
-cols = 120
+cols = 120 # TODO LATER: Make configurable.
 
 def main_brown():
     'Satisfy PEP 8 with minimal impact.'

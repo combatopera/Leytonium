@@ -11,7 +11,7 @@ function _otherbranches {
 }
 
 function _branchnames {
-    local names="$(allbranches | grep -v '^master$' | sed 's/^[^-]*-//')"
+    local names="$(allbranches | grep -v '^master$' | sed 's/^[^-]*-//')" # FIXME: Not just master.
     COMPREPLY=($(compgen -W "$names" $2))
 }
 

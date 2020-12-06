@@ -1,7 +1,7 @@
 from datetime import datetime
 import pytz, re, sys
 
-tz = pytz.timezone('Europe/London')
+tz = pytz.timezone('Europe/London') # TODO LATER: Should be configurable, or deduce local somehow.
 pattern = re.compile('(9[0-9]{8}|[1-3][0-9]{9})([0-9]{3})?')
 
 def _repl(m):
