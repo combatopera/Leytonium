@@ -63,8 +63,8 @@ _ = gettext.gettext
 
 APP_NAME = 'Diffuse'
 VERSION = '0.6.0'
-COPYRIGHT =  '''{copyright} © 2006-2019 Derrick Moser
-{copyright} © 2015-2020 Romain Failliot'''.format(copyright=_("Copyright"))
+COPYRIGHT =  '''{copyright} \N{COPYRIGHT SIGN} 2006-2019 Derrick Moser
+{copyright} \N{COPYRIGHT SIGN} 2015-2020 Romain Failliot'''.format(copyright=_("Copyright"))
 WEBSITE = 'https://github.com/MightyCreak/diffuse'
 
 def main_diffuse():
