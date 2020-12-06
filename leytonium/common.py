@@ -201,8 +201,3 @@ def touchmsg():
 
 def stripansi(text):
     return re.sub('\x1b\\[[\x30-\x3f]*[\x20-\x2f]*[\x40-\x7e]', '', text)
-
-def isgitpol(b = None):
-    if b is None:
-        b = thisbranch()
-    return re.search('^(?:[a-z]+[0-9]+|%s)_' % re.escape(os.environ['USER']), b) is not None

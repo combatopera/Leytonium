@@ -1,9 +1,7 @@
-from .common import args, isgitpol
+from .common import args
 from lagoon import git
 
 def main_ci():
     'Commit with the given args as message.'
     message = ' '.join(args())
-    if isgitpol():
-        message = 'WIP ' + message[0].upper() + message[1:]
     git.commit._m.print(message)
