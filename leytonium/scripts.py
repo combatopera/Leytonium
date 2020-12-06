@@ -33,10 +33,6 @@ def main_eb():
 def main_fixemails():
     delegate('fixemails.bash')
 
-def main_killnodes():
-    'Kill all Corda nodes.'
-    delegate('killnodes.bash')
-
 def main_mdview():
     delegate('mdview.bash')
 
