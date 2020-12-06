@@ -1,25 +1,14 @@
 from pathlib import Path
-import ast, os
+import ast
 
-prefix = '#HALP '
+projectdir = Path(__file__).parent
+mainprefix = 'main_'
 
 def main_halp():
     '''You're looking at it!'''
     halps = []
-    dirpath = os.path.dirname(__file__)
-    for script in os.listdir(dirpath):
-        path = os.path.join(dirpath, script)
-        if script.startswith('.') or os.path.islink(path) or os.path.isdir(path):
-            continue
-        with open(path) as f:
-            for line in f:
-                if line.startswith(prefix):
-                    line, = line.splitlines()
-                    halps.append((script, line[len(prefix):]))
-                    break
-    mainprefix = 'main_'
-    for path in Path(dirpath).rglob('*.py'):
-        if path.relative_to(dirpath).parts[0] in {'.pyven', 'build'}:
+    for path in projectdir.rglob('*.py'):
+        if path.relative_to(projectdir).parts[0] in {'.pyven', 'build'}:
             continue
         with path.open() as f:
             m = ast.parse(f.read())
