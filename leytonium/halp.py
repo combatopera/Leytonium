@@ -1,7 +1,8 @@
+from lagoon import git
 from pathlib import Path
 import ast
 
-projectdir = Path(__file__).parent
+projectdir = Path(git.rev_parse.__show_toplevel(cwd = Path(__file__).parent).rstrip())
 mainprefix = 'main_'
 
 def main_halp():
