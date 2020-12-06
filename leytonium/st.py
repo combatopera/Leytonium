@@ -1,10 +1,7 @@
-from .common import showmenu, UnknownParentException, showexception, stripansi, getpublic, savedcommits, AllBranches, highlight, findproject, infodirname
-from aridity.config import ConfigCtrl
+from .common import showmenu, UnknownParentException, showexception, stripansi, getpublic, savedcommits, AllBranches, highlight
 from lagoon import clear, git, ls
-from pathlib import Path
-from tempfile import NamedTemporaryFile
 from termcolor import colored
-import re, subprocess, time, yaml
+import re, subprocess
 
 limit = 20
 
@@ -32,27 +29,6 @@ class Row:
 
 def title(commit):
     return git.log('-n', 1, '--pretty=format:%B', commit).splitlines()[0]
-
-def getprstatuses(branches):
-    config = ConfigCtrl()
-    config.loadsettings()
-    org = config.node.organization
-    projectdir = Path(findproject()).resolve()
-    cachepath = projectdir / infodirname / 'cache.yml'
-    if cachepath.exists() and time.time() - cachepath.stat().st_mtime < 60 * 60 * 12:
-        with cachepath.open() as f:
-            cache = yaml.safe_load(f)
-    else:
-        cache = {}
-    with NamedTemporaryFile() as cookiesfile:
-        subprocess.run([str(Path(__file__).parent / 'extract_cookies.sh')], stdout = cookiesfile, check = True)
-        for branch, wget in zip(branches, [None if branch in cache else subprocess.Popen(['wget', '-q', '-O', '-', "https://github.com/%s/%s/tree/%s" % (org, projectdir.name, branch), '--load-cookies', cookiesfile.name], stdout = subprocess.PIPE) for branch in branches]):
-            if wget is not None:
-                cache[branch] = 'View #' in wget.communicate()[0].decode()
-            yield cache[branch]
-    cachepath.parent.mkdir(exist_ok = True)
-    with cachepath.open('w') as f:
-        yaml.dump(cache, f)
 
 def main_st():
     'Show list of branches and outgoing changes.'
