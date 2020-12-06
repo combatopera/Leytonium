@@ -1,7 +1,7 @@
 /node
 /npm
 __pycache__/
-/dev_bin.egg-info/
+/Leytonium.egg-info/
 /setup.cfg
 /setup.py
 /pyproject.toml
