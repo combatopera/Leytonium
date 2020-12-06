@@ -17,7 +17,7 @@ class Child:
             with open(f"/proc/{pid}/cmdline") as f:
                 self.armed = f.read().split('\0')[0].split(os.sep)[-1] not in interactivecommands
                 return True
-        except FileNotFoundError:
+        except (FileNotFoundError, ProcessLookupError):
             pass
 
     def fire(self, now):
