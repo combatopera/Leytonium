@@ -88,6 +88,7 @@ COPYRIGHT =  '''{copyright} \N{COPYRIGHT SIGN} 2006-2019 Derrick Moser
 WEBSITE = 'https://github.com/MightyCreak/diffuse'
 
 def main_diffuse():
+    'Compare an arbitrary number of text files.'
     main1()
     main2()
     main3()
