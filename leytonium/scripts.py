@@ -22,9 +22,11 @@ def main_squash():
     delegate('squash.bash')
 
 def main_drclean():
+    'Clean Docker assets.'
     delegate('drclean.bash')
 
 def main_drst():
+    'Show Docker assets.'
     delegate('drclean.bash')
 
 def main_examine():
@@ -48,9 +50,11 @@ def main_eb():
     delegate('eb.bash')
 
 def main_fixemails():
+    'Replace author and committer emails of current user in history.'
     delegate('fixemails.bash')
 
 def main_mdview():
+    'Render Markdown file in browser.'
     delegate('mdview.bash')
 
 def main_upgrade():
