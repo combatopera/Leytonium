@@ -22,7 +22,7 @@ def main_squash():
     delegate('squash.bash')
 
 def main_drclean():
-    'Clean Docker assets.'
+    'Delete Docker assets.'
     delegate('drclean.bash')
 
 def main_drst():
