@@ -46,10 +46,10 @@ def main_gag():
     find._name.exec('build.gradle', '-exec', 'ag', *args(), '{}', '+')
 
 def main_git_completion_path():
-    print(Path(__file__).parent / 'git_completion')
+    print(Path(__file__).parent / 'git_completion.bash')
 
 def main_git_functions_path():
-    print(Path(__file__).parent / 'git_functions')
+    print(Path(__file__).parent / 'git_functions.bash')
 
 def main_rd():
     'Run git add on conflicted path, with completion.'
