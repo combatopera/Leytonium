@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+from . import initlogging
 from argparse import ArgumentParser
 from lagoon import python3
 from lagoon.program import Program
@@ -27,7 +28,7 @@ shellpath = os.environ['SHELL']
 
 def main_tempvenv():
     'Activate a temporary venv.'
-    logging.basicConfig(level = logging.DEBUG, format = "[%(levelname)s] %(message)s")
+    initlogging()
     parser = ArgumentParser()
     parser.add_argument('-w', action = 'store_true', help = 'enable bdist_wheel command')
     parser.add_argument('reqs', nargs = '*')

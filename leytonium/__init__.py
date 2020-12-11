@@ -16,6 +16,9 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 from pathlib import Path
-import os
+import logging, os
 
 effectivehome = Path("~%s" % os.environ.get('SUDO_USER', '')).expanduser()
+
+def initlogging():
+    logging.basicConfig(level = logging.DEBUG, format = "[%(levelname)s] %(message)s")

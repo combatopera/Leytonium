@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from . import effectivehome
+from . import effectivehome, initlogging
 from .stmulti import loadconfig, trunknames
 from diapyr.util import singleton
 from lagoon import git, ls, rsync
@@ -93,7 +93,7 @@ class Rsync:
         print("(cd %s && rsync %s %s)" % (Path.cwd(), ' '.join(lhs), ' '.join(rhs)))
 
 def main_hgcommit():
-    logging.basicConfig(level = logging.DEBUG, format = "[%(levelname)s] %(message)s")
+    initlogging()
     config = loadconfig()
     reldir = Path.cwd().relative_to(effectivehome)
     for c in Git, Rsync:
