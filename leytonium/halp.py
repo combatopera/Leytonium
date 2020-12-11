@@ -15,26 +15,37 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from lagoon import git
-from pathlib import Path
-import ast
+from . import initlogging
+from aridity.config import ConfigCtrl
+from importlib import import_module
+from pkg_resources import iter_entry_points
+import logging
 
-projectdir = Path(git.rev_parse.__show_toplevel(cwd = Path(__file__).parent).rstrip())
-mainprefix = 'main_'
+log = logging.getLogger(__name__)
 
 def main_halp():
     '''You're looking at it!'''
+    initlogging()
+    config = ConfigCtrl().loadappconfig(main_halp, 'halp.arid')
+    projects = set(config.projects)
+    others = set()
+    undocumented = set()
     halps = []
-    for path in projectdir.rglob('*.py'):
-        if path.relative_to(projectdir).parts[0] in {'.pyven', 'build'}:
-            continue
-        with path.open() as f:
-            m = ast.parse(f.read())
-        for obj in m.body:
-            if isinstance(obj, ast.FunctionDef) and obj.name.startswith(mainprefix):
-                doc = ast.get_docstring(obj)
-                if doc is not None:
-                    halps.append((obj.name[len(mainprefix):], doc))
+    for ep in iter_entry_points('console_scripts'):
+        project = ep.dist.project_name
+        if project in projects:
+            obj = import_module(ep.module_name)
+            for a in ep.attrs:
+                obj = getattr(obj, a)
+            doc = obj.__doc__
+            if doc is None:
+                undocumented.add(ep.name)
+            else:
+                halps.append((ep.name, doc))
+        else:
+            others.add(project)
+    log.debug("Other projects: %s", ' '.join(sorted(others)))
+    log.debug("Undocumented commands: %s", ' '.join(sorted(undocumented)))
     format = "%%-%ss %%s" % max(len(halp[0]) for halp in halps)
     for halp in sorted(halps):
         print(format % halp)
