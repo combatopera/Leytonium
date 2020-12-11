@@ -50,7 +50,7 @@ def main_eb():
     delegate('eb.bash')
 
 def main_fixemails():
-    'Replace author and committer emails of current user in history.'
+    'Replace author and committer emails of repo user in history.'
     delegate('fixemails.bash')
 
 def main_mdview():
