@@ -26,6 +26,7 @@ requires +=
     pytz>=2020.4
     pyven>=56
     PyYAML>=5.2
+    setuptools>=44.1.1
     termcolor>=1.1.0
 name = Leytonium
 years += 2020

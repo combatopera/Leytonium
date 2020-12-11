@@ -18,7 +18,7 @@
 from . import st
 from .common import args, findproject, infodirname, pb, savedcommits
 from lagoon import clear, find, git
-from pathlib import Path
+from pkg_resources import resource_filename
 
 def main_showstash():
     'Show stash as patch.'
@@ -46,10 +46,10 @@ def main_gag():
     find._name.exec('build.gradle', '-exec', 'ag', *args(), '{}', '+')
 
 def main_git_completion_path():
-    print(Path(__file__).parent / 'git_completion.bash')
+    print(resource_filename(__name__, 'git_completion.bash'))
 
 def main_git_functions_path():
-    print(Path(__file__).parent / 'git_functions.bash')
+    print(resource_filename(__name__, 'git_functions.bash'))
 
 def main_rd():
     'Run git add on conflicted path, with completion.'
