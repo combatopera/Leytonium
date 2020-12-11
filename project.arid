@@ -30,3 +30,4 @@ requires +=
 name = Leytonium
 years += 2020
 author = Andrzej Cichocki
+resource types += bash
