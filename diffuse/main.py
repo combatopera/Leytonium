@@ -564,7 +564,7 @@ class FileDiffViewer(Gtk.Grid):
                 return self.modified_text
             return self.text
 
-    def __init__(self, n, prefs):
+    def __init__(self, resources, n, prefs):
         # verify we have a valid number of panes
         if n < 2:
             raise ValueError('Invalid number of panes')
@@ -740,6 +740,7 @@ class FileDiffViewer(Gtk.Grid):
 
         # scroll to first difference when realised
         darea.connect_after('realize', self._realise_cb)
+        self.resources = resources
 
     # callback used when the viewer is first displayed
     # this must be connected with 'connect_after()' so the final widget sizes
@@ -2136,7 +2137,7 @@ class FileDiffViewer(Gtk.Grid):
             can_merge = (self.mode == Mode.LINE and f != self.current_pane)
             can_select = ((self.mode == Mode.LINE or self.mode == Mode.CHAR) and f == self.current_pane)
             can_swap = (f != self.current_pane)
-            menu = createMenu(theResources, [
+            menu = createMenu(self.resources, [
                       [_('Align with Selection'), self.align_with_selection_cb, [f, i], Gtk.STOCK_EXECUTE, None, can_align],
                       [_('Isolate'), self.button_cb, 'isolate', None, None, can_isolate],
                       [_('Merge Selection'), self.merge_lines_cb, f, None, None, can_merge],
@@ -2282,8 +2283,7 @@ class FileDiffViewer(Gtk.Grid):
     # draw the text viewport
     def darea_draw_cb(self, widget, cr, f):
         pane = self.panes[f]
-        syntax = theResources.getSyntax(self.syntax)
-
+        syntax = self.resources.getSyntax(self.syntax)
         rect = widget.get_allocation()
         x = rect.x + int(self.hadj.get_value())
         y = rect.y + int(self.vadj.get_value())
@@ -2294,8 +2294,7 @@ class FileDiffViewer(Gtk.Grid):
         maxy = y + rect.height
         line_number_width = pixels(self.getLineNumberWidth())
         h = self.font_height
-
-        diffcolours = [ theResources.getDifferenceColour(f), theResources.getDifferenceColour(f + 1) ]
+        diffcolours = [self.resources.getDifferenceColour(f), self.resources.getDifferenceColour(f + 1)]
         diffcolours.append((diffcolours[0] + diffcolours[1]) * 0.5)
 
         # iterate over each exposed line
@@ -2309,13 +2308,13 @@ class FileDiffViewer(Gtk.Grid):
                 cr.save()
                 cr.rectangle(0, y_start, line_number_width, h)
                 cr.clip()
-                colour = theResources.getColour('line_number_background')
+                colour = self.resources.getColour('line_number_background')
                 cr.set_source_rgb(colour.red, colour.green, colour.blue)
                 cr.paint()
 
                 # draw the line number
                 if line is not None and line.line_number is not None:
-                    colour = theResources.getColour('line_number')
+                    colour = self.resources.getColour('line_number')
                     cr.set_source_rgb(colour.red, colour.green, colour.blue)
                     layout = self.create_pango_layout(str(line.line_number))
                     layout.set_font_description(self.font)
@@ -2395,10 +2394,10 @@ class FileDiffViewer(Gtk.Grid):
                 else:
                     preeditwidth = 0
                 # draw background
-                colour = theResources.getColour('text_background')
-                alpha = theResources.getFloat('character_difference_opacity')
+                colour = self.resources.getColour('text_background')
+                alpha = self.resources.getFloat('character_difference_opacity')
                 if flags != 0:
-                    colour = (diffcolours[flags - 1] * theResources.getFloat('line_difference_opacity')).over(colour)
+                    colour = (diffcolours[flags - 1] * self.resources.getFloat('line_difference_opacity')).over(colour)
                 cr.set_source_rgb(colour.red, colour.green, colour.blue)
                 cr.paint()
 
@@ -2421,16 +2420,16 @@ class FileDiffViewer(Gtk.Grid):
 
                 if has_preedit or (line is not None and line.is_modified):
                     # draw modified
-                    colour = theResources.getColour('edited')
-                    alpha = theResources.getFloat('edited_opacity')
+                    colour = self.resources.getColour('edited')
+                    alpha = self.resources.getFloat('edited_opacity')
                     preedit_bg_colour = (colour * alpha).over(preedit_bg_colour)
                     cr.set_source_rgba(colour.red, colour.green, colour.blue, alpha)
                     cr.paint()
                 if self.mode == Mode.ALIGN:
                     # draw align
                     if self.align_pane == f and self.align_line == i:
-                        colour = theResources.getColour('alignment')
-                        alpha = theResources.getFloat('alignment_opacity')
+                        colour = self.resources.getColour('alignment')
+                        alpha = self.resources.getFloat('alignment_opacity')
                         cr.set_source_rgba(colour.red, colour.green, colour.blue, alpha)
                         cr.paint()
                 elif self.mode == Mode.LINE:
@@ -2440,8 +2439,8 @@ class FileDiffViewer(Gtk.Grid):
                         if end < start:
                             start, end = end, start
                         if i >= start and i <= end:
-                            colour = theResources.getColour('line_selection')
-                            alpha = theResources.getFloat('line_selection_opacity')
+                            colour = self.resources.getColour('line_selection')
+                            alpha = self.resources.getFloat('line_selection_opacity')
                             cr.set_source_rgba(colour.red, colour.green, colour.blue, alpha)
                             cr.paint()
                 elif self.mode == Mode.CHAR:
@@ -2465,8 +2464,8 @@ class FileDiffViewer(Gtk.Grid):
                                 layout = self.create_pango_layout(''.join(ss[start_char:end_char]))
                                 layout.set_font_description(self.font)
                                 w = layout.get_size()[0]
-                                colour = theResources.getColour('character_selection')
-                                alpha = theResources.getFloat('character_selection_opacity')
+                                colour = self.resources.getColour('character_selection')
+                                alpha = self.resources.getFloat('character_selection_opacity')
                                 cr.set_source_rgba(colour.red, colour.green, colour.blue, alpha)
                                 cr.rectangle(x_start + pixels(x_temp), y_start, pixels(w), h)
                                 cr.fill()
@@ -2475,7 +2474,7 @@ class FileDiffViewer(Gtk.Grid):
                     # draw margin
                     x_temp = line_number_width + pixels(self.prefs.getInt('display_right_margin') * self.digit_width)
                     if x_temp >= x and x_temp < maxx:
-                        colour = theResources.getColour('margin')
+                        colour = self.resources.getColour('margin')
                         cr.set_source_rgb(colour.red, colour.green, colour.blue)
                         cr.set_line_width(1)
                         cr.move_to(x_temp, y_start)
@@ -2484,7 +2483,7 @@ class FileDiffViewer(Gtk.Grid):
 
                 if text is None:
                     # draw hatching
-                    colour = theResources.getColour('hatch')
+                    colour = self.resources.getColour('hatch')
                     cr.set_source_rgb(colour.red, colour.green, colour.blue)
                     cr.set_line_width(1)
                     h2 = 2 * h
@@ -2545,7 +2544,7 @@ class FileDiffViewer(Gtk.Grid):
                         for start, end, tag in pane.syntax_cache[i][2]:
                             layout = self.create_pango_layout(''.join(ss[start:end]))
                             layout.set_font_description(self.font)
-                            colour = theResources.getColour(tag)
+                            colour = self.resources.getColour(tag)
                             blocks.append((start, end, x_temp, layout, colour))
                             x_temp += layout.get_size()[0]
                         pane.syntax_cache[i][3] = blocks
@@ -2585,14 +2584,14 @@ class FileDiffViewer(Gtk.Grid):
                             cr.rectangle(x_pos, y_start, w, h)
                             cr.fill()
                             # draw the preedit text
-                            colour = theResources.getColour('preedit')
+                            colour = self.resources.getColour('preedit')
                             cr.set_source_rgb(colour.red, colour.green, colour.blue)
                             cr.move_to(x_pos, y_start)
                             PangoCairo.show_layout(cr, layout)
                             # advance to the preedit's cursor position
                             x_pos += pixels(self._preedit_layout(True).get_size()[0])
                         # draw the character editing cursor
-                        colour = theResources.getColour('cursor')
+                        colour = self.resources.getColour('cursor')
                         cr.set_source_rgb(colour.red, colour.green, colour.blue)
                         cr.set_line_width(1)
                         cr.move_to(x_pos + 0.5, y_start)
@@ -2600,7 +2599,7 @@ class FileDiffViewer(Gtk.Grid):
                         cr.stroke()
                     elif self.mode == Mode.LINE or self.mode == Mode.ALIGN:
                         # draw the line editing cursor
-                        colour = theResources.getColour('cursor')
+                        colour = self.resources.getColour('cursor')
                         cr.set_source_rgb(colour.red, colour.green, colour.blue)
                         cr.set_line_width(1)
                         cr.move_to(maxx, y_start + 0.5)
@@ -2691,14 +2690,12 @@ class FileDiffViewer(Gtk.Grid):
             for f in range(n):
                 if flags[f] != 0:
                     self.diffmap_cache[f].append([start[f], nlines, flags[f]])
-
         # clear
-        colour = theResources.getColour('map_background')
+        colour = self.resources.getColour('map_background')
         cr.set_source_rgb(colour.red, colour.green, colour.blue)
         cr.paint()
-        bg_colour = theResources.getColour('text_background')
-        edited_colour = theResources.getColour('edited')
-
+        bg_colour = self.resources.getColour('text_background')
+        edited_colour = self.resources.getColour('edited')
         rect = widget.get_allocation()
 
         # get scroll position and total size
@@ -2709,7 +2706,7 @@ class FileDiffViewer(Gtk.Grid):
         wn = rect.width / n
         pad = 1
         for f in range(n):
-            diffcolours = [ theResources.getDifferenceColour(f), theResources.getDifferenceColour(f + 1) ]
+            diffcolours = [self.resources.getDifferenceColour(f), self.resources.getDifferenceColour(f + 1)]
             diffcolours.append((diffcolours[0] + diffcolours[1]) * 0.5)
             wx = f * wn
             # draw in two passes, more important stuff in the second pass
@@ -2749,13 +2746,12 @@ class FileDiffViewer(Gtk.Grid):
             if yh > 1:
                 yh -= 1
             #if ymin + yh > rect.y:
-            colour = theResources.getColour('line_selection')
-            alpha = theResources.getFloat('line_selection_opacity')
+            colour = self.resources.getColour('line_selection')
+            alpha = self.resources.getFloat('line_selection_opacity')
             cr.set_source_rgba(colour.red, colour.green, colour.blue, alpha)
             cr.rectangle(0.5, ymin + 0.5, rect.width - 1, yh - 1)
             cr.fill()
-
-            colour = theResources.getColour('cursor')
+            colour = self.resources.getColour('cursor')
             cr.set_source_rgb(colour.red, colour.green, colour.blue)
             cr.set_line_width(1)
             cr.rectangle(0.5, ymin + 0.5, rect.width - 1, yh - 1)
@@ -2945,7 +2941,7 @@ class FileDiffViewer(Gtk.Grid):
         self.openUndoBlock()
         if self.mode == Mode.LINE:
             # check if the keyval matches a line mode action
-            action = theResources.getActionForKey('line_mode', event.keyval, mask)
+            action = self.resources.getActionForKey('line_mode', event.keyval, mask)
             if action in self._line_mode_actions:
                 self._line_mode_actions[action]()
                 retval = True
@@ -2958,7 +2954,7 @@ class FileDiffViewer(Gtk.Grid):
             is_ctrl = event.state & Gdk.ModifierType.CONTROL_MASK
             retval = True
             # check if the keyval matches a character mode action
-            action = theResources.getActionForKey('character_mode', event.keyval, mask)
+            action = self.resources.getActionForKey('character_mode', event.keyval, mask)
             if action in self._character_mode_actions:
                 self._character_mode_actions[action]()
             # allow CTRL-Tab for widget navigation
@@ -3200,7 +3196,7 @@ class FileDiffViewer(Gtk.Grid):
                 self.replaceText(event.string)
         elif self.mode == Mode.ALIGN:
             # check if the keyval matches an align mode action
-            action = theResources.getActionForKey('align_mode', event.keyval, mask)
+            action = self.resources.getActionForKey('align_mode', event.keyval, mask)
             if action in self._align_mode_actions:
                 self._align_mode_actions[action]()
                 retval = True
@@ -4337,7 +4333,7 @@ class Diffuse(Gtk.Window):
                 self.encoding.set_text(s)
 
         def __init__(self, n, prefs, title):
-            super().__init__(n, prefs)
+            super().__init__(theResources, n, prefs)
             self.title = title
             self.status = ''
 
