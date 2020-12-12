@@ -50,9 +50,9 @@ import sys
 
 # gettext looks for the language using environment variables which
 # are normally not set on Windows so we try setting it for them
-if isWindows() and not any(v in os.environ for v in ['LANGUAGE', 'LC_ALL', 'LC_MESSAGES', 'LANG']) and lang is not None:
+if isWindows and not any(v in os.environ for v in ['LANGUAGE', 'LC_ALL', 'LC_MESSAGES', 'LANG']) and lang is not None:
     os.environ['LANG'] = lang
-gettext.bindtextdomain('diffuse', os.path.join(bin_dir, 'locale' if isWindows() else '../share/locale'))
+gettext.bindtextdomain('diffuse', os.path.join(bin_dir, 'locale' if isWindows else '../share/locale'))
 gettext.textdomain('diffuse')
 _ = gettext.gettext
 
@@ -193,7 +193,7 @@ def path2url(path, proto='file'):
     for c in s[i:]:
         if c == os.sep:
             c = '/'
-        elif c == ':' and isWindows():
+        elif c == ':' and isWindows:
             c = '|'
         else:
             v = ord(c)
@@ -1837,7 +1837,7 @@ class Diffuse(Gtk.Window):
     # display help documenation
     def help_contents_cb(self, widget, data):
         help_url = None
-        if isWindows():
+        if isWindows:
             # help documentation is distributed as local HTML files
             # search for localised manual first
             parts = [ 'manual' ]
@@ -1941,7 +1941,7 @@ def main3():
         i += 1
     else:
         # parse system wide then personal initialisation files
-        if isWindows():
+        if isWindows:
             rc_file = os.path.join(bin_dir, 'diffuserc')
         else:
             rc_file = os.path.join(bin_dir, '@SYSCONFIGDIR@/diffuserc')

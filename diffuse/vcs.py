@@ -46,7 +46,7 @@ import glob, os, shlex
 # by prepending './' to the basename
 def safeRelativePath(abspath1, name, prefs, cygwin_pref):
     s = os.path.join(os.curdir, relpath(abspath1, os.path.abspath(name)))
-    if isWindows():
+    if isWindows:
         if prefs.getBool(cygwin_pref):
             s = s.replace('\\', '/')
         else:
@@ -1274,7 +1274,7 @@ def _get_svk_repo(path, prefs):
     name = path
     # parse the ~/.svk/config file to discover which directories are part of
     # SVK repositories
-    if isWindows():
+    if isWindows:
         name = name.upper()
     svkroot = os.environ.get('SVKROOT', None)
     if svkroot is None:
@@ -1322,7 +1322,7 @@ def _get_svk_repo(path, prefs):
                                     tt.append(key[j])
                                     j += 1
                             key = ''.join(tt).replace(sep, os.sep)
-                            if isWindows():
+                            if isWindows:
                                 key = key.upper()
                             projs.append(key)
                     break

@@ -507,7 +507,7 @@ class Resources:
                             pass
                     else:
                         flags = 0
-                        if isWindows():
+                        if isWindows:
                             flags |= re.IGNORECASE
                         self.syntax_file_patterns[key] = re.compile(args[2], flags)
                 # eg. default to the Python syntax rules when viewing

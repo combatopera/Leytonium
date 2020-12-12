@@ -94,8 +94,7 @@ class Preferences:
 
         # find available encodings
         self.encodings = sorted(set(encodings.aliases.aliases.values()))
-
-        if isWindows():
+        if isWindows:
             svk_bin = 'svk.bat'
         else:
             svk_bin = 'svk'
@@ -174,7 +173,7 @@ class Preferences:
             'align_ignore_blanklines': ('align_ignore_whitespace', True),
             'align_ignore_endofline': ('align_ignore_whitespace', True)
         }
-        if isWindows():
+        if isWindows:
             root = os.environ.get('SYSTEMDRIVE', None)
             if root is None:
                 root = 'C:\\'
@@ -210,7 +209,7 @@ class Preferences:
                               [ 'File', key + '_bin_rlog', 'rlog', _('"rlog" command') ] ])
             else:
                 temp.extend([ [ 'File', key + '_bin', cmd, _('Command') ] ])
-            if isWindows():
+            if isWindows:
                 temp.append([ 'Boolean', key + '_bash', False, _('Launch from a Bash login shell') ])
                 if key != 'git':
                     temp.append([ 'Boolean', key + '_cygwin', False, _('Update paths for Cygwin') ])
@@ -439,7 +438,7 @@ class Preferences:
     # cygwin and native applications can be used on windows, use this method
     # to convert a path to the usual form expected on sys.platform
     def convertToNativePath(self, s):
-        if isWindows() and s.find('/') >= 0:
+        if isWindows and s.find('/') >= 0:
             # treat as a cygwin path
             s = s.replace(os.sep, '/')
             # convert to a Windows native style path

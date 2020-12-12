@@ -47,6 +47,8 @@ APP_NAME = 'Diffuse'
 bin_dir = os.path.dirname(sys.executable if hasattr(sys, 'frozen') else os.path.realpath(sys.argv[0]))
 COPYRIGHT =  '''{copyright} \N{COPYRIGHT SIGN} 2006-2019 Derrick Moser
 {copyright} \N{COPYRIGHT SIGN} 2015-2020 Romain Failliot'''.format(copyright=_("Copyright"))
+# platform test
+isWindows = os.name == 'nt'
 VERSION = '0.6.0'
 WEBSITE = 'https://github.com/MightyCreak/diffuse'
 
@@ -54,7 +56,7 @@ WEBSITE = 'https://github.com/MightyCreak/diffuse'
 def lang():
     # translation location: '../share/locale/<LANG>/LC_MESSAGES/diffuse.mo'
     # where '<LANG>' is the language key
-    if isWindows():
+    if isWindows:
         for v in 'LANGUAGE', 'LC_ALL', 'LC_MESSAGES', 'LANG':
             if v in os.environ:
                 lang = os.environ[v]
@@ -74,10 +76,6 @@ class Format:
 class Mode:
 
     LINE, CHAR, ALIGN = range(3)
-
-# platform test
-def isWindows():
-    return os.name == 'nt'
 
 # convenience function to display debug messages
 def logDebug(s):
@@ -163,7 +161,7 @@ def drive_from_path(s):
 
 # constructs a relative path from 'a' to 'b', both should be absolute paths
 def relpath(a, b):
-    if isWindows():
+    if isWindows:
         if drive_from_path(a) != drive_from_path(b):
             return b
     c1 = [ c for c in a.split(os.sep) if c != '' ]
@@ -183,12 +181,12 @@ def bashEscape(s):
 def popenRead(dn, cmd, prefs, bash_pref, success_results=None):
     if success_results is None:
         success_results = [ 0 ]
-    if isWindows() and prefs.getBool(bash_pref):
+    if isWindows and prefs.getBool(bash_pref):
         # launch the command from a bash shell is requested
         cmd = [ prefs.convertToNativePath('/bin/bash.exe'), '-l', '-c', 'cd {}; {}'.format(bashEscape(dn), ' '.join([ bashEscape(arg) for arg in cmd ])) ]
         dn = None
     # use subprocess.Popen to retrieve the file contents
-    if isWindows():
+    if isWindows:
         info = subprocess.STARTUPINFO()
         info.dwFlags |= subprocess.STARTF_USESHOWWINDOW
         info.wShowWindow = subprocess.SW_HIDE
