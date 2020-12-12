@@ -145,14 +145,12 @@ def main2():
     # this is not automatically set on some older version of PyGTK
     Gtk.Window.set_default_icon_name('diffuse')
 
-theResources = Resources()
-
 # convenience method for creating a menu bar according to a template
-def createMenuBar(specs, radio, accel_group):
+def createMenuBar(resources, specs, radio, accel_group):
     menu_bar = Gtk.MenuBar.new()
     for label, spec in specs:
         menu = Gtk.MenuItem.new_with_mnemonic(label)
-        menu.set_submenu(createMenu(theResources, spec, radio, accel_group))
+        menu.set_submenu(createMenu(resources, spec, radio, accel_group))
         menu.set_use_underline(True)
         menu.show()
         menu_bar.append(menu)
@@ -1163,7 +1161,7 @@ class Diffuse(Gtk.Window):
         # build list of radio menu items so we can update them to match the
         # currently viewed pane
         self.radio_menus = radio_menus = {}
-        menu_bar = createMenuBar(menuspecs, radio_menus, accel_group)
+        menu_bar = createMenuBar(resources, menuspecs, radio_menus, accel_group)
         vbox.pack_start(menu_bar, False, False, 0)
         menu_bar.show()
 
@@ -1949,15 +1947,16 @@ def main3():
         for rc_file in rc_file, os.path.join(rc_dir, 'diffuserc'):
             if os.path.isfile(rc_file):
                 rc_files.append(rc_file)
+    resources = Resources()
     for rc_file in rc_files:
         # convert to absolute path so the location of any processing errors are
         # reported with normalised file names
         rc_file = os.path.abspath(rc_file)
         try:
-            theResources.parse(rc_file)
+            resources.parse(rc_file)
         except IOError:
             logError(_('Error reading %s.') % (rc_file, ))
-    diff = Diffuse(theResources, VCSs(), rc_dir)
+    diff = Diffuse(resources, VCSs(), rc_dir)
     # load state
     statepath = os.path.join(data_dir, 'state')
     diff.loadState(statepath)
