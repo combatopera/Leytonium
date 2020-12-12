@@ -40,7 +40,7 @@
 from .patience import patience_diff
 from .preferences import Preferences
 from .resources import Resources
-from .ui import EncodingMenu
+from .ui import createMenu, EncodingMenu
 from .util import APP_NAME, Format, isWindows, len_minus_line_ending, logDebug, logError, MessageDialog, Mode, nullToEmpty, readlines, splitlines, strip_eol, VERSION
 from .vcs import VCSs
 import codecs
@@ -185,51 +185,12 @@ def main2():
 
 theResources = Resources()
 
-# convenience method for creating a menu according to a template
-def createMenu(specs, radio=None, accel_group=None):
-    menu = Gtk.Menu.new()
-    for spec in specs:
-        if len(spec) > 0:
-            if len(spec) > 7 and spec[7] is not None:
-                g, k = spec[7]
-                if g not in radio:
-                    item = Gtk.RadioMenuItem.new_with_mnemonic_from_widget(None, spec[0])
-                    radio[g] = (item, {})
-                else:
-                    item = Gtk.RadioMenuItem.new_with_mnemonic_from_widget(radio[g][0], spec[0])
-                radio[g][1][k] = item
-            else:
-                item = Gtk.ImageMenuItem.new_with_mnemonic(spec[0])
-            cb = spec[1]
-            if cb is not None:
-                data = spec[2]
-                item.connect('activate', cb, data)
-            if len(spec) > 3 and spec[3] is not None:
-                image = Gtk.Image.new()
-                image.set_from_stock(spec[3], Gtk.IconSize.MENU)
-                item.set_image(image)
-            if accel_group is not None and len(spec) > 4:
-                a = theResources.getKeyBindings('menu', spec[4])
-                if len(a) > 0:
-                    key, modifier = a[0]
-                    item.add_accelerator('activate', accel_group, key, modifier, Gtk.AccelFlags.VISIBLE)
-            if len(spec) > 5:
-                item.set_sensitive(spec[5])
-            if len(spec) > 6 and spec[6] is not None:
-                item.set_submenu(createMenu(spec[6], radio, accel_group))
-            item.set_use_underline(True)
-        else:
-            item = Gtk.SeparatorMenuItem.new()
-        item.show()
-        menu.append(item)
-    return menu
-
 # convenience method for creating a menu bar according to a template
 def createMenuBar(specs, radio, accel_group):
     menu_bar = Gtk.MenuBar.new()
     for label, spec in specs:
         menu = Gtk.MenuItem.new_with_mnemonic(label)
-        menu.set_submenu(createMenu(spec, radio, accel_group))
+        menu.set_submenu(createMenu(theResources, spec, radio, accel_group))
         menu.set_use_underline(True)
         menu.show()
         menu_bar.append(menu)
@@ -2180,10 +2141,9 @@ class FileDiffViewer(Gtk.Grid):
             can_merge = (self.mode == Mode.LINE and f != self.current_pane)
             can_select = ((self.mode == Mode.LINE or self.mode == Mode.CHAR) and f == self.current_pane)
             can_swap = (f != self.current_pane)
-
-            menu = createMenu(
-                      [ [_('Align with Selection'), self.align_with_selection_cb, [f, i], Gtk.STOCK_EXECUTE, None, can_align],
-                      [_('Isolate'), self.button_cb, 'isolate', None, None, can_isolate ],
+            menu = createMenu(theResources, [
+                      [_('Align with Selection'), self.align_with_selection_cb, [f, i], Gtk.STOCK_EXECUTE, None, can_align],
+                      [_('Isolate'), self.button_cb, 'isolate', None, None, can_isolate],
                       [_('Merge Selection'), self.merge_lines_cb, f, None, None, can_merge],
                       [],
                       [_('Cut'), self.button_cb, 'cut', Gtk.STOCK_CUT, None, can_select],
@@ -2193,7 +2153,7 @@ class FileDiffViewer(Gtk.Grid):
                       [_('Select All'), self.button_cb, 'select_all', None, None, can_select],
                       [_('Clear Edits'), self.button_cb, 'clear_edits', Gtk.STOCK_CLEAR, None, can_isolate],
                       [],
-                      [_('Swap with Selected Pane'), self.swap_panes_cb, f, None, None, can_swap] ])
+                      [_('Swap with Selected Pane'), self.swap_panes_cb, f, None, None, can_swap]])
             menu.attach_to_widget(self)
             menu.popup(None, None, None, None, event.button, event.time)
 
