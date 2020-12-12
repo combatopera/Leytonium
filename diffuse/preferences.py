@@ -45,8 +45,9 @@ import codecs, encodings, os, shlex, sys
 
 # text entry widget with a button to help pick file names
 class FileEntry(Gtk.Box):
+
     def __init__(self, parent, title):
-        Gtk.Box.__init__(self, orientation=Gtk.Orientation.HORIZONTAL)
+        super().__init__(orientation=Gtk.Orientation.HORIZONTAL)
         self.toplevel = parent
         self.title = title
         self.entry = entry = Gtk.Entry.new()
@@ -77,8 +78,6 @@ class FileEntry(Gtk.Box):
 
 # adaptor class to allow a Gtk.FontButton to be read like a Gtk.Entry
 class FontButton(Gtk.FontButton):
-    def __init__(self):
-        Gtk.FontButton.__init__(self)
 
     def get_text(self):
         return self.get_font_name()

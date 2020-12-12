@@ -1247,8 +1247,6 @@ def _get_svn_repo(path, prefs):
         return _Svn(p)
 
 class _Svk(_Svn):
-    def __init__(self, root):
-        _Svn.__init__(self, root)
 
     def _getVcs(self):
         return 'svk'

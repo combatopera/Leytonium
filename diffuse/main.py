@@ -286,7 +286,7 @@ class ScrolledWindow(Gtk.Grid):
                              Gdk.ScrollDirection.RIGHT))
 
     def __init__(self, hadj, vadj):
-        Gtk.Grid.__init__(self)
+        super().__init__()
         self.position = (0, 0)
         self.scroll_count = 0
         self.partial_redraw = False
@@ -568,8 +568,7 @@ class FileDiffViewer(Gtk.Grid):
         # verify we have a valid number of panes
         if n < 2:
             raise ValueError('Invalid number of panes')
-
-        Gtk.Grid.__init__(self)
+        super().__init__()
         self.set_can_focus(True)
         self.prefs = prefs
         self.string_width_cache = {}
@@ -3983,8 +3982,9 @@ GObject.signal_new('format-changed', FileDiffViewer, GObject.SignalFlags.RUN_LAS
 
 # dialogue used to search for text
 class SearchDialog(Gtk.Dialog):
+
     def __init__(self, parent, pattern=None, history=None):
-        Gtk.Dialog.__init__(self, title=_('Find...'), parent=parent, destroy_with_parent=True)
+        super().__init__(title=_('Find...'), parent=parent, destroy_with_parent=True)
         self.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.REJECT)
         self.add_button(Gtk.STOCK_OK, Gtk.ResponseType.ACCEPT)
 
@@ -4052,7 +4052,7 @@ class FileChooserDialog(Gtk.FileChooserDialog):
         FileChooserDialog.last_chosen_folder = widget.get_current_folder()
 
     def __init__(self, title, parent, prefs, action, accept, rev=False):
-        Gtk.FileChooserDialog.__init__(self, title=title, parent=parent, action=action)
+        super().__init__(title=title, parent=parent, action=action)
         self.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL)
         self.add_button(accept, Gtk.ResponseType.OK)
         self.prefs = prefs
@@ -4092,8 +4092,9 @@ class FileChooserDialog(Gtk.FileChooserDialog):
 
 # dialogue used to search for text
 class NumericDialog(Gtk.Dialog):
+
     def __init__(self, parent, title, text, val, lower, upper, step=1, page=0):
-        Gtk.Dialog.__init__(self, title=title, parent=parent, destroy_with_parent=True)
+        super().__init__(title=title, parent=parent, destroy_with_parent=True)
         self.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.REJECT)
         self.add_button(Gtk.STOCK_OK, Gtk.ResponseType.ACCEPT)
 
@@ -4125,8 +4126,9 @@ def url_hook(dialog, link, userdata):
 
 # the about dialogue
 class AboutDialog(Gtk.AboutDialog):
+
     def __init__(self):
-        Gtk.AboutDialog.__init__(self)
+        super().__init__()
         self.set_logo_icon_name('diffuse')
         if hasattr(self, 'set_program_name'):
             # only available in pygtk >= 2.12
@@ -4154,8 +4156,9 @@ You should have received a copy of the GNU General Public License along with thi
 # make this a Gtk.EventBox so signals can be connected for MMB and RMB button
 # presses.
 class NotebookTab(Gtk.EventBox):
+
     def __init__(self, name, stock):
-        Gtk.EventBox.__init__(self)
+        super().__init__()
         self.set_visible_window(False)
         hbox = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 0)
         if stock is not None:
@@ -4227,8 +4230,9 @@ class Diffuse(Gtk.Window):
     class FileDiffViewer(FileDiffViewer):
         # pane header
         class PaneHeader(Gtk.Box):
+
             def __init__(self):
-                Gtk.Box.__init__(self, orientation = Gtk.Orientation.HORIZONTAL, spacing = 0)
+                super().__init__(orientation = Gtk.Orientation.HORIZONTAL, spacing = 0)
                 appendButtons(self, Gtk.IconSize.MENU, [
                    [ Gtk.STOCK_OPEN, self.button_cb, 'open', _('Open File...') ],
                    [ Gtk.STOCK_REFRESH, self.button_cb, 'reload', _('Reload File') ],
@@ -4280,8 +4284,9 @@ class Diffuse(Gtk.Window):
 
         # pane footer
         class PaneFooter(Gtk.Box):
+
             def __init__(self):
-                Gtk.Box.__init__(self, orientation = Gtk.Orientation.HORIZONTAL, spacing = 0)
+                super().__init__(orientation = Gtk.Orientation.HORIZONTAL, spacing = 0)
                 self.cursor = label = Gtk.Label.new()
                 self.cursor.set_size_request(-1, -1)
                 self.pack_start(label, False, False, 0)
@@ -4336,8 +4341,7 @@ class Diffuse(Gtk.Window):
                 self.encoding.set_text(s)
 
         def __init__(self, n, prefs, title):
-            FileDiffViewer.__init__(self, n, prefs)
-
+            super().__init__(n, prefs)
             self.title = title
             self.status = ''
 
@@ -4739,8 +4743,7 @@ class Diffuse(Gtk.Window):
             self.footers[f].setFormat(format)
 
     def __init__(self, rc_dir):
-        Gtk.Window.__init__(self, type = Gtk.WindowType.TOPLEVEL)
-
+        super().__init__(type = Gtk.WindowType.TOPLEVEL)
         self.prefs = Preferences(os.path.join(rc_dir, 'prefs'))
         # number of created viewers (used to label some tabs)
         self.viewer_count = 0

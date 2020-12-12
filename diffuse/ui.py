@@ -43,8 +43,9 @@ from gi.repository import Gtk
 
 # widget to help pick an encoding
 class EncodingMenu(Gtk.Box):
+
     def __init__(self, prefs, autodetect=False):
-        Gtk.Box.__init__(self, orientation=Gtk.Orientation.HORIZONTAL)
+        super().__init__(orientation=Gtk.Orientation.HORIZONTAL)
         self.combobox = combobox = Gtk.ComboBoxText.new()
         self.encodings = prefs.getEncodings()[:]
         for e in self.encodings:

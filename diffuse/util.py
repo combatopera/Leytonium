@@ -74,7 +74,7 @@ class MessageDialog(Gtk.MessageDialog):
             buttons = Gtk.ButtonsType.OK
         else:
             buttons = Gtk.ButtonsType.OK_CANCEL
-        Gtk.MessageDialog.__init__(self, parent = parent, destroy_with_parent = True, message_type = type, buttons = buttons, text = s)
+        super().__init__(parent = parent, destroy_with_parent = True, message_type = type, buttons = buttons, text = s)
         self.set_title(APP_NAME)
 
 # report error messages
