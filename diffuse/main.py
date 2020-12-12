@@ -61,12 +61,7 @@ def main_diffuse():
     gi.require_version('GdkPixbuf', '2.0')
     gi.require_version('Pango', '1.0')
     gi.require_version('PangoCairo', '1.0')
-    main1()
-    main2()
-    main3()
-
-# process help options
-def main1():
+    # process help options
     global args, argc
     args = sys.argv
     argc = len(args)
@@ -112,15 +107,14 @@ Display Options:
   ( -i | --ignore-case )           Ignore case differences
   ( -w | --ignore-all-space )      Ignore white space differences'''))
         sys.exit(0)
+    # associate our icon with all of our windows
+    # this is not automatically set on some older version of PyGTK
+    Gtk.Window.set_default_icon_name('diffuse')
+    main3()
 
 if not hasattr(__builtins__, 'WindowsError'):
     # define 'WindowsError' so 'except' statements will work on all platforms
     WindowsError = IOError
-
-# associate our icon with all of our windows
-def main2():
-    # this is not automatically set on some older version of PyGTK
-    Gtk.Window.set_default_icon_name('diffuse')
 
 # create 'title_changed' signal for FileDiffViewer
 GObject.signal_new('swapped-panes', FileDiffViewer, GObject.SignalFlags.RUN_LAST, GObject.TYPE_NONE, (int, int))
