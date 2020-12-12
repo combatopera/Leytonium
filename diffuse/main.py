@@ -47,6 +47,17 @@ from gettext import gettext as _
 from gi.repository import GObject, Gtk
 import encodings, gettext, gi, os, sys
 
+# create nested subdirectories and return the complete path
+def make_subdirs(p, ss):
+    for s in ss:
+        p = os.path.join(p, s)
+        if not os.path.exists(p):
+            try:
+                os.mkdir(p)
+            except IOError:
+                pass
+    return p
+
 def main_diffuse():
     'Compare an arbitrary number of text files.'
     # gettext looks for the language using environment variables which
@@ -128,17 +139,6 @@ Display Options:
     # this is not automatically set on some older version of PyGTK
     Gtk.Window.set_default_icon_name('diffuse')
     main3()
-
-# create nested subdirectories and return the complete path
-def make_subdirs(p, ss):
-    for s in ss:
-        p = os.path.join(p, s)
-        if not os.path.exists(p):
-            try:
-                os.mkdir(p)
-            except IOError:
-                pass
-    return p
 
 # process the command line arguments
 def main3():
