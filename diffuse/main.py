@@ -69,9 +69,7 @@ if isWindows():
     locale_dir = 'locale'
 else:
     locale_dir = '../share/locale'
-locale_dir = os.path.join(bin_dir, locale_dir)
-gettext.bindtextdomain('diffuse', locale_dir)
-
+gettext.bindtextdomain('diffuse', os.path.join(bin_dir, locale_dir))
 gettext.textdomain('diffuse')
 _ = gettext.gettext
 
