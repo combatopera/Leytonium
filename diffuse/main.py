@@ -4349,7 +4349,7 @@ class Diffuse(Gtk.Window):
             self.footers = []
             for i in range(n):
                 # pane header
-                w = Diffuse.FileDiffViewer.PaneHeader()
+                w = self.FileDiffViewer.PaneHeader()
                 self.headers.append(w)
                 self.attach(w, i, 0, 1, 1)
                 w.connect('title-changed', self.title_changed_cb)
@@ -4358,9 +4358,8 @@ class Diffuse(Gtk.Window):
                 w.connect('save', self.save_file_button_cb, i)
                 w.connect('save-as', self.save_file_as_button_cb, i)
                 w.show()
-
                 # pane footer
-                w = Diffuse.FileDiffViewer.PaneFooter()
+                w = self.FileDiffViewer.PaneFooter()
                 self.footers.append(w)
                 self.attach(w, i, 2, 1, 1)
                 w.show()
@@ -5225,7 +5224,7 @@ class Diffuse(Gtk.Window):
         self.viewer_count += 1
         tabname = _('File Merge %d') % (self.viewer_count, )
         tab = NotebookTab(tabname, Gtk.STOCK_FILE)
-        viewer = Diffuse.FileDiffViewer(n, self.prefs, tabname)
+        viewer = self.FileDiffViewer(n, self.prefs, tabname)
         tab.button.connect('clicked', self.remove_tab_cb, viewer)
         tab.connect('button-press-event', self.notebooktab_button_press_cb, viewer)
         self.notebook.append_page(viewer, tab)
