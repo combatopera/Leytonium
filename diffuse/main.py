@@ -62,10 +62,9 @@ if isWindows():
             for v in ':.@':
                 lang = lang.split(v)[0]
             break
-    else:
-        if lang is not None:
-            os.environ['LANG'] = lang
     del v
+if isWindows() and not any(v in os.environ for v in ['LANGUAGE', 'LC_ALL', 'LC_MESSAGES', 'LANG']) and lang is not None:
+    os.environ['LANG'] = lang
 gettext.bindtextdomain('diffuse', os.path.join(bin_dir, 'locale' if isWindows() else '../share/locale'))
 gettext.textdomain('diffuse')
 _ = gettext.gettext
