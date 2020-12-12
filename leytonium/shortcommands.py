@@ -17,7 +17,9 @@
 
 from . import st
 from .common import args, findproject, infodirname, pb, savedcommits
+from itertools import islice
 from lagoon import clear, find, git
+from pathlib import Path
 from pkg_resources import resource_filename
 import sys
 
@@ -53,10 +55,19 @@ def main_git_functions_path():
     print(resource_filename(__name__, 'git_functions.bash'))
 
 def main_rd():
-    'Run git add on conflicted path, with completion.'
-    # FIXME: Reject directory args.
-    # FIXME: Refuse to add file with outstanding conflicts, easy to do from command history.
-    git.add.exec(*sys.argv[1:])
+    'Run git add on conflicted path(s), with completion.'
+    args = sys.argv[1:]
+    for i, a in enumerate(args):
+        if not a.startswith('-'):
+            break
+        if '--' == a:
+            i += 1
+            break
+    for p in map(Path, islice(args, i, None)):
+        with p.open() as f: # Effectively assert not directory.
+            for l in f:
+                assert '=======' != l.rstrip()
+    git.add.exec(*args)
 
 def main_dup():
     'Apply the last slammed commit.'
