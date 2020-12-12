@@ -686,9 +686,8 @@ class FileDiffViewer(Gtk.Grid):
         self.hadj = Gtk.Adjustment.new(0, 0, 0, 0, 0, 0)
         self.vadj = Gtk.Adjustment.new(0, 0, 0, 0, 0, 0)
         for i in range(n):
-            pane = FileDiffViewer.Pane()
+            pane = self.Pane()
             self.panes.append(pane)
-
             # pane contents
             sw = ScrolledWindow(self.hadj, self.vadj)
             sw.set_vexpand(True)
@@ -1081,7 +1080,7 @@ class FileDiffViewer(Gtk.Grid):
         pane = self.panes[f]
         if self.undoblock is not None:
             # create an Undo object for the action
-            self.addUndo(FileDiffViewer.SetFormatUndo(f, format, pane.format))
+            self.addUndo(self.SetFormatUndo(f, format, pane.format))
         pane.format = format
         self.emit('format_changed', f, format)
 
@@ -1103,12 +1102,12 @@ class FileDiffViewer(Gtk.Grid):
     def instanceLine(self, f, i, reverse=False):
         if self.undoblock is not None:
             # create an Undo object for the action
-            self.addUndo(FileDiffViewer.InstanceLineUndo(f, i, reverse))
+            self.addUndo(self.InstanceLineUndo(f, i, reverse))
         pane = self.panes[f]
         if reverse:
             pane.lines[i] = None
         else:
-            line = FileDiffViewer.Line()
+            line = self.Line()
             pane.lines[i] = line
 
     # Undo for changing the text for a Line object
@@ -1143,7 +1142,7 @@ class FileDiffViewer(Gtk.Grid):
         flags = self.getMapFlags(f, i)
         if self.undoblock is not None:
             # create an Undo object for the action
-            self.addUndo(FileDiffViewer.UpdateLineTextUndo(f, i, line.is_modified, line.modified_text, is_modified, text))
+            self.addUndo(self.UpdateLineTextUndo(f, i, line.is_modified, line.modified_text, is_modified, text))
         old_num_edits = pane.num_edits
         if is_modified and not line.is_modified:
             pane.num_edits += 1
@@ -1198,7 +1197,7 @@ class FileDiffViewer(Gtk.Grid):
     def insertNull(self, f, i, reverse):
         if self.undoblock is not None:
             # create an Undo object for the action
-            self.addUndo(FileDiffViewer.InsertNullUndo(f, i, reverse))
+            self.addUndo(self.InsertNullUndo(f, i, reverse))
         pane = self.panes[f]
         lines = pane.lines
         # update/invalidate all relevent caches
@@ -1229,7 +1228,7 @@ class FileDiffViewer(Gtk.Grid):
     def invalidateLineMatching(self, i, n, new_n):
         if self.undoblock is not None:
             # create an Undo object for the action
-            self.addUndo(FileDiffViewer.InvalidateLineMatchingUndo(i, n, new_n))
+            self.addUndo(self.InvalidateLineMatchingUndo(i, n, new_n))
         # update/invalidate all relevent caches and queue widgets for redraw
         i2 = i + n
         for f, pane in enumerate(self.panes):
@@ -1259,7 +1258,7 @@ class FileDiffViewer(Gtk.Grid):
     def alignmentChange(self, finished):
         if self.undoblock is not None:
             # create an Undo object for the action
-            self.addUndo(FileDiffViewer.AlignmentChangeUndo(finished))
+            self.addUndo(self.AlignmentChangeUndo(finished))
         if finished:
             self.updateSize(False)
 
@@ -1302,7 +1301,7 @@ class FileDiffViewer(Gtk.Grid):
     def updateBlocks(self, blocks):
         if self.undoblock is not None:
             # create an Undo object for the action
-            self.addUndo(FileDiffViewer.UpdateBlocksUndo(self.blocks, blocks))
+            self.addUndo(self.UpdateBlocksUndo(self.blocks, blocks))
         self.blocks = blocks
 
     # insert 'n' blank lines in all panes
@@ -1394,7 +1393,7 @@ class FileDiffViewer(Gtk.Grid):
     def replaceLines(self, f, lines, new_lines, max_num, new_max_num):
         if self.undoblock is not None:
             # create an Undo object for the action
-            self.addUndo(FileDiffViewer.ReplaceLinesUndo(f, lines, new_lines, max_num, new_max_num))
+            self.addUndo(self.ReplaceLinesUndo(f, lines, new_lines, max_num, new_max_num))
         pane = self.panes[f]
         pane.lines = new_lines
         # update/invalidate all relevent caches and queue widgets for redraw
@@ -1561,9 +1560,7 @@ class FileDiffViewer(Gtk.Grid):
         if n > 0:
             blocks.append(n)
         # create line objects for the text
-        Line = FileDiffViewer.Line
-        mid = [ [ Line(j + 1, ss[j]) for j in range(n) ] ]
-
+        mid = [[self.Line(j + 1, ss[j]) for j in range(n)]]
         if f > 0:
             # align with panes to the left
             # use copies so the originals can be used by the Undo object
@@ -1619,8 +1616,7 @@ class FileDiffViewer(Gtk.Grid):
                 lines.append(None)
             else:
                 line_num += 1
-                lines.append(FileDiffViewer.Line(line_num, s))
-
+                lines.append(self.Line(line_num, s))
         # update loaded pane
         self.replaceLines(f, pane.lines, lines, pane.max_line_number, line_num)
 
@@ -1822,7 +1818,7 @@ class FileDiffViewer(Gtk.Grid):
     # selection
     def recordEditMode(self):
         if self.undoblock is not None:
-            self.addUndo(FileDiffViewer.EditModeUndo(self.mode, self.current_pane, self.current_line, self.current_char, self.selection_line, self.selection_char, self.cursor_column))
+            self.addUndo(self.EditModeUndo(self.mode, self.current_pane, self.current_line, self.current_char, self.selection_line, self.selection_char, self.cursor_column))
 
     # change the selection mode
     def setEditMode(self, mode, f, current_line, current_char, selection_line, selection_char, cursor_column):
@@ -3526,7 +3522,7 @@ class FileDiffViewer(Gtk.Grid):
     # swap the contents of two panes
     def swapPanes(self, f_dst, f_src):
         if self.undoblock is not None:
-            self.addUndo(FileDiffViewer.SwapPanesUndo(f_dst, f_src))
+            self.addUndo(self.SwapPanesUndo(f_dst, f_src))
         self.current_pane = f_dst
         f0 = self.panes[f_dst]
         f1 = self.panes[f_src]
