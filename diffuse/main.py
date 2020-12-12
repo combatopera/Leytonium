@@ -40,12 +40,11 @@
 from .preferences import Preferences
 from .resources import Resources
 from .ui import createMenu, EncodingMenu, logError, MessageDialog
-from .util import APP_NAME, bin_dir, COPYRIGHT, Format, isWindows, logDebug, Mode, readlines, splitlines, VERSION, WEBSITE
+from .util import APP_NAME, bin_dir, COPYRIGHT, Format, isWindows, lang, logDebug, Mode, readlines, splitlines, VERSION, WEBSITE
 from .vcs import VCSs
 from .viewer import FileDiffViewer
 import codecs
 import gettext
-import locale
 import os
 import sys
 

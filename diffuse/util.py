@@ -39,7 +39,7 @@
 
 from diapyr.util import singleton
 from gettext import gettext as _
-import os, subprocess, sys
+import locale, os, subprocess, sys
 
 APP_NAME = 'Diffuse'
 # use the program's location as a starting place to search for supporting files
