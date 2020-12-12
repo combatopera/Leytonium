@@ -37,9 +37,9 @@
 # (http://www.fsf.org/) or by writing to the Free Software Foundation, Inc.,
 # 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+from .girepo import Gtk
 from .util import APP_NAME, norm_encoding
 from gettext import gettext as _
-from gi.repository import Gtk
 
 # widget to help pick an encoding
 class EncodingMenu(Gtk.Box):

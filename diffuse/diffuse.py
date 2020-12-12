@@ -37,12 +37,12 @@
 # (http://www.fsf.org/) or by writing to the Free Software Foundation, Inc.,
 # 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+from .girepo import Gdk, GdkPixbuf, GObject, Gtk, Pango
 from .preferences import Preferences
 from .ui import createMenu, EncodingMenu, MessageDialog
 from .util import APP_NAME, bin_dir, COPYRIGHT, Format, isWindows, lang, logDebug, Mode, readlines, splitlines, VERSION, WEBSITE
 from .viewer import FileDiffViewer
 from gettext import gettext as _
-from gi.repository import Gdk, GdkPixbuf, GObject, Gtk, Pango
 from urllib.parse import urlparse
 import codecs, os, shlex, stat, webbrowser
 

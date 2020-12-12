@@ -38,14 +38,14 @@
 # 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 from .diffuse import Diffuse
+from .girepo import GObject, Gtk
 from .resources import Resources
 from .ui import logError
 from .util import APP_NAME, bin_dir, COPYRIGHT, isWindows, lang, VERSION
 from .vcs import VCSs
 from .viewer import FileDiffViewer
 from gettext import gettext as _
-from gi.repository import GObject, Gtk
-import encodings, gettext, gi, os, sys
+import encodings, gettext, os, sys
 
 # create nested subdirectories and return the complete path
 def make_subdirs(p, ss):
@@ -66,12 +66,6 @@ def main_diffuse():
         os.environ['LANG'] = lang
     gettext.bindtextdomain('diffuse', os.path.join(bin_dir, 'locale' if isWindows else '../share/locale'))
     gettext.textdomain('diffuse')
-    gi.require_version('GObject', '2.0')
-    gi.require_version('Gtk', '3.0')
-    gi.require_version('Gdk', '3.0')
-    gi.require_version('GdkPixbuf', '2.0')
-    gi.require_version('Pango', '1.0')
-    gi.require_version('PangoCairo', '1.0')
     # create 'title_changed' signal for FileDiffViewer
     GObject.signal_new('swapped-panes', FileDiffViewer, GObject.SignalFlags.RUN_LAST, GObject.TYPE_NONE, (int, int))
     GObject.signal_new('num-edits-changed', FileDiffViewer, GObject.SignalFlags.RUN_LAST, GObject.TYPE_NONE, (int, ))

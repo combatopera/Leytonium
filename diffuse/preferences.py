@@ -37,10 +37,10 @@
 # (http://www.fsf.org/) or by writing to the Free Software Foundation, Inc.,
 # 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+from .girepo import Gtk
 from .ui import EncodingMenu, MessageDialog
 from .util import APP_NAME, isWindows, logDebug, norm_encoding, nullToEmpty, readconfiglines, VERSION
 from gettext import gettext as _
-from gi.repository import Gtk
 import codecs, encodings, os, shlex, sys
 
 # text entry widget with a button to help pick file names

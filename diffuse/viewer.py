@@ -37,11 +37,11 @@
 # (http://www.fsf.org/) or by writing to the Free Software Foundation, Inc.,
 # 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+from .girepo import Gdk, Gtk, Pango, PangoCairo
 from .patience import patience_diff
 from .ui import createMenu
 from .util import Format, len_minus_line_ending, Mode, nullToEmpty, splitlines, strip_eol
 from gettext import gettext as _
-from gi.repository import Gdk, Gtk, Pango, PangoCairo
 import difflib, os, unicodedata
 
 # avoid some dictionary lookups when string.whitespace is used in loops

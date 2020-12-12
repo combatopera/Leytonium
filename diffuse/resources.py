@@ -37,10 +37,10 @@
 # (http://www.fsf.org/) or by writing to the Free Software Foundation, Inc.,
 # 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+from .girepo import Gdk
 from .ui import logError
 from .util import globEscape, isWindows, logDebug, readconfiglines
 from gettext import gettext as _
-from gi.repository import Gdk
 import glob, os, re, shlex
 
 # colour resources
