@@ -39,8 +39,8 @@
 
 from .preferences import Preferences
 from .resources import Resources
-from .ui import createMenu, EncodingMenu
-from .util import APP_NAME, Format, isWindows, logDebug, logError, MessageDialog, Mode, readlines, splitlines, VERSION
+from .ui import createMenu, EncodingMenu, logError, MessageDialog
+from .util import APP_NAME, Format, isWindows, logDebug, Mode, readlines, splitlines, VERSION
 from .vcs import VCSs
 from .viewer import FileDiffViewer
 import codecs

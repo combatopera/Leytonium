@@ -37,7 +37,7 @@
 # (http://www.fsf.org/) or by writing to the Free Software Foundation, Inc.,
 # 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-from .util import norm_encoding
+from .util import APP_NAME, norm_encoding
 from gettext import gettext as _
 from gi.repository import Gtk
 
@@ -104,3 +104,20 @@ def createMenu(resources, specs, radio=None, accel_group=None):
         item.show()
         menu.append(item)
     return menu
+
+# convenience class for displaying a message dialogue
+class MessageDialog(Gtk.MessageDialog):
+
+    def __init__(self, parent, type, s):
+        if type == Gtk.MessageType.ERROR:
+            buttons = Gtk.ButtonsType.OK
+        else:
+            buttons = Gtk.ButtonsType.OK_CANCEL
+        super().__init__(parent = parent, destroy_with_parent = True, message_type = type, buttons = buttons, text = s)
+        self.set_title(APP_NAME)
+
+# report error messages
+def logError(s):
+    m = MessageDialog(None, Gtk.MessageType.ERROR, s)
+    m.run()
+    m.destroy()

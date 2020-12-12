@@ -37,7 +37,8 @@
 # (http://www.fsf.org/) or by writing to the Free Software Foundation, Inc.,
 # 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-from .util import globEscape, isWindows, logError, popenRead, popenReadLines, readlines, relpath, strip_eol
+from .ui import logError
+from .util import globEscape, isWindows, popenRead, popenReadLines, readlines, relpath, strip_eol
 from gettext import gettext as _
 import glob, os, shlex
 
