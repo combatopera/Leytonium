@@ -37,10 +37,14 @@
 # (http://www.fsf.org/) or by writing to the Free Software Foundation, Inc.,
 # 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+from gettext import gettext as _
 import os, subprocess
 
 APP_NAME = 'Diffuse'
+COPYRIGHT =  '''{copyright} \N{COPYRIGHT SIGN} 2006-2019 Derrick Moser
+{copyright} \N{COPYRIGHT SIGN} 2015-2020 Romain Failliot'''.format(copyright=_("Copyright"))
 VERSION = '0.6.0'
+WEBSITE = 'https://github.com/MightyCreak/diffuse'
 
 # masks used to indicate the presence of particular line endings
 class Format:

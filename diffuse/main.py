@@ -40,7 +40,7 @@
 from .preferences import Preferences
 from .resources import Resources
 from .ui import createMenu, EncodingMenu, logError, MessageDialog
-from .util import APP_NAME, Format, isWindows, logDebug, Mode, readlines, splitlines, VERSION
+from .util import APP_NAME, COPYRIGHT, Format, isWindows, logDebug, Mode, readlines, splitlines, VERSION, WEBSITE
 from .vcs import VCSs
 from .viewer import FileDiffViewer
 import codecs
@@ -82,10 +82,6 @@ gettext.bindtextdomain('diffuse', locale_dir)
 
 gettext.textdomain('diffuse')
 _ = gettext.gettext
-
-COPYRIGHT =  '''{copyright} \N{COPYRIGHT SIGN} 2006-2019 Derrick Moser
-{copyright} \N{COPYRIGHT SIGN} 2015-2020 Romain Failliot'''.format(copyright=_("Copyright"))
-WEBSITE = 'https://github.com/MightyCreak/diffuse'
 
 def main_diffuse():
     'Compare an arbitrary number of text files.'
