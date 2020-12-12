@@ -4345,7 +4345,7 @@ class Diffuse(Gtk.Window):
             self.footers = []
             for i in range(n):
                 # pane header
-                w = self.FileDiffViewer.PaneHeader()
+                w = self.PaneHeader()
                 self.headers.append(w)
                 self.attach(w, i, 0, 1, 1)
                 w.connect('title-changed', self.title_changed_cb)
@@ -4355,7 +4355,7 @@ class Diffuse(Gtk.Window):
                 w.connect('save-as', self.save_file_as_button_cb, i)
                 w.show()
                 # pane footer
-                w = self.FileDiffViewer.PaneFooter()
+                w = self.PaneFooter()
                 self.footers.append(w)
                 self.attach(w, i, 2, 1, 1)
                 w.show()
