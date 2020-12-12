@@ -181,8 +181,6 @@ def appendButtons(box, size, specs):
             box.pack_start(separator, False, False, 5)
             separator.show()
 
-theVCSs = VCSs()
-
 # constructs a full URL for the named file
 def path2url(path, proto='file'):
     r = [ proto, ':///' ]
@@ -1959,7 +1957,7 @@ def main3():
             theResources.parse(rc_file)
         except IOError:
             logError(_('Error reading %s.') % (rc_file, ))
-    diff = Diffuse(theResources, theVCSs, rc_dir)
+    diff = Diffuse(theResources, VCSs(), rc_dir)
     # load state
     statepath = os.path.join(data_dir, 'state')
     diff.loadState(statepath)
