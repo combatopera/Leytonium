@@ -570,7 +570,7 @@ class Diffuse(Gtk.Window):
                     s = ''
                 self.encoding.set_text(s)
 
-        def __init__(self, resources, n, prefs, title):
+        def __init__(self, resources, vcss, n, prefs, title):
             super().__init__(resources, n, prefs)
             self.title = title
             self.status = ''
@@ -605,6 +605,7 @@ class Diffuse(Gtk.Window):
                 darea.connect('drag-data-received', self.drag_data_received_cb, i)
             # initialise status
             self.updateStatus()
+            self.vcss = vcss
 
         # convenience method to request confirmation before loading a file if
         # it will cause existing edits to be lost
@@ -758,7 +759,7 @@ class Diffuse(Gtk.Window):
                 revision = dialog.get_revision().strip()
                 if revision != '':
                     rev = revision
-                    vcs = theVCSs.findByFilename(name, self.prefs)
+                    vcs = self.vcss.findByFilename(name, self.prefs)
                 info = FileInfo(name, dialog.get_encoding(), vcs, rev)
                 dialog.destroy()
                 if end:
@@ -1455,7 +1456,7 @@ class Diffuse(Gtk.Window):
         self.viewer_count += 1
         tabname = _('File Merge %d') % (self.viewer_count, )
         tab = NotebookTab(tabname, Gtk.STOCK_FILE)
-        viewer = self.FileDiffViewer(self.resources, n, self.prefs, tabname)
+        viewer = self.FileDiffViewer(self.resources, theVCSs, n, self.prefs, tabname)
         tab.button.connect('clicked', self.remove_tab_cb, viewer)
         tab.connect('button-press-event', self.notebooktab_button_press_cb, viewer)
         self.notebook.append_page(viewer, tab)
