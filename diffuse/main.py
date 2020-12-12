@@ -43,26 +43,11 @@ from .ui import createMenu, EncodingMenu, logError, MessageDialog
 from .util import APP_NAME, bin_dir, COPYRIGHT, Format, isWindows, logDebug, Mode, readlines, splitlines, VERSION, WEBSITE
 from .vcs import VCSs
 from .viewer import FileDiffViewer
-from diapyr.util import singleton
 import codecs
 import gettext
 import locale
 import os
 import sys
-
-@singleton
-def lang():
-    # translation location: '../share/locale/<LANG>/LC_MESSAGES/diffuse.mo'
-    # where '<LANG>' is the language key
-    if isWindows():
-        for v in 'LANGUAGE', 'LC_ALL', 'LC_MESSAGES', 'LANG':
-            if v in os.environ:
-                lang = os.environ[v]
-                # remove any additional languages, encodings, or modifications
-                for v in ':.@':
-                    lang = lang.split(v)[0]
-                return lang
-    return locale.getdefaultlocale()[0]
 
 # gettext looks for the language using environment variables which
 # are normally not set on Windows so we try setting it for them

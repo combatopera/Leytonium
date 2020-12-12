@@ -37,6 +37,7 @@
 # (http://www.fsf.org/) or by writing to the Free Software Foundation, Inc.,
 # 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+from diapyr.util import singleton
 from gettext import gettext as _
 import os, subprocess, sys
 
@@ -48,6 +49,20 @@ COPYRIGHT =  '''{copyright} \N{COPYRIGHT SIGN} 2006-2019 Derrick Moser
 {copyright} \N{COPYRIGHT SIGN} 2015-2020 Romain Failliot'''.format(copyright=_("Copyright"))
 VERSION = '0.6.0'
 WEBSITE = 'https://github.com/MightyCreak/diffuse'
+
+@singleton
+def lang():
+    # translation location: '../share/locale/<LANG>/LC_MESSAGES/diffuse.mo'
+    # where '<LANG>' is the language key
+    if isWindows():
+        for v in 'LANGUAGE', 'LC_ALL', 'LC_MESSAGES', 'LANG':
+            if v in os.environ:
+                lang = os.environ[v]
+                # remove any additional languages, encodings, or modifications
+                for v in ':.@':
+                    lang = lang.split(v)[0]
+                return lang
+    return locale.getdefaultlocale()[0]
 
 # masks used to indicate the presence of particular line endings
 class Format:
