@@ -38,7 +38,7 @@
 # 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 from gi.repository import Gtk
-import os
+import os, subprocess
 
 APP_NAME = 'Diffuse'
 VERSION = '0.6.0'
@@ -84,3 +84,111 @@ def nullToEmpty(s):
     if s is None:
         s = ''
     return s
+
+# split string into lines based upon DOS, Mac, and Unix line endings
+def splitlines(s):
+    # split on new line characters
+    temp, i, n = [], 0, len(s)
+    while i < n:
+        j = s.find('\n', i)
+        if j < 0:
+            temp.append(s[i:])
+            break
+        j += 1
+        temp.append(s[i:j])
+        i = j
+    # split on carriage return characters
+    ss = []
+    for s in temp:
+        i, n = 0, len(s)
+        while i < n:
+            j = s.find('\r', i)
+            if j < 0:
+                ss.append(s[i:])
+                break
+            j += 1
+            if j < n and s[j] == '\n':
+                j += 1
+            ss.append(s[i:j])
+            i = j
+    return ss
+
+# also recognise old Mac OS line endings
+def readlines(fd):
+    return strip_eols(splitlines(fd.read()))
+
+# returns the number of characters in the string excluding any line ending
+# characters
+def len_minus_line_ending(s):
+    if s is None:
+        return 0
+    n = len(s)
+    if s.endswith('\r\n'):
+        n -= 2
+    elif s.endswith('\r') or s.endswith('\n'):
+        n -= 1
+    return n
+
+# returns the string without the line ending characters
+def strip_eol(s):
+    if s is not None:
+        return s[:len_minus_line_ending(s)]
+
+# returns the list of strings without line ending characters
+def strip_eols(ss):
+    return [ strip_eol(s) for s in ss ]
+
+# returns the Windows drive or share from a from an absolute path
+def drive_from_path(s):
+    c = s.split(os.sep)
+    if len(c) > 3 and c[0] == '' and c[1] == '':
+        return os.path.join(c[:4])
+    return c[0]
+
+# constructs a relative path from 'a' to 'b', both should be absolute paths
+def relpath(a, b):
+    if isWindows():
+        if drive_from_path(a) != drive_from_path(b):
+            return b
+    c1 = [ c for c in a.split(os.sep) if c != '' ]
+    c2 = [ c for c in b.split(os.sep) if c != '' ]
+    i, n = 0, len(c1)
+    while i < n and i < len(c2) and c1[i] == c2[i]:
+        i += 1
+    r = (n - i) * [ os.pardir ]
+    r.extend(c2[i:])
+    return os.sep.join(r)
+
+# escape arguments for use with bash
+def bashEscape(s):
+    return "'" + s.replace("'", "'\\''") + "'"
+
+# use popen to read the output of a command
+def popenRead(dn, cmd, prefs, bash_pref, success_results=None):
+    if success_results is None:
+        success_results = [ 0 ]
+    if isWindows() and prefs.getBool(bash_pref):
+        # launch the command from a bash shell is requested
+        cmd = [ prefs.convertToNativePath('/bin/bash.exe'), '-l', '-c', 'cd {}; {}'.format(bashEscape(dn), ' '.join([ bashEscape(arg) for arg in cmd ])) ]
+        dn = None
+    # use subprocess.Popen to retrieve the file contents
+    if isWindows():
+        info = subprocess.STARTUPINFO()
+        info.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        info.wShowWindow = subprocess.SW_HIDE
+    else:
+        info = None
+    proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=dn, startupinfo=info)
+    proc.stdin.close()
+    proc.stderr.close()
+    fd = proc.stdout
+    # read the command's output
+    s = fd.read()
+    fd.close()
+    if proc.wait() not in success_results:
+        raise IOError('Command failed.')
+    return s
+
+# use popen to read the output of a command
+def popenReadLines(dn, cmd, prefs, bash_pref, success_results=None):
+    return strip_eols(splitlines(popenRead(dn, cmd, prefs, bash_pref, success_results).decode('utf-8', errors='ignore')))
