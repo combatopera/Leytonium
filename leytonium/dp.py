@@ -15,17 +15,18 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .common import getpublic, args, stderr
+from .common import getpublic, stderr
 from lagoon import git
+import sys
 
 def main_dp():
     'Diff from public branch.'
     parent = getpublic()
     stderr("Public branch: %s" % parent)
-    git.diff._M25.exec(*args(), parent)
+    git.diff._M25.exec(*sys.argv[1:], parent)
 
 def main_pd():
     'Diff from public branch, the other way.'
     parent = getpublic()
     stderr("Public branch: %s" % parent)
-    git.diff._M25.exec(*args(), 'HEAD', parent)
+    git.diff._M25.exec(*sys.argv[1:], 'HEAD', parent)

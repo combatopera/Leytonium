@@ -15,13 +15,14 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .common import args, showmenu, AllBranches, savedcommits
+from .common import showmenu, AllBranches, savedcommits
 from lagoon import git
+import sys
 
 def main_show():
     'Show a commit that was listed by st.'
     items = AllBranches().branchcommits()
-    n, = args()
+    n, = sys.argv[1:]
     n = int(n)
     if n > 0:
         commit = showmenu(items, False)[n]

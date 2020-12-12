@@ -19,6 +19,7 @@ from . import st
 from .common import args, findproject, infodirname, pb, savedcommits
 from lagoon import clear, find, git
 from pkg_resources import resource_filename
+import sys
 
 def main_showstash():
     'Show stash as patch.'
@@ -35,7 +36,7 @@ def main_d():
 
 def main_rdx():
     'Run git rm on conflicted path, with completion.'
-    git.rm.exec(*args())
+    git.rm.exec(*sys.argv[1:])
 
 def main_rx():
     'Restore given file to parent branch version.'
@@ -43,7 +44,7 @@ def main_rx():
 
 def main_gag():
     'Run ag on all build.gradle files.'
-    find._name.exec('build.gradle', '-exec', 'ag', *args(), '{}', '+')
+    find._name.exec('build.gradle', '-exec', 'ag', *sys.argv[1:], '{}', '+')
 
 def main_git_completion_path():
     print(resource_filename(__name__, 'git_completion.bash'))
@@ -55,7 +56,7 @@ def main_rd():
     'Run git add on conflicted path, with completion.'
     # FIXME: Reject directory args.
     # FIXME: Refuse to add file with outstanding conflicts, easy to do from command history.
-    git.add.exec(*args())
+    git.add.exec(*sys.argv[1:])
 
 def main_dup():
     'Apply the last slammed commit.'

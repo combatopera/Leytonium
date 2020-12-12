@@ -15,13 +15,15 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .common import AllBranches, args as getargs, showmenu, pb, savecommits, savedcommits, findproject, thisbranch, infodirname, os, stderr
+from .common import AllBranches, showmenu, pb, savecommits, savedcommits, findproject, thisbranch, infodirname, os, stderr
 from lagoon import git
+import sys
 
 def main_slam():
     'Reset branch to given commit number.'
     items = AllBranches().branchcommits() + [[pb(), '']]
-    args = getargs()
+    # TODO: Use argparse.
+    args = sys.argv[1:]
     if '-f' == args[0]:
         save = False
         n, = args[1:]

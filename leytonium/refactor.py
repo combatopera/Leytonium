@@ -15,15 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .common import args, findproject
+from .common import findproject
 from lagoon import ag
-import os
+import os, sys
 
 def main_agi():
     'Search for identifier.'
-    ag._ws.exec(*args(), findproject())
+    ag._ws.exec(*sys.argv[1:], findproject())
 
 def main_agil():
     'Edit files containing identifier.'
-    command = [os.environ['EDITOR']] + ag._wsl(*args(), findproject()).splitlines()
+    # XXX: Can't we use lagoon here?
+    command = [os.environ['EDITOR']] + ag._wsl(*sys.argv[1:], findproject()).splitlines()
     os.execvp(command[0], command)

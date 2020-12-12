@@ -15,12 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .common import AllBranches, args as getargs, pb, savedcommits, showmenu, stderr
+from .common import AllBranches, pb, savedcommits, showmenu, stderr
 from lagoon import git
+import sys
 
 def main_dx():
     'Diff from parent branch or from passed-in commit number.'
-    args = getargs()
+    args = sys.argv[1:]
     if args:
         n, = args
         n = int(n)
@@ -32,7 +33,7 @@ def main_dx():
 
 def main_dxx():
     'Short diff from parent branch or of passed-in commit number.'
-    args = getargs()
+    args = sys.argv[1:]
     if args:
         n, = args
         n = int(n)
