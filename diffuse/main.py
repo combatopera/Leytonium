@@ -90,7 +90,6 @@ def main_diffuse():
     GObject.signal_new('save', Diffuse.FileDiffViewer.PaneHeader, GObject.SignalFlags.RUN_LAST, GObject.TYPE_NONE, ())
     GObject.signal_new('save-as', Diffuse.FileDiffViewer.PaneHeader, GObject.SignalFlags.RUN_LAST, GObject.TYPE_NONE, ())
     # process help options
-    global args, argc
     args = sys.argv
     argc = len(args)
     if argc == 2 and args[1] in [ '-v', '--version' ]:
@@ -138,10 +137,7 @@ Display Options:
     # associate our icon with all of our windows
     # this is not automatically set on some older version of PyGTK
     Gtk.Window.set_default_icon_name('diffuse')
-    main3()
-
-# process the command line arguments
-def main3():
+    # process the command line arguments
     # find the config directory and create it if it didn't exist
     rc_dir, subdirs = os.environ.get('XDG_CONFIG_HOME', None), ['diffuse']
     if rc_dir is None:
