@@ -66,10 +66,7 @@ if isWindows():
         if lang is not None:
             os.environ['LANG'] = lang
     del v
-    locale_dir = 'locale'
-else:
-    locale_dir = '../share/locale'
-gettext.bindtextdomain('diffuse', os.path.join(bin_dir, locale_dir))
+gettext.bindtextdomain('diffuse', os.path.join(bin_dir, 'locale' if isWindows() else '../share/locale'))
 gettext.textdomain('diffuse')
 _ = gettext.gettext
 
