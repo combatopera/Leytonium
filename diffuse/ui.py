@@ -37,50 +37,30 @@
 # (http://www.fsf.org/) or by writing to the Free Software Foundation, Inc.,
 # 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+from .util import norm_encoding
+from gettext import gettext as _
 from gi.repository import Gtk
-import os
 
-APP_NAME = 'Diffuse'
-VERSION = '0.6.0'
+# widget to help pick an encoding
+class EncodingMenu(Gtk.Box):
+    def __init__(self, prefs, autodetect=False):
+        Gtk.Box.__init__(self, orientation=Gtk.Orientation.HORIZONTAL)
+        self.combobox = combobox = Gtk.ComboBoxText.new()
+        self.encodings = prefs.getEncodings()[:]
+        for e in self.encodings:
+            combobox.append_text(e)
+        if autodetect:
+            self.encodings.insert(0, None)
+            combobox.prepend_text(_('Auto Detect'))
+        self.pack_start(combobox, False, False, 0)
+        combobox.show()
 
-# platform test
-def isWindows():
-    return os.name == 'nt'
+    def set_text(self, encoding):
+        encoding = norm_encoding(encoding)
+        if encoding in self.encodings:
+            self.combobox.set_active(self.encodings.index(encoding))
 
-# convenience function to display debug messages
-def logDebug(s):
-    pass #sys.stderr.write(f'{APP_NAME}: {s}\n')
-
-# escape special glob characters
-def globEscape(s):
-    m = dict([ (c, f'[{c}]') for c in '[]?*' ])
-    return ''.join([ m.get(c, c) for c in s ])
-
-# convenience class for displaying a message dialogue
-class MessageDialog(Gtk.MessageDialog):
-    def __init__(self, parent, type, s):
-        if type == Gtk.MessageType.ERROR:
-            buttons = Gtk.ButtonsType.OK
-        else:
-            buttons = Gtk.ButtonsType.OK_CANCEL
-        Gtk.MessageDialog.__init__(self, parent = parent, destroy_with_parent = True, message_type = type, buttons = buttons, text = s)
-        self.set_title(APP_NAME)
-
-# report error messages
-def logError(s):
-    m = MessageDialog(None, Gtk.MessageType.ERROR, s)
-    m.run()
-    m.destroy()
-
-def readconfiglines(fd):
-    return fd.read().replace('\r', '').split('\n')
-
-# map an encoding name to its standard form
-def norm_encoding(e):
-    if e is not None:
-        return e.replace('-', '_').lower()
-
-def nullToEmpty(s):
-    if s is None:
-        s = ''
-    return s
+    def get_text(self):
+        i = self.combobox.get_active()
+        if i >= 0:
+            return self.encodings[i]
