@@ -604,7 +604,7 @@ class Diffuse(Gtk.Window):
                     else:
                         s = str(s, encoding=encoding)
                     ss = splitlines(s)
-                except (IOError, OSError, UnicodeDecodeError, WindowsError, LookupError):
+                except (IOError, OSError, UnicodeDecodeError, LookupError):
                     # FIXME: this can occur before the toplevel window is drawn
                     if rev is not None:
                         msg = _('Error reading revision %(rev)s of %(file)s.') % { 'rev': rev, 'file': name }
@@ -1442,7 +1442,7 @@ class Diffuse(Gtk.Window):
                             name, rev = spec
                             viewer.load(i, FileInfo(name, encoding, vcs, rev))
                         viewer.setOptions(options)
-                except (IOError, OSError, WindowsError):
+                except (IOError, OSError):
                     dialog = MessageDialog(self.get_toplevel(), Gtk.MessageType.ERROR, _('Error retrieving commits for %s.') % (dn, ))
                     dialog.run()
                     dialog.destroy()
@@ -1473,7 +1473,7 @@ class Diffuse(Gtk.Window):
                             name, rev = spec
                             viewer.load(i, FileInfo(name, encoding, vcs, rev))
                         viewer.setOptions(options)
-                except (IOError, OSError, WindowsError):
+                except (IOError, OSError):
                     dialog = MessageDialog(self.get_toplevel(), Gtk.MessageType.ERROR, _('Error retrieving modifications for %s.') % (dn, ))
                     dialog.run()
                     dialog.destroy()

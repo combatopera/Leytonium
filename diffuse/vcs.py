@@ -649,7 +649,7 @@ def _get_git_repo(path, prefs):
                 else:
                     d = os.sep.join(d)
             return _Git(d)
-        except (IOError, OSError, WindowsError):
+        except (IOError, OSError):
             # working tree not found
             pass
     # search for .git direcotry (project) or .git file (submodule)
