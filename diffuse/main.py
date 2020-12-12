@@ -971,7 +971,7 @@ class Diffuse(Gtk.Window):
         def format_changed_cb(self, widget, f, format):
             self.footers[f].setFormat(format)
 
-    def __init__(self, rc_dir):
+    def __init__(self, resources, rc_dir):
         super().__init__(type = Gtk.WindowType.TOPLEVEL)
         self.prefs = Preferences(os.path.join(rc_dir, 'prefs'))
         # number of created viewers (used to label some tabs)
@@ -1101,7 +1101,7 @@ class Diffuse(Gtk.Window):
                      [_('Pr_eferences...'), self.preferences_cb, None, Gtk.STOCK_PREFERENCES, 'preferences'] ] ])
 
         submenudef = [ [_('None'), self.syntax_cb, None, None, 'no_syntax_highlighting', True, None, ('syntax', None) ] ]
-        names = theResources.getSyntaxNames()
+        names = resources.getSyntaxNames()
         if len(names) > 0:
             submenudef.append([])
             names.sort(key=str.lower)
@@ -1214,6 +1214,7 @@ class Diffuse(Gtk.Window):
         self.add(vbox)
         vbox.show()
         self.connect('focus-in-event', self.focus_in_cb)
+        self.resources = resources
 
     # notifies all viewers on focus changes so they may check for external
     # changes to files
@@ -1454,7 +1455,7 @@ class Diffuse(Gtk.Window):
         self.viewer_count += 1
         tabname = _('File Merge %d') % (self.viewer_count, )
         tab = NotebookTab(tabname, Gtk.STOCK_FILE)
-        viewer = self.FileDiffViewer(theResources, n, self.prefs, tabname)
+        viewer = self.FileDiffViewer(self.resources, n, self.prefs, tabname)
         tab.button.connect('clicked', self.remove_tab_cb, viewer)
         tab.connect('button-press-event', self.notebooktab_button_press_cb, viewer)
         self.notebook.append_page(viewer, tab)
@@ -1956,8 +1957,7 @@ def main3():
             theResources.parse(rc_file)
         except IOError:
             logError(_('Error reading %s.') % (rc_file, ))
-
-    diff = Diffuse(rc_dir)
+    diff = Diffuse(theResources, rc_dir)
     # load state
     statepath = os.path.join(data_dir, 'state')
     diff.loadState(statepath)
