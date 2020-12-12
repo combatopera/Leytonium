@@ -43,26 +43,30 @@ from .ui import createMenu, EncodingMenu, logError, MessageDialog
 from .util import APP_NAME, bin_dir, COPYRIGHT, Format, isWindows, logDebug, Mode, readlines, splitlines, VERSION, WEBSITE
 from .vcs import VCSs
 from .viewer import FileDiffViewer
+from diapyr.util import singleton
 import codecs
 import gettext
 import locale
 import os
 import sys
 
-# translation location: '../share/locale/<LANG>/LC_MESSAGES/diffuse.mo'
-# where '<LANG>' is the language key
-lang = locale.getdefaultlocale()[0]
-if isWindows():
-    # gettext looks for the language using environment variables which
-    # are normally not set on Windows so we try setting it for them
-    for v in 'LANGUAGE', 'LC_ALL', 'LC_MESSAGES', 'LANG':
-        if v in os.environ:
-            lang = os.environ[v]
-            # remove any additional languages, encodings, or modifications
-            for v in ':.@':
-                lang = lang.split(v)[0]
-            break
-    del v
+@singleton
+def lang():
+    # translation location: '../share/locale/<LANG>/LC_MESSAGES/diffuse.mo'
+    # where '<LANG>' is the language key
+    lang = locale.getdefaultlocale()[0]
+    if isWindows():
+        # gettext looks for the language using environment variables which
+        # are normally not set on Windows so we try setting it for them
+        for v in 'LANGUAGE', 'LC_ALL', 'LC_MESSAGES', 'LANG':
+            if v in os.environ:
+                lang = os.environ[v]
+                # remove any additional languages, encodings, or modifications
+                for v in ':.@':
+                    lang = lang.split(v)[0]
+                break
+    return lang
+
 if isWindows() and not any(v in os.environ for v in ['LANGUAGE', 'LC_ALL', 'LC_MESSAGES', 'LANG']) and lang is not None:
     os.environ['LANG'] = lang
 gettext.bindtextdomain('diffuse', os.path.join(bin_dir, 'locale' if isWindows() else '../share/locale'))
