@@ -43,20 +43,24 @@ from .ui import logError
 from .util import APP_NAME, bin_dir, COPYRIGHT, isWindows, lang, VERSION
 from .vcs import VCSs
 from .viewer import FileDiffViewer
-import gettext
-import os
-import sys
-
-# gettext looks for the language using environment variables which
-# are normally not set on Windows so we try setting it for them
-if isWindows and not any(v in os.environ for v in ['LANGUAGE', 'LC_ALL', 'LC_MESSAGES', 'LANG']) and lang is not None:
-    os.environ['LANG'] = lang
-gettext.bindtextdomain('diffuse', os.path.join(bin_dir, 'locale' if isWindows else '../share/locale'))
-gettext.textdomain('diffuse')
-_ = gettext.gettext
+from gettext import gettext as _
+from gi.repository import GObject, Gtk
+import encodings, gettext, gi, os, sys
 
 def main_diffuse():
     'Compare an arbitrary number of text files.'
+    # gettext looks for the language using environment variables which
+    # are normally not set on Windows so we try setting it for them
+    if isWindows and not any(v in os.environ for v in ['LANGUAGE', 'LC_ALL', 'LC_MESSAGES', 'LANG']) and lang is not None:
+        os.environ['LANG'] = lang
+    gettext.bindtextdomain('diffuse', os.path.join(bin_dir, 'locale' if isWindows else '../share/locale'))
+    gettext.textdomain('diffuse')
+    gi.require_version('GObject', '2.0')
+    gi.require_version('Gtk', '3.0')
+    gi.require_version('Gdk', '3.0')
+    gi.require_version('GdkPixbuf', '2.0')
+    gi.require_version('Pango', '1.0')
+    gi.require_version('PangoCairo', '1.0')
     main1()
     main2()
     main3()
@@ -108,21 +112,6 @@ Display Options:
   ( -i | --ignore-case )           Ignore case differences
   ( -w | --ignore-all-space )      Ignore white space differences'''))
         sys.exit(0)
-
-import gi
-
-gi.require_version('GObject', '2.0')
-from gi.repository import GObject
-
-gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk
-
-gi.require_version('Gdk', '3.0')
-gi.require_version('GdkPixbuf', '2.0')
-gi.require_version('Pango', '1.0')
-gi.require_version('PangoCairo', '1.0')
-
-import encodings
 
 if not hasattr(__builtins__, 'WindowsError'):
     # define 'WindowsError' so 'except' statements will work on all platforms
