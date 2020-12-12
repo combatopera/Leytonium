@@ -570,8 +570,8 @@ class Diffuse(Gtk.Window):
                     s = ''
                 self.encoding.set_text(s)
 
-        def __init__(self, n, prefs, title):
-            super().__init__(theResources, n, prefs)
+        def __init__(self, resources, n, prefs, title):
+            super().__init__(resources, n, prefs)
             self.title = title
             self.status = ''
 
@@ -1454,7 +1454,7 @@ class Diffuse(Gtk.Window):
         self.viewer_count += 1
         tabname = _('File Merge %d') % (self.viewer_count, )
         tab = NotebookTab(tabname, Gtk.STOCK_FILE)
-        viewer = self.FileDiffViewer(n, self.prefs, tabname)
+        viewer = self.FileDiffViewer(theResources, n, self.prefs, tabname)
         tab.button.connect('clicked', self.remove_tab_cb, viewer)
         tab.connect('button-press-event', self.notebooktab_button_press_cb, viewer)
         self.notebook.append_page(viewer, tab)
