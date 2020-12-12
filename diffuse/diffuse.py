@@ -239,10 +239,6 @@ class NumericDialog(Gtk.Dialog):
     def button_cb(self, widget):
         self.response(Gtk.ResponseType.ACCEPT)
 
-# establish callback for the about dialog's link to Diffuse's web site
-def url_hook(dialog, link, userdata):
-    webbrowser.open(link)
-
 # the about dialogue
 class AboutDialog(Gtk.AboutDialog):
 
