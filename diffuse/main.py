@@ -735,7 +735,7 @@ class Diffuse(Gtk.Window):
             self.setFileInfo(f, info)
             # use the file name to choose appropriate syntax highlighting rules
             if name is not None:
-                syntax = theResources.guessSyntaxForFile(name, ss)
+                syntax = self.resources.guessSyntaxForFile(name, ss)
                 if syntax is not None:
                     self.setSyntax(syntax)
 
@@ -883,7 +883,7 @@ class Diffuse(Gtk.Window):
                 self.setFileInfo(f, info)
                 # update the syntax highlighting incase we changed the file
                 # extension
-                syntax = theResources.guessSyntaxForFile(name, ss)
+                syntax = self.resources.guessSyntaxForFile(name, ss)
                 if syntax is not None:
                     self.setSyntax(syntax)
                 return True
