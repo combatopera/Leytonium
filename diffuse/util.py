@@ -38,9 +38,12 @@
 # 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 from gettext import gettext as _
-import os, subprocess
+import os, subprocess, sys
 
 APP_NAME = 'Diffuse'
+# use the program's location as a starting place to search for supporting files
+# such as icon and help documentation
+bin_dir = os.path.dirname(sys.executable if hasattr(sys, 'frozen') else os.path.realpath(sys.argv[0]))
 COPYRIGHT =  '''{copyright} \N{COPYRIGHT SIGN} 2006-2019 Derrick Moser
 {copyright} \N{COPYRIGHT SIGN} 2015-2020 Romain Failliot'''.format(copyright=_("Copyright"))
 VERSION = '0.6.0'

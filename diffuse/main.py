@@ -40,7 +40,7 @@
 from .preferences import Preferences
 from .resources import Resources
 from .ui import createMenu, EncodingMenu, logError, MessageDialog
-from .util import APP_NAME, COPYRIGHT, Format, isWindows, logDebug, Mode, readlines, splitlines, VERSION, WEBSITE
+from .util import APP_NAME, bin_dir, COPYRIGHT, Format, isWindows, logDebug, Mode, readlines, splitlines, VERSION, WEBSITE
 from .vcs import VCSs
 from .viewer import FileDiffViewer
 import codecs
@@ -48,14 +48,6 @@ import gettext
 import locale
 import os
 import sys
-
-# use the program's location as a starting place to search for supporting files
-# such as icon and help documentation
-if hasattr(sys, 'frozen'):
-    app_path = sys.executable
-else:
-    app_path = os.path.realpath(sys.argv[0])
-bin_dir = os.path.dirname(app_path)
 
 # translation location: '../share/locale/<LANG>/LC_MESSAGES/diffuse.mo'
 # where '<LANG>' is the language key
