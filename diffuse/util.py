@@ -43,6 +43,17 @@ import os, subprocess
 APP_NAME = 'Diffuse'
 VERSION = '0.6.0'
 
+# masks used to indicate the presence of particular line endings
+class Format:
+
+    DOS, MAC, UNIX = (1 << i for i in range(3))
+
+# the file diff viewer is always in one of these modes defining the cursor,
+# and hotkey behaviour
+class Mode:
+
+    LINE, CHAR, ALIGN = range(3)
+
 # platform test
 def isWindows():
     return os.name == 'nt'

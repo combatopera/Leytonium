@@ -40,7 +40,7 @@
 from .preferences import Preferences
 from .resources import Resources
 from .ui import EncodingMenu
-from .util import APP_NAME, isWindows, len_minus_line_ending, logDebug, logError, MessageDialog, nullToEmpty, readlines, splitlines, strip_eol, VERSION
+from .util import APP_NAME, Format, isWindows, len_minus_line_ending, logDebug, logError, MessageDialog, Mode, nullToEmpty, readlines, splitlines, strip_eol, VERSION
 from .vcs import VCSs
 import codecs
 import gettext
@@ -256,11 +256,6 @@ def appendButtons(box, size, specs):
             separator = Gtk.Separator.new(Gtk.Orientation.VERTICAL)
             box.pack_start(separator, False, False, 5)
             separator.show()
-
-# masks used to indicate the presence of particular line endings
-class Format:
-
-    DOS, MAC, UNIX = (1 << i for i in range(3))
 
 # True if the string ends with '\r\n'
 def has_dos_line_ending(s):
@@ -544,12 +539,6 @@ def path2url(path, proto='file'):
                 c = '%%%02X' % (v, )
         r.append(c)
     return ''.join(r)
-
-# the file diff viewer is always in one of these modes defining the cursor,
-# and hotkey behaviour
-class Mode:
-
-    LINE, CHAR, ALIGN = range(3)
 
 # mapping to column width of a character (tab will never be in this map)
 char_width_cache = {}
