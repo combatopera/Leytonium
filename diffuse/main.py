@@ -41,7 +41,7 @@ from .diffuse import Diffuse
 from .girepo import GObject, Gtk
 from .resources import Resources
 from .ui import logError
-from .util import APP_NAME, bin_dir, COPYRIGHT, isWindows, lang, VERSION
+from .util import APP_NAME, bin_dir, getcopyright, isWindows, lang, VERSION
 from .vcs import VCSs
 from .viewer import FileDiffViewer
 from gettext import gettext as _
@@ -66,6 +66,7 @@ def main_diffuse():
         os.environ['LANG'] = lang
     gettext.bindtextdomain('diffuse', os.path.join(bin_dir, 'locale' if isWindows else '../share/locale'))
     gettext.textdomain('diffuse')
+    copyright = getcopyright()
     # create 'title_changed' signal for FileDiffViewer
     GObject.signal_new('swapped-panes', FileDiffViewer, GObject.SignalFlags.RUN_LAST, GObject.TYPE_NONE, (int, int))
     GObject.signal_new('num-edits-changed', FileDiffViewer, GObject.SignalFlags.RUN_LAST, GObject.TYPE_NONE, (int, ))
@@ -84,7 +85,7 @@ def main_diffuse():
     args = sys.argv
     argc = len(args)
     if argc == 2 and args[1] in [ '-v', '--version' ]:
-        print(f'{APP_NAME} {VERSION}\n{COPYRIGHT}')
+        print(f"{APP_NAME} {VERSION}\n{copyright}")
         sys.exit(0)
     if argc == 2 and args[1] in [ '-h', '-?', '--help' ]:
         print(_('''Usage:
@@ -167,7 +168,7 @@ Display Options:
             resources.parse(rc_file)
         except IOError:
             logError(_('Error reading %s.') % (rc_file, ))
-    diff = Diffuse(resources, VCSs(), rc_dir)
+    diff = Diffuse(resources, VCSs(), copyright, rc_dir)
     # load state
     statepath = os.path.join(data_dir, 'state')
     diff.loadState(statepath)

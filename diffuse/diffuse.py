@@ -40,7 +40,7 @@
 from .girepo import Gdk, GdkPixbuf, GObject, Gtk, Pango
 from .preferences import Preferences
 from .ui import createMenu, EncodingMenu, MessageDialog
-from .util import APP_NAME, bin_dir, COPYRIGHT, Format, isWindows, lang, logDebug, Mode, readlines, splitlines, VERSION, WEBSITE
+from .util import APP_NAME, bin_dir, Format, isWindows, lang, logDebug, Mode, readlines, splitlines, VERSION, WEBSITE
 from .viewer import FileDiffViewer
 from gettext import gettext as _
 from urllib.parse import urlparse
@@ -242,7 +242,7 @@ class NumericDialog(Gtk.Dialog):
 # the about dialogue
 class AboutDialog(Gtk.AboutDialog):
 
-    def __init__(self):
+    def __init__(self, copyright):
         super().__init__()
         self.set_logo_icon_name('diffuse')
         if hasattr(self, 'set_program_name'):
@@ -250,13 +250,13 @@ class AboutDialog(Gtk.AboutDialog):
             self.set_program_name(APP_NAME)
         self.set_version(VERSION)
         self.set_comments(_('Diffuse is a graphical tool for merging and comparing text files.'))
-        self.set_copyright(COPYRIGHT)
+        self.set_copyright(copyright)
         self.set_website(WEBSITE)
         self.set_authors([ 'Derrick Moser <derrick_moser@yahoo.com>',
                            'Romain Failliot <romain.failliot@foolstep.com>' ])
         self.set_translator_credits(_('translator-credits'))
         ss = [ APP_NAME + ' ' + VERSION + '\n',
-               COPYRIGHT + '\n\n',
+               copyright + '\n\n',
                _("""This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the licence, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
@@ -857,7 +857,7 @@ class Diffuse(Gtk.Window):
         def format_changed_cb(self, widget, f, format):
             self.footers[f].setFormat(format)
 
-    def __init__(self, resources, vcss, rc_dir):
+    def __init__(self, resources, vcss, copyright, rc_dir):
         super().__init__(type = Gtk.WindowType.TOPLEVEL)
         self.prefs = Preferences(os.path.join(rc_dir, 'prefs'))
         # number of created viewers (used to label some tabs)
@@ -1102,6 +1102,7 @@ class Diffuse(Gtk.Window):
         self.connect('focus-in-event', self.focus_in_cb)
         self.resources = resources
         self.vcss = vcss
+        self.copyright = copyright
 
     # notifies all viewers on focus changes so they may check for external
     # changes to files
@@ -1782,6 +1783,6 @@ class Diffuse(Gtk.Window):
 
     # callback for the about menu item
     def about_cb(self, widget, data):
-        dialog = AboutDialog()
+        dialog = AboutDialog(self.copyright)
         dialog.run()
         dialog.destroy()
