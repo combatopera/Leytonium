@@ -972,7 +972,7 @@ class Diffuse(Gtk.Window):
         def format_changed_cb(self, widget, f, format):
             self.footers[f].setFormat(format)
 
-    def __init__(self, resources, rc_dir):
+    def __init__(self, resources, vcss, rc_dir):
         super().__init__(type = Gtk.WindowType.TOPLEVEL)
         self.prefs = Preferences(os.path.join(rc_dir, 'prefs'))
         # number of created viewers (used to label some tabs)
@@ -1216,6 +1216,7 @@ class Diffuse(Gtk.Window):
         vbox.show()
         self.connect('focus-in-event', self.focus_in_cb)
         self.resources = resources
+        self.vcss = vcss
 
     # notifies all viewers on focus changes so they may check for external
     # changes to files
@@ -1456,7 +1457,7 @@ class Diffuse(Gtk.Window):
         self.viewer_count += 1
         tabname = _('File Merge %d') % (self.viewer_count, )
         tab = NotebookTab(tabname, Gtk.STOCK_FILE)
-        viewer = self.FileDiffViewer(self.resources, theVCSs, n, self.prefs, tabname)
+        viewer = self.FileDiffViewer(self.resources, self.vcss, n, self.prefs, tabname)
         tab.button.connect('clicked', self.remove_tab_cb, viewer)
         tab.connect('button-press-event', self.notebooktab_button_press_cb, viewer)
         self.notebook.append_page(viewer, tab)
@@ -1482,7 +1483,7 @@ class Diffuse(Gtk.Window):
             # determine which other files to compare it with
             name, data, label = items[0]
             rev, encoding = data[0]
-            vcs = theVCSs.findByFilename(name, self.prefs)
+            vcs = self.vcss.findByFilename(name, self.prefs)
             if vcs is None:
                 # shift the existing file so it will be in the second pane
                 specs.append(FileInfo())
@@ -1507,7 +1508,7 @@ class Diffuse(Gtk.Window):
                     if rev is None:
                         vcs, s = None, label
                     else:
-                        vcs, s = theVCSs.findByFilename(name, self.prefs), None
+                        vcs, s = self.vcss.findByFilename(name, self.prefs), None
                     specs.append(FileInfo(name, encoding, vcs, rev, s))
 
         # open a new viewer
@@ -1547,7 +1548,7 @@ class Diffuse(Gtk.Window):
             dst[1] = data[-1][1]
             dst[2].append(name)
         for dn, encoding, names in new_items:
-            vcs = theVCSs.findByFolder(dn, self.prefs)
+            vcs = self.vcss.findByFolder(dn, self.prefs)
             if vcs is not None:
                 try:
                     for specs in vcs.getCommitTemplate(self.prefs, options['commit'], names):
@@ -1578,7 +1579,7 @@ class Diffuse(Gtk.Window):
             dst[1] = data[-1][1]
             dst[2].append(name)
         for dn, encoding, names in new_items:
-            vcs = theVCSs.findByFolder(dn, self.prefs)
+            vcs = self.vcss.findByFolder(dn, self.prefs)
             if vcs is not None:
                 try:
                     for specs in vcs.getFolderTemplate(self.prefs, names):
@@ -1958,7 +1959,7 @@ def main3():
             theResources.parse(rc_file)
         except IOError:
             logError(_('Error reading %s.') % (rc_file, ))
-    diff = Diffuse(theResources, rc_dir)
+    diff = Diffuse(theResources, theVCSs, rc_dir)
     # load state
     statepath = os.path.join(data_dir, 'state')
     diff.loadState(statepath)
