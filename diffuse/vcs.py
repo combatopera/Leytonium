@@ -1340,18 +1340,16 @@ def _get_svk_repo(path, prefs):
 
 class VCSs:
 
-    def __init__(self):
-        # initialise the VCS objects
-        self._get_repo = {
-                'bzr': _get_bzr_repo,
-                'cvs': _get_cvs_repo,
-                'darcs': _get_darcs_repo,
-                'git': _get_git_repo,
-                'hg': _get_hg_repo,
-                'mtn': _get_mtn_repo,
-                'rcs': _get_rcs_repo,
-                'svk': _get_svk_repo,
-                'svn': _get_svn_repo}
+    repolookup = dict(
+            bzr = _get_bzr_repo,
+            cvs = _get_cvs_repo,
+            darcs = _get_darcs_repo,
+            git = _get_git_repo,
+            hg = _get_hg_repo,
+            mtn = _get_mtn_repo,
+            rcs = _get_rcs_repo,
+            svk = _get_svk_repo,
+            svn = _get_svn_repo)
 
     def setSearchOrder(self, ordering):
         self._search_order = ordering
@@ -1360,8 +1358,8 @@ class VCSs:
     def findByFolder(self, path, prefs):
         path = os.path.abspath(path)
         for vcs in prefs.getString('vcs_search_order').split():
-            if vcs in self._get_repo:
-                repo = self._get_repo[vcs](path, prefs)
+            if vcs in self.repolookup:
+                repo = self.repolookup[vcs](path, prefs)
                 if repo:
                     return repo
 
