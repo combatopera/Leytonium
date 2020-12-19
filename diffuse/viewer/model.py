@@ -39,6 +39,7 @@
 
 # class describing a text pane
 class Pane:
+
     def __init__(self):
         # list of lines displayed in this pane (including spacing lines)
         self.lines = []
@@ -63,6 +64,7 @@ class Pane:
 
 # class describing a single line of a pane
 class Line:
+
     def __init__(self, line_number = None, text = None):
         # line number
         self.line_number = line_number
@@ -78,6 +80,4 @@ class Line:
 
     # returns the current text for this line
     def getText(self):
-        if self.is_modified:
-            return self.modified_text
-        return self.text
+        return self.modified_text if self.is_modified else self.text

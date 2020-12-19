@@ -39,6 +39,7 @@
 
 # Undo for changes to the cached line ending style
 class SetFormatUndo:
+
     def __init__(self, f, format, old_format):
         self.data = (f, format, old_format)
 
@@ -52,6 +53,7 @@ class SetFormatUndo:
 
 # Undo for the creation of Line objects
 class InstanceLineUndo:
+
     def __init__(self, f, i, reverse):
         self.data = (f, i, reverse)
 
@@ -65,6 +67,7 @@ class InstanceLineUndo:
 
 # Undo for changing the text for a Line object
 class UpdateLineTextUndo:
+
     def __init__(self, f, i, old_is_modified, old_text, is_modified, text):
         self.data = (f, i, old_is_modified, old_text, is_modified, text)
 
@@ -78,6 +81,7 @@ class UpdateLineTextUndo:
 
 # Undo for inserting a spacing line in a single pane
 class InsertNullUndo:
+
     def __init__(self, f, i, reverse):
         self.data = (f, i, reverse)
 
@@ -91,6 +95,7 @@ class InsertNullUndo:
 
 # Undo for manipulating a section of the line matching data
 class InvalidateLineMatchingUndo:
+
     def __init__(self, i, n, new_n):
         self.data = (i, n, new_n)
 
@@ -104,6 +109,7 @@ class InvalidateLineMatchingUndo:
 
 # Undo for alignment changes
 class AlignmentChangeUndo:
+
     def __init__(self, finished):
         self.data = finished
 
@@ -117,6 +123,7 @@ class AlignmentChangeUndo:
 
 # Undo for changing how lines are cut into blocks for alignment
 class UpdateBlocksUndo:
+
     def __init__(self, old_blocks, blocks):
         self.data = (old_blocks, blocks)
 
@@ -130,6 +137,7 @@ class UpdateBlocksUndo:
 
 # Undo for replacing the lines for a single pane with a new set
 class ReplaceLinesUndo:
+
     def __init__(self, f, lines, new_lines, max_num, new_max_num):
         self.data = (f, lines, new_lines, max_num, new_max_num)
 
@@ -143,6 +151,7 @@ class ReplaceLinesUndo:
 
 # Undo for changing the selection mode and range
 class EditModeUndo:
+
     def __init__(self, mode, current_pane, current_line, current_char, selection_line, selection_char, cursor_column):
         self.data = (mode, current_pane, current_line, current_char, selection_line, selection_char, cursor_column)
 
@@ -155,6 +164,7 @@ class EditModeUndo:
 
 # Undo for changes to the pane ordering
 class SwapPanesUndo:
+
     def __init__(self, f_dst, f_src):
         self.data = (f_dst, f_src)
 

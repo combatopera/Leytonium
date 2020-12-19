@@ -104,17 +104,18 @@ def step_adjustment(adj, delta):
 # the application to become unresponsive for a while as it processed a large
 # queue of keypress and expose event pairs.
 class ScrolledWindow(Gtk.Grid):
-    scroll_directions = set((Gdk.ScrollDirection.UP,
-                             Gdk.ScrollDirection.DOWN,
-                             Gdk.ScrollDirection.LEFT,
-                             Gdk.ScrollDirection.RIGHT))
+
+    scroll_directions = {
+            Gdk.ScrollDirection.UP,
+            Gdk.ScrollDirection.DOWN,
+            Gdk.ScrollDirection.LEFT,
+            Gdk.ScrollDirection.RIGHT}
 
     def __init__(self, hadj, vadj):
         super().__init__()
         self.position = (0, 0)
         self.scroll_count = 0
         self.partial_redraw = False
-
         self.hadj, self.vadj = hadj, vadj
         vport = Gtk.Viewport.new()
         darea = Gtk.DrawingArea.new()
@@ -130,15 +131,12 @@ class ScrolledWindow(Gtk.Grid):
         vport.set_vexpand(True)
         vport.set_hexpand(True)
         vport.show()
-
         self.vbar = bar = Gtk.Scrollbar.new(Gtk.Orientation.VERTICAL, vadj)
         self.attach(bar, 1, 0, 1, 1)
         bar.show()
-
         self.hbar = bar = Gtk.Scrollbar.new(Gtk.Orientation.HORIZONTAL, hadj)
         self.attach(bar, 0, 1, 1, 1)
         bar.show()
-
         # listen to our signals
         hadj.connect('value-changed', self.value_changed_cb)
         vadj.connect('value-changed', self.value_changed_cb)
@@ -207,9 +205,7 @@ class ScrolledWindow(Gtk.Grid):
 # sections
 
 def createBlock(n):
-    if n > 0:
-        return [ n ]
-    return []
+    return [n] if n > 0 else []
 
 # returns the two sets of blocks after cutting at 'i'
 def cutBlocks(i, blocks):
@@ -300,12 +296,12 @@ def removeNullLines(blocks, lines_set):
 # returns true if the string only contains whitespace characters
 def isBlank(s):
     for c in whitespace:
-        s = s.replace(c, '')
+        s = s.replace(c, '') # FIXME: Very inefficient!
     return len(s) == 0
 
 # use Pango.SCALE instead of Pango.PIXELS to avoid overflow exception
 def pixels(size):
-    return int(size / Pango.SCALE + 0.5)
+    return int(size / Pango.SCALE + .5)
 
 # mapping to column width of a character (tab will never be in this map)
 char_width_cache = {}
