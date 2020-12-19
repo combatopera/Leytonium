@@ -37,10 +37,10 @@
 # (http://www.fsf.org/) or by writing to the Free Software Foundation, Inc.,
 # 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-from .girepo import Gdk, Gtk, Pango, PangoCairo
-from .patience import patience_diff
-from .ui import createMenu
-from .util import Format, len_minus_line_ending, Mode, nullToEmpty, splitlines, strip_eol
+from ..girepo import Gdk, Gtk, Pango, PangoCairo
+from ..patience import patience_diff
+from ..ui import createMenu
+from ..util import Format, len_minus_line_ending, Mode, nullToEmpty, splitlines, strip_eol
 from gettext import gettext as _
 import difflib, os, unicodedata
 
