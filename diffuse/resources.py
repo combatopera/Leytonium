@@ -45,6 +45,7 @@ import glob, os, re, shlex
 
 # colour resources
 class Colour:
+
     def __init__(self, r, g, b, a=1.0):
         # the individual colour components as floats in the range [0, 1]
         self.red = r
@@ -66,6 +67,7 @@ class Colour:
 
 # class to build and run a finite state machine for identifying syntax tokens
 class SyntaxParser:
+
     # create a new state machine that begins in initial_state and classifies
     # all characters not matched by the patterns as default_token_type
     def __init__(self, initial_state, default_token_type):
@@ -118,6 +120,7 @@ class SyntaxParser:
 # The personal initialisation file '~/diffuse/diffuserc' can be used to change
 # default behaviour.
 class Resources:
+
     def __init__(self):
         # default keybindings
         self.keybindings = {}
@@ -247,7 +250,6 @@ class Resources:
         set_binding('align_mode', 'page_down', 'Page_Down')
         set_binding('align_mode', 'page_down', 'Ctrl+d')
         set_binding('character_mode', 'enter_line_mode', 'Escape')
-
         # default colours
         self.colours = {
             'alignment' : Colour(1.0, 1.0, 0.0),
@@ -266,7 +268,6 @@ class Resources:
             'preedit' : Colour(0.0, 0.0, 0.0),
             'text' : Colour(0.0, 0.0, 0.0),
             'text_background' : Colour(1.0, 1.0, 1.0) }
-
         # default floats
         self.floats = {
             'alignment_opacity' : 1.0,
@@ -275,19 +276,15 @@ class Resources:
             'edited_opacity' : 0.4,
             'line_difference_opacity' : 0.3,
             'line_selection_opacity' : 0.4 }
-
         # default strings
         self.strings = {}
-
         # syntax highlighting support
         self.syntaxes = {}
         self.syntax_file_patterns = {}
         self.syntax_magic_patterns = {}
         self.current_syntax = None
-
         # list of imported resources files (we only import each file once)
         self.resource_files = set()
-
         # special string resources
         self.setDifferenceColours('difference_1 difference_2 difference_3')
 
@@ -313,21 +310,17 @@ class Resources:
         if key is None:
             raise ValueError()
         key_tuple = (ctx, (key, modifiers))
-
         # remove any existing binding
         if key_tuple in self.keybindings_lookup:
             self._removeKeyBinding(key_tuple)
-
         # ensure we have a set to hold this action
         if action_tuple not in self.keybindings:
             self.keybindings[action_tuple] = {}
         bindings = self.keybindings[action_tuple]
-
         # menu items can only have one binding
         if ctx == 'menu':
             for k in bindings.keys():
                 self._removeKeyBinding(k)
-
         # add the binding
         bindings[key_tuple] = None
         self.keybindings_lookup[key_tuple] = action_tuple
@@ -410,18 +403,15 @@ class Resources:
         # only process files once
         if file_name in self.resource_files:
             return
-
         self.resource_files.add(file_name)
         f = open(file_name, 'r')
         ss = readconfiglines(f)
         f.close()
-
         # FIXME: improve validation
         for i, s in enumerate(ss):
             args = shlex.split(s, True)
             if len(args) == 0:
                 continue
-
             try:
                 # eg. add Python syntax highlighting:
                 #    import /usr/share/diffuse/syntax/python.syntax

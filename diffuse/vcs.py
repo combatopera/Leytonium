@@ -63,7 +63,6 @@ def popenXArgsReadLines(dn, cmd, args, prefs, bash_pref):
         # assume the Window's limit to CreateProcess()
         maxsize = 32767
     maxsize -= sum([ len(k) + 1 for k in cmd ])
-
     ss = []
     i, s, a = 0, 0, []
     while i < len(args):
@@ -87,6 +86,7 @@ def popenXArgsReadLines(dn, cmd, args, prefs, bash_pref):
 # represents a set of files and folders of interest for "git status" or
 # "mtn automate inventory"
 class _VcsFolderSet:
+
     def __init__(self, names):
         self.folders = f = []
         for name in names:
@@ -138,6 +138,7 @@ def _find_parent_dir_with(path, dir_name):
 
 # Bazaar support
 class _Bzr:
+
     def __init__(self, root):
         self.root = root
 
@@ -305,6 +306,7 @@ def _get_bzr_repo(path, prefs):
 
 # CVS support
 class _Cvs:
+
     def __init__(self, root):
         self.root = root
 
@@ -380,6 +382,7 @@ def _get_cvs_repo(path, prefs):
 
 # Darcs support
 class _Darcs:
+
     def __init__(self, root):
         self.root = root
 
@@ -508,6 +511,7 @@ def _get_darcs_repo(path, prefs):
 
 # Git support
 class _Git:
+
     def __init__(self, root):
         self.root = root
 
@@ -664,6 +668,7 @@ def _get_git_repo(path, prefs):
 
 # Mercurial support
 class _Hg:
+
     def __init__(self, root):
         self.root = root
         self.working_rev = None
@@ -735,6 +740,7 @@ def _get_hg_repo(path, prefs):
 
 # Monotone support
 class _Mtn:
+
     def __init__(self, root):
         self.root = root
 
@@ -917,6 +923,7 @@ def _get_mtn_repo(path, prefs):
 
 # RCS support
 class _Rcs:
+
     def __init__(self, root):
         self.root = root
 
@@ -1017,7 +1024,6 @@ class _Rcs:
 def _get_rcs_repo(path, prefs):
     if os.path.isdir(os.path.join(path, 'RCS')):
         return _Rcs(path)
-
     # [rfailliot] this code doesn't seem to work, but was in 0.4.8 too.
     # I'm letting it here until further tests are done, but it is possible
     # this code never actually worked.
@@ -1032,6 +1038,7 @@ def _get_rcs_repo(path, prefs):
 # Subversion support
 # SVK support subclasses from this
 class _Svn:
+
     def __init__(self, root):
         self.root = root
         self.url = None
@@ -1093,7 +1100,6 @@ class _Svn:
         except ValueError:
             logError(_('Error parsing revision %s.') % (rev, ))
             return result
-
         # build command
         vcs = self._getVcs()
         vcs_bin, vcs_bash = prefs.getString(vcs + '_bin'), vcs + '_bash'
@@ -1333,9 +1339,19 @@ def _get_svk_repo(path, prefs):
             logError(_('Error parsing %s.') % (svkconfig, ))
 
 class VCSs:
+
     def __init__(self):
         # initialise the VCS objects
-        self._get_repo = { 'bzr': _get_bzr_repo, 'cvs': _get_cvs_repo, 'darcs': _get_darcs_repo, 'git': _get_git_repo, 'hg': _get_hg_repo, 'mtn': _get_mtn_repo, 'rcs': _get_rcs_repo, 'svk': _get_svk_repo, 'svn': _get_svn_repo }
+        self._get_repo = {
+                'bzr': _get_bzr_repo,
+                'cvs': _get_cvs_repo,
+                'darcs': _get_darcs_repo,
+                'git': _get_git_repo,
+                'hg': _get_hg_repo,
+                'mtn': _get_mtn_repo,
+                'rcs': _get_rcs_repo,
+                'svk': _get_svk_repo,
+                'svn': _get_svn_repo}
 
     def setSearchOrder(self, ordering):
         self._search_order = ordering

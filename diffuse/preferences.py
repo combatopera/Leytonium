@@ -84,6 +84,7 @@ class FontButton(Gtk.FontButton):
 
 # class to store preferences and construct a dialogue for manipulating them
 class Preferences:
+
     def __init__(self, path):
         self.bool_prefs = {}
         self.int_prefs = {}
@@ -91,21 +92,15 @@ class Preferences:
         self.int_prefs_min = {}
         self.int_prefs_max = {}
         self.string_prefs_enums = {}
-
         # find available encodings
         self.encodings = sorted(set(encodings.aliases.aliases.values()))
-        if isWindows:
-            svk_bin = 'svk.bat'
-        else:
-            svk_bin = 'svk'
-
-        auto_detect_codecs = [ 'utf_8', 'utf_16', 'latin_1' ]
+        svk_bin = 'svk.bat' if isWindows else 'svk'
+        auto_detect_codecs = ['utf_8', 'utf_16', 'latin_1']
         e = norm_encoding(sys.getfilesystemencoding())
         if e not in auto_detect_codecs:
             # insert after UTF-8 as the default encoding may prevent UTF-8 from
             # being tried
             auto_detect_codecs.insert(2, e)
-
         # self.template describes how preference dialogue layout
         #
         # this will be traversed later to build the preferences dialogue and
@@ -186,7 +181,6 @@ class Preferences:
                       [ 'String', 'cygwin_cygdrive_prefix', '/cygdrive', _('Cygdrive prefix') ]
                     ]
                 ])
-
         # create template for Version Control options
         vcs = [ ('bzr', 'Bazaar', 'bzr'),
                 ('cvs', 'CVS', 'cvs'),
@@ -197,7 +191,6 @@ class Preferences:
                 ('rcs', 'RCS', None),
                 ('svn', 'Subversion', 'svn'),
                 ('svk', 'SVK', svk_bin) ]
-
         vcs_template = [ 'List',
               [ 'String', 'vcs_search_order', 'bzr cvs darcs git hg mtn rcs svn svk', _('Version control system search order') ] ]
         vcs_folders_template = [ 'FolderSet' ]
@@ -215,8 +208,7 @@ class Preferences:
                     temp.append([ 'Boolean', key + '_cygwin', False, _('Update paths for Cygwin') ])
             vcs_folders_template.extend([ name, temp ])
         vcs_template.append(vcs_folders_template)
-
-        self.template.extend([ _('Version Control'), vcs_template ])
+        self.template += [_('Version Control'), vcs_template]
         self._initFromTemplate(self.template)
         self.default_bool_prefs = self.bool_prefs.copy()
         self.default_int_prefs = self.int_prefs.copy()
@@ -283,7 +275,6 @@ class Preferences:
         dialog = Gtk.Dialog(_('Preferences'), parent=parent, destroy_with_parent=True)
         dialog.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.REJECT)
         dialog.add_button(Gtk.STOCK_OK, Gtk.ResponseType.OK)
-
         widgets = {}
         w = self._buildPrefsDialog(parent, widgets, self.template)
         # disable any preferences than are not relevant
@@ -293,7 +284,6 @@ class Preferences:
                 widgets[k].set_sensitive(False)
         dialog.vbox.add(w) # pylint: disable=no-member
         w.show()
-
         accept = (dialog.run() == Gtk.ResponseType.OK)
         if accept:
             for k in self.bool_prefs.keys():
@@ -420,8 +410,9 @@ class Preferences:
     # attempt to convert a string to unicode from an unknown encoding
     def convertToUnicode(self, s):
         # a BOM is required for autodetecting UTF16 and UTF32
-        magic = { 'utf16': [ codecs.BOM_UTF16_BE, codecs.BOM_UTF16_LE ],
-                  'utf32': [ codecs.BOM_UTF32_BE, codecs.BOM_UTF32_LE ] }
+        magic = {
+                'utf16': [codecs.BOM_UTF16_BE, codecs.BOM_UTF16_LE],
+                'utf32': [codecs.BOM_UTF32_BE, codecs.BOM_UTF32_LE]}
         for encoding in self._getDefaultEncodings():
             try:
                 encoding = encoding.lower().replace('-', '').replace('_', '')
