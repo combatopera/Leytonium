@@ -38,10 +38,10 @@
 # 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 from .model import Line, Pane
+from .patience import patience_diff
 from .undo import AlignmentChangeUndo, EditModeUndo, InsertNullUndo, InstanceLineUndo, InvalidateLineMatchingUndo, ReplaceLinesUndo, SetFormatUndo, SwapPanesUndo, UpdateBlocksUndo, UpdateLineTextUndo
 from .util import char_width_cache, convert_to_format, createBlock, cutBlocks, getCharacterClass, getFormat, isBlank, mergeBlocks, mergeRanges, pixels, removeNullLines, ScrolledWindow, step_adjustment, whitespace, WHITESPACE_CLASS
 from ..girepo import Gdk, Gtk, Pango, PangoCairo
-from ..patience import patience_diff
 from ..ui import createMenu
 from ..util import Format, len_minus_line_ending, Mode, nullToEmpty, splitlines, strip_eol
 from gettext import gettext as _
