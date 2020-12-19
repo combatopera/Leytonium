@@ -86,8 +86,8 @@ def logDebug(s):
 
 # escape special glob characters
 def globEscape(s):
-    m = dict([ (c, f'[{c}]') for c in '[]?*' ])
-    return ''.join([ m.get(c, c) for c in s ])
+    m = {c: f"[{c}]" for c in '[]?*'} # XXX: Does this work for close square bracket?
+    return ''.join(m.get(c, c) for c in s)
 
 def readconfiglines(fd):
     return fd.read().replace('\r', '').split('\n')
@@ -98,9 +98,7 @@ def norm_encoding(e):
         return e.replace('-', '_').lower()
 
 def nullToEmpty(s):
-    if s is None:
-        s = ''
-    return s
+    return '' if s is None else s
 
 # split string into lines based upon DOS, Mac, and Unix line endings
 def splitlines(s):
