@@ -22,7 +22,7 @@ import os, subprocess, sys, time
 sleeptime = .5
 soundpath = Path('/usr/share/sounds/freedesktop/stereo/complete.oga')
 threshold = 5
-interactivecommands = {'Concern', 'diffuse', 'man', 'top', 'vim'}
+alwaysinteractive = {'Concern', 'diffuse', 'man', 'top', 'vim'}
 
 class Child:
 
@@ -31,8 +31,8 @@ class Child:
 
     def fetch(self, pid):
         try:
-            with open(f"/proc/{pid}/cmdline") as f:
-                self.armed = f.read().split('\0')[0].split(os.sep)[-1] not in interactivecommands
+            with open(f"/proc/{pid}/comm") as f:
+                self.armed = f.read().rstrip() not in alwaysinteractive
                 return True
         except (FileNotFoundError, ProcessLookupError):
             pass
