@@ -37,6 +37,7 @@
 # (http://www.fsf.org/) or by writing to the Free Software Foundation, Inc.,
 # 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+from .model import Line, Pane
 from .undo import AlignmentChangeUndo, EditModeUndo, InsertNullUndo, InstanceLineUndo, InvalidateLineMatchingUndo, ReplaceLinesUndo, SetFormatUndo, SwapPanesUndo, UpdateBlocksUndo, UpdateLineTextUndo
 from .util import char_width_cache, convert_to_format, createBlock, cutBlocks, getCharacterClass, getFormat, isBlank, mergeBlocks, mergeRanges, pixels, removeNullLines, ScrolledWindow, step_adjustment, whitespace, WHITESPACE_CLASS
 from ..girepo import Gdk, Gtk, Pango, PangoCairo
@@ -48,50 +49,6 @@ import difflib, os, unicodedata
 
 # widget used to compare and merge text files
 class FileDiffViewer(Gtk.Grid):
-    # class describing a text pane
-    class Pane:
-        def __init__(self):
-            # list of lines displayed in this pane (including spacing lines)
-            self.lines = []
-            # high water mark for line length in Pango units (used to determine
-            # the required horizontal scroll range)
-            self.line_lengths = 0
-            # highest line number
-            self.max_line_number = 0
-            # cache of syntax highlighting information for each line
-            # self.syntax_cache[i] corresponds to self.lines[i]
-            # the list is truncated when a change to a line invalidates a
-            # portion of the cache
-            self.syntax_cache = []
-            # cache of character differences for each line
-            # self.diff_cache[i] corresponds to self.lines[i]
-            # portion of the cache are cleared by setting entries to None
-            self.diff_cache = []
-            # mask indicating the type of line endings present
-            self.format = 0
-            # number of lines with edits
-            self.num_edits = 0
-
-    # class describing a single line of a pane
-    class Line:
-        def __init__(self, line_number = None, text = None):
-            # line number
-            self.line_number = line_number
-            # original text for the line
-            self.text = text
-            # flag indicating modifications are present
-            self.is_modified = False
-            # actual modified text
-            self.modified_text = None
-            # cache used to speed up comparison of strings
-            # this should be cleared whenever the comparison preferences change
-            self.compare_string = None
-
-        # returns the current text for this line
-        def getText(self):
-            if self.is_modified:
-                return self.modified_text
-            return self.text
 
     def __init__(self, resources, n, prefs):
         # verify we have a valid number of panes
@@ -215,7 +172,7 @@ class FileDiffViewer(Gtk.Grid):
         self.hadj = Gtk.Adjustment.new(0, 0, 0, 0, 0, 0)
         self.vadj = Gtk.Adjustment.new(0, 0, 0, 0, 0, 0)
         for i in range(n):
-            pane = self.Pane()
+            pane = Pane()
             self.panes.append(pane)
             # pane contents
             sw = ScrolledWindow(self.hadj, self.vadj)
@@ -611,7 +568,7 @@ class FileDiffViewer(Gtk.Grid):
         if reverse:
             pane.lines[i] = None
         else:
-            line = self.Line()
+            line = Line()
             pane.lines[i] = line
 
     def getMapFlags(self, f, i):
@@ -986,7 +943,7 @@ class FileDiffViewer(Gtk.Grid):
         if n > 0:
             blocks.append(n)
         # create line objects for the text
-        mid = [[self.Line(j + 1, ss[j]) for j in range(n)]]
+        mid = [[Line(j + 1, ss[j]) for j in range(n)]]
         if f > 0:
             # align with panes to the left
             # use copies so the originals can be used by the Undo object
@@ -1042,7 +999,7 @@ class FileDiffViewer(Gtk.Grid):
                 lines.append(None)
             else:
                 line_num += 1
-                lines.append(self.Line(line_num, s))
+                lines.append(Line(line_num, s))
         # update loaded pane
         self.replaceLines(f, pane.lines, lines, pane.max_line_number, line_num)
 
