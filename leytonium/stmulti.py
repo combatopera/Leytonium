@@ -97,7 +97,7 @@ class Git(Project):
         self.co.print(restore)
 
     def fetch(self):
-        self.git.fetch.__all.print()
+        self.git.fetch.__all.print(*sys.argv[1:])
 
     def pull(self):
         # TODO: Only fetch once.
