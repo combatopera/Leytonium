@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from lagoon import paplay, pgrep
+from lagoon import pgrep
 from pathlib import Path
 import os, subprocess, sys, time
 
@@ -38,6 +38,7 @@ class Child:
             pass
 
     def fire(self, now):
+        from lagoon import paplay
         if self.start + threshold <= now and self.armed and soundpath.exists() and not os.fork():
             paplay.exec(soundpath)
 
