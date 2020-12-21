@@ -41,7 +41,7 @@ from .girepo import Gdk, GdkPixbuf, GObject, Gtk, Pango
 from .preferences import Preferences
 from .ui import createMenu, EncodingMenu, MessageDialog
 from .util import APP_NAME, bin_dir, Format, isWindows, lang, logDebug, Mode, readlines, splitlines, VERSION, WEBSITE
-from .viewer import FileDiffViewer
+from .viewer.viewer import FileDiffViewer
 from gettext import gettext as _
 from urllib.parse import urlparse
 import codecs, os, shlex, stat, webbrowser

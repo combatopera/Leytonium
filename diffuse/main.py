@@ -43,7 +43,7 @@ from .resources import Resources
 from .ui import logError
 from .util import APP_NAME, bin_dir, getcopyright, isWindows, lang, VERSION
 from .vcs import VCSs
-from .viewer import FileDiffViewer
+from .viewer.viewer import FileDiffViewer
 from gettext import gettext as _
 import encodings, gettext, os, sys
 
