@@ -42,6 +42,8 @@ class Child:
             paplay.exec(soundpath)
 
 def main_taskding():
+    if 'SSH_CLIENT' in os.environ:
+        return
     shpidstr, = sys.argv[1:]
     children = {}
     while True:
