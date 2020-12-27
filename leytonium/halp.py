@@ -27,12 +27,15 @@ def main_halp():
     '''You're looking at it!'''
     initlogging()
     config = ConfigCtrl().loadappconfig(main_halp, 'halp.arid')
+    ignore_projects = set(config.ignore.projects)
     projects = set(config.projects)
     others = set()
     undocumented = set()
     halps = []
     for ep in iter_entry_points('console_scripts'):
         project = ep.dist.project_name
+        if project in ignore_projects:
+            continue
         if project in projects:
             obj = import_module(ep.module_name)
             for a in ep.attrs:
@@ -44,7 +47,8 @@ def main_halp():
                 halps.append((ep.name, doc))
         else:
             others.add(project)
-    log.debug("Other projects: %s", ' '.join(sorted(others)))
+    if others:
+        log.debug("Other projects: %s", ' '.join(sorted(others)))
     log.debug("Undocumented commands: %s", ' '.join(sorted(undocumented)))
     format = "%%-%ss %%s" % max(len(halp[0]) for halp in halps)
     for halp in sorted(halps):
