@@ -37,13 +37,7 @@
 # (http://www.fsf.org/) or by writing to the Free Software Foundation, Inc.,
 # 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-from .diffuse import Diffuse
-from .girepo import GObject, Gtk
-from .resources import Resources
-from .ui import logError
 from .util import APP_NAME, bin_dir, getcopyright, isWindows, lang, VERSION
-from .vcs import VCSs
-from .viewer.viewer import FileDiffViewer
 from gettext import gettext as _
 import encodings, gettext, os, sys
 
@@ -60,6 +54,12 @@ def make_subdirs(p, ss):
 
 def main_diffuse():
     'Compare an arbitrary number of text files.'
+    from .diffuse import Diffuse
+    from .girepo import GObject, Gtk
+    from .resources import Resources
+    from .ui import logError
+    from .vcs import VCSs
+    from .viewer.viewer import FileDiffViewer
     # gettext looks for the language using environment variables which
     # are normally not set on Windows so we try setting it for them
     if isWindows and not any(v in os.environ for v in ['LANGUAGE', 'LC_ALL', 'LC_MESSAGES', 'LANG']) and lang is not None:
