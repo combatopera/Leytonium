@@ -17,14 +17,13 @@
 
 from .common import findproject
 from lagoon import ag
+from lagoon.program import Program
 import os, sys
 
 def main_agi():
-    'Search for identifier.'
+    'Search for identifier in project.'
     ag._ws.exec(*sys.argv[1:], findproject())
 
 def main_agil():
-    'Edit files containing identifier.'
-    # XXX: Can't we use lagoon here?
-    command = [os.environ['EDITOR']] + ag._wsl(*sys.argv[1:], findproject()).splitlines()
-    os.execvp(command[0], command)
+    'Edit project files containing identifier.'
+    Program.text(os.environ['EDITOR']).exec(*ag._wsl(*sys.argv[1:], findproject()).splitlines())
