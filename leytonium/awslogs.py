@@ -40,6 +40,7 @@ def streamnames(group, starttime):
     return names
 
 def main_awslogs():
+    'Reconstruct logs from AWS CloudWatch.'
     parser = argparse.ArgumentParser()
     parser.add_argument('--no-trunc', action='store_true')
     parser.add_argument('--ago', default='1 hour')

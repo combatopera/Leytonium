@@ -193,10 +193,13 @@ def main_stmulti():
     main('status')
 
 def main_fetchall():
+    'Fetch all remotes of projects in directory.'
     main('fetch')
 
 def main_pullall():
+    'Pull all branches of projects in directory.'
     main('pull')
 
 def main_pushall():
+    'Push (using hgcommit) all branches of projects in directory.'
     main('push')

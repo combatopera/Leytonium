@@ -43,6 +43,7 @@ class Child:
             paplay.exec(soundpath)
 
 def main_taskding():
+    'Play a sound when a long-running child of shell terminates.'
     if 'SSH_CLIENT' in os.environ:
         return
     shpidstr, = sys.argv[1:]

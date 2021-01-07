@@ -62,6 +62,7 @@ def main_upgrade():
     delegate('upgrade.bash')
 
 def main_vpn():
+    'Start openvpn in background.'
     delegate('vpn.bash')
 
 def main_vunzip():

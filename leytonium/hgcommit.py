@@ -93,6 +93,7 @@ class Rsync:
         print("(cd %s && rsync %s %s)" % (Path.cwd(), ' '.join(lhs), ' '.join(rhs)))
 
 def main_hgcommit():
+    'Commit hook to push to central clone of repo on local network.'
     initlogging()
     config = loadconfig()
     reldir = Path.cwd().relative_to(effectivehome)

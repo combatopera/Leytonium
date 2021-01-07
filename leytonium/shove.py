@@ -20,6 +20,7 @@ import sys, subprocess, re
 pattern = re.compile('latest|.+[.]latest')
 
 def main_shove():
+    'Update a latest tag in ECR with the given image.'
     spec, = sys.argv[1:]
     slash = spec.index('/')
     colon = spec.rindex(':')

@@ -49,9 +49,11 @@ def main_gag():
     find._name.exec('build.gradle', '-exec', 'ag', *sys.argv[1:], '{}', '+')
 
 def main_git_completion_path():
+    'Get path to git completion file, used by scripts.'
     print(resource_filename(__name__, 'git_completion.bash'))
 
 def main_git_functions_path():
+    'Get path to git functions file, used by scripts.'
     print(resource_filename(__name__, 'git_functions.bash'))
 
 def main_rd():

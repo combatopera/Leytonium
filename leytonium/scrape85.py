@@ -20,6 +20,7 @@ import sys, re, base64, os
 pattern = re.compile('<~(.+?)~>', re.DOTALL)
 
 def main_scrape85():
+    'Extract Adobe Ascii85-encoded images from given file.'
     if os.listdir():
         raise Exception
     path, = sys.argv[1:]
