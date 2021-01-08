@@ -16,7 +16,11 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 from .common import showmenu, UnknownParentException, showexception, stripansi, getpublic, savedcommits, AllBranches, highlight
-from lagoon import clear, git, ls
+from lagoon import clear, git
+try:
+    from lagoon import gls as ls
+except ImportError:
+    from lagoon import ls
 from termcolor import colored
 import re, subprocess
 
