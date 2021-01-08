@@ -17,7 +17,11 @@
 
 from . import effectivehome
 from aridity.config import ConfigCtrl
-from lagoon import clear, co, find, git, hg, hgcommit, md5sum, rsync, test, tput
+from lagoon import clear, co, git, hg, hgcommit, md5sum, rsync, test, tput
+try:
+    from lagoon import gfind as find
+except ImportError:
+    from lagoon import find
 from pathlib import Path
 from pyven.projectinfo import ProjectInfo
 import glob, logging, re, shlex, sys
