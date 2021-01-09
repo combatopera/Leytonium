@@ -10,6 +10,6 @@ trap cleanup EXIT
 
 pandoc -T "$(basename "${@: -1}")" --toc "$@" >$path
 
-$(which open || which firefox) $path
+$(if [[ -d /proc ]]; then echo firefox; else echo open; fi) $path
 
 while true; do sleep 1; done
