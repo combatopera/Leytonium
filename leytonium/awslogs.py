@@ -16,9 +16,10 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 from lagoon.binary import bash, date
+from lagoon.program import partial
 import argparse, json
 
-logs = bash._ic.partial('aws logs "$@"', 'logs')
+logs = bash._ic[partial]('aws logs "$@"', 'logs')
 tskey = 'lastIngestionTime'
 
 def _shorten(line, radius = 250):

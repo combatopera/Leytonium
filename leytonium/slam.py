@@ -17,6 +17,7 @@
 
 from .common import AllBranches, showmenu, pb, savecommits, savedcommits, findproject, thisbranch, infodirname, os, stderr
 from lagoon import git
+from lagoon.program import partial
 import sys
 
 def main_slam():
@@ -50,7 +51,7 @@ def main_unslam():
     with open(path) as f:
         commits = f.read().splitlines()
     commits.reverse()
-    command = git.cherry_pick.partial(*commits)
+    command = git.cherry_pick[partial](*commits)
     stderr("Command: git %s" % ' '.join(command.args))
     os.remove(path)
     command[exec]()
