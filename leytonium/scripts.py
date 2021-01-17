@@ -57,10 +57,6 @@ def main_mdview():
     'Render Markdown file in browser.'
     delegate('mdview.bash')
 
-def main_upgrade():
-    'Upgrade the system and silence the nag.'
-    delegate('upgrade.bash')
-
 def main_vpn():
     'Start openvpn in background.'
     delegate('vpn.bash')
