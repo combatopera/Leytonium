@@ -25,7 +25,7 @@ def reportornone(b):
     status = merge(b, check = False).stdout.splitlines()
     conflicts = sum(1 for line in status if 'CONFLICT' in line)
     if conflicts:
-        git.reset.__hard.print()
+        git.reset.__hard[print]()
         return conflicts, b
     for line in status:
         print(line)
@@ -55,7 +55,7 @@ def touchifnecessary():
     if [touchmsg()] == git.log._1('--pretty=format:%B').splitlines():
         stderr('No changes, touch not needed.')
     else:
-        touchb.print()
+        touchb[print]()
 
 def ispublished(): # TODO: Really this should check whether PR.
     pb = getpublic()
@@ -67,7 +67,7 @@ def multimerge():
     branchtoparents = {b: allbranches.parents(b) for b in remaining}
     allparents = {p for parents in branchtoparents.values() for p in parents}
     def update(b):
-        git.checkout.print(b)
+        git.checkout[print](b)
         parents = branchtoparents[b]
         if b in allparents or ispublished():
             mergeintocurrent(parents)
@@ -77,7 +77,7 @@ def multimerge():
             raise Exception("Too many parents for rebase: %s" % b)
         else:
             p, = parents
-            git.rebase.print(p)
+            git.rebase[print](p)
     done = set()
     while remaining:
         stderr("Remaining: %s" % ' '.join(remaining))

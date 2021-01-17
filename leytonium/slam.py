@@ -35,14 +35,14 @@ def main_slam():
         commit = showmenu(items, False)[n - 1] + '^'
         if save:
             savecommits([item[0] for item in items[:n - 1]])
-        git.reset.__hard.exec(commit)
+        git.reset.__hard[exec](commit)
     else:
         saved = savedcommits()
         i = len(saved) - 1 + n
         commit = saved[i]
         if save:
             savecommits(saved[:i], True)
-        git.cherry_pick.exec(*reversed(saved[i:]))
+        git.cherry_pick[exec](*reversed(saved[i:]))
 
 def main_unslam():
     'Cherry-pick commits lost in a previous slam.'
@@ -53,4 +53,4 @@ def main_unslam():
     command = git.cherry_pick.partial(*commits)
     stderr("Command: git %s" % ' '.join(command.args))
     os.remove(path)
-    command.exec()
+    command[exec]()

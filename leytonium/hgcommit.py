@@ -65,15 +65,15 @@ class Git:
     def pushorclone(self, dest):
         if dest.exists():
             branch, = git.rev_parse.__abbrev_ref.HEAD().splitlines()
-            git.push.print(dest.netremotename, branch)
+            git.push[print](dest.netremotename, branch)
         else:
-            git.clone.__bare.print('.', dest.path)
+            git.clone.__bare[print]('.', dest.path)
         branches = set(git.branch().splitlines())
         if '  public' in branches:
             currentbranch = {f"* {b}" for b in trunknames} & branches
             if currentbranch:
                 mainbranch, = (b[2:] for b in currentbranch)
-                git.update_ref.print('refs/heads/public', mainbranch)
+                git.update_ref[print]('refs/heads/public', mainbranch)
 
 @singleton
 class Rsync:
@@ -86,10 +86,10 @@ class Rsync:
     def pushorclone(self, dest):
         lhs = '-avzu', '--exclude', '/.rsync'
         rhs = ".%s" % os.sep, "%s::%s/%s" % (dest.repohost, dest.reponame, dest.reldir)
-        rsync.print(*lhs, *rhs)
+        rsync[print](*lhs, *rhs)
         os.utime('.rsync')
         lhs += '--del',
-        rsync.print(*lhs, '--dry-run', *rhs)
+        rsync[print](*lhs, '--dry-run', *rhs)
         print("(cd %s && rsync %s %s)" % (Path.cwd(), ' '.join(lhs), ' '.join(rhs)))
 
 def main_hgcommit():

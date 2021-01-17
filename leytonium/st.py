@@ -53,11 +53,11 @@ def title(commit):
 
 def main_st():
     'Show list of branches and outgoing changes.'
-    clear.print()
+    clear[print]()
     try:
         allbranches = AllBranches()
     except subprocess.CalledProcessError:
-        ls._l.print('--color=always')
+        ls._l[print]('--color=always')
         return
     rows = [Row(allbranches, l[2:]) for l in git('-c', 'color.ui=always', 'branch', '-vv').splitlines()]
     fmt = "%%-%ss %%s" % max(len(r.parent) for r in rows)
@@ -73,5 +73,5 @@ def main_st():
             print("(%s more)" % count)
     except UnknownParentException:
         showexception()
-    git.status._v.print(check = False)
-    git.stash.list.print()
+    git.status._v[print](check = False)
+    git.stash.list[print]()

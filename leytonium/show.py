@@ -29,4 +29,4 @@ def main_show():
     else:
         saved = savedcommits()
         commit = saved[len(saved) - 1 + n]
-    git.show.exec(commit)
+    git.show[exec](commit)

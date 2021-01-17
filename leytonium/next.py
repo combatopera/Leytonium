@@ -23,14 +23,14 @@ def main_next():
     gitdir = Path(git.rev_parse.__git_dir().rstrip())
     if (gitdir / 'rebase-apply').is_dir():
         if git.status.__porcelain().splitlines():
-            git.rebase.__continue.print()
+            git[print].rebase.__continue()
         else:
-            git.rebase.__skip.print()
+            git[print].rebase.__skip()
     elif (gitdir / 'MERGE_HEAD').is_file():
-        git.commit.__no_edit.print()
+        git[print].commit.__no_edit()
     elif (gitdir / 'CHERRY_PICK_HEAD').is_file():
-        git.cherry_pick.__continue.print()
+        git[print].cherry_pick.__continue()
     elif (gitdir / 'REVERT_HEAD').is_file():
-        git.revert.__continue.print()
+        git[print].revert.__continue()
     else:
         raise Exception('Unknown git workflow, giving up.')

@@ -24,5 +24,5 @@ def main_n():
         if line.startswith('*'):
             b = lines[i + 1].strip()
             break
-    co.print(b)
-    st.exec()
+    co[print](b)
+    st[exec]()

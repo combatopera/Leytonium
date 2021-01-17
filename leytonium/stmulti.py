@@ -62,14 +62,14 @@ class Mercurial(Project):
         pass
 
     def pull(self):
-        self.hg.pull.print(self.netpath)
-        self.hg.update.print()
+        self.hg.pull[print](self.netpath)
+        self.hg.update[print]()
 
     def push(self):
-        self.hgcommit.print()
+        self.hgcommit[print]()
 
     def status(self):
-        self.hg.st.print()
+        self.hg.st[print]()
 
 class Git(Project):
 
@@ -96,20 +96,20 @@ class Git(Project):
     def _allbranches(self, task):
         restore, = self.git.rev_parse.__abbrev_ref.HEAD().splitlines()
         for branch in (l[2:] for l in self.git.branch().splitlines()):
-            self.co.print(branch)
+            self.co[print](branch)
             task(branch)
-        self.co.print(restore)
+        self.co[print](restore)
 
     def fetch(self):
-        self.git.fetch.__all.print(*sys.argv[1:])
+        self.git.fetch.__all[print](*sys.argv[1:])
 
     def pull(self):
         # TODO: Only fetch once.
         # FIXME: The public branch does not normally exist in netpath.
-        self._allbranches(lambda branch: self.git.pull.__ff_only.print(self.netpath, branch))
+        self._allbranches(lambda branch: self.git.pull.__ff_only[print](self.netpath, branch))
 
     def push(self):
-        self._allbranches(lambda branch: self.hgcommit.print())
+        self._allbranches(lambda branch: self.hgcommit[print]())
 
     def status(self):
         if (self.path / 'project.arid').exists():
@@ -118,7 +118,7 @@ class Git(Project):
                 hookpath = Path('.git', 'hooks', self.hookname)
                 if self.md5sum(hookpath, check = False).stdout[:32] != self.config.hookmd5:
                     log.error("Bad hook: %s", self.hookname)
-                if self.test._x.print(hookpath, check = False):
+                if self.test._x[print](hookpath, check = False):
                     log.error("Unexecutable hook: %s", self.hookname)
             if ProjectInfo.seek(self.path).config.pypi.participant:
                 lastrelease = max((t for t in self.git.tag().splitlines() if t.startswith('v')), default = None, key = lambda t: int(t[1:]))
@@ -137,8 +137,8 @@ class Git(Project):
         for line in lines:
             if idealpublic != line.parts:
                 print(line.highlighted())
-        self.git.status._s.print()
-        self.git.stash.list.print()
+        self.git.status._s[print]()
+        self.git.stash.list[print]()
 
 class BranchLine:
 
@@ -172,23 +172,23 @@ class Rsync(Project):
     def pull(self):
         lhs = '-avzu', '--exclude', "/%s" % self.dirname
         rhs = "%s::%s/%s/" % (self.config.repohost, self.config.reponame, self.homerelpath), '.'
-        self.rsync.print(*lhs, *rhs)
+        self.rsync[print](*lhs, *rhs)
         lhs += '--del',
-        self.rsync.print(*lhs, '--dry-run', *rhs)
+        self.rsync[print](*lhs, '--dry-run', *rhs)
         print("(cd %s && rsync %s)" % (shlex.quote(str(self.path)), ' '.join(map(shlex.quote, lhs + rhs))))
 
     def push(self):
-        self.hgcommit.print()
+        self.hgcommit[print]()
 
     def status(self):
-        tput.setaf.print(4)
-        tput.bold.print()
-        self.find._newer.print(self.dirname)
-        tput.sgr0.print()
+        tput.setaf[print](4)
+        tput.bold[print]()
+        self.find._newer[print](self.dirname)
+        tput.sgr0[print]()
 
 def main(action):
     config = loadconfig()
-    clear.print()
+    clear[print]()
     for projecttype in Mercurial, Git, Rsync:
         projecttype.forprojects(config, action)
 

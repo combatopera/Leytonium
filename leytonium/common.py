@@ -192,7 +192,7 @@ def getpublic(b = None):
         return pub
 
 def nicely(task):
-    killide = lambda sig: pkill._f.print("-%s" % sig, 'com.intellij.idea.Main', check = False)
+    killide = lambda sig: pkill._f[print]("-%s" % sig, 'com.intellij.idea.Main', check = False)
     killide('STOP')
     try:
         nicelyimpl(task)
@@ -206,12 +206,12 @@ def nicelyimpl(task):
         task()
     except:
         if stashed:
-            toilet.print('-w', 500, '-f', 'smmono12', '--metal', 'You have a new stash:')
-            git.stash.list.print()
+            toilet[print]('-w', 500, '-f', 'smmono12', '--metal', 'You have a new stash:')
+            git.stash.list[print]()
         raise
-    git.checkout.print(branch)
+    git.checkout[print](branch)
     if stashed:
-        git.stash.pop.print()
+        git.stash.pop[print]()
 
 def touchmsg():
     return "WIP Touch %s" % thisbranch()

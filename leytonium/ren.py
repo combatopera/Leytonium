@@ -22,7 +22,7 @@ import os
 def main_ren():
     'Rename current branch.'
     fromname = thisbranch()
-    git.branch._m.print(*args())
+    git.branch._m[print](*args())
     d = os.path.join(findproject(), infodirname)
     target = os.path.join(d, thisbranch())
     os.makedirs(os.path.dirname(target), exist_ok = True)

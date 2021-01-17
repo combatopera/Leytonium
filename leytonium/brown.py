@@ -33,5 +33,5 @@ def main_brown():
             m = re.fullmatch(r'\[file:(.+)]', line)
             if m is not None:
                 yield m.group(1)
-    sed._ni.print(r'/\S/p', *paths())
-    command._i.print()
+    sed._ni[print](r'/\S/p', *paths())
+    command._i[print]()

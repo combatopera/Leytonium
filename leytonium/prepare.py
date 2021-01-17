@@ -27,7 +27,7 @@ def main_prepare():
     name = thisbranch()
     allbranches = AllBranches()
     commits = [commit for commit, _ in allbranches.branchcommits(name)]
-    ren.print("%s.bak" % name)
-    git.checkout._b.print(name, master)
+    ren[print]("%s.bak" % name)
+    git.checkout._b[print](name, master)
     addparents(name, master)
-    git.cherry_pick.print(*commits)
+    git.cherry_pick[print](*commits)

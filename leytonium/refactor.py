@@ -22,8 +22,8 @@ import os, sys
 
 def main_agi():
     'Search for identifier in project.'
-    ag._ws.exec(*sys.argv[1:], findproject())
+    ag._ws[exec](*sys.argv[1:], findproject())
 
 def main_agil():
     'Edit project files containing identifier.'
-    Program.text(os.environ['EDITOR']).exec(*ag._wsl(*sys.argv[1:], findproject()).splitlines())
+    Program.text(os.environ['EDITOR'])[exec](*ag._wsl(*sys.argv[1:], findproject()).splitlines())

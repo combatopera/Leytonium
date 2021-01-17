@@ -16,6 +16,7 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 from lagoon import pgrep
+from lagoon.program import bg
 from pathlib import Path
 import os, subprocess, sys, time
 
@@ -40,7 +41,7 @@ class Child:
     def fire(self, now):
         from lagoon import paplay
         if self.start + threshold <= now and self.armed and soundpath.exists() and not os.fork():
-            paplay.exec(soundpath)
+            paplay[exec](soundpath)
 
 def main_taskding():
     'Play a sound when a long-running child of shell terminates.'
@@ -52,7 +53,7 @@ def main_taskding():
         nowchildren = {}
         now = time.time()
         try:
-            with pgrep.bg('-P', shpidstr) as stdout:
+            with pgrep[bg]('-P', shpidstr) as stdout:
                 for line in stdout:
                     nowchildren[int(line)] = Child(now)
         except subprocess.CalledProcessError:

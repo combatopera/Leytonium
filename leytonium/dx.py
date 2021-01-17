@@ -29,7 +29,7 @@ def main_dx():
     else:
         parent = pb()
         stderr("Parent branch: %s" % parent)
-    git.diff._M25.exec(parent)
+    git.diff._M25[exec](parent)
 
 def main_dxx():
     'Short diff from parent branch or of passed-in commit number.'
@@ -47,4 +47,4 @@ def main_dxx():
         parent = pb()
         stderr("Parent branch: %s" % parent)
         commits = parent,
-    git.diff._M25.__name_status.exec(*commits)
+    git.diff._M25.__name_status[exec](*commits)
