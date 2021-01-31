@@ -19,15 +19,17 @@ from argparse import ArgumentParser
 from lagoon import sudo
 from pathlib import Path
 
+boot = Path('/boot')
+
 def main_upgrade():
     'Upgrade the system and silence the nag.'
     parser = ArgumentParser()
-    parser.add_argument('-k', action = 'store_true', help = 'first remove all backup kernels')
+    parser.add_argument('-k', action = 'store_true', help = 'first remove all kernels except old and current')
     args = parser.parse_args()
     apt_get = sudo.apt_get[print]
     if args.k:
-        current = Path('/boot/vmlinuz').resolve()
-        apt_get.remove(*(p.name.replace('vmlinuz', 'linux-image') for p in Path('/boot').glob('vmlinuz-*-generic') if p != current))
+        keep = {(boot / name).resolve() for name in ['vmlinuz.old', 'vmlinuz']}
+        apt_get.remove(*(p.name.replace('vmlinuz', 'linux-image') for p in boot.glob('vmlinuz-*-generic') if p not in keep))
     apt_get.update()
     apt_get.__with_new_pkgs.upgrade()
     apt_get.autoremove()
