@@ -23,7 +23,7 @@ import os, subprocess, sys, time
 sleeptime = .5
 soundpath = Path('/usr/share/sounds/freedesktop/stereo/complete.oga')
 threshold = 5
-alwaysinteractive = {'Concern', 'diffuse', 'man', 'top', 'vim'}
+alwaysinteractive = {'Concern', 'diffuse', 'man', 'showstash', 'top', 'vim'}
 
 class Child:
 
