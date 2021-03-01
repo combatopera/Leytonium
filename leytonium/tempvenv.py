@@ -37,9 +37,9 @@ def main_tempvenv():
         venvdir = Path(venvdir)
         log.info("Create venv: %s", venvdir)
         python3._m.venv[print](venvdir) # Must use host executable to get pip apparently.
-        pipinstall = Program.text(venvdir / 'bin' / 'pip').install
+        pipinstall = Program.text(venvdir / 'bin' / 'pip').install[print]
         if args.w:
-            pipinstall.wheel[print]()
+            pipinstall('wheel==0.36.2')
         if args.reqs:
-            pipinstall[print](*args.reqs)
+            pipinstall(*args.reqs)
         Program.text(shellpath)._c[print]('. "$1" && exec "$2"', '-c', venvdir / 'bin' / 'activate', shellpath)
