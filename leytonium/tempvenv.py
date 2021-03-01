@@ -38,6 +38,7 @@ def main_tempvenv():
         log.info("Create venv: %s", venvdir)
         python3._m.venv[print](venvdir) # Must use host executable to get pip apparently.
         pipinstall = Program.text(venvdir / 'bin' / 'pip').install[print]
+        pipinstall('pip==21.0.1')
         if args.w:
             pipinstall('wheel==0.36.2')
         if args.reqs:
