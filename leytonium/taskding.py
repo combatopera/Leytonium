@@ -15,12 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
 from diapyr.util import innerclass
 from lagoon import pgrep
 from lagoon.program import bg
 from pathlib import Path
-import os, subprocess, sys, time
+import os, subprocess, time
 
 class ChildFactory:
 
@@ -51,16 +52,18 @@ class ChildFactory:
 def main_taskding():
     'Play a sound when a long-running child of shell terminates.'
     config = ConfigCtrl().loadappconfig(main_taskding, 'taskding.arid')
+    parser = ArgumentParser()
+    parser.add_argument('shpidstr')
+    parser.parse_args(namespace = config)
     if 'SSH_CLIENT' in os.environ:
         return
     factory = ChildFactory(config)
-    shpidstr, = sys.argv[1:]
     children = {}
     while True:
         nowchildren = {}
         now = time.time()
         try:
-            with pgrep[bg]('-P', shpidstr) as stdout:
+            with pgrep[bg]('-P', config.shpidstr) as stdout:
                 for line in stdout:
                     nowchildren[int(line)] = factory.Child(now)
         except subprocess.CalledProcessError:
