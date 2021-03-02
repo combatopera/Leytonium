@@ -22,7 +22,6 @@ from lagoon.program import bg
 from pathlib import Path
 import os, subprocess, sys, time
 
-sleeptime = .5
 threshold = 5
 alwaysinteractive = {'Concern', 'diffuse', 'gt', 'man', 'showstash', 'top', 'vim'}
 
@@ -72,4 +71,4 @@ def main_taskding():
         for pid, child in nowchildren.items():
             if pid not in children and child.fetch(pid):
                 children[pid] = child
-        time.sleep(sleeptime)
+        time.sleep(config.sleep.time)
