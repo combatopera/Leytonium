@@ -71,10 +71,10 @@ class TaskDing:
 
 def main_taskding():
     'Play a sound when a long-running child of shell terminates.'
+    if 'SSH_CLIENT' in os.environ:
+        return
     config = ConfigCtrl().loadappconfig(main_taskding, 'taskding.arid')
     parser = ArgumentParser()
     parser.add_argument('shpidstr')
     parser.parse_args(namespace = config)
-    if 'SSH_CLIENT' in os.environ:
-        return
     TaskDing(config).run()
