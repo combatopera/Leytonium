@@ -22,11 +22,10 @@ from lagoon.program import bg
 from pathlib import Path
 import os, subprocess, sys, time
 
-alwaysinteractive = {'Concern', 'diffuse', 'gt', 'man', 'showstash', 'top', 'vim'}
-
 class ChildFactory:
 
     def __init__(self, config):
+        self.always_interactive = set(config.always.interactive)
         self.sound_path = Path(config.sound.path)
         self.threshold = config.threshold
 
@@ -39,7 +38,7 @@ class ChildFactory:
         def fetch(self, pid):
             try:
                 with open(f"/proc/{pid}/comm") as f:
-                    self.armed = f.read().rstrip() not in alwaysinteractive
+                    self.armed = f.read().rstrip() not in self.always_interactive
                     return True
             except (FileNotFoundError, ProcessLookupError):
                 pass

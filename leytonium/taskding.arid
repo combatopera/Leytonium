@@ -1,3 +1,11 @@
+always interactive +=
+    Concern
+    diffuse
+    gt
+    man
+    showstash
+    top
+    vim
 sleep time = .5
 sound path = /usr/share/sounds/freedesktop/stereo/complete.oga
 threshold = 5
