@@ -23,10 +23,12 @@ from lagoon.program import bg
 from pathlib import Path
 import os, subprocess, time
 
-class ChildFactory:
+class TaskDing:
 
     def __init__(self, config):
         self.always_interactive = set(config.always.interactive)
+        self.shpidstr = config.shpidstr
+        self.sleep_time = config.sleep.time
         self.sound_path = Path(config.sound.path)
         self.threshold = config.threshold
 
@@ -49,6 +51,24 @@ class ChildFactory:
             if self.start + self.threshold <= now and self.armed and self.sound_path.exists() and not os.fork():
                 paplay[exec](self.sound_path)
 
+    def run(self):
+        children = {}
+        while True:
+            nowchildren = {}
+            now = time.time()
+            try:
+                with pgrep[bg]('-P', self.shpidstr) as stdout:
+                    for line in stdout:
+                        nowchildren[int(line)] = self.Child(now)
+            except subprocess.CalledProcessError:
+                break
+            for pid in children.keys() - nowchildren.keys():
+                children.pop(pid).fire(now)
+            for pid, child in nowchildren.items():
+                if pid not in children and child.fetch(pid):
+                    children[pid] = child
+            time.sleep(self.sleep_time)
+
 def main_taskding():
     'Play a sound when a long-running child of shell terminates.'
     config = ConfigCtrl().loadappconfig(main_taskding, 'taskding.arid')
@@ -57,20 +77,4 @@ def main_taskding():
     parser.parse_args(namespace = config)
     if 'SSH_CLIENT' in os.environ:
         return
-    factory = ChildFactory(config)
-    children = {}
-    while True:
-        nowchildren = {}
-        now = time.time()
-        try:
-            with pgrep[bg]('-P', config.shpidstr) as stdout:
-                for line in stdout:
-                    nowchildren[int(line)] = factory.Child(now)
-        except subprocess.CalledProcessError:
-            break
-        for pid in children.keys() - nowchildren.keys():
-            children.pop(pid).fire(now)
-        for pid, child in nowchildren.items():
-            if pid not in children and child.fetch(pid):
-                children[pid] = child
-        time.sleep(config.sleep.time)
+    TaskDing(config).run()
