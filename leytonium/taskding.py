@@ -22,13 +22,13 @@ from lagoon.program import bg
 from pathlib import Path
 import os, subprocess, sys, time
 
-threshold = 5
 alwaysinteractive = {'Concern', 'diffuse', 'gt', 'man', 'showstash', 'top', 'vim'}
 
 class ChildFactory:
 
     def __init__(self, config):
         self.sound_path = Path(config.sound.path)
+        self.threshold = config.threshold
 
     @innerclass
     class Child:
@@ -46,7 +46,7 @@ class ChildFactory:
 
         def fire(self, now):
             from lagoon import paplay
-            if self.start + threshold <= now and self.armed and self.sound_path.exists() and not os.fork():
+            if self.start + self.threshold <= now and self.armed and self.sound_path.exists() and not os.fork():
                 paplay[exec](self.sound_path)
 
 def main_taskding():
