@@ -20,7 +20,6 @@ from .common import args, findproject, infodirname, pb, savedcommits
 from itertools import islice
 from lagoon import clear, find, git
 from pathlib import Path
-from pkg_resources import resource_filename
 import sys
 
 def main_showstash():
@@ -47,14 +46,6 @@ def main_rx():
 def main_gag():
     'Run ag on all build.gradle files.'
     find._name[exec]('build.gradle', '-exec', 'ag', *sys.argv[1:], '{}', '+')
-
-def main_git_completion_path():
-    'Get path to git completion file, used by scripts.'
-    print(resource_filename(__name__, 'git_completion.bash'))
-
-def main_git_functions_path():
-    'Get path to git functions file, used by scripts.'
-    print(resource_filename(__name__, 'git_functions.bash'))
 
 def main_rd():
     'Run git add on conflicted path(s), with completion.'
