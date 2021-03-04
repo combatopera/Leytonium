@@ -27,7 +27,10 @@ def main_brown():
     roots = sys.argv[1:]
     if not roots:
         roots = [findproject()]
-    command = autopep8._rv[partial]('--max-line-length', config.cols, *roots)
+    brown(config.cols, roots)
+
+def brown(cols, paths):
+    command = autopep8._rv[partial]('--max-line-length', cols, *paths)
     result = command._d(stdout = subprocess.DEVNULL, stderr = subprocess.PIPE)
     def paths():
         for line in result.splitlines():
