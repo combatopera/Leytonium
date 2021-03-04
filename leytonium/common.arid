@@ -1,2 +1,3 @@
 cols = 120
+formattedprojects := $list()
 tz = Europe/London
