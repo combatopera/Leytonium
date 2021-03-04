@@ -16,18 +16,18 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 from .common import findproject
+from aridity.config import ConfigCtrl
 from lagoon import autopep8, sed
 from lagoon.program import partial
 import re, subprocess, sys
 
-cols = 120 # TODO LATER: Make configurable.
-
 def main_brown():
     'Satisfy PEP 8 with minimal impact.'
+    config = ConfigCtrl().loadappconfig(main_brown, 'common.arid')
     roots = sys.argv[1:]
     if not roots:
         roots = [findproject()]
-    command = autopep8._rv[partial]('--max-line-length', cols, *roots)
+    command = autopep8._rv[partial]('--max-line-length', config.cols, *roots)
     result = command._d(stdout = subprocess.DEVNULL, stderr = subprocess.PIPE)
     def paths():
         for line in result.splitlines():

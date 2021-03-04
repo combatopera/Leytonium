@@ -15,19 +15,25 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+from aridity.config import ConfigCtrl
 from datetime import datetime
 import pytz, re, sys
 
-tz = pytz.timezone('Europe/London') # TODO LATER: Should be configurable, or deduce local somehow.
 pattern = re.compile('(9[0-9]{8}|[1-3][0-9]{9})([0-9]{3})?')
 
-def _repl(m):
-    tstr, mstr = m.groups()
-    t = int(tstr) + (int(mstr) / 1000 if mstr else 0)
-    dt = datetime.utcfromtimestamp(t).replace(tzinfo = pytz.utc).astimezone(tz)
-    return f"{dt.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3]}{dt.strftime('%z')}"
+class Repl:
+
+    def __init__(self, config):
+        self.tz = pytz.timezone(config.tz) # XXX: Deduce local somehow?
+
+    def __call__(self, m):
+        tstr, mstr = m.groups()
+        t = int(tstr) + (int(mstr) / 1000 if mstr else 0)
+        dt = datetime.utcfromtimestamp(t).replace(tzinfo = pytz.utc).astimezone(self.tz)
+        return f"{dt.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3]}{dt.strftime('%z')}"
 
 def main_isotime():
     'Filter UNIX timestamps to human-readable form.'
+    repl = Repl(ConfigCtrl().loadappconfig(main_isotime, 'common.arid'))
     for line in sys.stdin:
-        sys.stdout.write(pattern.sub(_repl, line))
+        sys.stdout.write(pattern.sub(repl, line))
