@@ -28,7 +28,7 @@ class TaskDing:
     def __init__(self, config):
         self.always_interactive = set(config.always.interactive)
         self.shpidstr = config.shpidstr
-        self.sleep_time = config.sleep.time
+        self.sleep_time = float(config.sleep.time)
         self.sound_path = Path(config.sound.path)
         self.threshold = config.threshold
 
@@ -67,7 +67,7 @@ class TaskDing:
             for pid, child in nowchildren.items():
                 if pid not in children and child.fetch(pid):
                     children[pid] = child
-            time.sleep(self.sleep_time)
+            time.sleep(self.sleep_time) # FIXME LATER: I suspect keyboard interrupt can kill script when not asleep.
 
 def main_taskding():
     'Play a sound when a long-running child of shell terminates.'
