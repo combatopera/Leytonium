@@ -21,7 +21,6 @@ from .common import findproject
 from aridity.config import ConfigCtrl
 from lagoon import git
 from pathlib import Path
-import subprocess, sys
 
 def main_gt():
     'Stage all outgoing changes and show them.'
