@@ -20,15 +20,7 @@ from .common import args, findproject, infodirname, pb, savedcommits
 from itertools import islice
 from lagoon import clear, find, git
 from pathlib import Path
-import os, sys
-
-def main_insertshlvl():
-    'Insert SHLVL indicator into given prompt.'
-    ps1, = sys.argv[1:]
-    colon = ps1.rindex(':')
-    n = int(os.environ['SHLVL'])
-    indicator = '"' * (n // 2) + ("'" if n % 2 else '')
-    print(f"{ps1[:colon]}{indicator}{ps1[colon + 1:]}")
+import sys
 
 def main_showstash():
     'Show stash as patch.'
