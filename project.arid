@@ -21,6 +21,7 @@ requires +=
     aridity>=35
     autopep8>=1.5.4
     awscli>=1.18.133
+    importlib-metadata>=2.1.1
     lagoon>=22
     PyGObject>=3.27.2
     pytz>=2020.4
