@@ -16,11 +16,14 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 from pathlib import Path
-import sys
+import shlex, sys
 
 def main_git_completion_path():
     'Get path to git completion file, used by scripts.'
-    print(Path(__file__).parent / 'git_completion.bash')
+    print(_git_completion_path())
+
+def _git_completion_path():
+    return Path(__file__).parent / 'git_completion.bash'
 
 def main_git_functions_path():
     'Get path to git functions file, used by scripts.'
@@ -28,8 +31,16 @@ def main_git_functions_path():
 
 def main_insertshlvl():
     'Insert SHLVL indicator into given prompt.'
-    ps1, shlvl = sys.argv[1:]
+    print(_insertshlvl(*sys.argv[1:]))
+
+def _insertshlvl(ps1, shlvl):
     colon = ps1.rindex(':')
     n = int(shlvl)
-    indicator = '"' * (n // 2) + ("'" if n % 2 else '')
-    print(f"{ps1[:colon]}{indicator}{ps1[colon + 1:]}")
+    tally = '"' * (n // 2) + ("'" if n % 2 else '')
+    return f"{ps1[:colon]}{tally}{ps1[colon + 1:]}"
+
+def main_bashrc():
+    'To eval in your .bashrc file.'
+    sys.stdout.write(f""". {shlex.quote(str(_git_completion_path()))}
+PS1={shlex.quote(_insertshlvl(*sys.argv[1:]))}
+""")

@@ -52,6 +52,9 @@ Pull master and releases with automatic stash and switch.
 ### awslogs
 Reconstruct logs from AWS CloudWatch.
 
+### bashrc
+To eval in your .bashrc file.
+
 ### br
 Create given branch with completion and dashes, show menu for parent.
 
