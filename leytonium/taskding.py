@@ -49,7 +49,7 @@ class TaskDing:
         def fire(self, now):
             from lagoon import paplay
             if self.start + self.threshold <= now and self.armed and self.sound_path.exists() and not os.fork():
-                paplay[exec](self.sound_path)
+                paplay[exec](self.sound_path) # FIXME: These leak as zombie processes.
 
     def run(self):
         children = {}
