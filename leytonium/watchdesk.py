@@ -29,10 +29,12 @@ def main_watchdesk():
     config = ConfigCtrl().loadappconfig(main_watchdesk, 'watchdesk.arid').path
     with xprop._root._spy[bg]('_NET_CURRENT_DESKTOP') as f:
         for line in f:
-            key = str(1 + int(number.search(line).group()))
-            try:
-                path = getattr(config, key)
-            except AttributeError:
-                log.exception('No such path:')
-            else:
-                gsettings.set[print]('org.gnome.desktop.background', 'picture-uri', Path(path).as_uri())
+            m = number.search(line)
+            if m is not None:
+                key = str(1 + int(m.group()))
+                try:
+                    path = getattr(config, key)
+                except AttributeError:
+                    log.exception('No such path:')
+                else:
+                    gsettings.set[print]('org.gnome.desktop.background', 'picture-uri', Path(path).as_uri())
