@@ -30,6 +30,7 @@ def main_upgrade():
     if args.k:
         keep = {(boot / name).resolve() for name in ['vmlinuz.old', 'vmlinuz']}
         apt_get.remove(*(p.name.replace('vmlinuz', 'linux-image') for p in boot.glob('vmlinuz-*-generic') if p not in keep))
+        apt_get.autoremove()
     apt_get.update()
     apt_get.__with_new_pkgs.upgrade()
     apt_get.autoremove()
