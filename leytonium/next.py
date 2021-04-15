@@ -32,5 +32,7 @@ def main_next():
         git[print].cherry_pick.__continue()
     elif (gitdir / 'REVERT_HEAD').is_file():
         git[print].revert.__continue()
+    elif (gitdir / 'sequencer').is_dir():
+        git[print].cherry_pick.__continue()
     else:
         raise Exception('Unknown git workflow, giving up.')

@@ -249,3 +249,6 @@ Start openvpn in background.
 
 ### vunzip
 Extract a Docker volume.
+
+### watchdesk
+Different background for each desktop.

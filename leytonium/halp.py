@@ -18,7 +18,7 @@
 from . import initlogging
 from aridity.config import ConfigCtrl
 from importlib import import_module
-from pkg_resources import iter_entry_points
+from importlib_metadata import entry_points
 import logging
 
 log = logging.getLogger(__name__)
@@ -32,13 +32,13 @@ def main_halp():
     others = set()
     undocumented = set()
     halps = []
-    for ep in iter_entry_points('console_scripts'):
-        project = ep.dist.project_name
+    for ep in entry_points()['console_scripts']:
+        project = ep.dist.name
         if project in ignore_projects:
             continue
         if project in projects:
-            obj = import_module(ep.module_name)
-            for a in ep.attrs:
+            obj = import_module(ep.module)
+            for a in ep.attr.split('.'):
                 obj = getattr(obj, a)
             doc = obj.__doc__
             if doc is None:
