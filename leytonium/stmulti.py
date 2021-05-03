@@ -50,6 +50,7 @@ class Project:
             setattr(self, Path(command.path).name, command.cd(path))
         self.homerelpath = path.resolve().relative_to(effectivehome)
         self.netpath = Path(config.repomount, effectivehome.name, self.homerelpath)
+        self.shortnetpath = Path(config.shortrepomount, effectivehome.name, self.homerelpath)
         self.config = config
         self.path = path
 
@@ -87,7 +88,7 @@ class Git(Project):
             else:
                 d[name] = loc
         netremotepath = d.get(self.config.netremotename)
-        if "%s:%s.git" % (self.config.repohost, self.netpath) != netremotepath:
+        if "%s:%s.git" % (self.config.repohost, self.shortnetpath) != netremotepath:
             log.error("Bad %s: %s", self.config.netremotename, netremotepath)
         for name, loc in d.items():
             if name != self.config.netremotename and not loc.startswith('git@'):
