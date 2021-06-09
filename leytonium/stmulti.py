@@ -22,6 +22,7 @@ try:
     from lagoon import gfind as find
 except ImportError:
     from lagoon import find
+from lagoon.program import ONELINE
 from pathlib import Path
 from pyven.projectinfo import ProjectInfo
 import glob, logging, re, shlex, sys
@@ -95,7 +96,7 @@ class Git(Project):
                 log.error("Non-SSH remote: %s %s", name, loc)
 
     def _allbranches(self, task):
-        restore, = self.git.rev_parse.__abbrev_ref.HEAD().splitlines()
+        restore = self.git.rev_parse.__abbrev_ref.HEAD[ONELINE]()
         for branch in (l[2:] for l in self.git.branch().splitlines()):
             self.co[print](branch)
             task(branch)
@@ -124,7 +125,7 @@ class Git(Project):
             if ProjectInfo.seek(self.path).config.pypi.participant:
                 lastrelease = max((t for t in self.git.tag().splitlines() if t.startswith('v')), default = None, key = lambda t: int(t[1:]))
                 if lastrelease is None:
-                    lastrelease, = self.git.rev_list('--max-parents=0', 'HEAD').splitlines() # Assume trivial initial commit.
+                    lastrelease = self.git.rev_list[ONELINE]('--max-parents=0', 'HEAD') # Assume trivial initial commit.
                 shortstat = self.git.diff.__shortstat(lastrelease, '--', '.', *(":(exclude,glob)%s" % glob for glob in ['.travis.yml', 'project.arid', '**/test_*.py', '.gitignore']))
                 if shortstat:
                     sys.stdout.write(f"{tput.rev()}{tput.setaf(5)}{lastrelease}{tput.sgr0()}{shortstat}")

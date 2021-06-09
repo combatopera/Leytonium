@@ -16,11 +16,12 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 from lagoon import git
+from lagoon.program import NOEOL
 from pathlib import Path
 
 def main_next():
     'Go to next step in current git workflow.'
-    gitdir = Path(git.rev_parse.__git_dir().rstrip())
+    gitdir = Path(git.rev_parse.__git_dir[NOEOL]())
     if (gitdir / 'rebase-apply').is_dir():
         if git.status.__porcelain().splitlines():
             git[print].rebase.__continue()

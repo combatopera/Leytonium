@@ -16,6 +16,7 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 from lagoon import git, pkill, toilet
+from lagoon.program import ONELINE
 import subprocess, os, sys, traceback, re, collections, termcolor
 
 infodirname = '.pb'
@@ -135,8 +136,7 @@ class AllBranches:
         return list(g())
 
 def thisbranch():
-    line, = git.rev_parse.__abbrev_ref.HEAD().splitlines()
-    return line
+    return git.rev_parse.__abbrev_ref.HEAD[ONELINE]()
 
 def findproject(context = None):
     context = [] if context is None else [context]

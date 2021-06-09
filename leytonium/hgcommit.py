@@ -19,6 +19,7 @@ from . import effectivehome, initlogging
 from .stmulti import loadconfig, trunknames
 from diapyr.util import singleton
 from lagoon import git, ls, rsync
+from lagoon.program import ONELINE
 from pathlib import Path
 import os, subprocess, multiprocessing as mp, queue, logging
 
@@ -64,8 +65,7 @@ class Git:
 
     def pushorclone(self, dest):
         if dest.exists():
-            branch, = git.rev_parse.__abbrev_ref.HEAD().splitlines()
-            git.push[print](dest.netremotename, branch)
+            git.push[print](dest.netremotename, git.rev_parse.__abbrev_ref.HEAD[ONELINE]())
         else:
             git.clone.__bare[print]('.', dest.path)
         branches = set(git.branch().splitlines())
