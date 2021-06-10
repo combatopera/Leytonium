@@ -22,11 +22,11 @@ import sys
 def main_dp():
     'Diff from public branch.'
     parent = getpublic()
-    stderr("Public branch: %s" % parent)
+    stderr(f"Public branch: {parent}")
     git.diff._M25[exec](*sys.argv[1:], parent)
 
 def main_pd():
     'Diff from public branch, the other way.'
     parent = getpublic()
-    stderr("Public branch: %s" % parent)
+    stderr(f"Public branch: {parent}")
     git.diff._M25[exec](*sys.argv[1:], 'HEAD', parent)

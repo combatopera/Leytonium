@@ -23,11 +23,11 @@ def main_prepare():
     master = 'master'
     parent = pb()
     if parent == master:
-        raise Exception("Parent is already %s!" % master)
+        raise Exception(f"Parent is already {master}!")
     name = thisbranch()
     allbranches = AllBranches()
     commits = [commit for commit, _ in allbranches.branchcommits(name)]
-    ren[print]("%s.bak" % name)
+    ren[print](f"{name}.bak")
     git.checkout._b[print](name, master)
     addparents(name, master)
     git.cherry_pick[print](*commits)

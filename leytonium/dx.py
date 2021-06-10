@@ -28,7 +28,7 @@ def main_dx():
         parent = showmenu(AllBranches().branchcommits(), False)[n]
     else:
         parent = pb()
-        stderr("Parent branch: %s" % parent)
+        stderr(f"Parent branch: {parent}")
     git.diff._M25[exec](parent)
 
 def main_dxx():
@@ -42,9 +42,9 @@ def main_dxx():
         else:
             saved = savedcommits()
             commit = saved[len(saved) - 1 + n]
-        commits = "%s^" % commit, commit
+        commits = f"{commit}^", commit
     else:
         parent = pb()
-        stderr("Parent branch: %s" % parent)
+        stderr(f"Parent branch: {parent}")
         commits = parent,
     git.diff._M25.__name_status[exec](*commits)

@@ -85,12 +85,12 @@ class Rsync:
 
     def pushorclone(self, dest):
         lhs = '-avzu', '--exclude', '/.rsync'
-        rhs = ".%s" % os.sep, "%s::%s/%s" % (dest.repohost, dest.reponame, dest.reldir)
+        rhs = f".{os.sep}", f"{dest.repohost}::{dest.reponame}/{dest.reldir}"
         rsync[print](*lhs, *rhs)
         os.utime('.rsync')
         lhs += '--del',
         rsync[print](*lhs, '--dry-run', *rhs)
-        print("(cd %s && rsync %s %s)" % (Path.cwd(), ' '.join(lhs), ' '.join(rhs)))
+        print(f"(cd {Path.cwd()} && rsync {' '.join(lhs)} {' '.join(rhs)})")
 
 def main_hgcommit():
     'Commit hook to push to central clone of repo on local network.'

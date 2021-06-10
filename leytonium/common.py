@@ -38,14 +38,14 @@ def addparents(branch, *parents, clobber = False):
             print(p, file = f)
 
 def savecommits(commits, clobber = False):
-    path = os.path.join(findproject(), infodirname, "%s slammed" % thisbranch())
+    path = os.path.join(findproject(), infodirname, f"{thisbranch()} slammed")
     os.makedirs(os.path.dirname(path), exist_ok = True)
     with open(path, 'w' if clobber else 'a') as f:
         for c in commits:
             print(c, file = f)
 
 def savedcommits():
-    path = os.path.join(findproject(), infodirname, "%s slammed" % thisbranch())
+    path = os.path.join(findproject(), infodirname, f"{thisbranch()} slammed")
     if not os.path.exists(path):
         return []
     with open(path) as f:
@@ -64,7 +64,7 @@ class AllBranches:
 
     def _published(self, name):
         try:
-            lines = git.rev_parse("origin/%s" % name, stderr = subprocess.DEVNULL).splitlines()
+            lines = git.rev_parse(f"origin/{name}", stderr = subprocess.DEVNULL).splitlines()
         except:
             return None
         published, = lines # May be a merge.
@@ -132,7 +132,7 @@ class AllBranches:
             for line in intersection:
                 commit, message = line.split(' ', 2)[1:]
                 stat = ''.join("%%%sd%%s" % w % (n, u) for n, w, u in zip(map(int, re.findall('[0-9]+', git.show.__shortstat(commit).splitlines()[-1])), [2, 3, 3], 'f+-'))
-                yield commit, "%s %s" % (stat, message)
+                yield commit, f"{stat} {message}"
         return list(g())
 
 def thisbranch():
@@ -165,7 +165,7 @@ def showmenu(entries, show = True, xform = lambda i: 1 + i, print = print):
 
 def menu(entries, prompt):
     ids = showmenu(entries)
-    sys.stderr.write("%s? " % prompt)
+    sys.stderr.write(f"{prompt}? ")
     n = int(input())
     return n, ids[n]
 
@@ -184,7 +184,7 @@ def publicbranches():
 def getpublic(b = None):
     if b is None:
         b = thisbranch()
-    lines = git.rev_parse.__abbrev_ref("%s@{upstream}" % b,
+    lines = git.rev_parse.__abbrev_ref(f"{b}@{{upstream}}",
             check = False,
             stderr = subprocess.DEVNULL).stdout.splitlines()
     if lines:
@@ -192,7 +192,7 @@ def getpublic(b = None):
         return pub
 
 def nicely(task):
-    killide = lambda sig: pkill._f[print]("-%s" % sig, 'com.intellij.idea.Main', check = False)
+    killide = lambda sig: pkill._f[print](f"-{sig}", 'com.intellij.idea.Main', check = False)
     killide('STOP')
     try:
         nicelyimpl(task)
@@ -214,7 +214,7 @@ def nicelyimpl(task):
         git.stash.pop[print]()
 
 def touchmsg():
-    return "WIP Touch %s" % thisbranch()
+    return f"WIP Touch {thisbranch()}"
 
 def stripansi(text):
     return re.sub('\x1b\\[[\x30-\x3f]*[\x20-\x2f]*[\x40-\x7e]', '', text) # XXX: Duplicated code?

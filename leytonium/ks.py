@@ -27,4 +27,4 @@ def main_ks():
     'Create a kitchen-sink branch.'
     master, ks = 'master', 'kitchen-sink'
     git.checkout._b[print](ks, master)
-    addparents(ks, master, 'controversial/*', "public/%s-*" % githubuser())
+    addparents(ks, master, 'controversial/*', f"public/{githubuser()}-*")

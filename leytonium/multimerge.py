@@ -48,7 +48,7 @@ def mergeintocurrent(parents):
             stderr("%s %s" % r)
         reports.sort()
         _, b = reports[0]
-        stderr("Merging: %s" % b)
+        stderr(f"Merging: {b}")
         merge(b)
 
 def touchifnecessary():
@@ -59,7 +59,7 @@ def touchifnecessary():
 
 def ispublished(): # TODO: Really this should check whether PR.
     pb = getpublic()
-    return pb is not None and not pb.startswith("origin/%s_" % os.environ['USER'])
+    return pb is not None and not pb.startswith(f"origin/{os.environ['USER']}_")
 
 def multimerge():
     allbranches = AllBranches()
@@ -74,13 +74,13 @@ def multimerge():
             if len(parents) > 1: # XXX: Is that right?
                 touchifnecessary()
         elif len(parents) > 1:
-            raise Exception("Too many parents for rebase: %s" % b)
+            raise Exception(f"Too many parents for rebase: {b}")
         else:
             p, = parents
             git.rebase[print](p)
     done = set()
     while remaining:
-        stderr("Remaining: %s" % ' '.join(remaining))
+        stderr(f"Remaining: {' '.join(remaining)}")
         done0 = frozenset(done)
         def g():
             for b in remaining:
@@ -94,8 +94,8 @@ def multimerge():
         remaining2 = [b for b, _ in status]
         if remaining2 == remaining:
             for b, deps in status:
-                stderr("%s: %s" % (b, ' '.join(deps)))
-            raise Exception("Still remain: %s" % remaining)
+                stderr(f"{b}: {' '.join(deps)}")
+            raise Exception(f"Still remain: {remaining}")
         remaining = remaining2
 
 def main_multimerge():

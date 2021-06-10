@@ -61,7 +61,7 @@ def resimp(path):
         with open(path, 'w') as g:
             for line in output:
                 g.write(line)
-        stderr("[%s] Merged %s chunks of imports." % (path, chunks[0]))
+        stderr(f"[{path}] Merged {chunks[0]} chunks of imports.")
 
 def getconflictinfos(path):
     conflictinfos = []
@@ -137,7 +137,7 @@ def resadj(path):
         with open(path, 'w') as g:
             for line in output:
                 g.write(line)
-        stderr("[%s] Auto-resolved %s adjacent-line conflicts." % (path, resolved[0]))
+        stderr(f"[{path}] Auto-resolved {resolved[0]} adjacent-line conflicts.")
 
 def main_resimp():
     'Resolve conflicts in imports and adjacent-line conflicts.'

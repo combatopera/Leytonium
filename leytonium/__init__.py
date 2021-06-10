@@ -18,7 +18,7 @@
 from pathlib import Path
 import logging, os
 
-effectivehome = Path("~%s" % os.environ.get('SUDO_USER', '')).expanduser()
+effectivehome = Path(f"~{os.environ.get('SUDO_USER', '')}").expanduser()
 
 def initlogging():
     logging.basicConfig(level = logging.DEBUG, format = "[%(levelname)s] %(message)s")
