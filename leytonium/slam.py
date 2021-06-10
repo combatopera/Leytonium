@@ -47,11 +47,11 @@ def main_slam():
 
 def main_unslam():
     'Cherry-pick commits lost in a previous slam.'
-    path = os.path.join(findproject(), infodirname, "%s slammed" % thisbranch())
+    path = os.path.join(findproject(), infodirname, f"{thisbranch()} slammed")
     with open(path) as f:
         commits = f.read().splitlines()
     commits.reverse()
     command = git.cherry_pick[partial](*commits)
-    stderr("Command: git %s" % ' '.join(command.args))
+    stderr(f"Command: git {' '.join(command.args)}")
     os.remove(path)
     command[exec]()

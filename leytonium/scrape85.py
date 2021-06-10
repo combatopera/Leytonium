@@ -28,5 +28,5 @@ def main_scrape85():
         text = f.read()
     for i, image in enumerate(pattern.findall(text)):
         print(i)
-        with open("%s.png" % i, 'wb') as g:
+        with open(f"{i}.png", 'wb') as g:
             g.write(base64.a85decode(image))

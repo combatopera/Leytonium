@@ -79,7 +79,7 @@ class Stacks:
         m = self.logtimepattern.search(line)
         if m is None: return line
         reltime = (datetime.datetime.min + (self.totime(m) - self.firstlogtime)).time().strftime("%M:%S,%f")[:-3]
-        return "%s%s%s" % (line[:m.start()], reltime, line[m.end():])
+        return f"{line[:m.start()]}{reltime}{line[m.end():]}"
 
     def tofile(self):
         f = tempfile.NamedTemporaryFile('w')

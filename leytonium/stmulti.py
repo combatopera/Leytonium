@@ -42,8 +42,8 @@ class Project:
 
     @classmethod
     def forprojects(cls, config, action):
-        for path in sorted(d.parent for d in Path('.').glob("*/%s" % glob.escape(cls.dirname))):
-            print(cls.kindformat % cls.dirname[1:1 + cls.kindwidth], "%s%s%s" % (tput.setaf(7), path, tput.sgr0()))
+        for path in sorted(d.parent for d in Path('.').glob(f"*/{glob.escape(cls.dirname)}")):
+            print(cls.kindformat % cls.dirname[1:1 + cls.kindwidth], f"{tput.setaf(7)}{path}{tput.sgr0()}")
             getattr(cls(config, path), action)()
 
     def __init__(self, config, path):
@@ -89,7 +89,7 @@ class Git(Project):
             else:
                 d[name] = loc
         netremotepath = d.get(self.config.netremotename)
-        if "%s:%s.git" % (self.config.repohost, self.shortnetpath) != netremotepath:
+        if f"{self.config.repohost}:{self.shortnetpath}.git" != netremotepath:
             log.error("Bad %s: %s", self.config.netremotename, netremotepath)
         for name, loc in d.items():
             if name != self.config.netremotename and not loc.startswith('git@'):
@@ -126,7 +126,7 @@ class Git(Project):
                 lastrelease = max((t for t in self.git.tag().splitlines() if t.startswith('v')), default = None, key = lambda t: int(t[1:]))
                 if lastrelease is None:
                     lastrelease = self.git.rev_list[ONELINE]('--max-parents=0', 'HEAD') # Assume trivial initial commit.
-                shortstat = self.git.diff.__shortstat(lastrelease, '--', '.', *(":(exclude,glob)%s" % glob for glob in ['.travis.yml', 'project.arid', '**/test_*.py', '.gitignore']))
+                shortstat = self.git.diff.__shortstat(lastrelease, '--', '.', *(f":(exclude,glob){glob}" for glob in ['.travis.yml', 'project.arid', '**/test_*.py', '.gitignore']))
                 if shortstat:
                     sys.stdout.write(f"{tput.rev()}{tput.setaf(5)}{lastrelease}{tput.sgr0()}{shortstat}")
         lines = [BranchLine(l) for l in self.git.branch._vv('--color=always').splitlines()]
@@ -172,12 +172,12 @@ class Rsync(Project):
         pass
 
     def pull(self):
-        lhs = '-avzu', '--exclude', "/%s" % self.dirname
-        rhs = "%s::%s/%s/" % (self.config.repohost, self.config.reponame, self.homerelpath), '.'
+        lhs = '-avzu', '--exclude', f"/{self.dirname}"
+        rhs = f"{self.config.repohost}::{self.config.reponame}/{self.homerelpath}/", '.'
         self.rsync[print](*lhs, *rhs)
         lhs += '--del',
         self.rsync[print](*lhs, '--dry-run', *rhs)
-        print("(cd %s && rsync %s)" % (shlex.quote(str(self.path)), ' '.join(map(shlex.quote, lhs + rhs))))
+        print(f"(cd {shlex.quote(str(self.path))} && rsync {' '.join(map(shlex.quote, lhs + rhs))})")
 
     def push(self):
         self.hgcommit[print]()

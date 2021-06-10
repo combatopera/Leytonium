@@ -37,7 +37,7 @@ class Row:
             if parents:
                 self.parent = '[...]' if parents[0] == getpublic(name) else parents[0]
                 if len(parents) > 1:
-                    self.parent += "+%s" % (len(parents) - 1)
+                    self.parent += f"+{len(parents) - 1}"
             else:
                 self.parent = '<!>'
         self.line = line
@@ -70,7 +70,7 @@ def main_st():
         showmenu(entries[:limit])
         count = len(entries) - limit
         if count > 0:
-            print("(%s more)" % count)
+            print(f"({count} more)")
     except UnknownParentException:
         showexception()
     git.status._v[print](check = False)

@@ -51,10 +51,10 @@ def main_splitpkgs():
     projectpath = '.'
     for dirpath, dirnames, filenames in os.walk(projectpath):
         if 'build.gradle' in filenames:
-            process(''.join(":%s" % w for w in relativise(projectpath, dirpath)), dirpath)
+            process(''.join(f":{w}" for w in relativise(projectpath, dirpath)), dirpath)
         dirnames.sort()
     for package, modules in sorted(packagetomodules.items()):
         if 1 != len(modules):
             print(package)
             for m in modules:
-                print("\t%s" % m)
+                print(f"\t{m}")
