@@ -64,7 +64,7 @@ class Git:
         return reldir.parent / f"{reldir.name}.git"
 
     def pushorclone(self, dest):
-        if dest.exists():
+        if dest.exists(): # TODO: Attempt to mount it.
             git.push[print](dest.netremotename, git.rev_parse.__abbrev_ref.HEAD[ONELINE]())
         else:
             git.clone.__bare[print]('.', dest.path)
