@@ -15,14 +15,18 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+from . import initlogging
 from argparse import ArgumentParser
-from lagoon import sudo
+from lagoon import docker, sudo
 from pathlib import Path
+import logging
 
+log = logging.getLogger(__name__)
 boot = Path('/boot')
 
 def main_upgrade():
     'Upgrade the system and silence the nag.'
+    initlogging()
     parser = ArgumentParser()
     parser.add_argument('-k', action = 'store_true', help = 'first remove all kernels except old and current')
     args = parser.parse_args()
@@ -37,3 +41,5 @@ def main_upgrade():
     touchpath = Path.home() / 'var' / 'last-upgrade'
     touchpath.parent.mkdir(parents = True, exist_ok = True)
     touchpath.write_text('')
+    log.info('Containers still up:')
+    docker.ps[print]()
