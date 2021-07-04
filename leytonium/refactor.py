@@ -26,4 +26,10 @@ def main_agi():
 
 def main_agil():
     'Edit project files containing identifier.'
-    Program.text(os.environ['EDITOR'])[exec](*ag._wsl(*sys.argv[1:], findproject()).splitlines())
+    search = sys.argv[1:]
+    editor = os.environ['EDITOR']
+    if 1 == len(search) and 'vim' == editor:
+        args = [rf"+/\<{search[0]}\>"]
+    else:
+        args = []
+    Program.text(editor)[exec](*args, *ag._wsl(*search, findproject()).splitlines())
