@@ -64,3 +64,7 @@ def main_vpn():
 def main_vunzip():
     'Extract a Docker volume.'
     delegate('vunzip.bash')
+
+def main_t():
+    'Show tree with 1 level of hidden files.'
+    delegate('t.bash')
