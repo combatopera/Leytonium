@@ -30,10 +30,13 @@ def main_spamtrash():
     imap = config.imap(config.host)
     with config.password as password:
         imap.login(config.user, password)
-    imap.select(config.mailbox)
-    _, (v,) = imap.search(None, 'ALL')
-    ids = number.findall(v)
-    for id in ids:
-        _, data = imap.fetch(id, '(RFC822)')
-        print(message_from_string(data[0][1].decode('latin-1')))
-        break
+    try:
+        imap.select(config.mailbox)
+        _, (v,) = imap.search(None, 'ALL')
+        ids = number.findall(v)
+        for id in ids:
+            _, data = imap.fetch(id, '(RFC822)')
+            print(message_from_string(data[0][1].decode('latin-1')))
+            break
+    finally:
+        imap.logout()
