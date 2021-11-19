@@ -17,10 +17,11 @@
 
 from . import initlogging
 from .util import keyring
+from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
 from email import message_from_bytes
 from itertools import islice
-import logging, re
+import logging, os, re
 
 log = logging.getLogger(__name__)
 number = re.compile(b'[0-9]+')
@@ -61,6 +62,11 @@ def main_spamtrash():
     cc = ConfigCtrl()
     cc.node.keyring = keyring
     config = cc.loadappconfig(main_spamtrash, 'spamtrash.arid', encoding = 'utf-8')
+    parser = ArgumentParser()
+    parser.add_argument('--cron', action = 'store_true')
+    parser.parse_args(namespace = config.cli)
+    if config.cron:
+        os.environ['DBUS_SESSION_BUS_ADDRESS'] = f"unix:path=/run/user/{os.geteuid()}/bus"
     regex = Regex(config)
     with config.imap(config.host) as imap:
         with config.password as password:

@@ -16,6 +16,8 @@
 : along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 appname := $label()
+cli cron = false
+cron = $(cli cron)
 host = imap.gmail.com
 imap = $pyref(imaplib IMAP4_SSL)
 mailbox = [Gmail]/Spam
