@@ -15,12 +15,14 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+from . import initlogging
 from .util import keyring
 from aridity.config import ConfigCtrl
 from email import message_from_bytes
 from itertools import islice
-import re
+import logging, re
 
+log = logging.getLogger(__name__)
 number = re.compile(b'[0-9]+')
 
 def _headerstr(header):
@@ -43,20 +45,19 @@ class Regex:
         self.froms = list(map(re.compile, config.regex.froms))
         self.subjects = list(map(re.compile, config.regex.subjects))
 
-    def delete(self, msg):
-        _from = _headerstr(msg['From'])
-        if _from is not None:
+    def delete(self, From, Subject):
+        if From is not None:
             for fromre in self.froms:
-                if fromre.search(_from) is not None:
+                if fromre.search(From) is not None:
                     return True
-        subject = _headerstr(msg['Subject'])
-        if subject is not None:
+        if Subject is not None:
             for subjectre in self.subjects:
-                if subjectre.search(subject) is not None:
+                if subjectre.search(Subject) is not None:
                     return True
 
 def main_spamtrash():
     'Delete spam emails.'
+    initlogging()
     cc = ConfigCtrl()
     cc.node.keyring = keyring
     config = cc.loadappconfig(main_spamtrash, 'spamtrash.arid', encoding = 'utf-8')
@@ -70,12 +71,12 @@ def main_spamtrash():
         message_set = ','.join(id.decode() for id in ids.split())
         ok, v = imap.fetch(message_set, '(RFC822)')
         assert 'OK' == ok
-        hmm = []
         for (info, msgbytes), x in zip(islice(v, 0, None, 2), islice(v, 1, None, 2)):
             if x not in {b')', rb' FLAGS (\Seen))'}:
                 raise Exception(x)
             id = number.match(info).group()
-            msg = message_from_bytes(msgbytes)
-            if not regex.delete(msg):
-                hmm.append(_headerstr(msg['Subject']))
-        for s in sorted(s for s in hmm if s is not None): print(s)
+            msg = {k: _headerstr(msg[k]) for msg in [message_from_bytes(msgbytes)] for k in ['From', 'Subject']}
+            if regex.delete(**msg):
+                log.info("Delete: %s", msg)
+            else:
+                log.info("Ignore: %s", msg)
