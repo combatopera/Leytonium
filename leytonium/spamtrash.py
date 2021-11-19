@@ -71,12 +71,16 @@ def main_spamtrash():
         message_set = ','.join(id.decode() for id in ids.split())
         ok, v = imap.fetch(message_set, '(RFC822)')
         assert 'OK' == ok
+        deleteids = []
         for (info, msgbytes), x in zip(islice(v, 0, None, 2), islice(v, 1, None, 2)):
             if x not in {b')', rb' FLAGS (\Seen))'}:
                 raise Exception(x)
-            id = number.match(info).group()
+            id = number.match(info).group().decode()
             msg = {k: _headerstr(msg[k]) for msg in [message_from_bytes(msgbytes)] for k in ['From', 'Subject']}
             if regex.delete(**msg):
-                log.info("Delete: %s", msg)
+                log.info("Delete %s: %s", id, msg)
+                deleteids.append(number.match(info).group().decode())
             else:
-                log.info("Ignore: %s", msg)
+                log.info("Ignore %s: %s", id, msg)
+        if deleteids:
+            imap.store(','.join(deleteids), '+X-GM-LABELS', r'\Trash')
