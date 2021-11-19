@@ -21,4 +21,4 @@ import logging, os
 effectivehome = Path(f"~{os.environ.get('SUDO_USER', '')}").expanduser()
 
 def initlogging():
-    logging.basicConfig(level = logging.DEBUG, format = "[%(levelname)s] %(message)s")
+    logging.basicConfig(level = logging.DEBUG, format = "%(asctime)s %(levelname)s %(message)s")
