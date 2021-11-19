@@ -29,7 +29,13 @@ def _headerstr(header):
             return header
         (text, charset), = header._chunks
         assert 'unknown-8bit' == charset
-        return repr(text)
+        parts = re.split(r'([\udc00-\udcff]+)', text)
+        def g():
+            yield parts[0]
+            for q, p in zip(parts[1::2], parts[2::2]):
+                yield bytes(ord(x) & 0xff for x in q).decode('utf-8')
+                yield p
+        return ''.join(g())
 
 def main_spamtrash():
     'Delete spam emails.'
