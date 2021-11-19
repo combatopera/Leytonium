@@ -96,3 +96,4 @@ regex
         $.(^💰Claim Now💰 - Over )
         $.(^P͞A͞Y͞O͞U͞T͞_͞V͞E͞R͞I͞F͞I͞C͞A͞T͞I͞O͞N͞_____ )
         ^💰💰𝒀𝑶𝑼.𝑯𝑨𝑽𝑬.𝑩𝑬𝑬𝑵.𝑷𝑨𝑰𝑫💰💰 {
+        $'(^Automatyzacja produkcji$)
