@@ -38,6 +38,10 @@ regex
         ^"_FREE😍SEX_💕"
         ^𝗥𝗼𝘂𝗻𝗱𝘂𝗽_𝗦𝗲𝘁𝘁𝗹𝗲𝗺𝗲𝗻𝘁✅ <nooreply@
         ^Elongation Secret🔥[*] <
+        ^"ACTION NEEDED!" <Jessica@
+        ^"𝘀𝗽𝗱𝗮𝘁𝗲🔥𝙗𝙖𝙗𝙮😍"  <info@
+        ^"Marie💋"<nooreply@
+        ^😍𝐉𝐄𝐒𝐒𝐈𝐂𝐀💋 <
     subjects +=
         $.(^💰💰𝗬𝗢𝗨.𝗛𝗔𝗩𝗘.𝗕𝗘𝗘𝗡.𝗣𝗔𝗜𝗗💰💰 )
         $.(^🎈🎈🎈 YOU HAVE BEEN PAID 🎈🎈🎈 ʀᴇғ : )
@@ -51,3 +55,7 @@ regex
         $'(^💋𝐇𝐞𝐥𝐥𝐨 𝐁𝐚𝐛𝐞🔥.Andrzejcichocki..𝘿𝙤_𝙔𝙤𝙪_𝙬𝙖𝙣𝙩_𝙋𝙡𝙖𝙮_𝙬𝙞𝙩𝙝_𝙢𝙚![?]💋𝐈'𝐦 𝐅𝐫𝐞𝐞 𝐟𝐨𝐫🔥𝐍𝐢𝐠𝐡𝐭🔞💞$)
         ^𝗕𝗶𝘁𝗰𝗼𝗶𝗻 𝘃𝗮𝗹𝘂𝗲 𝗶𝘀 𝗮𝗹𝗿𝗲𝗮𝗱𝘆 𝘀𝘁𝗮𝗿𝘁𝗶𝗻𝗴 𝘁𝗼 𝗯𝗼𝘂𝗻𝗰𝗲 𝗯𝗮𝗰𝗸. 𝗜𝗻𝘃𝗲𝘀𝘁 𝗻𝗼𝘄!
         💛Watch My_H0T🔥Masturbation🍌Videos and Fuck_Me🍑 at Night.👅---
+        ^💰_𝗡𝗼_𝗧𝗿𝗶𝗰𝗸𝘀_💲_
+        ^⭐️𝒞𝒪𝒩𝐹𝐼𝑅𝑀𝐸𝒟⭐️_🤑Get_Paid_Right_Now_
+        $'( 𝗦𝗲𝘁𝘁𝗹𝗲𝗺𝗲𝗻𝘁 𝗖𝗵𝗲𝗰𝗸 𝗔𝗿𝗿𝗶𝘃𝗲𝗱 👉🏻 )
+        $'[ lucky creek casino PENDING \(PAYOUT\)$]
