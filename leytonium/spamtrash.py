@@ -32,9 +32,9 @@ def main_spamtrash():
         ok, (ids,) = imap.search(None, 'ALL')
         assert 'OK' == ok
         message_set = ','.join(id.decode() for id in ids.split())
-        ok, data = imap.fetch(message_set, '(RFC822)')
+        ok, v = imap.fetch(message_set, '(RFC822)')
         assert 'OK' == ok
-        for (_, msgbytes), x in zip(islice(data, 0, len(data), 2), islice(data, 1, len(data), 2)):
+        for (_, msgbytes), x in zip(islice(v, 0, len(v), 2), islice(v, 1, len(v), 2)):
             assert b')' == x
             msg = message_from_bytes(msgbytes)
             print(msg['From'], msg['Subject'])
