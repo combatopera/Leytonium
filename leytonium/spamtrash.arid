@@ -61,3 +61,8 @@ regex
         ^⭐️𝒞𝒪𝒩𝐹𝐼𝑅𝑀𝐸𝒟⭐️_🤑Get_Paid_Right_Now_
         $'( 𝗦𝗲𝘁𝘁𝗹𝗲𝗺𝗲𝗻𝘁 𝗖𝗵𝗲𝗰𝗸 𝗔𝗿𝗿𝗶𝘃𝗲𝗱 👉🏻 )
         $'[ lucky creek casino PENDING \(PAYOUT\)$]
+        $'(^Please Check Your Account$)
+        $.(^Please check your account )
+        ^Final Warning🔔YOU HAVE BEEN PAID▶️🎁▶️Check your account◀️💰💰
+        $.(^Check Your Account )
+        ^Please Check Your Account TODAY \[
