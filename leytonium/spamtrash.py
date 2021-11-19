@@ -19,6 +19,17 @@ from .util import keyring
 from aridity.config import ConfigCtrl
 from email import message_from_bytes
 from itertools import islice
+import re
+
+number = re.compile(b'[0-9]+')
+
+def _headerstr(header):
+    if header is not None:
+        if isinstance(header, str):
+            return header
+        (text, charset), = header._chunks
+        assert 'unknown-8bit' == charset
+        return repr(text)
 
 def main_spamtrash():
     'Delete spam emails.'
@@ -34,7 +45,8 @@ def main_spamtrash():
         message_set = ','.join(id.decode() for id in ids.split())
         ok, v = imap.fetch(message_set, '(RFC822)')
         assert 'OK' == ok
-        for (_, msgbytes), x in zip(islice(v, 0, len(v), 2), islice(v, 1, len(v), 2)):
+        for (info, msgbytes), x in zip(islice(v, 0, len(v), 2), islice(v, 1, len(v), 2)):
             assert b')' == x
+            id = number.match(info).group()
             msg = message_from_bytes(msgbytes)
-            print(msg['From'], msg['Subject'])
+            print(id, _headerstr(msg['From']), _headerstr(msg['Subject']))
