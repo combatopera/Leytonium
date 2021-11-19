@@ -22,6 +22,23 @@ from itertools import islice
 import re
 
 number = re.compile(b'[0-9]+')
+fromres = list(map(re.compile, [
+    '^"💲CashApp💲" <',
+    '^Male👅Elongator....  <',
+    '^"💕Wanna-F#ck💕" <info@',
+    '^"S e ✘ ⛔ S e c r et"  <',
+    '^"💕Asian Nudes♥️" <',
+    '^❣️Kirsten😍" <info@',
+    '^helplaw✅  <info@',
+    '^💋Enjoy-with-me💋 <',
+    '^"📏🍌𝗣𝗲𝗻𝗶𝘀.𝟭𝟱-𝗶𝗻𝗰𝗵🔥"<nooreply@',
+    '^"👙🍌Fuck_Me_Tonight.🍌" <info@webmd.com>$',
+    '^"𝙂𝙤𝙡𝙙-𝙄𝙍𝘼✔️"<nooreply@',
+    '^"TEXT😘ME💗" <info@webmd.com>$',
+    '^"_FREE😍SEX_💕"',
+    '^𝗥𝗼𝘂𝗻𝗱𝘂𝗽_𝗦𝗲𝘁𝘁𝗹𝗲𝗺𝗲𝗻𝘁✅ <nooreply@',
+    '^Elongation Secret🔥[*] <',
+]))
 
 def _headerstr(header):
     if header is not None:
@@ -51,8 +68,17 @@ def main_spamtrash():
         message_set = ','.join(id.decode() for id in ids.split())
         ok, v = imap.fetch(message_set, '(RFC822)')
         assert 'OK' == ok
+        froms = []
         for (info, msgbytes), x in zip(islice(v, 0, None, 2), islice(v, 1, None, 2)):
             assert b')' == x
             id = number.match(info).group()
             msg = message_from_bytes(msgbytes)
-            print(id, _headerstr(msg['From']), _headerstr(msg['Subject']))
+            _from = _headerstr(msg['From'])
+            subject = _headerstr(msg['Subject'])
+            if _from is not None:
+                for fromre in fromres:
+                    if fromre.search(_from) is not None:
+                        break
+                else:
+                    froms.append(_from)
+        for f in sorted(froms): print(f)
