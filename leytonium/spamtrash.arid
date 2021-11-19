@@ -17,5 +17,6 @@
 
 appname := $label()
 host = imap.gmail.com
-user = $(void)
+mailbox = [Gmail]/Spam
 password = $keyring($(appname) $(user))
+user = $(void)
