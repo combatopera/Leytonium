@@ -25,6 +25,7 @@ import logging, os, re
 
 log = logging.getLogger(__name__)
 number = re.compile(b'[0-9]+')
+fixup = re.compile(b'^\xc2\xb2sender: ', re.MULTILINE)
 
 def _headerstr(header):
     if header is not None:
@@ -82,6 +83,7 @@ def main_spamtrash():
             if x not in {b')', rb' FLAGS (\Seen))'}:
                 raise Exception(x)
             id = number.match(info).group().decode()
+            msgbytes = fixup.sub(b'Sender: ', msgbytes)
             msg = {k: _headerstr(msg[k]) for msg in [message_from_bytes(msgbytes)] for k in ['From', 'Subject']}
             if regex.delete(**msg):
                 log.info("Delete %s: %s", id, msg)
