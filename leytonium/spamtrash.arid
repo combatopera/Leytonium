@@ -45,6 +45,7 @@ regex
         ^"Marie💋"<nooreply@
         ^😍𝐉𝐄𝐒𝐒𝐈𝐂𝐀💋 <
         ^"F\*ckbuddy_request" <News-
+        ^"Keto Health Diet" <support@
     subjects +=
         $.(^💰💰𝗬𝗢𝗨.𝗛𝗔𝗩𝗘.𝗕𝗘𝗘𝗡.𝗣𝗔𝗜𝗗💰💰 )
         $.(^🎈🎈🎈 YOU HAVE BEEN PAID 🎈🎈🎈 ʀᴇғ : )

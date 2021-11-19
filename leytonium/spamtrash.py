@@ -89,4 +89,7 @@ def main_spamtrash():
             else:
                 log.info("Ignore %s: %s", id, msg)
         if deleteids:
+            log.info("Delete %s emails.", len(deleteids))
             imap.store(','.join(deleteids), '+X-GM-LABELS', r'\Trash')
+        else:
+            log.info('Nothing to delete.')
