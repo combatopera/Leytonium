@@ -30,9 +30,9 @@ def main_spamtrash():
     try:
         imap.select(config.mailbox)
         _, (ids,) = imap.search(None, 'ALL')
-        for id in ids.split():
-            _, data = imap.fetch(id, '(RFC822)')
-            print(message_from_string(data[0][1].decode('latin-1')))
-            break
+        message_set = ','.join(id.decode() for id in ids.split())
+        _, data = imap.fetch(message_set, '(RFC822)')
+        for d in data:
+            print(type(d))
     finally:
         imap.logout()
