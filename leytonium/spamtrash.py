@@ -17,7 +17,8 @@
 
 from .util import keyring
 from aridity.config import ConfigCtrl
-from email import message_from_string
+from email import message_from_bytes
+from itertools import islice
 
 def main_spamtrash():
     'Delete spam emails.'
@@ -33,5 +34,7 @@ def main_spamtrash():
         message_set = ','.join(id.decode() for id in ids.split())
         ok, data = imap.fetch(message_set, '(RFC822)')
         assert 'OK' == ok
-        for d in data:
-            print(type(d))
+        for (_, msgbytes), x in zip(islice(data, 0, len(data), 2), islice(data, 1, len(data), 2)):
+            assert b')' == x
+            msg = message_from_bytes(msgbytes)
+            print(msg['From'], msg['Subject'])
