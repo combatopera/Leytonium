@@ -24,15 +24,12 @@ def main_spamtrash():
     cc = ConfigCtrl()
     cc.node.keyring = keyring
     config = cc.loadappconfig(main_spamtrash, 'spamtrash.arid')
-    imap = config.imap(config.host)
-    with config.password as password:
-        imap.login(config.user, password)
-    try:
+    with config.imap(config.host) as imap:
+        with config.password as password:
+            imap.login(config.user, password)
         imap.select(config.mailbox)
         _, (ids,) = imap.search(None, 'ALL')
         message_set = ','.join(id.decode() for id in ids.split())
         _, data = imap.fetch(message_set, '(RFC822)')
         for d in data:
             print(type(d))
-    finally:
-        imap.logout()
