@@ -39,6 +39,14 @@ fromres = list(map(re.compile, [
     '^𝗥𝗼𝘂𝗻𝗱𝘂𝗽_𝗦𝗲𝘁𝘁𝗹𝗲𝗺𝗲𝗻𝘁✅ <nooreply@',
     '^Elongation Secret🔥[*] <',
 ]))
+subjectres = list(map(re.compile, [
+    '^💰💰𝗬𝗢𝗨.𝗛𝗔𝗩𝗘.𝗕𝗘𝗘𝗡.𝗣𝗔𝗜𝗗💰💰 ',
+    '^🎈🎈🎈 YOU HAVE BEEN PAID 🎈🎈🎈 ʀᴇғ : ',
+    ' 𝐃𝐞𝐩𝐨𝐬𝐢𝐭𝐞𝐝 𝐈𝐧 𝐘𝐨𝐮𝐫 𝐚𝐜𝐜𝐨𝐮𝐧𝐭 𝐧𝐞𝐱𝐭 𝐝𝐚𝐲 - 𝐬𝐞𝐞 𝐝𝐞𝐭𝐚𝐢𝐥𝐬',
+    '^LUCKY: Radical pill for men boosts bedroom performance.$',
+    '^_️️️️️️️️️️ ️️️️️️️️️️ ️️️️️️️️️️🔥💕𝗪𝗔𝗥𝗡𝗜𝗡𝗚_🔞_𝗬𝗼𝘂_𝘄𝗶𝗹𝗹_𝘀𝗲𝗲_𝗻𝘂𝗱𝗲_👙_𝗽𝗵𝗼𝘁𝗼𝘀_💏_𝗣𝗹𝗲𝗮𝘀𝗲_𝗯𝗲_𝗱𝗶𝘀𝗰𝗿𝗲𝗲𝘁_💕🔞_______',
+    '^⭕️Final_Warning⭕️𝗬𝗢𝗨.𝗛𝗔𝗩𝗘.𝗕𝗘𝗘𝗡.𝗣𝗔𝗜𝗗___✅💲Please_confirm_receipt💲',
+]))
 
 def _headerstr(header):
     if header is not None:
@@ -54,6 +62,18 @@ def _headerstr(header):
                 yield p
         return ''.join(g())
 
+def _delete(msg):
+    _from = _headerstr(msg['From'])
+    if _from is not None:
+        for fromre in fromres:
+            if fromre.search(_from) is not None:
+                return True
+    subject = _headerstr(msg['Subject'])
+    if subject is not None:
+        for subjectre in subjectres:
+            if subjectre.search(subject) is not None:
+                return True
+
 def main_spamtrash():
     'Delete spam emails.'
     cc = ConfigCtrl()
@@ -68,17 +88,11 @@ def main_spamtrash():
         message_set = ','.join(id.decode() for id in ids.split())
         ok, v = imap.fetch(message_set, '(RFC822)')
         assert 'OK' == ok
-        froms = []
+        hmm = []
         for (info, msgbytes), x in zip(islice(v, 0, None, 2), islice(v, 1, None, 2)):
             assert b')' == x
             id = number.match(info).group()
             msg = message_from_bytes(msgbytes)
-            _from = _headerstr(msg['From'])
-            subject = _headerstr(msg['Subject'])
-            if _from is not None:
-                for fromre in fromres:
-                    if fromre.search(_from) is not None:
-                        break
-                else:
-                    froms.append(_from)
-        for f in sorted(froms): print(f)
+            if not _delete(msg):
+                hmm.append(_headerstr(msg['Subject']))
+        for s in sorted(s for s in hmm if s is not None): print(s)
