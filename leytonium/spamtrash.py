@@ -32,7 +32,7 @@ def _headerstr(header):
         parts = re.split(r'([\udc00-\udcff]+)', text)
         def g():
             yield parts[0]
-            for q, p in zip(parts[1::2], parts[2::2]):
+            for q, p in zip(islice(parts, 1, None, 2), islice(parts, 2, None, 2)):
                 yield bytes(ord(x) & 0xff for x in q).decode('utf-8')
                 yield p
         return ''.join(g())
@@ -51,7 +51,7 @@ def main_spamtrash():
         message_set = ','.join(id.decode() for id in ids.split())
         ok, v = imap.fetch(message_set, '(RFC822)')
         assert 'OK' == ok
-        for (info, msgbytes), x in zip(islice(v, 0, len(v), 2), islice(v, 1, len(v), 2)):
+        for (info, msgbytes), x in zip(islice(v, 0, None, 2), islice(v, 1, None, 2)):
             assert b')' == x
             id = number.match(info).group()
             msg = message_from_bytes(msgbytes)
