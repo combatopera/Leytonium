@@ -66,3 +66,4 @@ regex
         ^Final Warning🔔YOU HAVE BEEN PAID▶️🎁▶️Check your account◀️💰💰
         $.(^Check Your Account )
         ^Please Check Your Account TODAY \[
+        $.(^💰Claim Now💰 - Over )
