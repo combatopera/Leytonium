@@ -69,3 +69,4 @@ regex
         $.(^Check Your Account )
         ^Please Check Your Account TODAY \[
         $.(^💰Claim Now💰 - Over )
+        $.(^P͞A͞Y͞O͞U͞T͞_͞V͞E͞R͞I͞F͞I͞C͞A͞T͞I͞O͞N͞_____ )
