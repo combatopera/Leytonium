@@ -18,9 +18,6 @@
 from .util import keyring
 from aridity.config import ConfigCtrl
 from email import message_from_string
-import re
-
-number = re.compile(b'[0-9]+')
 
 def main_spamtrash():
     'Delete spam emails.'
@@ -32,9 +29,8 @@ def main_spamtrash():
         imap.login(config.user, password)
     try:
         imap.select(config.mailbox)
-        _, (v,) = imap.search(None, 'ALL')
-        ids = number.findall(v)
-        for id in ids:
+        _, (ids,) = imap.search(None, 'ALL')
+        for id in ids.split():
             _, data = imap.fetch(id, '(RFC822)')
             print(message_from_string(data[0][1].decode('latin-1')))
             break
