@@ -72,7 +72,8 @@ def main_spamtrash():
         assert 'OK' == ok
         hmm = []
         for (info, msgbytes), x in zip(islice(v, 0, None, 2), islice(v, 1, None, 2)):
-            assert b')' == x
+            if b')' != x:
+                raise Exception(x)
             id = number.match(info).group()
             msg = message_from_bytes(msgbytes)
             if not regex.delete(msg):
