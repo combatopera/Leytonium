@@ -17,6 +17,7 @@
 
 appname := $label()
 host = imap.gmail.com
+imap = $pyref(imaplib IMAP4_SSL)
 mailbox = [Gmail]/Spam
 password = $keyring($(appname) $(user))
 user = $(void)

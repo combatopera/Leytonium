@@ -18,7 +18,6 @@
 from .util import keyring
 from aridity.config import ConfigCtrl
 from email import message_from_string
-from imaplib import IMAP4_SSL
 import re
 
 number = re.compile(b'[0-9]+')
@@ -28,7 +27,7 @@ def main_spamtrash():
     cc = ConfigCtrl()
     cc.node.keyring = keyring
     config = cc.loadappconfig(main_spamtrash, 'spamtrash.arid')
-    imap = IMAP4_SSL(config.host)
+    imap = config.imap(config.host)
     with config.password as password:
         imap.login(config.user, password)
     imap.select(config.mailbox)
