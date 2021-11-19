@@ -80,6 +80,7 @@ regex
         Military Ear Plugs Claim
         ^𝙝𝙤𝙩🔥😍 <
         ^❇Credit Scores<
+        \bGetInstaHard\b
     subjects +=
         $.(^💰💰𝗬𝗢𝗨.𝗛𝗔𝗩𝗘.𝗕𝗘𝗘𝗡.𝗣𝗔𝗜𝗗💰💰 )
         $.(^🎈🎈🎈 YOU HAVE BEEN PAID 🎈🎈🎈 ʀᴇғ : )
