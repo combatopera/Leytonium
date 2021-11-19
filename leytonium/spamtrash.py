@@ -72,7 +72,7 @@ def main_spamtrash():
         assert 'OK' == ok
         hmm = []
         for (info, msgbytes), x in zip(islice(v, 0, None, 2), islice(v, 1, None, 2)):
-            if b')' != x:
+            if x not in {b')', rb' FLAGS (\Seen))'}:
                 raise Exception(x)
             id = number.match(info).group()
             msg = message_from_bytes(msgbytes)
