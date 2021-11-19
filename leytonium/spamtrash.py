@@ -28,8 +28,10 @@ def main_spamtrash():
         with config.password as password:
             imap.login(config.user, password)
         imap.select(config.mailbox)
-        _, (ids,) = imap.search(None, 'ALL')
+        ok, (ids,) = imap.search(None, 'ALL')
+        assert 'OK' == ok
         message_set = ','.join(id.decode() for id in ids.split())
-        _, data = imap.fetch(message_set, '(RFC822)')
+        ok, data = imap.fetch(message_set, '(RFC822)')
+        assert 'OK' == ok
         for d in data:
             print(type(d))
