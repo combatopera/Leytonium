@@ -1,13 +1,32 @@
+# Copyright 2020 Andrzej Cichocki
+
+# This file is part of Leytonium.
+#
+# Leytonium is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Leytonium is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
+
+from aridity.config import ConfigCtrl
 from email import message_from_string
-from getpass import getpass
 from imaplib import IMAP4_SSL
 import re
 
 number = re.compile(b'[0-9]+')
 
 def main_spamtrash():
-    mail = IMAP4_SSL("imap.gmail.com")
-    mail.login('andrzej.cichocki@gmail.com', getpass())
+    'Delete spam emails.'
+    config = ConfigCtrl().loadappconfig(main_spamtrash, 'spamtrash.arid')
+    mail = IMAP4_SSL(config.host)
+    mail.login(config.user, config.password)
     #_, v = mail.list()
     #for x in v: print(x)
     mail.select('[Gmail]/Spam')

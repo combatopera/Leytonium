@@ -211,6 +211,9 @@ Show stash as patch.
 ### slam
 Reset branch to given commit number.
 
+### spamtrash
+Delete spam emails.
+
 ### splitpkgs
 Show packages that exist in more than one module.
 
