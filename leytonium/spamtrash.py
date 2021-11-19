@@ -75,7 +75,7 @@ def main_spamtrash():
         ok, (ids,) = imap.search(None, 'ALL')
         assert 'OK' == ok
         message_set = ','.join(id.decode() for id in ids.split())
-        ok, v = imap.fetch(message_set, '(RFC822)')
+        ok, v = imap.fetch(message_set, '(BODY.PEEK[])')
         assert 'OK' == ok
         deleteids = []
         for (info, msgbytes), x in zip(islice(v, 0, None, 2), islice(v, 1, None, 2)):
