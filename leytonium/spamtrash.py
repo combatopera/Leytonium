@@ -15,42 +15,18 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+from .util import keyring
 from aridity.config import ConfigCtrl
-from aridity.model import Scalar
 from email import message_from_string
-from functools import partial
-from getpass import getpass
 from imaplib import IMAP4_SSL
 import re
 
 number = re.compile(b'[0-9]+')
 
-class Password:
-
-    null_exc_info = None, None, None
-
-    def __init__(self, password, setter):
-        self.password = password
-        self.setter = setter
-
-    def __enter__(self):
-        return self.password
-
-    def __exit__(self, *exc_info):
-        if self.setter is not None and self.null_exc_info == exc_info:
-            self.setter(self.password)
-
-def _keyring(context, serviceres, usernameres):
-    from keyring import get_password, set_password
-    service = serviceres.resolve(context).cat()
-    username = usernameres.resolve(context).cat()
-    password = get_password(service, username)
-    return Scalar(Password(*[getpass(), partial(set_password, service, username)] if password is None else [password, None]))
-
 def main_spamtrash():
     'Delete spam emails.'
     cc = ConfigCtrl()
-    cc.node.keyring = _keyring
+    cc.node.keyring = keyring
     config = cc.loadappconfig(main_spamtrash, 'spamtrash.arid')
     mail = IMAP4_SSL(config.host)
     with config.password as password:
