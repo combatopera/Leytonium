@@ -25,8 +25,12 @@ password = $keyring($(appname) $(user))
 user = $(void)
 regex
     froms +=
+        [.]betterbusinesssolutions.ca>
+        @myfreechat.site>
+        \bIRS-2021\b
+        ᴍᴇssᴀɢᴇ..💬
         ^"Erica-Weinberg"<ericaweinberg@
-        ^"💲CashApp💲" <
+        💲Cash ?App💲
         \bQuicken ?Loans
         Wells🥳Fargo🥳Congratulations
         ^Male👅Elongator....  <
@@ -61,9 +65,12 @@ regex
         ^💋𝐀𝐧𝐧𝐚😍  <
         💋𝐋𝐮𝐜𝐢𝐚💋
         ❣️️️𝗗𝗶𝗮𝗻𝗻𝗮❣️
+        💕Hayden🍑
+        💕𝗛𝗼𝘁
         ^"F\*ckbuddy_request" <News-
         ^"Keto Health Diet" <support@
         ^💋𝐅𝐔𝐂𝐊.𝙈𝙚🍑 <
+        ^💕.+💕
         ^F\*ck🔥Me💗 <
         ^💋FCK-𝐦𝐞-𝐭𝐨𝐧𝐢𝐠𝐡𝐭💋 <
         ^"💘🔥𝙁𝙐𝘾𝙆_𝙈𝙀💋💋" <
@@ -94,6 +101,10 @@ regex
         ⭐️𝑶𝑷𝑬𝑵-𝑰𝑴𝑴𝑬𝑫𝑰𝑨𝑻𝑬𝑳𝒀⭐️
         𝐆𝐨𝐥𝐝_𝐈𝐑𝐀___✅
         💋🔞Enjoy_with_me🔞💋
+        (?i)LuckyCreekCasino
+        \beharmony Offer\b
+        \bSettlmentFinder\b
+        \b(?:𝗞𝗢𝗛𝗟'𝗦|KOHLS)\b
     subjects +=
         $.(^💰💰𝗬𝗢𝗨.𝗛𝗔𝗩𝗘.𝗕𝗘𝗘𝗡.𝗣𝗔𝗜𝗗💰💰 )
         $.(^🎈🎈🎈 YOU HAVE BEEN PAID 🎈🎈🎈 ʀᴇғ : )
@@ -113,14 +124,17 @@ regex
         $.(^Please check your account )
         ^Final Warning🔔YOU HAVE BEEN PAID▶️🎁▶️Check your account◀️💰💰
         $.(^Check Your Account )
-        ^Please Check Your Account TODAY \[
+        ^Please Check [Yy]our Account
         $.(^💰Claim Now💰 - Over )
-        $.(^P͞A͞Y͞O͞U͞T͞_͞V͞E͞R͞I͞F͞I͞C͞A͞T͞I͞O͞N͞_____ )
+        P͞A͞Y͞O͞U͞T͞_͞V͞E͞R͞I͞F͞I͞C͞A͞T͞I͞O͞N͞
+        PAYOUT.VERIFICATION
         ^💰💰𝒀𝑶𝑼.𝑯𝑨𝑽𝑬.𝑩𝑬𝑬𝑵.𝑷𝑨𝑰𝑫💰💰 {
         $'(^Automatyzacja produkcji$)
         $.(^❤️ ɴᴏ ғᴀᴋᴇ ᴘʀᴏғɪʟᴇs ❤️❤️ ɴᴏ ᴄʀᴇᴅɪᴛ ᴄᴀʀᴅ ʀᴇǫᴜɪʀᴇᴅ ❤️❤️ ɢɪʀʟs ᴡɪʟʟ ᴍᴀᴋᴇ ғɪʀsᴛ ᴍᴏᴠᴇ ❤️ )
         𝐏𝐚𝐲𝐨𝐮𝐭 𝐕𝐞𝐫𝐢𝐟𝐢𝐜𝐚𝐭𝐢𝐨𝐧
         𝗬𝗢𝗨.𝗛𝗔𝗩𝗘.𝗕𝗘𝗘𝗡.𝗣𝗔𝗜𝗗
+        𝒀𝑶𝑼 𝑯𝑨𝑽𝑬 𝑩𝑬𝑬𝑵 𝑷𝑨𝑰𝑫
+        𝐘𝐎𝐔_𝐇𝐀𝐕𝐄_𝐁𝐄𝐄𝐍_𝐏𝐀𝐈𝐃
         𝗣𝗔𝗬𝗢𝗨𝗧_𝗩𝗘𝗥𝗜𝗙𝗜𝗖𝗔𝗧𝗜𝗢𝗡
         𝐕𝐥𝐀𝐆𝐑𝐀
         𝐏𝐥𝐞𝐚𝐬𝐞 𝐂𝐡𝐞𝐜𝐤 𝐘𝐨𝐮𝐫 𝐚𝐜𝐜𝐨𝐮𝐧𝐭
@@ -129,6 +143,7 @@ regex
         _𝗜𝗺_𝘀𝗼_𝗵𝗼𝗿𝗻𝘆_
         \bVenmo Gift Card\b
         🥳YOU.ARE.OUR.WINNER🥳
+        ⭐️⭐️⭐️ WINNING NOTIFICATION⭐️⭐️⭐️
         𝐂𝐨𝐧𝐟𝐢𝐫𝐦 𝐘𝐨𝐮𝐫 𝐙𝐢𝐩 𝐂𝐨𝐝𝐞 𝐍𝐨𝐰
         𝐏𝐥𝐞𝐚𝐬𝐞 𝐜𝐨𝐧𝐟𝐢𝐫𝐦 𝐫𝐞𝐜𝐞𝐢𝐩𝐭
-        ▶️▶️ PAYOUT_VERIFICATION ◀️ ◀️
+        \bSettlement Check\b
