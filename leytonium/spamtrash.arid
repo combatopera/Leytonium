@@ -26,7 +26,7 @@ user = $(void)
 regex
     froms +=
         ^"Erica-Weinberg"<ericaweinberg@
-        ^"💲CashApp💲" <
+        ^"💲Cash ?App💲" <
         \bQuicken ?Loans
         Wells🥳Fargo🥳Congratulations
         ^Male👅Elongator....  <
