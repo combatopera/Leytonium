@@ -21,6 +21,7 @@ from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
 from email import message_from_bytes
 from itertools import islice
+from unidecode import unidecode
 import logging, os, re
 
 log = logging.getLogger(__name__)
@@ -39,7 +40,7 @@ def _headerstr(header):
             for q, p in zip(islice(parts, 1, None, 2), islice(parts, 2, None, 2)):
                 yield bytes(ord(x) & 0xff for x in q).decode('utf-8')
                 yield p
-        return ''.join(g())
+        return unidecode(''.join(g()), errors = 'preserve')
 
 class Regex:
 
