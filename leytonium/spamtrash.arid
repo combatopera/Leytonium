@@ -33,6 +33,7 @@ regex
         ^"S e ✘ ⛔ S e c r et"  <
         ^"💕Asian Nudes♥️" <
         ^❣️Kirsten😍" <info@
+        "Sarah💗"
         ^💋SARAH💋 <
         ^😍𝐒𝐚𝐫𝐚𝐡😍<
         ^😘𝐉𝐮𝐥𝐢𝐚👅<
@@ -40,6 +41,7 @@ regex
         ^helplaw✅  <info@
         ^⚖️HelpLAW <info@
         ^"HelpLaw"  <
+        \bHelp_Law✅
         ^✅Lawsuit Compensation✅  <
         ^" Legal⭕Help⭕Home "  <
         ^💋Enjoy-with-me💋 <
@@ -56,6 +58,8 @@ regex
         ^"Marie💋"<nooreply@
         ^😍𝐉𝐄𝐒𝐒𝐈𝐂𝐀💋 <
         ^💋𝐀𝐧𝐧𝐚😍  <
+        💋𝐋𝐮𝐜𝐢𝐚💋
+        ❣️️️𝗗𝗶𝗮𝗻𝗻𝗮❣️
         ^"F\*ckbuddy_request" <News-
         ^"Keto Health Diet" <support@
         ^💋𝐅𝐔𝐂𝐊.𝙈𝙚🍑 <
@@ -63,7 +67,9 @@ regex
         ^💋FCK-𝐦𝐞-𝐭𝐨𝐧𝐢𝐠𝐡𝐭💋 <
         ^"💘🔥𝙁𝙐𝘾𝙆_𝙈𝙀💋💋" <
         ^FUCK👅ME.. <
+        𝐅𝐮𝐜𝐤𝐌𝐞
         ^"𝐅\*𝐜𝐤𝐁𝐮𝐝𝐝𝐲
+        💖𝐉𝐨𝐢𝐧_𝐌𝐞💖
         ^🔥🤑𝐁𝐢𝐭𝐜𝐨𝐢𝐧 𝐌𝐢𝐥𝐥𝐢𝐨𝐧𝐚𝐢𝐫𝐞💰<
         ^"Diana_Clairvoyant" <
         ^Compensation Finder✅  <
