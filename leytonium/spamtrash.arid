@@ -25,6 +25,7 @@ password = $keyring($(appname) $(user))
 user = $(void)
 regex
     froms +=
+        ᴍᴇssᴀɢᴇ..💬
         ^"Erica-Weinberg"<ericaweinberg@
         💲Cash ?App💲
         \bQuicken ?Loans
