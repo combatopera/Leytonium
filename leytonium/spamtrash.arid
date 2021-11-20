@@ -97,6 +97,7 @@ regex
         LuckyCreekCasino
         \beharmony Offer\b
         \bSettlmentFinder\b
+        \b(?:𝗞𝗢𝗛𝗟'𝗦|KOHLS)\b
     subjects +=
         $.(^💰💰𝗬𝗢𝗨.𝗛𝗔𝗩𝗘.𝗕𝗘𝗘𝗡.𝗣𝗔𝗜𝗗💰💰 )
         $.(^🎈🎈🎈 YOU HAVE BEEN PAID 🎈🎈🎈 ʀᴇғ : )
