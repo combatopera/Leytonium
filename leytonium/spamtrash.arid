@@ -119,10 +119,9 @@ regex
         $.(^Check Your Account )
         ^Please Check [Yy]our Account
         $.(^💰Claim Now💰 - Over )
-        PAYOUT.VERIFICATION
         $'(^Automatyzacja produkcji$)
         $.(^️ nO g'AKE PROg'ILEs ️️ nO CREDIT CARD REoUIRED ️️ gIRLs WILL MAKE g'IRsT MOVE ️ )
-        Payout Verification
+        (?i)Payout.+Verification
         YOU.HAVE.BEEN.PAID
         VlAGRA
         Please Check Your account
