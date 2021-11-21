@@ -142,3 +142,4 @@ regex
         Please confirm receipt
         \bSettlement Check\b
         \bInogenOne\b
+        (?i)nude.*pics
