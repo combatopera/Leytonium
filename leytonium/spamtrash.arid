@@ -123,7 +123,7 @@ regex
         $.(^💰Claim Now💰 - Over )
         $'(^Automatyzacja produkcji$)
         $.(^️ nO g'AKE PROg'ILEs ️️ nO CREDIT CARD REoUIRED ️️ gIRLs WILL MAKE g'IRsT MOVE ️ )
-        (?i)Payout.+Verification
+        (?i)Payout.+Verification|P͞A͞Y͞O͞U͞T͞.+V͞E͞R͞I͞F͞I͞C͞A͞T͞I͞O͞N͞
         YOU.HAVE.BEEN.PAID
         VlAGRA
         Please Check Your account
