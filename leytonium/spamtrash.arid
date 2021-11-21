@@ -104,6 +104,7 @@ regex
         \bPublic.Records\b
         (?i)medicare
         (?i)norton.*security
+        (?i)lexington.law
     subjects +=
         $.( Deposited In Your account next day - see details)
         $'(^LUCKY: Radical pill for men boosts bedroom performance.$)
