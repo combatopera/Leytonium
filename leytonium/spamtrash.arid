@@ -147,3 +147,4 @@ regex
         Confirm Your Zip Code Now
         Please confirm receipt
         \bSettlement Check\b
+        \bInogenOne\b
