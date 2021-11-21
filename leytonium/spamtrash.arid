@@ -88,7 +88,7 @@ regex
         ^"Stimulus Checks"  <
         ^"🤩HEY_SEXY!!🤩" <
         ^Quick-Sex️<
-        Military Ear Plugs Claim
+        (?i)Military.Ear.?Plugs
         ^hot🔥😍 <
         ^Credit Scores<
         \bGetInstaHard\b
