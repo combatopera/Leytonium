@@ -108,11 +108,8 @@ regex
         \bFinal.Warning\b
         \bPublic.Records\b
     subjects +=
-        $.(^💰💰YOU.HAVE.BEEN.PAID💰💰 )
-        $.(^🎈🎈🎈 YOU HAVE BEEN PAID 🎈🎈🎈 REg' : )
         $.( Deposited In Your account next day - see details)
         $'(^LUCKY: Radical pill for men boosts bedroom performance.$)
-        ^⭕️Final_Warning⭕️YOU.HAVE.BEEN.PAID___💲Please_confirm_receipt💲
         $'(^Relief for Anxiety and Stress Inside! Claim Your Risk Free Bottle$)
         $'(^Eating This For Break fast Saves your Prostate[?]-60 Seconds$)
         $'(^👙💋Cum_on_my ass._F[*]ck_Me_like_a_Dirty_Slut🍆___😻Open_Now_to_See_My_Nudes😻💋$)
@@ -124,20 +121,15 @@ regex
         $'[ lucky creek casino PENDING \(PAYOUT\)$]
         $'(^Please Check Your Account$)
         $.(^Please check your account )
-        ^Final Warning🔔YOU HAVE BEEN PAID>️🎁>️Check your account<️💰💰
         $.(^Check Your Account )
         ^Please Check [Yy]our Account
         $.(^💰Claim Now💰 - Over )
-        P͞A͞Y͞O͞U͞T͞_͞V͞E͞R͞I͞F͞I͞C͞A͞T͞I͞O͞N͞
         PAYOUT.VERIFICATION
         ^💰💰YOU.HAVE.BEEN.PAID💰💰 {
         $'(^Automatyzacja produkcji$)
         $.(^️ nO g'AKE PROg'ILEs ️️ nO CREDIT CARD REoUIRED ️️ gIRLs WILL MAKE g'IRsT MOVE ️ )
         Payout Verification
         YOU.HAVE.BEEN.PAID
-        YOU HAVE BEEN PAID
-        YOU_HAVE_BEEN_PAID
-        PAYOUT_VERIFICATION
         VlAGRA
         Please Check Your account
         Member Growth Hack
