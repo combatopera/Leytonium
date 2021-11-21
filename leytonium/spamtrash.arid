@@ -102,6 +102,7 @@ regex
         \b(?:KOHL'S|KOHLS)\b
         \bFinal.Warning\b
         \bPublic.Records\b
+        (?i)medicare
     subjects +=
         $.( Deposited In Your account next day - see details)
         $'(^LUCKY: Radical pill for men boosts bedroom performance.$)
