@@ -56,7 +56,7 @@ regex
         $'(^"TEXT😘ME💗" <info@webmd.com>$)
         _FREE😍SEX_💕
         ^️Quick-Sex️ <
-        ^Roundup_Settlement <nooreply@
+        (?i)Roundup.(?:Settlement|lawsuit)
         ^Elongation Secret🔥[*] <
         ^"ACTION NEEDED!" <Jessica@
         ^"spdate🔥baby😍"  <info@
