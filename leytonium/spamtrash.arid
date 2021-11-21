@@ -69,13 +69,8 @@ regex
         💕Hot
         ^"F\*ckbuddy_request" <News-
         ^"Keto Health Diet" <support@
-        ^💋FUCK.Me🍑 <
         ^💕.+💕
-        ^F\*ck🔥Me💗 <
-        ^💋FCK-me-tonight💋 <
-        ^"💘🔥FUCK_ME💋💋" <
-        ^FUCK👅ME.. <
-        FuckMe
+        (?i)f[u*]?ck.?(?:me|teen)
         ^"F\*ckBuddy
         💖Join_Me💖
         ^🔥🤑Bitcoin Millionaire💰<
