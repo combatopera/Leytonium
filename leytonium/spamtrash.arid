@@ -120,7 +120,6 @@ regex
         ^Please Check [Yy]our Account
         $.(^💰Claim Now💰 - Over )
         PAYOUT.VERIFICATION
-        ^💰💰YOU.HAVE.BEEN.PAID💰💰 {
         $'(^Automatyzacja produkcji$)
         $.(^️ nO g'AKE PROg'ILEs ️️ nO CREDIT CARD REoUIRED ️️ gIRLs WILL MAKE g'IRsT MOVE ️ )
         Payout Verification
