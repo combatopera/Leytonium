@@ -103,6 +103,7 @@ regex
         \bFinal.Warning\b
         \bPublic.Records\b
         (?i)medicare
+        (?i)norton.*security
     subjects +=
         $.( Deposited In Your account next day - see details)
         $'(^LUCKY: Radical pill for men boosts bedroom performance.$)
