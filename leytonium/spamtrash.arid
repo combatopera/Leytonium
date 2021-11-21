@@ -105,6 +105,7 @@ regex
         \beharmony Offer\b
         \bSettlmentFinder\b
         \b(?:KOHL'S|KOHLS)\b
+        \bFinal.Warning\b
     subjects +=
         $.(^💰💰YOU.HAVE.BEEN.PAID💰💰 )
         $.(^🎈🎈🎈 YOU HAVE BEEN PAID 🎈🎈🎈 REg' : )
