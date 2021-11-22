@@ -27,7 +27,6 @@ import logging, os, re
 log = logging.getLogger(__name__)
 number = re.compile(b'[0-9]+')
 fixup = re.compile(b'^\xc2\xb2sender: ', re.MULTILINE)
-maxnonascii = .2
 
 def _headerstr(header):
     if isinstance(header, str):
@@ -45,12 +44,13 @@ def _headerstr(header):
 class Regex:
 
     def __init__(self, config):
+        self.max_non_ascii = getattr(config.max, 'non-ascii')
         self.froms = list(map(re.compile, config.regex.froms))
         self.subjects = list(map(re.compile, config.regex.subjects))
 
     def delete(self, From, Subject):
         both = From + Subject
-        if sum(1 for c in both if ord(c) > 0x7f) / len(both) > maxnonascii:
+        if sum(1 for c in both if ord(c) > 0x7f) / len(both) > self.max_non_ascii:
             return True
         From, Subject = (unidecode(s, errors = 'preserve') for s in [From, Subject])
         for fromre in self.froms:
