@@ -20,13 +20,14 @@ from .util import keyring
 from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
 from email import message_from_bytes
-from itertools import islice
+from itertools import chain, islice
 from unidecode import unidecode
 import logging, os, re
 
 log = logging.getLogger(__name__)
 number = re.compile(b'[0-9]+')
 fixup = re.compile(b'^\xc2\xb2sender: ', re.MULTILINE)
+maxnonascii = .2
 
 def _headerstr(header):
     if header is not None:
@@ -40,7 +41,7 @@ def _headerstr(header):
             for q, p in zip(islice(parts, 1, None, 2), islice(parts, 2, None, 2)):
                 yield bytes(ord(x) & 0xff for x in q).decode('utf-8')
                 yield p
-        return unidecode(''.join(g()), errors = 'preserve')
+        return ''.join(g())
 
 class Regex:
 
@@ -49,6 +50,14 @@ class Regex:
         self.subjects = list(map(re.compile, config.regex.subjects))
 
     def delete(self, From, Subject):
+        n = 0
+        for c in chain(From, Subject):
+            if ord(c) > 0x7f:
+                n += 1
+        nonascii = n / sum(map(len, [From, Subject]))
+        if nonascii > maxnonascii:
+            return True
+        From, Subject = (unidecode(s, errors = 'preserve') for s in [From, Subject])
         if From is not None:
             for fromre in self.froms:
                 if fromre.search(From) is not None:
