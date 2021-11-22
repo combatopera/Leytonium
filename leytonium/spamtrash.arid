@@ -145,3 +145,4 @@ regex
         (?i)you.are.the.lucky.one
         (?i)unsubscribe.request|southwest.reward
         (?i)verify.your.info|free.chip|f.ckbuddy|please.confirm.receipt|paypal.gift.card.for.free|looking.for.a.+dude
+        (?i)(?:to|and)[ _]f.ck\b
