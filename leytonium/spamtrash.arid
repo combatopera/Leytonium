@@ -125,7 +125,7 @@ regex
         $'(^Automatyzacja produkcji$)
         $.(^️ nO g'AKE PROg'ILEs ️️ nO CREDIT CARD REoUIRED ️️ gIRLs WILL MAKE g'IRsT MOVE ️ )
         (?i)Payout.+Verification|P͞A͞Y͞O͞U͞T͞.+V͞E͞R͞I͞F͞I͞C͞A͞T͞I͞O͞N͞
-        YOU.HAVE.BEEN.PAID
+        (?i)YOU.HAVE.BEEN.PAID
         VlAGRA
         Please Check Your account
         Member Growth Hack
@@ -142,7 +142,7 @@ regex
         (?i)no.fake.profiles
         (?i)grow.your.p.e.n.i.s
         (?i)african.priest
-        (?i)you.are.the.lucky.one
+        (?i)you.are.the.lucky.one|casino|loophole
         (?i)unsubscribe.request|southwest.reward
         (?i)verify.your.info|free.chip|f.ckbuddy|please.confirm.receipt|paypal.gift.card.for.free|looking.for.a.+dude
         (?i)(?:to|and)[ _]f.ck\b|f.ck[ _]me
