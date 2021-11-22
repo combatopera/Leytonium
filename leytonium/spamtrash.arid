@@ -146,6 +146,6 @@ regex
         (?i)you.are.the.lucky.one|casino|loophole
         (?i)unsubscribe.request|southwest.reward|concealed.carry
         (?i)verify.your.info|free.chip|f.ckbuddy|please.confirm.receipt|paypal.gift.card.for.free|(?:look|search)ing.for.a.+(?:dude|guy)
-        (?i)(?:to|and)[ _]f.ck\b|f.ck[ _]me
+        (?i)(?:to|and)[ _]f.ck(?:\b|_)|f.ck[ _]me
         (?i)tesco.gift.card|stop.receiving.these.emails|want.sexual
         (?i)been.trying.to.(?:contact|reach).you
