@@ -102,6 +102,9 @@ regex
         \b(?:KOHL'S|KOHLS)\b
         \bFinal.Warning\b
         \bPublic.Records\b
+        (?i)medicare
+        (?i)norton.*security
+        (?i)lexington.law
     subjects +=
         $.( Deposited In Your account next day - see details)
         $'(^LUCKY: Radical pill for men boosts bedroom performance.$)
@@ -121,7 +124,7 @@ regex
         $.(^💰Claim Now💰 - Over )
         $'(^Automatyzacja produkcji$)
         $.(^️ nO g'AKE PROg'ILEs ️️ nO CREDIT CARD REoUIRED ️️ gIRLs WILL MAKE g'IRsT MOVE ️ )
-        (?i)Payout.+Verification
+        (?i)Payout.+Verification|P͞A͞Y͞O͞U͞T͞.+V͞E͞R͞I͞F͞I͞C͞A͞T͞I͞O͞N͞
         YOU.HAVE.BEEN.PAID
         VlAGRA
         Please Check Your account
@@ -138,4 +141,7 @@ regex
         (?i)nude.*pics
         (?i)no.fake.profiles
         (?i)grow.your.p.e.n.i.s
+        (?i)african.priest
+        (?i)you.are.the.lucky.one
+        (?i)unsubscribe.request
         (?i)verify.your.info|free.chip|f.ckbuddy|please.confirm.receipt|paypal.gift.card.for.free|looking.for.a.+dude|gain.6.inches
