@@ -26,6 +26,7 @@ password = $keyring($(appname) $(user))
 user = $(void)
 regex
     froms +=
+        [.](?:ru|us)>$'($)
         [.]betterbusinesssolutions.ca>
         @myfreechat.site>
         \bIRS.2021\b
