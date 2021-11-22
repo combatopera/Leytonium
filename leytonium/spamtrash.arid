@@ -119,17 +119,13 @@ regex
         ^⭐️CONFIRMED⭐️_🤑Get_Paid_Right_Now_
         $'( Settlement Check Arrived 👉🏻 )
         $'[ lucky creek casino PENDING \(PAYOUT\)$]
-        $'(^Please Check Your Account$)
-        $.(^Please check your account )
-        $.(^Check Your Account )
-        ^Please Check [Yy]our Account
+        (?i)check.your.account
         $.(^💰Claim Now💰 - Over )
         $'(^Automatyzacja produkcji$)
         $.(^️ nO g'AKE PROg'ILEs ️️ nO CREDIT CARD REoUIRED ️️ gIRLs WILL MAKE g'IRsT MOVE ️ )
         (?i)Payout.+Verification|P͞A͞Y͞O͞U͞T͞.+V͞E͞R͞I͞F͞I͞C͞A͞T͞I͞O͞N͞
         (?i)YOU.HAVE.BEEN.PAID
         VlAGRA
-        Please Check Your account
         Member Growth Hack
         mega hard-on
         _Im_so_horny_
