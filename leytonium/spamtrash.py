@@ -26,6 +26,7 @@ import logging, os, re
 
 log = logging.getLogger(__name__)
 number = re.compile(b'[0-9]+')
+oddfrom = re.compile('[A-Z0-9]+')
 fixup = re.compile(b'^\xc2\xb2sender: ', re.MULTILINE)
 
 def _headerstr(header):
@@ -45,10 +46,13 @@ class Regex:
 
     def __init__(self, config):
         self.max_non_ascii = getattr(config.max, 'non-ascii')
+        self.max_odd_from = getattr(config.max.odd, 'from')
         self.froms = list(map(re.compile, config.regex.froms))
         self.subjects = list(map(re.compile, config.regex.subjects))
 
     def delete(self, From, Subject):
+        if sum(map(len, oddfrom.findall(From))) / len(From) > self.max_odd_from:
+            return True
         both = From + Subject
         if sum(1 for c in both if ord(c) > 0x7f) / len(both) > self.max_non_ascii:
             return True

@@ -21,7 +21,9 @@ cron = $(cli cron)
 host = imap.gmail.com
 imap = $pyref(imaplib IMAP4_SSL)
 mailbox = [Gmail]/Spam
-max non-ascii = .2
+max
+    non-ascii = .2
+    odd from = .2
 password = $keyring($(appname) $(user))
 user = $(void)
 regex
