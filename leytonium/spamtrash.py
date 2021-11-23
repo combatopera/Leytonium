@@ -52,16 +52,20 @@ class Regex:
 
     def delete(self, From, Subject):
         if sum(map(len, oddfrom.findall(From))) / len(From) > self.max_odd_from:
+            log.debug('From has too many odd chars.')
             return True
         both = From + Subject
         if sum(1 for c in both if ord(c) > 0x7f) / len(both) > self.max_non_ascii:
+            log.debug('Too many non-ascii chars.')
             return True
         From, Subject = (unidecode(s, errors = 'preserve') for s in [From, Subject])
         for fromre in self.froms:
             if fromre.search(From) is not None:
+                log.debug("From match: %s", fromre)
                 return True
         for subjectre in self.subjects:
             if subjectre.search(Subject) is not None:
+                log.debug("Subject match: %s", subjectre)
                 return True
 
 def main_spamtrash():
