@@ -120,7 +120,7 @@ regex
         ^⭐️CONFIRMED⭐️_🤑Get_Paid_Right_Now_
         $'( Settlement Check Arrived 👉🏻 )
         $'[ lucky creek casino PENDING \(PAYOUT\)$]
-        (?i)check.your.account
+        (?i)check.your?.account
         $.(^💰Claim Now💰 - Over )
         $'(^Automatyzacja produkcji$)
         $.(^️ nO g'AKE PROg'ILEs ️️ nO CREDIT CARD REoUIRED ️️ gIRLs WILL MAKE g'IRsT MOVE ️ )
