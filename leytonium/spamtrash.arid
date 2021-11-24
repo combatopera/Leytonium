@@ -108,7 +108,7 @@ regex
         (?i)medicare
         (?i)norton.*security
         (?i)lexington.law|manhood
-        @secretinvestorsociety.com\b
+        @(?:secretinvestorsociety|cheeseteeth)\.com\b
     subjects +=
         $.( Deposited In Your account next day - see details)
         $'(^LUCKY: Radical pill for men boosts bedroom performance.$)
