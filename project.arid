@@ -36,3 +36,4 @@ years += 2020
 author = Andrzej Cichocki
 resource types += bash
 upstream devel packages += libgirepository1.0-dev
+buildbot enabled = true
