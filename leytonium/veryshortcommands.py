@@ -34,7 +34,10 @@ def main_insertshlvl():
     print(_insertshlvl(*sys.argv[1:]))
 
 def _insertshlvl(ps1, shlvl):
-    colon = ps1.rindex(':')
+    try:
+        colon = ps1.rindex(':')
+    except ValueError:
+        return ps1
     n = int(shlvl)
     tally = '"' * (n // 2) + ("'" if n % 2 else '')
     return f"{ps1[:colon]}{tally}{ps1[colon + 1:]}"
