@@ -16,7 +16,6 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 from . import initlogging
-from .util import keyring
 from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
 from email import message_from_bytes
@@ -71,9 +70,7 @@ class Regex:
 def main_spamtrash():
     'Delete spam emails.'
     initlogging()
-    cc = ConfigCtrl()
-    cc.node.keyring = keyring
-    config = cc.loadappconfig(main_spamtrash, 'spamtrash.arid', encoding = 'utf-8')
+    config = ConfigCtrl().loadappconfig(main_spamtrash, 'spamtrash.arid', encoding = 'utf-8')
     parser = ArgumentParser()
     parser.add_argument('--cron', action = 'store_true')
     parser.parse_args(namespace = config.cli)
