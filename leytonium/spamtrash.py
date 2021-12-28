@@ -29,7 +29,7 @@ oddfrom = re.compile('[A-Z0-9]+')
 fixup = re.compile(b'^\xc2\xb2sender: ', re.MULTILINE)
 
 def _headerstr(header):
-    if isinstance(header, str):
+    if isinstance(header, str) or header is None:
         return header
     (text, charset), = header._chunks
     assert 'unknown-8bit' == charset
@@ -50,6 +50,8 @@ class Regex:
         self.subjects = list(map(re.compile, config.regex.subjects))
 
     def delete(self, From, Subject):
+        if From is None or Subject is None:
+            return
         if sum(map(len, oddfrom.findall(From))) / len(From) > self.max_odd_from:
             log.debug('From has too many odd chars.')
             return True
