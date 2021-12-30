@@ -41,6 +41,9 @@ def _headerstr(header):
             yield p
     return ''.join(g())
 
+def _toplain(text):
+    return unidecode(text, errors = 'preserve')
+
 class Regex:
 
     def __init__(self, config):
@@ -50,24 +53,26 @@ class Regex:
         self.subjects = list(map(re.compile, config.regex.subjects))
 
     def delete(self, From, Subject):
-        if From is None or Subject is None:
-            return
-        if sum(map(len, oddfrom.findall(From))) / len(From) > self.max_odd_from:
+        if From is not None and sum(map(len, oddfrom.findall(From))) / len(From) > self.max_odd_from:
             log.debug('From has too many odd chars.')
             return True
-        both = From + Subject
-        if sum(1 for c in both if ord(c) > 0x7f) / len(both) > self.max_non_ascii:
-            log.debug('Too many non-ascii chars.')
-            return True
-        From, Subject = (unidecode(s, errors = 'preserve') for s in [From, Subject])
-        for fromre in self.froms:
-            if fromre.search(From) is not None:
-                log.debug("From match: %s", fromre)
+        if From is not None and Subject is not None:
+            both = From + Subject
+            if sum(1 for c in both if ord(c) > 0x7f) / len(both) > self.max_non_ascii:
+                log.debug('Too many non-ascii chars.')
                 return True
-        for subjectre in self.subjects:
-            if subjectre.search(Subject) is not None:
-                log.debug("Subject match: %s", subjectre)
-                return True
+        if From is not None:
+            plain = _toplain(From)
+            for fromre in self.froms:
+                if fromre.search(plain) is not None:
+                    log.debug("From match: %s", fromre)
+                    return True
+        if Subject is not None:
+            plain = _toplain(Subject)
+            for subjectre in self.subjects:
+                if subjectre.search(plain) is not None:
+                    log.debug("Subject match: %s", subjectre)
+                    return True
 
 def main_spamtrash():
     'Delete spam emails.'

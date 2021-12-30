@@ -102,7 +102,7 @@ regex
         (?i)(?:LuckyCreek|bigdollar)Casino
         \beharmony Offer\b
         \bSettlmentFinder\b
-        \b(?:KOHL'S|KOHLS)\b
+        \b(?:KOHL\s*'S|KOHLS)\b
         \bFinal.Warning\b
         \bPublic.Records\b
         (?i)medicare
