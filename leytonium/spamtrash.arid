@@ -107,7 +107,7 @@ regex
         \bPublic.Records\b
         (?i)medicare
         (?i)norton.*security
-        (?i)lexington.law|manhood
+        (?i)lexington.law|manhood|payout.verification
         @(?:secretinvestorsociety|cheeseteeth)\.com\b
     subjects +=
         $.( Deposited In Your account next day - see details)
