@@ -17,9 +17,9 @@
 
 appname := $label()
 cli cron = false
-cron = $(cli cron)
 host = imap.gmail.com
 imap = $pyref(imaplib IMAP4_SSL)
+keyring_cron = $(cli cron)
 mailbox = [Gmail]/Spam
 max
     non-ascii = .2

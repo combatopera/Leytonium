@@ -81,8 +81,6 @@ def main_spamtrash():
     parser = ArgumentParser()
     parser.add_argument('--cron', action = 'store_true')
     parser.parse_args(namespace = config.cli)
-    if config.cron:
-        os.environ['DBUS_SESSION_BUS_ADDRESS'] = f"unix:path=/run/user/{os.geteuid()}/bus"
     regex = Regex(config)
     with config.imap(config.host) as imap:
         with config.password as password:
