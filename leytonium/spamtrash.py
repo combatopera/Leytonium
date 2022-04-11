@@ -21,7 +21,7 @@ from aridity.config import ConfigCtrl
 from email import message_from_bytes
 from itertools import islice
 from unidecode import unidecode
-import logging, os, re
+import logging, re
 
 log = logging.getLogger(__name__)
 number = re.compile(b'[0-9]+')
