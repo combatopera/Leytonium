@@ -34,3 +34,4 @@ regex
         (?i)YOU.HAVE.BEEN.PAID
         (?i)unsubscribe.request|southwest.reward|concealed.carry
         (?i)been.trying.to.(?:contact|reach).you
+verbose = $(cli v)

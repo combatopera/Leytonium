@@ -80,7 +80,9 @@ def main_spamtrash():
     config = ConfigCtrl().loadappconfig(main_spamtrash, 'spamtrash.arid', encoding = 'utf-8')
     parser = ArgumentParser()
     parser.add_argument('--cron', action = 'store_true')
+    parser.add_argument('-v', action = 'store_true')
     parser.parse_args(namespace = config.cli)
+    logging.getLogger().setLevel(logging.DEBUG if config.verbose else logging.INFO)
     regex = Regex(config)
     with config.imap(config.host) as imap:
         with config.password as password:
