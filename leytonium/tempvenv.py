@@ -17,10 +17,10 @@
 
 from . import initlogging
 from argparse import ArgumentParser
-from lagoon import python3
 from lagoon.program import Program
 from pathlib import Path
-from tempfile import TemporaryDirectory
+from pyven.minivenv import Pool
+from pyven.pipify import SimpleInstallDeps
 import logging, os
 
 log = logging.getLogger(__name__)
@@ -30,17 +30,7 @@ def main_tempvenv():
     'Activate a temporary venv.'
     initlogging()
     parser = ArgumentParser()
-    parser.add_argument('-w', action = 'store_true', help = 'enable bdist_wheel command')
     parser.add_argument('reqs', nargs = '*')
     args = parser.parse_args()
-    with TemporaryDirectory() as venvdir:
-        venvdir = Path(venvdir)
-        log.info("Create venv: %s", venvdir)
-        python3._m.venv[print](venvdir) # Must use host executable to get pip apparently.
-        pipinstall = Program.text(venvdir / 'bin' / 'pip').install[print]
-        pipinstall('pip==21.0.1')
-        if args.w:
-            pipinstall('wheel==0.36.2')
-        if args.reqs:
-            pipinstall(*args.reqs)
-        Program.text(shellpath)._c[print]('. "$1" && exec "$2"', '-c', venvdir / 'bin' / 'activate', shellpath)
+    with Pool(3).readwrite(SimpleInstallDeps(args.reqs)) as venv:
+        Program.text(shellpath)._c[print]('. "$1" && exec "$2"', '-c', Path(venv.venvpath, 'bin', 'activate'), shellpath)
