@@ -20,14 +20,14 @@ from argparse import ArgumentParser
 from lagoon.program import Program
 from pathlib import Path
 from pyven.pipify import SimpleInstallDeps
-from pyven.runscript import Pool
+from venvpool import Pool
 import logging, os
 
 log = logging.getLogger(__name__)
 shellpath = os.environ['SHELL']
 
 def main_tempvenv():
-    'Activate a temporary venv.'
+    'Activate a writable venv from the pool with the given requires.'
     initlogging()
     parser = ArgumentParser()
     parser.add_argument('reqs', nargs = '*')

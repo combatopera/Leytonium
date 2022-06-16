@@ -236,7 +236,7 @@ Show tree with 1 level of hidden files.
 Play a sound when a long-running child of shell terminates.
 
 ### tempvenv
-Activate a temporary venv.
+Activate a writable venv from the pool with the given requires.
 
 ### touchb
 Give the current branch its own identity.
