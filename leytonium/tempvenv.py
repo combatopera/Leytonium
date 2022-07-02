@@ -20,7 +20,7 @@ from argparse import ArgumentParser
 from lagoon.program import Program
 from pathlib import Path
 from venvpool import Pool, SimpleInstallDeps
-import logging, os
+import logging, os, sys
 
 log = logging.getLogger(__name__)
 shellpath = os.environ['SHELL']
@@ -29,7 +29,8 @@ def main_tempvenv():
     'Activate a writable venv from the pool with the given requires.'
     initlogging()
     parser = ArgumentParser()
+    parser.add_argument('-p', type = int, default = sys.version_info.major)
     parser.add_argument('reqs', nargs = '*')
     args = parser.parse_args()
-    with Pool(3).readwrite(SimpleInstallDeps(args.reqs)) as venv:
+    with Pool(args.p).readwrite(SimpleInstallDeps(args.reqs)) as venv:
         Program.text(shellpath)._c[print]('. "$1" && exec "$2"', '-c', Path(venv.venvpath, 'bin', 'activate'), shellpath)
