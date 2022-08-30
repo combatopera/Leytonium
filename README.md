@@ -100,6 +100,9 @@ Rebase on the given branch with completion, or parent with confirmation.
 ### examine
 Open a shell in a throwaway container of the given image.
 
+### extractaudio
+Extract the audio from the given video files.
+
 ### fetchall
 Fetch all remotes of projects in directory.
 
