@@ -108,3 +108,6 @@ def main_stacks():
             stacks.load(f)
         stackslist.append(stacks)
     compare(stackslist)
+
+if '__main__' == __name__:
+    main_stacks()

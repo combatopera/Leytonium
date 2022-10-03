@@ -145,3 +145,6 @@ def main_resimp():
     for path in git.diff.__name_only('--diff-filter=U').splitlines():
         for task in resimp, resadj:
             task(path)
+
+if '__main__' == __name__:
+    main_resimp()

@@ -30,3 +30,6 @@ def main_show():
         saved = savedcommits()
         commit = saved[len(saved) - 1 + n]
     git.show[exec](commit)
+
+if '__main__' == __name__:
+    main_show()

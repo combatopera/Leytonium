@@ -65,3 +65,6 @@ def main_awslogs():
             if token and t == token[1]: # Looks like first page can never be final page.
                 break
             token = ['--next-token', t]
+
+if '__main__' == __name__:
+    main_awslogs()

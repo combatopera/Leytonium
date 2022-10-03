@@ -22,3 +22,6 @@ def main_ci():
     'Commit with the given args as message.'
     message = ' '.join(args())
     git.commit._m[print](message)
+
+if '__main__' == __name__:
+    main_ci()

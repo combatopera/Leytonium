@@ -22,3 +22,6 @@ def main_abandon():
     git.status[print]()
     input('Press enter to permanently lose all these changes.')
     git.reset.__hard[print]()
+
+if '__main__' == __name__:
+    main_abandon()

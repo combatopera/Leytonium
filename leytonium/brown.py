@@ -39,3 +39,6 @@ def brown(cols, paths):
                 yield m.group(1)
     sed._ni[print](r'/\S/p', *paths())
     command._i[print]()
+
+if '__main__' == __name__:
+    main_brown()

@@ -106,3 +106,6 @@ def main_hgcommit():
         command.pushorclone(dest)
     else:
         log.error("Bad path: %s", dest.clonespath)
+
+if '__main__' == __name__:
+    main_hgcommit()

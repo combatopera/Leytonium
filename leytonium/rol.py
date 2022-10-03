@@ -30,3 +30,6 @@ def main_rol():
     else:
         i = 0
     savecommits(v[:i] + v[i + 1:] + [v[i]], True)
+
+if '__main__' == __name__:
+    main_rol()

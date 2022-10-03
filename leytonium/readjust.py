@@ -22,3 +22,6 @@ def main_readjust():
     sudo[print].service.ntp.stop()
     sudo[print].ntpd._gq()
     sudo[print].service.ntp.start()
+
+if '__main__' == __name__:
+    main_readjust()

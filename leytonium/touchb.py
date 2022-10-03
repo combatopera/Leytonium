@@ -26,3 +26,6 @@ def main_touchb():
         print(f"{time.strftime('%c %Z')} {thisbranch()}", file = f)
     git.add[print](path)
     git.commit._m[print](touchmsg())
+
+if '__main__' == __name__:
+    main_touchb()

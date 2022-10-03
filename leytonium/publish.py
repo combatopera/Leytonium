@@ -22,3 +22,6 @@ from lagoon.program import ONELINE
 def main_publish():
     'Publish this branch, accepts push options.'
     git.push._u[print](git.config.__get[ONELINE](f"branch.{pb()}.remote"), thisbranch(), *args())
+
+if '__main__' == __name__:
+    main_publish()

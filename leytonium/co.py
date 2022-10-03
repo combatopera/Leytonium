@@ -25,3 +25,6 @@ def main_co():
     git.checkout[print](name)
     if new:
         addparents(name, getpublic())
+
+if '__main__' == __name__:
+    main_co()

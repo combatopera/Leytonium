@@ -27,3 +27,6 @@ def main_setparent():
         if newparent is None:
             raise Exception('Please specify a branch to be parent.')
     addparents(thisbranch(), newparent, clobber = True)
+
+if '__main__' == __name__:
+    main_setparent()

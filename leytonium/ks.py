@@ -28,3 +28,6 @@ def main_ks():
     master, ks = 'master', 'kitchen-sink'
     git.checkout._b[print](ks, master)
     addparents(ks, master, 'controversial/*', f"public/{githubuser()}-*")
+
+if '__main__' == __name__:
+    main_ks()

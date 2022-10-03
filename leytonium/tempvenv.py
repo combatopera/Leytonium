@@ -34,3 +34,6 @@ def main_tempvenv():
     args = parser.parse_args()
     with Pool(args.p).readwrite(SimpleInstallDeps(args.reqs)) as venv:
         Program.text(shellpath)._c[print]('. "$1" && exec "$2"', '-c', Path(venv.venvpath, 'bin', 'activate'), shellpath)
+
+if '__main__' == __name__:
+    main_tempvenv()

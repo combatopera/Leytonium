@@ -24,3 +24,6 @@ def main_br():
     name = '-'.join(args())
     git.checkout._b[print](name, base)
     addparents(name, base)
+
+if '__main__' == __name__:
+    main_br()

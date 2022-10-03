@@ -37,3 +37,6 @@ def main_isotime():
     repl = Repl(ConfigCtrl().loadappconfig(main_isotime, 'common.arid'))
     for line in sys.stdin:
         sys.stdout.write(pattern.sub(repl, line))
+
+if '__main__' == __name__:
+    main_isotime()

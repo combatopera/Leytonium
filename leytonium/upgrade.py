@@ -43,3 +43,6 @@ def main_upgrade():
     touchpath.write_text('')
     log.info('Containers still up:')
     docker.ps[print]()
+
+if '__main__' == __name__:
+    main_upgrade()

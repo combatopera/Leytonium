@@ -78,3 +78,6 @@ def main_taskding():
     parser.add_argument('shpidstr')
     parser.parse_args(namespace = config)
     TaskDing(config).run()
+
+if '__main__' == __name__:
+    main_taskding()

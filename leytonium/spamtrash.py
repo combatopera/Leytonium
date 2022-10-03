@@ -113,3 +113,6 @@ def main_spamtrash():
             imap.store(','.join(deleteids), '+X-GM-LABELS', r'\Trash')
         else:
             log.info('Nothing to delete.')
+
+if '__main__' == __name__:
+    main_spamtrash()

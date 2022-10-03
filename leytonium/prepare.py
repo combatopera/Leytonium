@@ -31,3 +31,6 @@ def main_prepare():
     git.checkout._b[print](name, master)
     addparents(name, master)
     git.cherry_pick[print](*commits)
+
+if '__main__' == __name__:
+    main_prepare()

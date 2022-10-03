@@ -53,3 +53,6 @@ def main_halp():
     format = "%%-%ss %%s" % max(len(halp[0]) for halp in halps)
     for halp in sorted(halps):
         print(format % halp)
+
+if '__main__' == __name__:
+    main_halp()

@@ -38,3 +38,6 @@ def main_extractaudio():
         if args.d:
             log.info("Delete: %s", inpath)
             inpath.unlink()
+
+if '__main__' == __name__:
+    main_extractaudio()

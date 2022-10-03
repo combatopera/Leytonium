@@ -27,3 +27,6 @@ def main_ren():
     target = os.path.join(d, thisbranch())
     os.makedirs(os.path.dirname(target), exist_ok = True)
     os.rename(os.path.join(d, fromname), target)
+
+if '__main__' == __name__:
+    main_ren()

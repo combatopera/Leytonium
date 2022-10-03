@@ -58,3 +58,6 @@ def main_splitpkgs():
             print(package)
             for m in modules:
                 print(f"\t{m}")
+
+if '__main__' == __name__:
+    main_splitpkgs()

@@ -75,3 +75,6 @@ def main_st():
         showexception()
     git.status._v[print](check = False)
     git.stash.list[print]()
+
+if '__main__' == __name__:
+    main_st()

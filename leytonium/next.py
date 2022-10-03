@@ -37,3 +37,6 @@ def main_next():
         git[print].cherry_pick.__continue()
     else:
         raise Exception('Unknown git workflow, giving up.')
+
+if '__main__' == __name__:
+    main_next()

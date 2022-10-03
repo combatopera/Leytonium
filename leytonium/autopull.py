@@ -25,3 +25,6 @@ def main_autopull():
             git.checkout[print](b)
             git.pull[print]()
     nicely(pullthem)
+
+if '__main__' == __name__:
+    main_autopull()

@@ -102,3 +102,6 @@ def main_multimerge():
     'Merge master into all PRs and carrion.'
     os.chdir(findproject()) # Don't fail if working directory doesn't exist in some branch.
     nicely(multimerge)
+
+if '__main__' == __name__:
+    main_multimerge()

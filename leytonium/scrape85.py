@@ -30,3 +30,6 @@ def main_scrape85():
         print(i)
         with open(f"{i}.png", 'wb') as g:
             g.write(base64.a85decode(image))
+
+if '__main__' == __name__:
+    main_scrape85()

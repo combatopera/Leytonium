@@ -38,3 +38,6 @@ def main_watchdesk():
                     log.exception('No such path:')
                 else:
                     gsettings.set[print]('org.gnome.desktop.background', 'picture-uri', Path(path).as_uri())
+
+if '__main__' == __name__:
+    main_watchdesk()

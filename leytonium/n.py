@@ -26,3 +26,6 @@ def main_n():
             break
     co[print](b)
     st[exec]()
+
+if '__main__' == __name__:
+    main_n()
