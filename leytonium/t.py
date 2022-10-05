@@ -68,3 +68,6 @@ def main_vunzip():
 def main_t():
     'Show tree with 1 level of hidden files.'
     delegate('t.bash')
+
+if '__main__' == __name__:
+    main_t()
