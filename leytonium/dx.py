@@ -48,3 +48,6 @@ def main_dxx():
         stderr(f"Parent branch: {parent}")
         commits = parent,
     git.diff._M25.__name_status[exec](*commits)
+
+if '__main__' == __name__:
+    main_dx()
