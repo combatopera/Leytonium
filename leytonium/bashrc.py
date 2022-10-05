@@ -47,3 +47,6 @@ def main_bashrc():
     sys.stdout.write(f""". {shlex.quote(str(_git_completion_path()))}
 PS1={shlex.quote(_insertshlvl(*sys.argv[1:]))}
 """)
+
+if '__main__' == __name__:
+    main_bashrc()
