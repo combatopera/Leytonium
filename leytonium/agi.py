@@ -33,3 +33,6 @@ def main_agil():
     else:
         args = []
     Program.text(editor)[exec](*args, *ag._wsl(*search, findproject()).splitlines())
+
+if '__main__' == __name__:
+    main_agi()
