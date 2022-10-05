@@ -38,6 +38,7 @@
 # 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 from .girepo import Gdk, GdkPixbuf, GObject, Gtk, Pango
+from .main import main_diffuse
 from .preferences import Preferences
 from .ui import createMenu, EncodingMenu, MessageDialog
 from .util import APP_NAME, bin_dir, Format, isWindows, lang, logDebug, Mode, readlines, splitlines, VERSION, WEBSITE
@@ -1786,3 +1787,6 @@ class Diffuse(Gtk.Window):
         dialog = AboutDialog(self.copyright)
         dialog.run()
         dialog.destroy()
+
+if '__main__' == __name__:
+    main_diffuse()
