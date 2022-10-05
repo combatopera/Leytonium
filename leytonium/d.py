@@ -71,3 +71,6 @@ def main_dup():
 def main_scrub():
     'Remove all untracked items, including the git-ignored.'
     git.clean._xdi[print]('-e', infodirname, cwd = findproject())
+
+if '__main__' == __name__:
+    main_d()
