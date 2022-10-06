@@ -28,7 +28,7 @@ from pyven.projectinfo import ProjectInfo
 import glob, logging, os, re, shlex, sys
 
 log = logging.getLogger(__name__)
-shellfunction = Program.text(os.environ['SHELL'])._c
+shellfunction = Program.text(os.environ['SHELL'])._ic
 co = shellfunction.co
 hgcommit = shellfunction.hgcommit
 trunknames = {'main', 'master', 'trunk'}
