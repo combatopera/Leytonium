@@ -209,3 +209,6 @@ def main_pullall():
 def main_pushall():
     'Push (using hgcommit) all branches of projects in directory.'
     main('push')
+
+if '__main__' == __name__:
+    main_stmulti()
