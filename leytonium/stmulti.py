@@ -22,7 +22,7 @@ try:
     from lagoon import gfind as find
 except ImportError:
     from lagoon import find
-from lagoon.program import ONELINE, partial, Program
+from lagoon.program import ONELINE, Program
 from pathlib import Path
 from pyven.projectinfo import ProjectInfo
 import glob, logging, os, re, shlex, sys
