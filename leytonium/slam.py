@@ -55,3 +55,6 @@ def main_unslam():
     stderr(f"Command: git {' '.join(command.args)}")
     os.remove(path)
     command[exec]()
+
+if '__main__' == __name__:
+    main_slam()
