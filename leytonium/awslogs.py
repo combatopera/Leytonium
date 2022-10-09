@@ -19,7 +19,7 @@ from lagoon.binary import bash, date
 from lagoon.program import partial
 import argparse, json
 
-logs = bash._ic[partial]('aws logs "$@"', 'logs')
+logs = bash._ic[partial]('aws logs "$@"', 'logs') # TODO: Do not use interactive mode.
 tskey = 'lastIngestionTime'
 
 def _shorten(line, radius = 250):

@@ -27,6 +27,7 @@ def main_shove():
     tag = spec[colon + 1:]
     if pattern.fullmatch(tag) is None:
         raise Exception('REFUSAL!')
+    # TODO: Do not use interactive mode.
     subprocess.check_call(['bash', '-ic', 'aws ecr batch-delete-image --repository-name "$1" --image-ids "$2"', 'ecr', spec[slash + 1:colon], f"imageTag={tag}"])
     subprocess.check_call(['docker', 'push', spec])
 
