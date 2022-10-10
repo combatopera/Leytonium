@@ -19,6 +19,7 @@ from . import st
 from .brown import main_brown, brown
 from .common import findproject
 from aridity.config import ConfigCtrl
+from aridity.util import dotpy
 from lagoon import git
 from pathlib import Path
 
@@ -28,7 +29,7 @@ def main_gt():
     projectdir = Path(findproject()).resolve()
     paths = [projectdir / line[line.index("'") + 1:-1] for line in git.add._n(projectdir).splitlines()]
     if projectdir.name in config.formattedprojects:
-        toformat = [path for path in paths if path.exists() and path.name.endswith('.py')]
+        toformat = [path for path in paths if path.exists() and path.name.endswith(dotpy)]
         if toformat:
             brown(config.cols, toformat)
     git.add[print](*paths)
