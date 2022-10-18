@@ -15,15 +15,15 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Create given branch with completion and dashes, show menu for parent.'
 from .common import addparents, args, AllBranches, menu
 from lagoon import git
 
-def main_br():
-    'Create given branch with completion and dashes, show menu for parent.'
+def main():
     _, base = menu([[n, ''] for n in AllBranches().names], 'From')
     name = '-'.join(args())
     git.checkout._b[print](name, base)
     addparents(name, base)
 
 if '__main__' == __name__:
-    main_br()
+    main()

@@ -15,13 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Commit with the given args as message.'
 from .common import args
 from lagoon import git
 
-def main_ci():
-    'Commit with the given args as message.'
+def main():
     message = ' '.join(args())
     git.commit._m[print](message)
 
 if '__main__' == __name__:
-    main_ci()
+    main()

@@ -15,15 +15,15 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Satisfy PEP 8 with minimal impact.'
 from .common import findproject
 from aridity.config import ConfigCtrl
 from lagoon import autopep8, sed
 from lagoon.program import partial
 import re, subprocess, sys
 
-def main_brown():
-    'Satisfy PEP 8 with minimal impact.'
-    config = ConfigCtrl().loadappconfig(main_brown, 'common.arid')
+def main():
+    config = ConfigCtrl().loadappconfig(main, 'common.arid')
     roots = sys.argv[1:]
     if not roots:
         roots = [findproject()]
@@ -41,4 +41,4 @@ def brown(cols, paths):
     command._i[print]()
 
 if '__main__' == __name__:
-    main_brown()
+    main()

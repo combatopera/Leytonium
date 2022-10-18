@@ -16,7 +16,7 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 from . import st
-from .brown import main_brown, brown
+from .brown import main as brownmain, brown
 from .common import findproject
 from aridity.config import ConfigCtrl
 from aridity.util import dotpy
@@ -25,7 +25,7 @@ from pathlib import Path
 
 def main_gt():
     'Stage all outgoing changes and show them.'
-    config = (-ConfigCtrl().loadappconfig(main_brown, 'common.arid')).reapplysettings(main_gt)
+    config = (-ConfigCtrl().loadappconfig(brownmain, 'common.arid')).reapplysettings(main_gt)
     projectdir = Path(findproject()).resolve()
     paths = [projectdir / line[line.index("'") + 1:-1] for line in git.add._n(projectdir).splitlines()]
     if projectdir.name in config.formattedprojects:
