@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Show local changes.'
 from . import st
 from .common import args, findproject, infodirname, pb, savedcommits
 from itertools import islice
@@ -30,8 +31,7 @@ def main_pb():
     'Find parent branch.'
     print(pb())
 
-def main_d():
-    'Show local changes.'
+def main():
     clear[print]()
     git.diff[print]()
 
@@ -73,4 +73,4 @@ def main_scrub():
     git.clean._xdi[print]('-e', infodirname, cwd = findproject())
 
 if '__main__' == __name__:
-    main_d()
+    main()

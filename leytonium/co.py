@@ -15,11 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Switch to the given branch, with completion.'
 from .common import args, AllBranches, addparents, getpublic
 from lagoon import git
 
-def main_co():
-    'Switch to the given branch, with completion.'
+def main():
     name, = args()
     new = name not in AllBranches().names
     git.checkout[print](name)
@@ -27,4 +27,4 @@ def main_co():
         addparents(name, getpublic())
 
 if '__main__' == __name__:
-    main_co()
+    main()
