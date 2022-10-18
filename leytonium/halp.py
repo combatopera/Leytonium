@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'''You're looking at it!'''
 from . import initlogging
 from aridity.config import ConfigCtrl
 from importlib import import_module
@@ -23,10 +24,9 @@ import logging
 
 log = logging.getLogger(__name__)
 
-def main_halp():
-    '''You're looking at it!'''
+def main():
     initlogging()
-    config = ConfigCtrl().loadappconfig(main_halp, 'halp.arid')
+    config = ConfigCtrl().loadappconfig(main, 'halp.arid')
     ignore_projects = set(config.ignore.projects)
     projects = set(config.projects)
     others = set()
@@ -55,4 +55,4 @@ def main_halp():
         print(format % halp)
 
 if '__main__' == __name__:
-    main_halp()
+    main()

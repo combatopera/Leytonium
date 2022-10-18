@@ -15,13 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Set system clock to correct time.'
 from lagoon import sudo
 
-def main_readjust():
-    'Set system clock to correct time.'
+def main():
     sudo[print].service.ntp.stop()
     sudo[print].ntpd._gq()
     sudo[print].service.ntp.start()
 
 if '__main__' == __name__:
-    main_readjust()
+    main()

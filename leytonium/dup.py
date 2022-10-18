@@ -23,7 +23,7 @@ from lagoon import git
 def main():
     git.cherry_pick.__no_commit[print](savedcommits()[-1])
     git.reset[print]()
-    st.main_st()
+    st.main()
 
 if '__main__' == __name__:
     main()

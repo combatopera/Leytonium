@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Show packages that exist in more than one module.'
 import os
 
 def relativise(context, path):
@@ -23,8 +24,7 @@ def relativise(context, path):
     else:
         return path[len(context + os.sep):].split(os.sep)
 
-def main_splitpkgs():
-    'Show packages that exist in more than one module.'
+def main():
     packagetomodules = {}
     def register(module, package):
         try:
@@ -60,4 +60,4 @@ def main_splitpkgs():
                 print(f"\t{m}")
 
 if '__main__' == __name__:
-    main_splitpkgs()
+    main()

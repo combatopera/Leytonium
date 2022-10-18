@@ -15,12 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Update a latest tag in ECR with the given image.'
 import sys, subprocess, re
 
 pattern = re.compile('latest|.+[.]latest')
 
-def main_shove():
-    'Update a latest tag in ECR with the given image.'
+def main():
     spec, = sys.argv[1:]
     slash = spec.index('/')
     colon = spec.rindex(':')
@@ -32,4 +32,4 @@ def main_shove():
     subprocess.check_call(['docker', 'push', spec])
 
 if '__main__' == __name__:
-    main_shove()
+    main()

@@ -33,7 +33,7 @@ def main_gt():
         if toformat:
             brown(config.cols, toformat)
     git.add[print](*paths)
-    st.main_st()
+    st.main()
 
 if '__main__' == __name__:
     main_gt()

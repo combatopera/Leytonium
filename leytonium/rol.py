@@ -15,10 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Move given slammed commit (default top) to the bottom.'
 from .common import savedcommits, savecommits, args as getargs
 
-def main_rol():
-    'Move given slammed commit (default top) to the bottom.'
+def main():
     v = savedcommits()
     args = getargs()
     if args:
@@ -32,4 +32,4 @@ def main_rol():
     savecommits(v[:i] + v[i + 1:] + [v[i]], True)
 
 if '__main__' == __name__:
-    main_rol()
+    main()

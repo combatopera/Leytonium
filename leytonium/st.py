@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Show list of branches and outgoing changes.'
 from .common import showmenu, UnknownParentException, showexception, stripansi, getpublic, savedcommits, AllBranches, highlight
 from lagoon import clear, git
 try:
@@ -51,8 +52,7 @@ class Row:
 def title(commit):
     return git.log('-n', 1, '--pretty=format:%B', commit).splitlines()[0]
 
-def main_st():
-    'Show list of branches and outgoing changes.'
+def main():
     clear[print]()
     try:
         allbranches = AllBranches()
@@ -77,4 +77,4 @@ def main_st():
     git.stash.list[print]()
 
 if '__main__' == __name__:
-    main_st()
+    main()
