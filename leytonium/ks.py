@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Create a kitchen-sink branch.'
 from .common import addparents
 from lagoon import git
 import os, re
@@ -23,11 +24,10 @@ def githubuser():
     with open(os.path.join(os.path.expanduser('~'), '.git-credentials')) as f:
         return re.search('//([^:]+):.*github', f.read()).group(1)
 
-def main_ks():
-    'Create a kitchen-sink branch.'
+def main():
     master, ks = 'master', 'kitchen-sink'
     git.checkout._b[print](ks, master)
     addparents(ks, master, 'controversial/*', f"public/{githubuser()}-*")
 
 if '__main__' == __name__:
-    main_ks()
+    main()

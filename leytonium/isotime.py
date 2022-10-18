@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Filter UNIX timestamps to human-readable form.'
 from aridity.config import ConfigCtrl
 from datetime import datetime
 import pytz, re, sys
@@ -32,11 +33,10 @@ class Repl:
         dt = datetime.utcfromtimestamp(t).replace(tzinfo = pytz.utc).astimezone(self.tz)
         return f"{dt.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3]}{dt.strftime('%z')}"
 
-def main_isotime():
-    'Filter UNIX timestamps to human-readable form.'
-    repl = Repl(ConfigCtrl().loadappconfig(main_isotime, 'common.arid'))
+def main():
+    repl = Repl(ConfigCtrl().loadappconfig(main, 'common.arid'))
     for line in sys.stdin:
         sys.stdout.write(pattern.sub(repl, line))
 
 if '__main__' == __name__:
-    main_isotime()
+    main()
