@@ -15,11 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Pull master and releases with automatic stash and switch.'
 from .common import nicely, publicbranches
 from lagoon import git
 
-def main_autopull():
-    'Pull master and releases with automatic stash and switch.'
+def main():
     def pullthem():
         for b in publicbranches():
             git.checkout[print](b)
@@ -27,4 +27,4 @@ def main_autopull():
     nicely(pullthem)
 
 if '__main__' == __name__:
-    main_autopull()
+    main()

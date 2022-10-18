@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Reconstruct logs from AWS CloudWatch.'
 from lagoon.binary import bash, date
 from lagoon.program import partial
 import argparse, json
@@ -40,8 +41,7 @@ def streamnames(group, starttime):
     names.reverse()
     return names
 
-def main_awslogs():
-    'Reconstruct logs from AWS CloudWatch.'
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--no-trunc', action='store_true')
     parser.add_argument('--ago', default='1 hour')
@@ -67,4 +67,4 @@ def main_awslogs():
             token = ['--next-token', t]
 
 if '__main__' == __name__:
-    main_awslogs()
+    main()

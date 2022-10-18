@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'To eval in your .bashrc file.'
 from pathlib import Path
 import shlex, sys
 
@@ -42,11 +43,10 @@ def _insertshlvl(ps1, shlvl):
     tally = '"' * (n // 2) + ("'" if n % 2 else '')
     return f"{ps1[:colon]}{tally}{ps1[colon + 1:]}"
 
-def main_bashrc():
-    'To eval in your .bashrc file.'
+def main():
     sys.stdout.write(f""". {shlex.quote(str(_git_completion_path()))}
 PS1={shlex.quote(_insertshlvl(*sys.argv[1:]))}
 """)
 
 if '__main__' == __name__:
-    main_bashrc()
+    main()
