@@ -52,8 +52,7 @@ def make_subdirs(p, ss):
                 pass
     return p
 
-def main_diffuse():
-    'Compare an arbitrary number of text files.'
+def main():
     from .diffuse import Diffuse
     from .girepo import GObject, Gtk
     from .resources import Resources
