@@ -15,7 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .t import main_fixemails
+'Replace author and committer emails of repo user in history.'
+from .delegate import delegate
+
+def main():
+    delegate('fixemails.bash')
 
 if '__main__' == __name__:
-    main_fixemails()
+    main()

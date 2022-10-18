@@ -15,7 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .t import main_reks
+'Rebase on a new kitchen-sink branch.'
+from .delegate import delegate
+
+def main():
+    delegate('reks.bash')
 
 if '__main__' == __name__:
-    main_reks()
+    main()

@@ -15,7 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .t import main_eb
+'Rebase on the given branch with completion, or parent with confirmation.'
+from .delegate import delegate
+
+def main():
+    delegate('eb.bash')
 
 if '__main__' == __name__:
-    main_eb()
+    main()

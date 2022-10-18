@@ -18,18 +18,6 @@
 'Show tree with 1 level of hidden files.'
 from .delegate import delegate
 
-def main_reks():
-    'Rebase on a new kitchen-sink branch.'
-    delegate('reks.bash')
-
-def main_eb():
-    'Rebase on the given branch with completion, or parent with confirmation.'
-    delegate('eb.bash')
-
-def main_fixemails():
-    'Replace author and committer emails of repo user in history.'
-    delegate('fixemails.bash')
-
 def main_mdview():
     'Render Markdown file in browser.'
     delegate('mdview.bash')
