@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Different background for each desktop.'
 from aridity.config import ConfigCtrl
 from lagoon import gsettings, xprop
 from lagoon.program import bg
@@ -24,9 +25,8 @@ import logging, re
 log = logging.getLogger(__name__)
 number = re.compile('[0-9]+')
 
-def main_watchdesk():
-    'Different background for each desktop.'
-    config = ConfigCtrl().loadappconfig(main_watchdesk, 'watchdesk.arid').path
+def main():
+    config = ConfigCtrl().loadappconfig(main, 'watchdesk.arid').path
     with xprop._root._spy[bg]('_NET_CURRENT_DESKTOP') as f:
         for line in f:
             m = number.search(line)
@@ -40,4 +40,4 @@ def main_watchdesk():
                     gsettings.set[print]('org.gnome.desktop.background', 'picture-uri', Path(path).as_uri())
 
 if '__main__' == __name__:
-    main_watchdesk()
+    main()

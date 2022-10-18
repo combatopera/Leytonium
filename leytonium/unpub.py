@@ -15,13 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Unpublish this branch.'
 from .common import thisbranch
 from lagoon import git
 
-def main_unpub():
-    'Unpublish this branch.'
+def main():
     git.push.origin.__delete[print](thisbranch(), check = False) # Idempotent.
     git.branch.__unset_upstream[exec]()
 
 if '__main__' == __name__:
-    main_unpub()
+    main()

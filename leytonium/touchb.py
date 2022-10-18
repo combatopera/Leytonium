@@ -15,12 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Give the current branch its own identity.'
 from .common import touchmsg, findproject, thisbranch
 from lagoon import git
 import os, time
 
-def main_touchb():
-    'Give the current branch its own identity.'
+def main():
     path = os.path.join(findproject(), 'TOUCHME')
     with open(path, 'w') as f:
         print(f"{time.strftime('%c %Z')} {thisbranch()}", file = f)
@@ -28,4 +28,4 @@ def main_touchb():
     git.commit._m[print](touchmsg())
 
 if '__main__' == __name__:
-    main_touchb()
+    main()

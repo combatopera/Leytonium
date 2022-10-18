@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Upgrade the system and silence the nag.'
 from . import initlogging
 from argparse import ArgumentParser
 from lagoon import docker, sudo
@@ -24,8 +25,7 @@ import logging
 log = logging.getLogger(__name__)
 boot = Path('/boot')
 
-def main_upgrade():
-    'Upgrade the system and silence the nag.'
+def main():
     initlogging()
     parser = ArgumentParser()
     parser.add_argument('-k', action = 'store_true', help = 'first remove all kernels except old and current')
@@ -45,4 +45,4 @@ def main_upgrade():
     docker.ps[print]()
 
 if '__main__' == __name__:
-    main_upgrade()
+    main()
