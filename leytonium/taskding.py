@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Play a sound when a long-running child of shell terminates.'
 from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
 from diapyr.util import innerclass
@@ -69,15 +70,14 @@ class TaskDing:
                     children[pid] = child
             time.sleep(self.sleep_time) # FIXME LATER: I suspect keyboard interrupt can kill script when not asleep.
 
-def main_taskding():
-    'Play a sound when a long-running child of shell terminates.'
+def main():
     if 'SSH_CLIENT' in os.environ:
         return
-    config = ConfigCtrl().loadappconfig(main_taskding, 'taskding.arid')
+    config = ConfigCtrl().loadappconfig(main, 'taskding.arid')
     parser = ArgumentParser()
     parser.add_argument('shpidstr')
     parser.parse_args(namespace = config)
     TaskDing(config).run()
 
 if '__main__' == __name__:
-    main_taskding()
+    main()
