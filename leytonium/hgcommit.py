@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Commit hook to push to central clone of repo on local network.'
 from . import effectivehome, initlogging
 from .stmulti import loadconfig, trunknames
 from diapyr.util import singleton
@@ -92,8 +93,7 @@ class Rsync:
         rsync[print](*lhs, '--dry-run', *rhs)
         print(f"(cd {Path.cwd()} && rsync {' '.join(lhs)} {' '.join(rhs)})")
 
-def main_hgcommit():
-    'Commit hook to push to central clone of repo on local network.'
+def main():
     initlogging()
     config = loadconfig()
     reldir = Path.cwd().relative_to(effectivehome)
@@ -108,4 +108,4 @@ def main_hgcommit():
         log.error("Bad path: %s", dest.clonespath)
 
 if '__main__' == __name__:
-    main_hgcommit()
+    main()

@@ -15,12 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Go to next step in current git workflow.'
 from lagoon import git
 from lagoon.program import NOEOL
 from pathlib import Path
 
-def main_next():
-    'Go to next step in current git workflow.'
+def main():
     gitdir = Path(git.rev_parse.__git_dir[NOEOL]())
     if (gitdir / 'rebase-apply').is_dir():
         if git.status.__porcelain().splitlines():
@@ -39,4 +39,4 @@ def main_next():
         raise Exception('Unknown git workflow, giving up.')
 
 if '__main__' == __name__:
-    main_next()
+    main()
