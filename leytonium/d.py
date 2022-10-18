@@ -23,21 +23,9 @@ from lagoon import clear, find, git
 from pathlib import Path
 import sys
 
-def main_showstash():
-    'Show stash as patch.'
-    git.stash.show._p[exec]()
-
-def main_pb():
-    'Find parent branch.'
-    print(pb())
-
 def main():
     clear[print]()
     git.diff[print]()
-
-def main_rdx():
-    'Run git rm on conflicted path, with completion.'
-    git.rm[exec](*sys.argv[1:])
 
 def main_rx():
     'Restore given file to parent branch version.'

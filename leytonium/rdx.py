@@ -15,7 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .d import main_rdx
+'Run git rm on conflicted path, with completion.'
+from lagoon import git
+import sys
+
+def main():
+    git.rm[exec](*sys.argv[1:])
 
 if '__main__' == __name__:
-    main_rdx()
+    main()

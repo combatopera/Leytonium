@@ -15,7 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .d import main_pb
+'Find parent branch.'
+from .common import pb
+
+def main():
+    print(pb())
 
 if '__main__' == __name__:
-    main_pb()
+    main()

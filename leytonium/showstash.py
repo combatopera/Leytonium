@@ -15,7 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .d import main_showstash
+'Show stash as patch.'
+from lagoon import git
+
+def main():
+    git.stash.show._p[exec]()
 
 if '__main__' == __name__:
-    main_showstash()
+    main()
