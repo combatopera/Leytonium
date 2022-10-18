@@ -15,7 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .t import main_vpn
+'Start openvpn in background.'
+from .delegate import delegate
+
+def main():
+    delegate('vpn.bash')
 
 if '__main__' == __name__:
-    main_vpn()
+    main()

@@ -18,18 +18,6 @@
 'Show tree with 1 level of hidden files.'
 from .delegate import delegate
 
-def main_mdview():
-    'Render Markdown file in browser.'
-    delegate('mdview.bash')
-
-def main_vpn():
-    'Start openvpn in background.'
-    delegate('vpn.bash')
-
-def main_vunzip():
-    'Extract a Docker volume.'
-    delegate('vunzip.bash')
-
 def main():
     delegate('t.bash')
 
