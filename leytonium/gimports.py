@@ -15,7 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .t import main_gimports
+'Stage all imports-only changes and show them.'
+from .delegate import delegate
+
+def main():
+    delegate('gimports.bash')
 
 if '__main__' == __name__:
-    main_gimports()
+    main()

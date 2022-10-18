@@ -15,7 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .t import main_examine
+'Open a shell in a throwaway container of the given image.'
+from .delegate import delegate
+
+def main():
+    delegate('examine.bash')
 
 if '__main__' == __name__:
-    main_examine()
+    main()
