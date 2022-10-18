@@ -15,7 +15,25 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .d import main_rd
+'Run git add on conflicted path(s), with completion.'
+from itertools import islice
+from lagoon import git
+from pathlib import Path
+import sys
+
+def main():
+    args = sys.argv[1:]
+    for i, a in enumerate(args):
+        if not a.startswith('-'):
+            break
+        if '--' == a:
+            i += 1
+            break
+    for p in map(Path, islice(args, i, None)):
+        with p.open() as f: # Effectively assert not directory.
+            for l in f:
+                assert '=======' != l.rstrip()
+    git.add[exec](*args)
 
 if '__main__' == __name__:
-    main_rd()
+    main()

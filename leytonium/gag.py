@@ -15,7 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .d import main_gag
+'Run ag on all build.gradle files.'
+from lagoon import find
+import sys
+
+def main():
+    find._name[exec]('build.gradle', '-exec', 'ag', *sys.argv[1:], '{}', '+')
 
 if '__main__' == __name__:
-    main_gag()
+    main()

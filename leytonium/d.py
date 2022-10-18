@@ -17,38 +17,12 @@
 
 'Show local changes.'
 from . import st
-from .common import args, findproject, infodirname, pb, savedcommits
-from itertools import islice
-from lagoon import clear, find, git
-from pathlib import Path
-import sys
+from .common import findproject, infodirname, savedcommits
+from lagoon import clear, git
 
 def main():
     clear[print]()
     git.diff[print]()
-
-def main_rx():
-    'Restore given file to parent branch version.'
-    git.checkout[print](pb(), *args())
-
-def main_gag():
-    'Run ag on all build.gradle files.'
-    find._name[exec]('build.gradle', '-exec', 'ag', *sys.argv[1:], '{}', '+')
-
-def main_rd():
-    'Run git add on conflicted path(s), with completion.'
-    args = sys.argv[1:]
-    for i, a in enumerate(args):
-        if not a.startswith('-'):
-            break
-        if '--' == a:
-            i += 1
-            break
-    for p in map(Path, islice(args, i, None)):
-        with p.open() as f: # Effectively assert not directory.
-            for l in f:
-                assert '=======' != l.rstrip()
-    git.add[exec](*args)
 
 def main_dup():
     'Apply the last slammed commit.'

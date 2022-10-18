@@ -15,7 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .d import main_rx
+'Restore given file to parent branch version.'
+from .common import args, pb
+from lagoon import git
+
+def main():
+    git.checkout[print](pb(), *args())
 
 if '__main__' == __name__:
-    main_rx()
+    main()
