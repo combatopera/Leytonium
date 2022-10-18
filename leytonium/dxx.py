@@ -15,7 +15,27 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .dx import main_dxx
+'Short diff from parent branch or of passed-in commit number.'
+from .common import AllBranches, pb, savedcommits, showmenu, stderr
+from lagoon import git
+import sys
+
+def main():
+    args = sys.argv[1:]
+    if args:
+        n, = args
+        n = int(n)
+        if n > 0:
+            commit = showmenu(AllBranches().branchcommits(), False)[n]
+        else:
+            saved = savedcommits()
+            commit = saved[len(saved) - 1 + n]
+        commits = f"{commit}^", commit
+    else:
+        parent = pb()
+        stderr(f"Parent branch: {parent}")
+        commits = parent,
+    git.diff._M25.__name_status[exec](*commits)
 
 if '__main__' == __name__:
-    main_dxx()
+    main()
