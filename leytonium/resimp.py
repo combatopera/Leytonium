@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Resolve conflicts in imports and adjacent-line conflicts.'
 from .common import stderr, findproject
 from lagoon import git
 import itertools, os, re
@@ -139,12 +140,11 @@ def resadj(path):
                 g.write(line)
         stderr(f"[{path}] Auto-resolved {resolved[0]} adjacent-line conflicts.")
 
-def main_resimp():
-    'Resolve conflicts in imports and adjacent-line conflicts.'
+def main():
     os.chdir(findproject()) # Paths below are relative to project root.
     for path in git.diff.__name_only('--diff-filter=U').splitlines():
         for task in resimp, resadj:
             task(path)
 
 if '__main__' == __name__:
-    main_resimp()
+    main()
