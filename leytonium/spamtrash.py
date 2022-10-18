@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Delete spam emails.'
 from . import initlogging
 from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
@@ -74,10 +75,9 @@ class Regex:
                     log.debug("Subject match: %s", subjectre)
                     return True
 
-def main_spamtrash():
-    'Delete spam emails.'
+def main():
     initlogging()
-    config = ConfigCtrl().loadappconfig(main_spamtrash, 'spamtrash.arid', encoding = 'utf-8')
+    config = ConfigCtrl().loadappconfig(main, 'spamtrash.arid', encoding = 'utf-8')
     parser = ArgumentParser()
     parser.add_argument('--cron', action = 'store_true')
     parser.add_argument('-v', action = 'store_true')
@@ -115,4 +115,4 @@ def main_spamtrash():
             log.info('Nothing to delete.')
 
 if '__main__' == __name__:
-    main_spamtrash()
+    main()

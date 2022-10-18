@@ -15,10 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Switch to the next branch and run st.'
 from lagoon import co, git, st
 
-def main_n():
-    'Switch to the next branch and run st.'
+def main():
     lines = git.branch().splitlines()
     for i, line in enumerate(lines):
         if line.startswith('*'):
@@ -28,4 +28,4 @@ def main_n():
     st[exec]()
 
 if '__main__' == __name__:
-    main_n()
+    main()

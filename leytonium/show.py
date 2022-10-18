@@ -15,12 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Show a commit that was listed by st.'
 from .common import showmenu, AllBranches, savedcommits
 from lagoon import git
 import sys
 
-def main_show():
-    'Show a commit that was listed by st.'
+def main():
     items = AllBranches().branchcommits()
     n, = sys.argv[1:]
     n = int(n)
@@ -32,4 +32,4 @@ def main_show():
     git.show[exec](commit)
 
 if '__main__' == __name__:
-    main_show()
+    main()

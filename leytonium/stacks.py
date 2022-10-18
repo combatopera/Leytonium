@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Compare stack traces across build logs.'
 import sys, tempfile, subprocess, re, datetime
 
 class Stack:
@@ -98,8 +99,7 @@ def compare(stackslist):
     for f in files:
         f.close()
 
-def main_stacks():
-    'Compare stack traces across build logs.'
+def main():
     paths = sys.argv[1:]
     stackslist = []
     for path in paths:
@@ -110,4 +110,4 @@ def main_stacks():
     compare(stackslist)
 
 if '__main__' == __name__:
-    main_stacks()
+    main()
