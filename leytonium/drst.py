@@ -15,7 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .t import main_drst
+'Show Docker assets.'
+from .delegate import delegate
+
+def main():
+    delegate('drclean.bash')
 
 if '__main__' == __name__:
-    main_drst()
+    main()

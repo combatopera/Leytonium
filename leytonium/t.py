@@ -15,19 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Show tree with 1 level of hidden files.'
 from .delegate import delegate
-
-def main_squash():
-    'Semi-interactively squash a most-recent chunk of commits.'
-    delegate('squash.bash')
-
-def main_drclean():
-    'Delete Docker assets.'
-    delegate('drclean.bash')
-
-def main_drst():
-    'Show Docker assets.'
-    delegate('drclean.bash')
 
 def main_examine():
     'Open a shell in a throwaway container of the given image.'
@@ -65,9 +54,8 @@ def main_vunzip():
     'Extract a Docker volume.'
     delegate('vunzip.bash')
 
-def main_t():
-    'Show tree with 1 level of hidden files.'
+def main():
     delegate('t.bash')
 
 if '__main__' == __name__:
-    main_t()
+    main()

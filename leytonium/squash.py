@@ -15,7 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .t import main_squash
+'Semi-interactively squash a most-recent chunk of commits.'
+from .delegate import delegate
+
+def main():
+    delegate('squash.bash')
 
 if '__main__' == __name__:
-    main_squash()
+    main()
