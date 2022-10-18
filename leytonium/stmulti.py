@@ -17,20 +17,17 @@
 
 from . import effectivehome
 from aridity.config import ConfigCtrl
-from lagoon import clear, git, hg, md5sum, rsync, test, tput
+from lagoon import clear, co, git, hg, hgcommit, md5sum, rsync, test, tput
 try:
     from lagoon import gfind as find
 except ImportError:
     from lagoon import find
-from lagoon.program import ONELINE, Program
+from lagoon.program import ONELINE
 from pathlib import Path
 from pyven.projectinfo import ProjectInfo
-import glob, logging, os, re, shlex, sys
+import glob, logging, re, shlex, sys
 
 log = logging.getLogger(__name__)
-shellfunction = Program.text(os.environ['SHELL'])._c
-co = shellfunction.co
-hgcommit = shellfunction.hgcommit
 trunknames = {'main', 'master', 'trunk'}
 
 def loadconfig():
