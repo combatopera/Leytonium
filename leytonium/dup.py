@@ -15,7 +15,15 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .d import main_dup
+'Apply the last slammed commit.'
+from . import st
+from .common import savedcommits
+from lagoon import git
+
+def main():
+    git.cherry_pick.__no_commit[print](savedcommits()[-1])
+    git.reset[print]()
+    st.main_st()
 
 if '__main__' == __name__:
-    main_dup()
+    main()

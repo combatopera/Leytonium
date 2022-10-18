@@ -16,23 +16,11 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Show local changes.'
-from . import st
-from .common import findproject, infodirname, savedcommits
 from lagoon import clear, git
 
 def main():
     clear[print]()
     git.diff[print]()
-
-def main_dup():
-    'Apply the last slammed commit.'
-    git.cherry_pick.__no_commit[print](savedcommits()[-1])
-    git.reset[print]()
-    st.main_st()
-
-def main_scrub():
-    'Remove all untracked items, including the git-ignored.'
-    git.clean._xdi[print]('-e', infodirname, cwd = findproject())
 
 if '__main__' == __name__:
     main()

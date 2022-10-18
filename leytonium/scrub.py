@@ -15,7 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .d import main_scrub
+'Remove all untracked items, including the git-ignored.'
+from .common import findproject, infodirname
+from lagoon import git
+
+def main():
+    git.clean._xdi[print]('-e', infodirname, cwd = findproject())
 
 if '__main__' == __name__:
-    main_scrub()
+    main()
