@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Extract the audio from the given video files.'
 from . import initlogging
 from argparse import ArgumentParser
 from lagoon import ffmpeg
@@ -24,8 +25,7 @@ import logging
 
 log = logging.getLogger(__name__)
 
-def main_extractaudio():
-    'Extract the audio from the given video files.'
+def main():
     initlogging()
     parser = ArgumentParser()
     parser.add_argument('-d', action = 'store_true')
@@ -40,4 +40,4 @@ def main_extractaudio():
             inpath.unlink()
 
 if '__main__' == __name__:
-    main_extractaudio()
+    main()
