@@ -15,13 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Publish this branch, accepts push options.'
 from .common import thisbranch, pb, args
 from lagoon import git
 from lagoon.program import ONELINE
 
-def main_publish():
-    'Publish this branch, accepts push options.'
+def main():
     git.push._u[print](git.config.__get[ONELINE](f"branch.{pb()}.remote"), thisbranch(), *args())
 
 if '__main__' == __name__:
-    main_publish()
+    main()

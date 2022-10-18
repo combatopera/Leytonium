@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Merge master into all PRs and carrion.'
 from .common import findproject, nicely, AllBranches, getpublic, stderr, touchmsg
 from lagoon import git, touchb
 import os
@@ -98,10 +99,9 @@ def multimerge():
             raise Exception(f"Still remain: {remaining}")
         remaining = remaining2
 
-def main_multimerge():
-    'Merge master into all PRs and carrion.'
+def main():
     os.chdir(findproject()) # Don't fail if working directory doesn't exist in some branch.
     nicely(multimerge)
 
 if '__main__' == __name__:
-    main_multimerge()
+    main()
