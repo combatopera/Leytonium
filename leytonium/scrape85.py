@@ -15,12 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Extract Adobe Ascii85-encoded images from given file.'
 import sys, re, base64, os
 
 pattern = re.compile('<~(.+?)~>', re.DOTALL)
 
-def main_scrape85():
-    'Extract Adobe Ascii85-encoded images from given file.'
+def main():
     if os.listdir():
         raise Exception
     path, = sys.argv[1:]
@@ -32,4 +32,4 @@ def main_scrape85():
             g.write(base64.a85decode(image))
 
 if '__main__' == __name__:
-    main_scrape85()
+    main()

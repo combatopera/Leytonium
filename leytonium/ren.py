@@ -15,12 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Rename current branch.'
 from .common import thisbranch, args, findproject, infodirname
 from lagoon import git
 import os
 
-def main_ren():
-    'Rename current branch.'
+def main():
     fromname = thisbranch()
     git.branch._m[print](*args())
     d = os.path.join(findproject(), infodirname)
@@ -29,4 +29,4 @@ def main_ren():
     os.rename(os.path.join(d, fromname), target)
 
 if '__main__' == __name__:
-    main_ren()
+    main()

@@ -15,10 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Change declared parent of current branch.'
 from .common import args as getargs, addparents, thisbranch, getpublic
 
-def main_setparent():
-    'Change declared parent of current branch.'
+def main():
     args = getargs()
     if args:
         newparent, = args
@@ -29,4 +29,4 @@ def main_setparent():
     addparents(thisbranch(), newparent, clobber = True)
 
 if '__main__' == __name__:
-    main_setparent()
+    main()

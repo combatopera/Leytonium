@@ -15,11 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Create a master-based branch from this non-master-based one.'
 from .common import thisbranch, pb, AllBranches, addparents
 from lagoon import git, ren
 
-def main_prepare():
-    'Create a master-based branch from this non-master-based one.'
+def main():
     master = 'master'
     parent = pb()
     if parent == master:
@@ -33,4 +33,4 @@ def main_prepare():
     git.cherry_pick[print](*commits)
 
 if '__main__' == __name__:
-    main_prepare()
+    main()
