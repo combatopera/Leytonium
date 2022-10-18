@@ -15,7 +15,14 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .bashrc import main_git_completion_path
+'Get path to git completion file, used by scripts.'
+from pathlib import Path
+
+def main():
+    print(git_completion_path())
+
+def git_completion_path():
+    return Path(__file__).parent / 'git_completion.bash'
 
 if '__main__' == __name__:
-    main_git_completion_path()
+    main()

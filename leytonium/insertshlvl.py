@@ -15,7 +15,20 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .bashrc import main_insertshlvl
+'Insert SHLVL indicator into given prompt.'
+import sys
+
+def main():
+    print(insertshlvl(*sys.argv[1:]))
+
+def insertshlvl(ps1, shlvl):
+    try:
+        colon = ps1.rindex(':')
+    except ValueError:
+        return ps1
+    n = int(shlvl)
+    tally = '"' * (n // 2) + ("'" if n % 2 else '')
+    return f"{ps1[:colon]}{tally}{ps1[colon + 1:]}"
 
 if '__main__' == __name__:
-    main_insertshlvl()
+    main()

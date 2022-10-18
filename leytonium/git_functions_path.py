@@ -15,7 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .bashrc import main_git_functions_path
+'Get path to git functions file, used by scripts.'
+from pathlib import Path
+
+def main():
+    print(Path(__file__).parent / 'git_functions.bash')
 
 if '__main__' == __name__:
-    main_git_functions_path()
+    main()
