@@ -15,7 +15,20 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .slam import main_unslam
+'Cherry-pick commits lost in a previous slam.'
+from .common import findproject, thisbranch, infodirname, os, stderr
+from lagoon import git
+from lagoon.program import partial
+
+def main():
+    path = os.path.join(findproject(), infodirname, f"{thisbranch()} slammed")
+    with open(path) as f:
+        commits = f.read().splitlines()
+    commits.reverse()
+    command = git.cherry_pick[partial](*commits)
+    stderr(f"Command: git {' '.join(command.args)}")
+    os.remove(path)
+    command[exec]()
 
 if '__main__' == __name__:
-    main_unslam()
+    main()

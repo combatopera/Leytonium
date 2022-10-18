@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Stage all outgoing changes and show them.'
 from . import st
 from .brown import main as brownmain, brown
 from .common import findproject
@@ -23,9 +24,8 @@ from aridity.util import dotpy
 from lagoon import git
 from pathlib import Path
 
-def main_gt():
-    'Stage all outgoing changes and show them.'
-    config = (-ConfigCtrl().loadappconfig(brownmain, 'common.arid')).reapplysettings(main_gt)
+def main():
+    config = (-ConfigCtrl().loadappconfig(brownmain, 'common.arid')).reapplysettings(main)
     projectdir = Path(findproject()).resolve()
     paths = [projectdir / line[line.index("'") + 1:-1] for line in git.add._n(projectdir).splitlines()]
     if projectdir.name in config.formattedprojects:
@@ -36,4 +36,4 @@ def main_gt():
     st.main()
 
 if '__main__' == __name__:
-    main_gt()
+    main()

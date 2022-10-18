@@ -15,13 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .common import AllBranches, showmenu, pb, savecommits, savedcommits, findproject, thisbranch, infodirname, os, stderr
+'Reset branch to given commit number.'
+from .common import AllBranches, showmenu, pb, savecommits, savedcommits
 from lagoon import git
-from lagoon.program import partial
 import sys
 
-def main_slam():
-    'Reset branch to given commit number.'
+def main():
     items = AllBranches().branchcommits() + [[pb(), '']]
     # TODO: Use argparse.
     args = sys.argv[1:]
@@ -45,16 +44,5 @@ def main_slam():
             savecommits(saved[:i], True)
         git.cherry_pick[exec](*reversed(saved[i:]))
 
-def main_unslam():
-    'Cherry-pick commits lost in a previous slam.'
-    path = os.path.join(findproject(), infodirname, f"{thisbranch()} slammed")
-    with open(path) as f:
-        commits = f.read().splitlines()
-    commits.reverse()
-    command = git.cherry_pick[partial](*commits)
-    stderr(f"Command: git {' '.join(command.args)}")
-    os.remove(path)
-    command[exec]()
-
 if '__main__' == __name__:
-    main_slam()
+    main()
