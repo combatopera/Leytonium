@@ -15,24 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Search for identifier in project.'
 from .common import findproject
 from lagoon import ag
-from lagoon.program import Program
-import os, sys
+import sys
 
-def main_agi():
-    'Search for identifier in project.'
+def main():
     ag._ws[exec](*sys.argv[1:], findproject())
 
-def main_agil():
-    'Edit project files containing identifier.'
-    search = sys.argv[1:]
-    editor = os.environ['EDITOR']
-    if 1 == len(search) and 'vim' == editor:
-        args = [rf"+/\<{search[0]}\>"]
-    else:
-        args = []
-    Program.text(editor)[exec](*args, *ag._wsl(*search, findproject()).splitlines())
-
 if '__main__' == __name__:
-    main_agi()
+    main()

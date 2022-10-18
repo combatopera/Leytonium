@@ -15,13 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Discard all local changes, with confirmation step.'
 from lagoon import git
 
-def main_abandon():
-    'Discard all local changes, with confirmation step.'
+def main():
     git.status[print]()
     input('Press enter to permanently lose all these changes.')
     git.reset.__hard[print]()
 
 if '__main__' == __name__:
-    main_abandon()
+    main()
