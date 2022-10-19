@@ -15,7 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from .stmulti import main_pullall
+'Pull all branches of projects in directory.'
+from .stmulti import mainimpl
+
+def main():
+    mainimpl('pull')
 
 if '__main__' == __name__:
-    main_pullall()
+    main()

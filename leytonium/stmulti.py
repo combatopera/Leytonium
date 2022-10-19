@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Short status of all shallow projects in directory.'
 from . import effectivehome
 from aridity.config import ConfigCtrl
 from lagoon import clear, co, git, hg, hgcommit, md5sum, rsync, test, tput
@@ -188,27 +189,14 @@ class Rsync(Project):
         self.find._newer[print](self.dirname)
         tput.sgr0[print]()
 
-def main(action):
+def mainimpl(action):
     config = loadconfig()
     clear[print]()
     for projecttype in Mercurial, Git, Rsync:
         projecttype.forprojects(config, action)
 
-def main_stmulti():
-    'Short status of all shallow projects in directory.'
-    main('status')
-
-def main_fetchall():
-    'Fetch all remotes of projects in directory.'
-    main('fetch')
-
-def main_pullall():
-    'Pull all branches of projects in directory.'
-    main('pull')
-
-def main_pushall():
-    'Push (using hgcommit) all branches of projects in directory.'
-    main('push')
+def main():
+    mainimpl('status')
 
 if '__main__' == __name__:
-    main_stmulti()
+    main()
