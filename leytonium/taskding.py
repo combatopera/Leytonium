@@ -49,11 +49,15 @@ class TaskDing:
 
         def fire(self, now):
             from lagoon import paplay
-            if self.start + self.threshold <= now and self.armed and self.sound_path.exists() and not os.fork():
-                paplay[exec](self.sound_path) # FIXME: These leak as zombie processes.
+            if self.start + self.threshold <= now and self.armed and self.sound_path.exists():
+                pid = os.fork()
+                if pid:
+                    return pid
+                paplay[exec](self.sound_path)
 
     def run(self):
         children = {}
+        soundpids = set()
         while True:
             nowchildren = {}
             now = time.time()
@@ -63,8 +67,13 @@ class TaskDing:
                         nowchildren[int(line)] = self.Child(now)
             except subprocess.CalledProcessError:
                 break
+            for pid in soundpids - nowchildren.keys():
+                os.waitpid(pid, 0)
+            soundpids &= nowchildren.keys()
             for pid in children.keys() - nowchildren.keys():
-                children.pop(pid).fire(now)
+                q = children.pop(pid).fire(now)
+                if q is not None:
+                    soundpids.add(q)
             for pid, child in nowchildren.items():
                 if pid not in children and child.fetch(pid):
                     children[pid] = child
