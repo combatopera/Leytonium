@@ -1,4 +1,4 @@
-. "$(git-functions-path)"
+. "$(~/.local/bin/git-functions-path)"
 
 function _allbranches {
     local branches="$(git branch | cut -c 3-)"
