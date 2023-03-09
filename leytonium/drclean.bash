@@ -1,6 +1,6 @@
 set -e
 
-[[ $(basename "$0") = drclean ]] && armed=armed
+[[ $(basename "$0") = drclean ]] && armed=armed # FIXME: No longer works.
 
 function logged {
     [[ "$armed" ]] || return 0
