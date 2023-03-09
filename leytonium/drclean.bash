@@ -1,6 +1,6 @@
 set -e
 
-[[ $(basename "$0") = drclean ]] && armed=armed # FIXME: No longer works.
+[[ $(basename "$0") = drclean.py ]] && armed=armed
 
 function logged {
     [[ "$armed" ]] || return 0
