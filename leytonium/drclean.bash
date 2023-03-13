@@ -35,6 +35,6 @@ ids=$(docker volume ls --format '{{.Name}}' | grep -v '^mirror$') || true
 
 docker network ls
 
-yes | logged docker network prune
+logged docker network prune -f
 
-yes | logged docker builder prune
+logged docker builder prune -f
