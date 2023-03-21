@@ -41,6 +41,8 @@ def main():
     touchpath = Path.home() / 'var' / 'last-upgrade'
     touchpath.parent.mkdir(parents = True, exist_ok = True)
     touchpath.write_text('')
+    log.info('Phased updates:')
+    apt_get.upgrade.__dry_run('-o', 'APT::Get::Always-Include-Phased-Updates=true')
     log.info('Containers still up:')
     docker.ps[print]()
 
