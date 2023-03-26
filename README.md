@@ -97,6 +97,9 @@ Short diff from parent branch or of passed-in commit number.
 ### eb
 Rebase on the given branch with completion, or parent with confirmation.
 
+### encrypt
+Encrypt a secret using gpg for use in aridity config.
+
 ### examine
 Open a shell in a throwaway container of the given image.
 

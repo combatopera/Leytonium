@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
+'Encrypt a secret using gpg for use in aridity config.'
 from . import initlogging
 from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
