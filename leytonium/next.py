@@ -22,7 +22,7 @@ from pathlib import Path
 
 def main():
     gitdir = Path(git.rev_parse.__git_dir[NOEOL]())
-    if (gitdir / 'rebase-apply').is_dir():
+    if any((gitdir / name).is_dir() for name in ['rebase-apply', 'rebase-merge']):
         if git.status.__porcelain().splitlines():
             git[print].rebase.__continue()
         else:
