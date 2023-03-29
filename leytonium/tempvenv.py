@@ -20,7 +20,8 @@ from . import initlogging
 from argparse import ArgumentParser
 from lagoon.program import Program
 from pathlib import Path
-from venvpool import Pool, SimpleInstallDeps
+from pyven.projectinfo import SimpleInstallDeps
+from venvpool import Pool
 import logging, os, sys
 
 log = logging.getLogger(__name__)
