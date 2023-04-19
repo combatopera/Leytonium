@@ -18,6 +18,7 @@
 'Short status of all shallow projects in directory.'
 from . import effectivehome
 from aridity.config import ConfigCtrl
+from diapyr.util import innerclass
 from lagoon import clear, co, git, hg, hgcommit, md5sum, rsync, test, tput
 try:
     from lagoon import gfind as find
@@ -29,7 +30,6 @@ from pyven.projectinfo import ProjectInfo
 import glob, logging, re, shlex, sys
 
 log = logging.getLogger(__name__)
-trunknames = {'main', 'master', 'trunk'}
 
 def loadconfig():
     config = ConfigCtrl()
@@ -137,6 +137,9 @@ class Git(Project):
 
 class BranchLines:
 
+    trunknames = {'main', 'master', 'trunk'}
+
+    @innerclass
     class BranchLine:
 
         sgr = re.compile(r'\x1b\[[0-9;]*m')
@@ -154,7 +157,7 @@ class BranchLines:
 
         def highlighted(self):
             line = re.sub(r':[^]\n]+]', lambda m: f"{tput.setaf(3)}{tput.rev()}{m.group()}{tput.sgr0()}", self.line)
-            if '*' == self.parts[0] and self.parts[1] not in trunknames:
+            if '*' == self.parts[0] and self.parts[1] not in self.trunknames:
                 line = re.sub(re.escape(self.parts[1]), lambda m: f"{tput.setaf(6)}{tput.bold()}{m.group()}{tput.sgr0()}", line, 1)
             return line
 
@@ -162,7 +165,7 @@ class BranchLines:
         self.lines = [self.BranchLine(l) for l in git.branch._vv('--color=always').splitlines()]
 
     def displaybranches(self):
-        trunklines = [l for l in self.lines if l.branch in trunknames]
+        trunklines = [l for l in self.lines if l.branch in self.trunknames]
         if 1 == len(trunklines):
             l, = trunklines
             idealpublic = l.publicparts()
