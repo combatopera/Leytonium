@@ -130,39 +130,44 @@ class Git(Project):
                 shortstat = self.git.diff.__shortstat(lastrelease, '--', '.', *(f":(exclude,glob){glob}" for glob in ['.travis.yml', 'project.arid', '**/test_*.py', '.gitignore', 'README.md']))
                 if shortstat:
                     sys.stdout.write(f"{tput.rev()}{tput.setaf(5)}{lastrelease}{tput.sgr0()}{shortstat}")
-        lines = [BranchLine(l) for l in self.git.branch._vv('--color=always').splitlines()]
-        trunklines = [l for l in lines if l.branch in trunknames]
+        lines = BranchLines(self.git)
+        trunklines = [l for l in lines.lines if l.branch in trunknames]
         if 1 == len(trunklines):
             l, = trunklines
             idealpublic = l.publicparts()
         else:
             idealpublic = None
-        for line in lines:
+        for line in lines.lines:
             if idealpublic != line.parts:
                 print(line.highlighted())
         self.git.status._s[print]()
         self.git.stash.list[print]()
 
-class BranchLine:
+class BranchLines:
 
-    sgr = re.compile(r'\x1b\[[0-9;]*m')
+    class BranchLine:
 
-    @property
-    def branch(self):
-        return self.parts[1]
+        sgr = re.compile(r'\x1b\[[0-9;]*m')
 
-    def __init__(self, line):
-        self.parts = re.split(' +', self.sgr.sub('', line), 4)
-        self.line = line
+        @property
+        def branch(self):
+            return self.parts[1]
 
-    def publicparts(self):
-        return ['', 'public', self.parts[2], f"[origin/{self.parts[1]}]", self.parts[4]]
+        def __init__(self, line):
+            self.parts = re.split(' +', self.sgr.sub('', line), 4)
+            self.line = line
 
-    def highlighted(self):
-        line = re.sub(r':[^]\n]+]', lambda m: f"{tput.setaf(3)}{tput.rev()}{m.group()}{tput.sgr0()}", self.line)
-        if '*' == self.parts[0] and self.parts[1] not in trunknames:
-            line = re.sub(re.escape(self.parts[1]), lambda m: f"{tput.setaf(6)}{tput.bold()}{m.group()}{tput.sgr0()}", line, 1)
-        return line
+        def publicparts(self):
+            return ['', 'public', self.parts[2], f"[origin/{self.parts[1]}]", self.parts[4]]
+
+        def highlighted(self):
+            line = re.sub(r':[^]\n]+]', lambda m: f"{tput.setaf(3)}{tput.rev()}{m.group()}{tput.sgr0()}", self.line)
+            if '*' == self.parts[0] and self.parts[1] not in trunknames:
+                line = re.sub(re.escape(self.parts[1]), lambda m: f"{tput.setaf(6)}{tput.bold()}{m.group()}{tput.sgr0()}", line, 1)
+            return line
+
+    def __init__(self, git):
+        self.lines = [self.BranchLine(l) for l in git.branch._vv('--color=always').splitlines()]
 
 class Rsync(Project):
 
