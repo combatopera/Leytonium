@@ -130,16 +130,8 @@ class Git(Project):
                 shortstat = self.git.diff.__shortstat(lastrelease, '--', '.', *(f":(exclude,glob){glob}" for glob in ['.travis.yml', 'project.arid', '**/test_*.py', '.gitignore', 'README.md']))
                 if shortstat:
                     sys.stdout.write(f"{tput.rev()}{tput.setaf(5)}{lastrelease}{tput.sgr0()}{shortstat}")
-        lines = BranchLines(self.git)
-        trunklines = [l for l in lines.lines if l.branch in trunknames]
-        if 1 == len(trunklines):
-            l, = trunklines
-            idealpublic = l.publicparts()
-        else:
-            idealpublic = None
-        for line in lines.lines:
-            if idealpublic != line.parts:
-                print(line.highlighted())
+        for line in BranchLines(self.git).displaybranches():
+            print(line.highlighted())
         self.git.status._s[print]()
         self.git.stash.list[print]()
 
@@ -168,6 +160,17 @@ class BranchLines:
 
     def __init__(self, git):
         self.lines = [self.BranchLine(l) for l in git.branch._vv('--color=always').splitlines()]
+
+    def displaybranches(self):
+        trunklines = [l for l in self.lines if l.branch in trunknames]
+        if 1 == len(trunklines):
+            l, = trunklines
+            idealpublic = l.publicparts()
+        else:
+            idealpublic = None
+        for line in self.lines:
+            if idealpublic != line.parts:
+                yield line
 
 class Rsync(Project):
 
