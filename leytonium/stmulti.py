@@ -137,8 +137,6 @@ class Git(Project):
 
 class BranchLines:
 
-    trunknames = {'main', 'master', 'trunk'}
-
     @innerclass
     class BranchLine:
 
@@ -163,6 +161,11 @@ class BranchLines:
 
     def __init__(self, git):
         self.lines = [self.BranchLine(l) for l in git.branch._vv('--color=always').splitlines()]
+        self.trunknames = {'develop', 'main', 'master', 'trunk'}
+        for l in self.lines:
+            if 'develop' == l.branch:
+                self.trunknames.remove('main')
+                break
 
     def displaybranches(self):
         trunklines = [l for l in self.lines if l.branch in self.trunknames]
