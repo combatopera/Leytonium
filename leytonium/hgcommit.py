@@ -17,7 +17,7 @@
 
 'Commit hook to push to central clone of repo on local network.'
 from . import effectivehome, initlogging
-from .stmulti import loadconfig, trunknames
+from .stmulti import loadconfig
 from diapyr.util import singleton
 from lagoon import git, ls, rsync
 from lagoon.program import ONELINE
@@ -71,7 +71,7 @@ class Git:
             git.clone.__bare[print]('.', dest.path)
         branches = set(git.branch().splitlines())
         if '  public' in branches:
-            currentbranch = {f"* {b}" for b in trunknames} & branches
+            currentbranch = {f"* {b}" for b in ['main', 'master', 'trunk']} & branches
             if currentbranch:
                 mainbranch, = (b[2:] for b in currentbranch)
                 git.update_ref[print]('refs/heads/public', mainbranch)
