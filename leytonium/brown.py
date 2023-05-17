@@ -18,7 +18,11 @@
 'Satisfy PEP 8 with minimal impact.'
 from .common import findproject
 from aridity.config import ConfigCtrl
-from lagoon import autopep8, sed
+from lagoon import autopep8
+try:
+    from lagoon import gsed as sed
+except ImportError:
+    from lagoon import sed
 from lagoon.program import partial
 import re, subprocess, sys
 
