@@ -71,7 +71,8 @@ Switch to the given branch, with completion.
 Show local changes.
 
 ### diffuse
-Compare an arbitrary number of text files. If you get this error on startup:
+Compare an arbitrary number of text files.
+If you get this error on startup:
 ```
 gi.repository.GLib.GError: gtk-icon-theme-error-quark: Icon 'document-new' not present in theme Adwaita (0)
 ```
