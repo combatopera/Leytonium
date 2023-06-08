@@ -18,7 +18,7 @@
 executable = true
 pyversions += 3
 requires +=
-    aridity>=35
+    aridity>=62
     autopep8>=1.5.4
     awscli>=1.19.53
     docutils>=0.15.2
