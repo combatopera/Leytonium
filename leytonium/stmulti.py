@@ -43,7 +43,7 @@ class Project:
 
     @classmethod
     def forprojects(cls, config, action):
-        for path in sorted(d.parent for d in Path('.').glob(f"*/{glob.escape(cls.dirname)}")):
+        for path in sorted(p for p in (d.parent for d in Path('.').glob(f"*/{glob.escape(cls.dirname)}")) if not p.is_symlink()):
             print(cls.kindformat % cls.dirname[1:1 + cls.kindwidth], f"{tput.setaf(7)}{path}{tput.sgr0()}")
             getattr(cls(config, path), action)()
 
