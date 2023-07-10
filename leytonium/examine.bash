@@ -30,7 +30,7 @@ else
 WORKDIR /image
 COPY --from=$image / ." >$context/Dockerfile
 
-    delimage=$(docker build -q $context)
+    delimage=$(docker build --platform linux/amd64 -q $context)
 
     runimage=$delimage
 
