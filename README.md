@@ -46,6 +46,9 @@ Search for identifier in project.
 ### agil
 Edit project files containing identifier.
 
+### autokb
+Automatically switch to/from USB keyboard layout.
+
 ### autopull
 Pull master and releases with automatic stash and switch.
 
