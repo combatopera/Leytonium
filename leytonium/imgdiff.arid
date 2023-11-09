@@ -1,0 +1,6 @@
+cli
+    name = $(void)
+    tag = $(void)
+name = $(cli name)
+prefix = $(void)
+tag = $(cli tag)
