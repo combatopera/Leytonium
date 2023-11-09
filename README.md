@@ -144,6 +144,9 @@ You're looking at it!
 ### hgcommit
 Commit hook to push to central clone of repo on local network.
 
+### imgdiff
+Use container-diff to compare Docker images.
+
 ### insertshlvl
 Insert SHLVL indicator into given prompt.
 
