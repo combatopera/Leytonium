@@ -48,8 +48,8 @@ def _toplain(text):
 class Regex:
 
     def __init__(self, config):
-        self.max_non_ascii = getattr(config.max, 'non-ascii')
-        self.max_odd_from = getattr(config.max.odd, 'from')
+        self.max_non_ascii = float(getattr(config.max, 'non-ascii'))
+        self.max_odd_from = float(getattr(config.max.odd, 'from'))
         self.froms = list(map(re.compile, config.regex.froms))
         self.subjects = list(map(re.compile, config.regex.subjects))
 
