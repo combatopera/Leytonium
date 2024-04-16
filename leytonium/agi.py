@@ -18,10 +18,11 @@
 'Search for identifier in project.'
 from .common import findproject
 from lagoon import ag
-import sys
+import os, sys
 
 def main():
-    ag._ws[exec](*sys.argv[1:], findproject())
+    os.chdir(findproject())
+    ag._ws[exec](*sys.argv[1:])
 
 if '__main__' == __name__:
     main()

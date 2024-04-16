@@ -28,7 +28,8 @@ def main():
         args = [rf"+/\<{search[0]}\>"]
     else:
         args = []
-    Program.text(editor)[exec](*args, *ag._wsl(*search, findproject()).splitlines())
+    os.chdir(findproject())
+    Program.text(editor)[exec](*args, *ag._wsl(*search).splitlines())
 
 if '__main__' == __name__:
     main()
