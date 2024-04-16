@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-'Show tree with 1 level of hidden files.'
+'Show tree with hidden descendants but not their descendants.'
 from lagoon import tree
 from lagoon.program import partial
 from lagoon.util import stripansi
