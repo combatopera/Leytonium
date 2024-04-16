@@ -24,22 +24,19 @@ import re, sys
 denypattern = re.compile('── [.]')
 
 def main():
-    allow = False
-    allowmatch = lambda _: True
-    bwprev = None
+    allow = True
+    allowmatch = None
     with tree._aC[partial](*sys.argv[1:]) as f:
         for line in f:
             bwline = stripansi(line)
-            if allow:
-                m = denypattern.search(bwprev)
-                if m is not None:
-                    allow = False
-                    allowmatch = re.compile(f".{{{m.start()}}}── ").match
             if not allow and allowmatch(bwline) is not None:
                 allow = True
             if allow:
                 sys.stdout.write(line)
-            bwprev = bwline
+                m = denypattern.search(bwline)
+                if m is not None:
+                    allow = False
+                    allowmatch = re.compile(f".{{{m.start()}}}── ").match
 
 if '__main__' == __name__:
     main()
