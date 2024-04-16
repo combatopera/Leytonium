@@ -250,7 +250,7 @@ Compare stack traces across build logs.
 Short status of all shallow projects in directory.
 
 ### t
-Show tree with 1 level of hidden files.
+Show tree with hidden descendants but not their descendants.
 
 ### taskding
 Play a sound when a long-running child of shell terminates.
