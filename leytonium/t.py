@@ -16,10 +16,30 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Show tree with 1 level of hidden files.'
-from .delegate import delegate
+from lagoon import tree
+from lagoon.program import partial
+from lagoon.util import stripansi
+import re, sys
+
+denypattern = re.compile('── [.]')
 
 def main():
-    delegate('t.bash')
+    allow = False
+    allowmatch = lambda _: True
+    bwprev = None
+    with tree._aC[partial](*sys.argv[1:]) as f:
+        for line in f:
+            bwline = stripansi(line)
+            if allow:
+                m = denypattern.search(bwprev)
+                if m is not None:
+                    allow = False
+                    allowmatch = re.compile(f".{{{m.start()}}}── ").match
+            if not allow and allowmatch(bwline) is not None:
+                allow = True
+            if allow:
+                sys.stdout.write(line)
+            bwprev = bwline
 
 if '__main__' == __name__:
     main()
