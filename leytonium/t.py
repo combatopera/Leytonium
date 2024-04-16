@@ -21,7 +21,7 @@ from lagoon.program import partial
 from lagoon.util import stripansi
 import re, sys
 
-denypattern = re.compile('── [.]')
+denymatch = re.compile('── [.]').search
 
 def main():
     allow = True
@@ -33,7 +33,7 @@ def main():
                 allow = True
             if allow:
                 sys.stdout.write(line)
-                m = denypattern.search(bwline)
+                m = denymatch(bwline)
                 if m is not None:
                     allow = False
                     allowmatch = re.compile(f".{{{m.start()}}}── ").match
