@@ -135,6 +135,9 @@ Get path to git completion file, used by scripts.
 ### git-functions-path
 Get path to git functions file, used by scripts.
 
+### gpgedit
+Edit gpg-encrypted file.
+
 ### gt
 Stage all outgoing changes and show them.
 
