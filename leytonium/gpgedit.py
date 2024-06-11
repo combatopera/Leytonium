@@ -17,6 +17,7 @@
 
 'Edit gpg-encrypted file.'
 from argparse import ArgumentParser
+from aridity.config import ConfigCtrl
 from lagoon import gpg, gpgconf
 from lagoon.program import Program
 from lagoon.util import atomic, mapcm
@@ -25,20 +26,21 @@ from tempfile import TemporaryDirectory
 import os
 
 def main():
+    config = ConfigCtrl().loadappconfig(main, 'gpgedit.arid')
     parser = ArgumentParser()
     parser.add_argument('-f', action = 'store_true')
     parser.add_argument('path', type = Path)
-    args = parser.parse_args()
-    if args.f:
+    parser.parse_args(namespace = config.cli)
+    if config.force:
         gpgconf.__reload.gpg_agent[print]()
-    path = args.path
+    path = config.path
     with mapcm(Path, TemporaryDirectory()) as tempdir:
         x = tempdir / path.name
         if path.exists():
             gpg.__decrypt[print]('--output', x, path)
         Program.text(os.environ['EDITOR'])[print](x)
         with atomic(path) as y:
-            gpg.__symmetric[print]('--output', y, x)
+            gpg.__symmetric.__batch[print]('--output', y, '--passphrase-fd', 0, x, input = config.passphrase)
 
 if '__main__' == __name__:
     main()
