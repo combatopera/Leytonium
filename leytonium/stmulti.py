@@ -93,7 +93,7 @@ class Git(Project):
         if f"{self.config.repohost}:{self.shortnetpath}.git" != netremotepath:
             log.error("Bad %s: %s", self.config.netremotename, netremotepath)
         for name, loc in d.items():
-            if name != self.config.netremotename and not loc.startswith('git@'):
+            if loc.startswith('https:'):
                 log.error("Non-SSH remote: %s %s", name, loc)
 
     def _allbranches(self, task):
