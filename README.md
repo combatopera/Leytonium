@@ -18,23 +18,6 @@ venvname/bin/pip install Leytonium
 . venvname/bin/activate
 ```
 
-### To develop
-First clone the repo using HTTP or SSH:
-```
-git clone https://github.com/combatopera/Leytonium.git
-git clone git@github.com:combatopera/Leytonium.git
-```
-Now use pyven's pipify to create a setup.py, which pip can then use to install the project editably:
-```
-python3 -m venv pyvenvenv
-pyvenvenv/bin/pip install pyven
-pyvenvenv/bin/pipify Leytonium
-
-python3 -m venv venvname
-venvname/bin/pip install -e Leytonium
-. venvname/bin/activate
-```
-
 ## Commands
 
 ### abandon
