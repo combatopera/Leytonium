@@ -27,7 +27,7 @@ number = re.compile('[0-9]+')
 
 def main():
     config = ConfigCtrl().loadappconfig(main, 'watchdesk.arid').path
-    with xprop._root._spy[bg]('_NET_CURRENT_DESKTOP') as f:
+    with xprop._root._spy[bg]('_NET_CURRENT_DESKTOP') as f: # FIXME: May die with status 1.
         for line in f:
             m = number.search(line)
             if m is not None:
