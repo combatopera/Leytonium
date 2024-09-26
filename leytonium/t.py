@@ -36,7 +36,7 @@ def main():
                 m = denymatch(bwline)
                 if m is not None:
                     allow = False
-                    allowmatch = re.compile(f".{{{m.start()}}}── ").match
+                    allowmatch = re.compile(f".{{,{m.start()}}}── ").match
 
 if '__main__' == __name__:
     main()
