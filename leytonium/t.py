@@ -15,7 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-'Show tree with hidden descendants but not their descendants.'
+'''Show tree with hidden descendants but not their descendants.
+Each hidden directory is annotated with a slash per direct child.
+Useful for showing hidden items in a Git repository without also showing the whole `.git` tree.
+By default all options are passed to the `tree` command, use `--` to pass (preceding) options to this command.
+Use `-v` to show errors that are normally suppressed.'''
 from . import initlogging
 from argparse import ArgumentParser
 from lagoon import tree
