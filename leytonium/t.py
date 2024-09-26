@@ -72,11 +72,11 @@ def main():
                         n = sum(1 for _ in path.iterdir())
                     except (FileNotFoundError, NotADirectoryError) as e:
                         log.debug(e)
-                        n = 0
-                    sys.stdout.write('/' * n)
+                    else:
+                        sys.stdout.write('/' * n)
                     sys.stdout.write(line[len(sanseol):])
                     allow = False
-                    allowmatch = re.compile(f".{{,{m.start()}}}── ").match
+                    allowmatch = re.compile(f".{{,{m.start()}}}{re.escape(intro)}").match
 
 if '__main__' == __name__:
     main()
