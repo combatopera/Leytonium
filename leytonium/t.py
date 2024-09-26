@@ -16,21 +16,38 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Show tree with hidden descendants but not their descendants.'
+from . import initlogging
+from argparse import ArgumentParser
 from lagoon import tree
 from lagoon.program import partial
 from lagoon.util import stripansi
 from pathlib import Path
-import re, sys
+import logging, re, sys
 
+log = logging.getLogger(__name__)
 intro = '── '
 denymatch = re.compile(f"{re.escape(intro)}[.]").search
 indent = 4
 
 def main():
+    initlogging()
+    allargs = sys.argv[1:]
+    if '--' in allargs:
+        parser = ArgumentParser()
+        parser.add_argument('-v', action = 'store_true')
+        parser.add_argument('treearg', nargs = '*')
+        args = parser.parse_args()
+        verbose = args.v
+        treeargs = args.treearg
+    else:
+        verbose = False
+        treeargs = allargs
+    if not verbose:
+        logging.getLogger().setLevel(logging.INFO)
     allow = True
     allowmatch = None
     parts = []
-    with tree._aC[partial](*sys.argv[1:]) as f:
+    with tree._aC[partial](*treeargs) as f:
         for line in f:
             bwline = stripansi(line)
             if not allow and allowmatch(bwline) is not None:
@@ -53,7 +70,8 @@ def main():
                     sys.stdout.write(sanseol)
                     try:
                         n = sum(1 for _ in path.iterdir())
-                    except (FileNotFoundError, NotADirectoryError):
+                    except (FileNotFoundError, NotADirectoryError) as e:
+                        log.debug(e)
                         n = 0
                     sys.stdout.write('/' * n)
                     sys.stdout.write(line[len(sanseol):])
