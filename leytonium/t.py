@@ -22,7 +22,7 @@ from lagoon import tree
 from lagoon.program import partial
 from lagoon.util import stripansi
 from pathlib import Path
-import logging, re, sys
+import logging, os, re, sys
 
 log = logging.getLogger(__name__)
 intro = '── '
@@ -73,7 +73,7 @@ def main():
                     except (FileNotFoundError, NotADirectoryError) as e:
                         log.debug(e)
                     else:
-                        sys.stdout.write('/' * n)
+                        sys.stdout.write(os.sep * n)
                     sys.stdout.write(line[len(sanseol):])
                     allow = False
                     allowmatch = re.compile(f".{{,{m.start()}}}{re.escape(intro)}").match
