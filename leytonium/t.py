@@ -33,25 +33,25 @@ intro = '\u2500\u2500 '
 denymatch = re.compile(f"{re.escape(intro)}[.]").search
 indent = 4
 
+def _wrappercli():
+    'Send all options to wrapped command by default.'
+    args = sys.argv[1:]
+    if '--' not in args:
+        args.insert(0, '--')
+    return args
+
 def main():
     initlogging()
-    allargs = sys.argv[1:]
-    if '--' in allargs:
-        parser = ArgumentParser()
-        parser.add_argument('-v', action = 'store_true')
-        parser.add_argument('treearg', nargs = '*')
-        args = parser.parse_args()
-        verbose = args.v
-        treeargs = args.treearg
-    else:
-        verbose = False
-        treeargs = allargs
-    if not verbose:
+    parser = ArgumentParser()
+    parser.add_argument('-v', action = 'store_true')
+    parser.add_argument('treearg', nargs = '*')
+    args = parser.parse_args(_wrappercli())
+    if not args.v:
         logging.getLogger().setLevel(logging.INFO)
     allow = True
     allowmatch = None
     parts = []
-    with tree._aC[partial](*treeargs) as f:
+    with tree._aC[partial](*args.treearg) as f:
         for line in f:
             bwline = stripansi(line)
             if not allow and allowmatch(bwline) is not None:
