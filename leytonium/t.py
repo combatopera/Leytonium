@@ -29,7 +29,7 @@ from pathlib import Path
 import logging, os, re, sys
 
 log = logging.getLogger(__name__)
-intro = '── '
+intro = '\u2500\u2500 '
 denymatch = re.compile(f"{re.escape(intro)}[.]").search
 indent = 4
 
