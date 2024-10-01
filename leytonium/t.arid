@@ -1,5 +1,8 @@
 cli
     treearg = $(void)
     v = $(void)
+hiddenregex +=
+    [.].*
+    __pycache__
 treearg = $(cli treearg)
 verbose = $(cli v)

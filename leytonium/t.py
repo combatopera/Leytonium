@@ -31,7 +31,6 @@ import logging, os, re, sys
 
 log = logging.getLogger(__name__)
 intro = '\u2500\u2500 '
-denymatch = re.compile(f"{re.escape(intro)}[.]").search
 indent = 4
 
 def _wrappercli():
@@ -50,6 +49,7 @@ def main():
     parser.parse_args(_wrappercli(), config.cli)
     if not config.verbose:
         logging.getLogger().setLevel(logging.INFO)
+    denymatch = re.compile(f"{re.escape(intro)}(?:{'|'.join(config.hiddenregex)})$").search
     allow = True
     allowmatch = None
     parts = []
