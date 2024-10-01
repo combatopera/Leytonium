@@ -1,0 +1,5 @@
+cli
+    treearg = $(void)
+    v = $(void)
+treearg = $(cli treearg)
+verbose = $(cli v)

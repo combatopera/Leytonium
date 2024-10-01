@@ -22,6 +22,7 @@ By default all options are passed to the `tree` command, use `--` to pass (prece
 Use `-v` to show errors that are normally suppressed.'''
 from . import initlogging
 from argparse import ArgumentParser
+from aridity.config import ConfigCtrl
 from lagoon import tree
 from lagoon.program import partial
 from lagoon.util import stripansi
@@ -42,16 +43,17 @@ def _wrappercli():
 
 def main():
     initlogging()
+    config = ConfigCtrl().loadappconfig(main, 't.arid')
     parser = ArgumentParser()
     parser.add_argument('-v', action = 'store_true')
     parser.add_argument('treearg', nargs = '*')
-    args = parser.parse_args(_wrappercli())
-    if not args.v:
+    parser.parse_args(_wrappercli(), config.cli)
+    if not config.verbose:
         logging.getLogger().setLevel(logging.INFO)
     allow = True
     allowmatch = None
     parts = []
-    with tree._aC[partial](*args.treearg) as f:
+    with tree._aC[partial](*config.treearg) as f:
         for line in f:
             bwline = stripansi(line)
             if not allow and allowmatch(bwline) is not None:
