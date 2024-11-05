@@ -261,6 +261,9 @@ Cherry-pick commits lost in a previous slam.
 ### upgrade
 Upgrade the system and silence the nag.
 
+### vcp
+Copy a Docker volume.
+
 ### vpn
 Start openvpn in background.
 
