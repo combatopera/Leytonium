@@ -34,7 +34,7 @@ def main():
     parser.parse_args(namespace = config.cli)
     target = config.target
     log.info("Create: %s", target)
-    docker.volume.create[print]('--name', target)
+    docker.volume.create[print](target)
     mount_source = config.mount.source
     mount_target = config.mount.target
     source = config.source
