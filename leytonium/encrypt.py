@@ -21,6 +21,7 @@ from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
 from base64 import b64encode
 from lagoon.binary import gpg
+from lagoon.program import partial
 from socket import gethostname
 import logging
 
@@ -30,14 +31,22 @@ def main():
     initlogging()
     config = ConfigCtrl().loadappconfig(main, 'encrypt.arid')
     parser = ArgumentParser()
-    parser.add_argument('-p', default = getattr(config.autoprofile, gethostname(), None))
-    parser.add_argument('text')
+    parser.add_argument('-f', action = 'store_true', help = 'encrypt file not text')
+    parser.add_argument('-p', default = getattr(config.autoprofile, gethostname(), None), help = 'recipients profile')
+    parser.add_argument('text', help = 'text or path')
     parser.parse_args(namespace = config.cli)
     profilekey = config.profilekey
     log.info("Profile: %s", profilekey)
     recipients = list(getattr(config.profile, profilekey).recipient)
     log.info("Recipients: %s", recipients)
-    print(b64encode(gpg.__no_auto_key_locate.__encrypt(*sum((['--recipient', r] for r in recipients), []), input = config.text.encode('ascii'))).decode())
+    program = gpg.__no_auto_key_locate.__encrypt[partial](*sum((['--recipient', r] for r in recipients), []))
+    if config.file:
+        inpath = config.text
+        outpath = f"{inpath}.gpg"
+        program[print]('--output', outpath, inpath)
+        print(outpath)
+    else:
+        print(b64encode(program(input = config.text.encode('ascii'))).decode())
 
 if '__main__' == __name__:
     main()

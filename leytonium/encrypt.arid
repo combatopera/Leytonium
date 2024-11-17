@@ -16,8 +16,10 @@
 : along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 cli
+    f = $(void)
     p = $(void)
     text = $(void)
+file = $(cli f)
 profile * recipient := $list()
 profilekey = $(cli p)
 text = $(cli text)
