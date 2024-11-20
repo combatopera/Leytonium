@@ -27,6 +27,12 @@ import logging
 
 log = logging.getLogger(__name__)
 
+def _program(recipients):
+    return gpg.__no_auto_key_locate.__encrypt[partial](*sum((['--recipient', r] for r in recipients), []))
+
+def encryptfile(recipients, inpath, outpath):
+    _program(recipients)[print]('--output', outpath, inpath)
+
 def main():
     initlogging()
     config = ConfigCtrl().loadappconfig(main, 'encrypt.arid')
@@ -39,14 +45,13 @@ def main():
     log.info("Profile: %s", profilekey)
     recipients = list(getattr(config.profile, profilekey).recipient)
     log.info("Recipients: %s", recipients)
-    program = gpg.__no_auto_key_locate.__encrypt[partial](*sum((['--recipient', r] for r in recipients), []))
     if config.file:
         inpath = config.text
         outpath = f"{inpath}.gpg"
-        program[print]('--output', outpath, inpath)
+        encryptfile(recipients, inpath, outpath)
         print(outpath)
     else:
-        print(b64encode(program(input = config.text.encode('ascii'))).decode())
+        print(b64encode(_program(recipients)(input = config.text.encode('ascii'))).decode())
 
 if '__main__' == __name__:
     main()
