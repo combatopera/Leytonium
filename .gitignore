@@ -4,7 +4,6 @@ __pycache__/
 Leytonium.egg-info/*
 !Leytonium.egg-info/PKG-INFO
 !Leytonium.egg-info/requires.txt
-/setup.cfg
 /setup.py
 /pyproject.toml
 /dist/
