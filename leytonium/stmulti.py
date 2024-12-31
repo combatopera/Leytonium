@@ -124,7 +124,8 @@ class Git(Project):
                 if self.test._x[print](hookpath, check = False):
                     log.error("Unexecutable hook: %s", self.hookname)
             if ProjectInfo.seek(self.path).config.pypi.participant:
-                lastrelease = max((t for t in self.git.tag().splitlines() if t.startswith('v')), default = None, key = lambda t: int(t[1:]))
+                prefix = 'release/'
+                lastrelease = max((t for t in self.git.tag().splitlines() if t.startswith(prefix)), default = None, key = lambda t: int(t[len(prefix):]))
                 if lastrelease is None:
                     lastrelease = self.git.rev_list[ONELINE]('--max-parents=0', 'HEAD') # Assume trivial initial commit.
                 shortstat = self.git.diff.__shortstat(lastrelease, '--', '.', *(f":(exclude,glob){glob}" for glob in ['.travis.yml', 'project.arid', '**/test_*.py', '.gitignore', 'README.md']))
