@@ -17,7 +17,7 @@
 
 'Remove all untracked items, including the git-ignored.'
 from .common import findproject, infodirname
-from lagoon import git
+from lagoon.text import git
 
 def main():
     git.clean._xdi[print]('-e', infodirname, cwd = findproject())

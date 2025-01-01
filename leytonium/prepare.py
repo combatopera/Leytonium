@@ -17,7 +17,7 @@
 
 'Create a master-based branch from this non-master-based one.'
 from .common import thisbranch, pb, AllBranches, addparents
-from lagoon import git, ren
+from lagoon.text import git, ren
 
 def main():
     master = 'master'

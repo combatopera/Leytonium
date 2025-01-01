@@ -16,8 +16,8 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Go to next step in current git workflow.'
-from lagoon import git
 from lagoon.program import NOEOL
+from lagoon.text import git
 from pathlib import Path
 
 def main():

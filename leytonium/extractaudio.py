@@ -18,8 +18,8 @@
 'Extract the audio from the given video files.'
 from . import initlogging
 from argparse import ArgumentParser
-from lagoon import ffmpeg
 from lagoon.program import partial
+from lagoon.text import ffmpeg
 from pathlib import Path
 import logging
 

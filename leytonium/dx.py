@@ -17,7 +17,7 @@
 
 'Diff from parent branch or from passed-in commit number.'
 from .common import AllBranches, pb, showmenu, stderr
-from lagoon import git
+from lagoon.text import git
 import sys
 
 def main():

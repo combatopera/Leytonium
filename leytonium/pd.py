@@ -17,7 +17,7 @@
 
 'Diff from public branch, the other way.'
 from .common import getpublic, stderr
-from lagoon import git
+from lagoon.text import git
 import sys
 
 def main():

@@ -17,8 +17,8 @@
 
 'Different background for each desktop.'
 from aridity.config import ConfigCtrl
-from lagoon import gsettings, xprop
 from lagoon.program import bg
+from lagoon.text import gsettings, xprop
 from pathlib import Path
 import logging, re
 

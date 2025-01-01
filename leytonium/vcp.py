@@ -19,7 +19,7 @@
 from . import initlogging
 from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
-from lagoon import docker
+from lagoon.text import docker
 import logging, shlex
 
 log = logging.getLogger(__name__)

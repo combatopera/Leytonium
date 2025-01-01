@@ -16,7 +16,7 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Show local changes.'
-from lagoon import clear, git
+from lagoon.text import clear, git
 
 def main():
     clear[print]()

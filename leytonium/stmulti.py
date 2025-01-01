@@ -19,12 +19,12 @@
 from . import effectivehome
 from aridity.config import ConfigCtrl
 from diapyr.util import innerclass
-from lagoon import clear, co, git, hg, hgcommit, md5sum, rsync, test, tput
-try:
-    from lagoon import gfind as find
-except ImportError:
-    from lagoon import find
 from lagoon.program import ONELINE
+from lagoon.text import clear, co, git, hg, hgcommit, md5sum, rsync, test, tput
+try:
+    from lagoon.text import gfind as find
+except ImportError:
+    from lagoon.text import find
 from pathlib import Path
 from pyven.projectinfo import ProjectInfo
 import glob, logging, re, shlex, sys

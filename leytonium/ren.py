@@ -17,7 +17,7 @@
 
 'Rename current branch.'
 from .common import thisbranch, args, findproject, infodirname
-from lagoon import git
+from lagoon.text import git
 import os
 
 def main():

@@ -16,7 +16,7 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Run ag on all build.gradle files.'
-from lagoon import find
+from lagoon.text import find
 import sys
 
 def main():

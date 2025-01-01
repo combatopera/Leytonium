@@ -23,8 +23,8 @@ Use `-v` to show errors that are normally suppressed.'''
 from . import initlogging
 from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
-from lagoon import tree
 from lagoon.program import partial
+from lagoon.text import tree
 from lagoon.util import stripansi
 from pathlib import Path
 import logging, os, re, sys

@@ -16,7 +16,7 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Show stash as patch.'
-from lagoon import git
+from lagoon.text import git
 
 def main():
     git.stash.show._p[exec]()

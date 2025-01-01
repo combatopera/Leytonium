@@ -17,11 +17,11 @@
 
 'Show list of branches and outgoing changes.'
 from .common import showmenu, UnknownParentException, showexception, getpublic, savedcommits, AllBranches, highlight
-from lagoon import clear, git
+from lagoon.text import clear, git
 try:
-    from lagoon import gls as ls
+    from lagoon.text import gls as ls
 except ImportError:
-    from lagoon import ls
+    from lagoon.text import ls
 from lagoon.util import stripansi
 from termcolor import colored
 import re, subprocess

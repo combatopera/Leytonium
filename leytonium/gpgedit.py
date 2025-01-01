@@ -19,8 +19,8 @@
 from . import initlogging
 from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
-from lagoon import gpg, gpgconf
 from lagoon.program import Program
+from lagoon.text import gpg, gpgconf
 from lagoon.util import atomic, mapcm
 from pathlib import Path
 from tempfile import TemporaryDirectory

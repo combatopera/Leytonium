@@ -17,7 +17,7 @@
 
 'Unpublish this branch.'
 from .common import thisbranch
-from lagoon import git
+from lagoon.text import git
 
 def main():
     git.push.origin.__delete[print](thisbranch(), check = False) # Idempotent.

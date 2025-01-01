@@ -18,7 +18,7 @@
 'Upgrade the system and silence the nag.'
 from . import initlogging
 from argparse import ArgumentParser
-from lagoon import docker, sudo
+from lagoon.text import docker, sudo
 from pathlib import Path
 import logging
 

@@ -18,8 +18,8 @@
 'Automatically switch to/from USB keyboard layout.'
 from . import initlogging
 from aridity.config import ConfigCtrl
-from lagoon import lsusb, setxkbmap
 from lagoon.program import partial
+from lagoon.text import lsusb, setxkbmap
 import logging, re
 
 log = logging.getLogger(__name__)

@@ -19,8 +19,8 @@
 from . import effectivehome, initlogging
 from .stmulti import loadconfig
 from diapyr.util import singleton
-from lagoon import git, ls, rsync
 from lagoon.program import ONELINE
+from lagoon.text import git, ls, rsync
 from pathlib import Path
 import os, subprocess, multiprocessing as mp, queue, logging
 

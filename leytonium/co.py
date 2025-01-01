@@ -17,7 +17,7 @@
 
 'Switch to the given branch, with completion.'
 from .common import args, AllBranches, addparents, getpublic
-from lagoon import git
+from lagoon.text import git
 
 def main():
     name, = args()

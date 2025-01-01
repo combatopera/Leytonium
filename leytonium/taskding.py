@@ -19,8 +19,8 @@
 from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
 from diapyr.util import innerclass
-from lagoon import pgrep
 from lagoon.program import bg
+from lagoon.text import pgrep
 from pathlib import Path
 import os, subprocess, time
 
@@ -48,7 +48,7 @@ class TaskDing:
                 pass
 
         def fire(self, now):
-            from lagoon import paplay
+            from lagoon.text import paplay
             if self.start + self.threshold <= now and self.armed and self.sound_path.exists():
                 pid = os.fork()
                 if pid:

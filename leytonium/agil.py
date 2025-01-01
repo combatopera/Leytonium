@@ -17,8 +17,8 @@
 
 'Edit project files containing identifier.'
 from .common import findproject
-from lagoon import ag
 from lagoon.program import Program
+from lagoon.text import ag
 import os, sys
 
 def main():

@@ -17,7 +17,7 @@
 
 'Create given branch with completion and dashes, show menu for parent.'
 from .common import addparents, args, AllBranches, menu
-from lagoon import git
+from lagoon.text import git
 
 def main():
     _, base = menu([[n, ''] for n in AllBranches().names], 'From')

@@ -16,7 +16,7 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Switch to the next branch and run st.'
-from lagoon import co, git, st
+from lagoon.text import co, git, st
 
 def main():
     lines = git.branch().splitlines()

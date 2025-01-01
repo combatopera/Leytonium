@@ -16,7 +16,7 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Run git rm on conflicted path, with completion.'
-from lagoon import git
+from lagoon.text import git
 import sys
 
 def main():

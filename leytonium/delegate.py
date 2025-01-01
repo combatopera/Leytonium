@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from lagoon import bash
+from lagoon.text import bash
 from pathlib import Path
 import inspect, sys
 

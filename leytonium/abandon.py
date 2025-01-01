@@ -16,7 +16,7 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Discard all local changes, with confirmation step.'
-from lagoon import git
+from lagoon.text import git
 
 def main():
     git.status[print]()

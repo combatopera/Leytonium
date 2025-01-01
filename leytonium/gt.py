@@ -20,7 +20,7 @@ from . import brown, st
 from .common import findproject
 from aridity.config import ConfigCtrl
 from aridity.util import dotpy
-from lagoon import git
+from lagoon.text import git
 from pathlib import Path
 
 def main():

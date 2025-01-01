@@ -17,7 +17,7 @@
 
 'Short diff from parent branch or of passed-in commit number.'
 from .common import AllBranches, pb, savedcommits, showmenu, stderr
-from lagoon import git
+from lagoon.text import git
 import sys
 
 def main():

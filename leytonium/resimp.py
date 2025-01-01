@@ -17,7 +17,7 @@
 
 'Resolve conflicts in imports and adjacent-line conflicts.'
 from .common import stderr, findproject
-from lagoon import git
+from lagoon.text import git
 import itertools, os, re
 
 def resimp(path):

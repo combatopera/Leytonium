@@ -17,8 +17,8 @@
 
 'Publish this branch, accepts push options.'
 from .common import thisbranch, pb, args
-from lagoon import git
 from lagoon.program import ONELINE
+from lagoon.text import git
 
 def main():
     git.push._u[print](git.config.__get[ONELINE](f"branch.{pb()}.remote"), thisbranch(), *args())

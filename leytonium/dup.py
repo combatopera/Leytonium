@@ -18,7 +18,7 @@
 'Apply the last slammed commit.'
 from . import st
 from .common import savedcommits
-from lagoon import git
+from lagoon.text import git
 
 def main():
     git.cherry_pick.__no_commit[print](savedcommits()[-1])

@@ -15,8 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-from lagoon import git, pkill, toilet
 from lagoon.program import ONELINE
+from lagoon.text import git, pkill, toilet
 import subprocess, os, sys, traceback, re, collections, termcolor
 
 infodirname = '.pb'

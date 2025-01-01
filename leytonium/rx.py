@@ -17,7 +17,7 @@
 
 'Restore given file to parent branch version.'
 from .common import args, pb
-from lagoon import git
+from lagoon.text import git
 
 def main():
     git.checkout[print](pb(), *args())

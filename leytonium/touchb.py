@@ -17,7 +17,7 @@
 
 'Give the current branch its own identity.'
 from .common import touchmsg, findproject, thisbranch
-from lagoon import git
+from lagoon.text import git
 import os, time
 
 def main():

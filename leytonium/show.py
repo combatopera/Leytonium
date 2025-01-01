@@ -17,7 +17,7 @@
 
 'Show a commit that was listed by st.'
 from .common import showmenu, AllBranches, savedcommits
-from lagoon import git
+from lagoon.text import git
 import sys
 
 def main():

@@ -17,7 +17,7 @@
 
 'Run git add on conflicted path(s), with completion.'
 from itertools import islice
-from lagoon import git
+from lagoon.text import git
 from pathlib import Path
 import sys
 

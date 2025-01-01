@@ -17,7 +17,7 @@
 
 'Pull master and releases with automatic stash and switch.'
 from .common import nicely, publicbranches
-from lagoon import git
+from lagoon.text import git
 
 def main():
     def pullthem():

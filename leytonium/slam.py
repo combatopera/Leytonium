@@ -17,7 +17,7 @@
 
 'Reset branch to given commit number.'
 from .common import AllBranches, showmenu, pb, savecommits, savedcommits
-from lagoon import git
+from lagoon.text import git
 import sys
 
 def main():

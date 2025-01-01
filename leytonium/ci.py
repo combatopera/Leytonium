@@ -17,7 +17,7 @@
 
 'Commit with the given args as message.'
 from .common import args
-from lagoon import git
+from lagoon.text import git
 
 def main():
     message = ' '.join(args())

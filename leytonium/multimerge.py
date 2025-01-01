@@ -17,7 +17,7 @@
 
 'Merge master into all PRs and carrion.'
 from .common import findproject, nicely, AllBranches, getpublic, stderr, touchmsg
-from lagoon import git, touchb
+from lagoon.text import git, touchb
 import os
 
 merge = git.merge.__no_edit

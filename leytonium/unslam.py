@@ -17,8 +17,8 @@
 
 'Cherry-pick commits lost in a previous slam.'
 from .common import findproject, thisbranch, infodirname, os, stderr
-from lagoon import git
 from lagoon.program import partial
+from lagoon.text import git
 
 def main():
     path = os.path.join(findproject(), infodirname, f"{thisbranch()} slammed")

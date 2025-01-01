@@ -19,8 +19,8 @@
 from . import initlogging
 from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
-from lagoon import container_diff, diff, docker
 from lagoon.program import partial
+from lagoon.text import container_diff, diff, docker
 from lagoon.util import mapcm
 from pathlib import Path
 from tempfile import TemporaryDirectory

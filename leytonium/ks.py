@@ -17,7 +17,7 @@
 
 'Create a kitchen-sink branch.'
 from .common import addparents
-from lagoon import git
+from lagoon.text import git
 import os, re
 
 def githubuser():

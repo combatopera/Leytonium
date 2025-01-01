@@ -16,7 +16,7 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Set system clock to correct time.'
-from lagoon import sudo
+from lagoon.text import sudo
 
 def main():
     sudo[print].service.ntp.stop()

@@ -17,7 +17,7 @@
 
 'Search for identifier in project.'
 from .common import findproject
-from lagoon import ag
+from lagoon.text import ag
 import os, sys
 
 def main():
