@@ -1,4 +1,4 @@
-aridity>=62
+aridity>=73
 autopep8>=1.5.4
 awscli>=1.19.53
 docutils>=0.15.2
