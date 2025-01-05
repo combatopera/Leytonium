@@ -25,7 +25,7 @@ from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
 from lagoon.program import partial
 from lagoon.text import tree
-from lagoon.util import stripansi
+from lagoon.util import stripansi, wrappercli
 from pathlib import Path
 import logging, os, re, sys
 
@@ -33,20 +33,13 @@ log = logging.getLogger(__name__)
 intro = '\u2500\u2500 '
 indent = 4
 
-def _wrappercli():
-    'Send all options to wrapped command by default.'
-    args = sys.argv[1:]
-    if '--' not in args:
-        args.insert(0, '--')
-    return args
-
 def main():
     initlogging()
     config = ConfigCtrl().loadappconfig(main, 't.arid')
     parser = ArgumentParser()
     parser.add_argument('-v', action = 'store_true')
     parser.add_argument('treearg', nargs = '*')
-    parser.parse_args(_wrappercli(), config.cli)
+    parser.parse_args(wrappercli(), config.cli)
     if not config.verbose:
         logging.getLogger().setLevel(logging.INFO)
     denymatch = re.compile(f"{re.escape(intro)}(?:{'|'.join(config.hiddenregex)})$").search
