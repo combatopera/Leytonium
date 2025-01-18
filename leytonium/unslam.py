@@ -26,7 +26,7 @@ def main():
         commits = f.read().splitlines()
     commits.reverse()
     command = git.cherry_pick[partial](*commits)
-    stderr(f"Command: git {' '.join(command.args)}")
+    stderr(f"Command: {command}")
     os.remove(path)
     command[exec]()
 
