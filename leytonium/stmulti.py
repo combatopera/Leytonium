@@ -20,7 +20,7 @@ from . import effectivehome
 from aridity.config import ConfigCtrl
 from diapyr.util import innerclass
 from lagoon.program import ONELINE
-from lagoon.text import clear, co, git, hg, hgcommit, md5sum, rsync, test, tput
+from lagoon.text import clear, co, git, hgcommit, md5sum, rsync, test, tput
 try:
     from lagoon.text import gfind as find
 except ImportError:
@@ -55,24 +55,6 @@ class Project:
         self.shortnetpath = Path(config.shortrepomount, effectivehome.name, self.homerelpath)
         self.config = config
         self.path = path
-
-class Mercurial(Project):
-
-    dirname = '.hg'
-    commands = hg, hgcommit
-
-    def fetch(self):
-        pass
-
-    def pull(self):
-        self.hg.pull[print](self.netpath)
-        self.hg.update[print]()
-
-    def push(self):
-        self.hgcommit[print]()
-
-    def status(self):
-        self.hg.st[print]()
 
 class Git(Project):
 
@@ -207,7 +189,7 @@ class Rsync(Project):
 def mainimpl(action):
     config = loadconfig()
     clear[print]()
-    for projecttype in Mercurial, Git, Rsync:
+    for projecttype in Git, Rsync:
         projecttype.forprojects(config, action)
 
 def main():
