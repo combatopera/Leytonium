@@ -38,14 +38,14 @@ venvname/bin/pip install Leytonium
 
 ### To use, permanently
 ```
-pip3 install --user Leytonium
+pip3 install --break-system-packages --user Leytonium
 ```
 See `~/.local/bin` for executables.
 
 ### To develop
 First install venvpool to get the `motivate` command:
 ```
-pip3 install --user venvpool
+pip3 install --break-system-packages --user venvpool
 ```
 Get codebase and install executables:
 ```
