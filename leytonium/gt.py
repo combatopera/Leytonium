@@ -24,7 +24,7 @@ from lagoon.text import git
 from pathlib import Path
 
 def main():
-    config = (-ConfigCtrl().loadappconfig(brown.main, 'common.arid')).reapplysettings(main)
+    config = (-ConfigCtrl().loadappconfig((brown.__name__, 'brown'), 'common.arid')).reapplysettings(main)
     projectdir = Path(findproject()).resolve()
     paths = [projectdir / line[line.index("'") + 1:-1] for line in git.add._n(projectdir).splitlines()]
     if projectdir.name in config.formattedprojects:
