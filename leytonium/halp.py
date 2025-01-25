@@ -19,7 +19,7 @@
 from . import initlogging
 from aridity.config import ConfigCtrl
 from importlib import import_module
-from importlib_metadata import entry_points
+from importlib.metadata import entry_points
 import logging
 
 log = logging.getLogger(__name__)
