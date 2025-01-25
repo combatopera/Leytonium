@@ -31,7 +31,7 @@ limit = 20
 class Row:
 
     def __init__(self, allbranches, line):
-        name = stripansi(re.search('[\S]+', line).group())
+        name = stripansi(re.search(r'\S+', line).group())
         if '(no' == name:
             self.parent = '(void)'
         else:
