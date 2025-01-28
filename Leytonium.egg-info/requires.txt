@@ -7,6 +7,7 @@ PyGObject>=3.42.2
 pytz>=2020.4
 pyven>=90
 PyYAML>=5.2
+roman>=5
 setuptools>=44.1.1
 termcolor>=1.1.0
 Unidecode>=1.3.2

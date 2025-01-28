@@ -27,6 +27,7 @@ except ImportError:
     from lagoon.text import find
 from pathlib import Path
 from pyven.projectinfo import ProjectInfo
+from roman import fromRoman
 import glob, logging, re, shlex, sys
 
 log = logging.getLogger(__name__)
@@ -107,7 +108,7 @@ class Git(Project):
                     log.error("Unexecutable hook: %s", self.hookname)
             if ProjectInfo.seek(self.path).config.pypi.participant:
                 prefix = 'release/'
-                lastrelease = max((t for t in self.git.tag().splitlines() if t.startswith(prefix)), default = None, key = lambda t: int(t[len(prefix):]))
+                lastrelease = max((t for t in self.git.tag().splitlines() if t.startswith(prefix)), default = None, key = lambda t: _toversionno(t[len(prefix):]))
                 if lastrelease is None:
                     lastrelease = self.git.rev_list[ONELINE]('--max-parents=0', 'HEAD') # Assume trivial initial commit.
                 shortstat = self.git.diff.__shortstat(lastrelease, '--', '.', *(f":(exclude,glob){glob}" for glob in ['.travis.yml', 'project.arid', '**/test_*.py', '.gitignore', 'README.md']))
@@ -117,6 +118,12 @@ class Git(Project):
             print(line.highlighted())
         self.git.status._s[print]()
         self.git.stash.list[print]()
+
+def _toversionno(versionstr):
+    try:
+        return int(versionstr)
+    except ValueError:
+        return fromRoman(versionstr)
 
 class BranchLines:
 
