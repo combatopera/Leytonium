@@ -26,12 +26,12 @@ import os, subprocess, multiprocessing as mp, queue, logging, sys
 
 log = logging.getLogger(__name__)
 
-def trypath(path, q):
+def _trypath(path, q):
     q.put(ls(path, check = False, stdout = subprocess.DEVNULL)) # Must actually attempt NFS communication.
 
-def checkpath(path):
+def _checkpath(path):
     q = mp.Queue()
-    p = mp.Process(target = trypath, args = (path, q))
+    p = mp.Process(target = _trypath, args = (path, q))
     p.daemon = True
     p.start()
     try:
@@ -51,7 +51,7 @@ class PathDest:
         self.reldir = reldir
 
     def check(self):
-        return checkpath(self.clonespath)
+        return _checkpath(self.clonespath)
 
     def exists(self):
         return self.path.exists()
