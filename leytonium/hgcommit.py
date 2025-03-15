@@ -22,23 +22,10 @@ from diapyr.util import singleton
 from lagoon.program import ONELINE
 from lagoon.text import git, ls, rsync
 from pathlib import Path
-import os, subprocess, multiprocessing as mp, queue, logging, sys
+from subprocess import DEVNULL
+import logging, os, sys
 
 log = logging.getLogger(__name__)
-
-def _trypath(path, q):
-    q.put(ls(path, check = False, stdout = subprocess.DEVNULL)) # Must actually attempt NFS communication.
-
-def _checkpath(path):
-    q = mp.Queue()
-    p = mp.Process(target = _trypath, args = (path, q))
-    p.daemon = True
-    p.start()
-    try:
-        q.get(timeout = .5)
-        return True
-    except queue.Empty:
-        pass
 
 class PathDest:
 
@@ -51,7 +38,7 @@ class PathDest:
         self.reldir = reldir
 
     def check(self):
-        return _checkpath(self.clonespath)
+        return ls._d[bool](self.clonespath, stdout = DEVNULL, stderr = DEVNULL)
 
     def exists(self):
         return self.path.exists()
