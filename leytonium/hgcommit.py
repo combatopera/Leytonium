@@ -95,9 +95,7 @@ class Rsync:
 
 def main():
     initlogging()
-    cc = ConfigCtrl()
-    cc.loadsettings()
-    config = cc.node.stmulti
+    config = ConfigCtrl().loadappconfig((__name__, 'stmulti'), 'stmulti.arid')
     reldir = Path.cwd().relative_to(effectivehome)
     for c in Git, Rsync:
         if Path(c.dirname).exists():
