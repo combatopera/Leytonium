@@ -1,0 +1,6 @@
+hookmd5 = $(void)
+netremotename = $(void)
+repohost = $(void)
+repomount = $(void)
+reponame = $(void)
+shortrepomount = $(void)

@@ -189,9 +189,7 @@ class Rsync(Project):
         tput.sgr0[print]()
 
 def mainimpl(action):
-    cc = ConfigCtrl()
-    cc.loadsettings()
-    config = cc.node.stmulti
+    config = ConfigCtrl().loadappconfig((__name__, 'stmulti'), 'stmulti.arid')
     clear[print]()
     for projecttype in Git, Rsync:
         projecttype.forprojects(config, action)
