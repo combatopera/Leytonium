@@ -19,8 +19,10 @@
 from . import effectivehome, initlogging
 from aridity.config import ConfigCtrl
 from diapyr.util import singleton
+from functools import partial
 from lagoon.program import ONELINE
 from lagoon.text import git, ls, rsync
+from multifork import Tasks
 from pathlib import Path
 from subprocess import DEVNULL
 import logging, os, sys
@@ -92,7 +94,11 @@ def main():
         sys.exit('This is not a project root.')
     dest = PathDest(config, command.mangle(reldir))
     if dest.check():
-        command.pushorclone(dest)
+        tasks = Tasks()
+        tasks.stdout = lambda task, line: sys.stdout.write(line)
+        tasks.stderr = lambda task, line: sys.stderr.write(line)
+        tasks.append(partial(command.pushorclone, dest))
+        tasks.drain(1)
     else:
         log.error("Bad path: %s", dest.clonespath)
 
