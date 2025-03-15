@@ -22,7 +22,7 @@ from diapyr.util import singleton
 from lagoon.program import ONELINE
 from lagoon.text import git, ls, rsync
 from pathlib import Path
-import os, subprocess, multiprocessing as mp, queue, logging
+import os, subprocess, multiprocessing as mp, queue, logging, sys
 
 log = logging.getLogger(__name__)
 
@@ -101,6 +101,8 @@ def main():
         if Path(c.dirname).exists():
             command = c
             break
+    else:
+        sys.exit('This is not a project root.')
     dest = PathDest(config, command.mangle(reldir))
     if dest.check():
         command.pushorclone(dest)
