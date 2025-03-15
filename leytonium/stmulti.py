@@ -90,7 +90,7 @@ class Git(Project):
         self._allbranches(lambda branch: self.git.pull.__ff_only[print](self.netpath, branch))
 
     def push(self):
-        self._allbranches(lambda branch: self.hgcommit[print]())
+        self._allbranches(lambda branch: self.hgcommit.__fg[print]())
 
     def status(self):
         if (self.path / 'project.arid').exists():
@@ -180,7 +180,7 @@ class Rsync(Project):
         print(f"(cd {shlex.quote(str(self.path))} && rsync {' '.join(map(shlex.quote, lhs + rhs))})")
 
     def push(self):
-        self.hgcommit[print]()
+        self.hgcommit.__fg[print]()
 
     def status(self):
         tput.setaf[print](4)

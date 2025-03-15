@@ -17,6 +17,7 @@
 
 'Commit hook to push to central clone of repo on local network.'
 from . import effectivehome, initlogging
+from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
 from diapyr.util import singleton
 from functools import partial
@@ -85,6 +86,9 @@ class Rsync:
 def main():
     initlogging()
     config = ConfigCtrl().loadappconfig((__name__, 'stmulti'), 'stmulti.arid')
+    parser = ArgumentParser()
+    parser.add_argument('--fg', action = 'store_true')
+    args = parser.parse_args()
     reldir = Path.cwd().relative_to(effectivehome)
     for c in Git, Rsync:
         if Path(c.dirname).exists():
@@ -97,10 +101,17 @@ def main():
         log.error("Bad path: %s", dest.clonespath)
         sys.exit(1)
     tasks = Tasks()
-    tasks.stdout = lambda task, line: sys.stdout.write(line)
-    tasks.stderr = lambda task, line: sys.stderr.write(line)
     tasks.append(partial(command.pushorclone, dest))
-    tasks.drain(1)
+    if args.fg:
+        tasks.stdout = lambda task, line: sys.stdout.write(line)
+        tasks.stderr = lambda task, line: sys.stderr.write(line)
+        tasks.drain(1)
+    else:
+        log.info('Push/clone in background.')
+        if not os.fork():
+            tasks.stdout = lambda task, line: sys.stdout.write(line)
+            tasks.stderr = lambda task, line: sys.stderr.write(line)
+            tasks.drain(1)
 
 if '__main__' == __name__:
     main()
