@@ -109,8 +109,17 @@ def main():
     else:
         log.info('Push/clone in background.')
         if not os.fork():
-            tasks.stdout = lambda task, line: sys.stdout.write(line)
-            tasks.stderr = lambda task, line: sys.stderr.write(line)
+            from tkinter import END, Tk
+            from tkinter.scrolledtext import ScrolledText
+            def append(task, line):
+                st.insert(END, line)
+                st.see(END)
+                root.update_idletasks()
+            root = Tk()
+            st = ScrolledText(root)
+            st.pack()
+            root.update_idletasks()
+            tasks.stdout = tasks.stderr = append
             tasks.drain(1)
 
 if '__main__' == __name__:
