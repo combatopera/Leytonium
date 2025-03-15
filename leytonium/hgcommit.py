@@ -93,14 +93,14 @@ def main():
     else:
         sys.exit('This is not a project root.')
     dest = PathDest(config, command.mangle(reldir))
-    if dest.check():
-        tasks = Tasks()
-        tasks.stdout = lambda task, line: sys.stdout.write(line)
-        tasks.stderr = lambda task, line: sys.stderr.write(line)
-        tasks.append(partial(command.pushorclone, dest))
-        tasks.drain(1)
-    else:
+    if not dest.check():
         log.error("Bad path: %s", dest.clonespath)
+        sys.exit(1)
+    tasks = Tasks()
+    tasks.stdout = lambda task, line: sys.stdout.write(line)
+    tasks.stderr = lambda task, line: sys.stderr.write(line)
+    tasks.append(partial(command.pushorclone, dest))
+    tasks.drain(1)
 
 if '__main__' == __name__:
     main()
