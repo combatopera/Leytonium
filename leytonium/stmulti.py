@@ -32,11 +32,6 @@ import glob, logging, re, shlex, sys
 
 log = logging.getLogger(__name__)
 
-def loadconfig():
-    config = ConfigCtrl()
-    config.loadsettings()
-    return config.node.stmulti
-
 class Project:
 
     kindwidth = 3
@@ -194,7 +189,9 @@ class Rsync(Project):
         tput.sgr0[print]()
 
 def mainimpl(action):
-    config = loadconfig()
+    cc = ConfigCtrl()
+    cc.loadsettings()
+    config = cc.node.stmulti
     clear[print]()
     for projecttype in Git, Rsync:
         projecttype.forprojects(config, action)

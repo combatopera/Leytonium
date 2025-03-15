@@ -17,7 +17,7 @@
 
 'Commit hook to push to central clone of repo on local network.'
 from . import effectivehome, initlogging
-from .stmulti import loadconfig
+from aridity.config import ConfigCtrl
 from diapyr.util import singleton
 from lagoon.program import ONELINE
 from lagoon.text import git, ls, rsync
@@ -95,7 +95,9 @@ class Rsync:
 
 def main():
     initlogging()
-    config = loadconfig()
+    cc = ConfigCtrl()
+    cc.loadsettings()
+    config = cc.node.stmulti
     reldir = Path.cwd().relative_to(effectivehome)
     for c in Git, Rsync:
         if Path(c.dirname).exists():
