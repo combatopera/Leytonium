@@ -22,7 +22,7 @@ from lagoon.program import Program
 from pathlib import Path
 from pyven.projectinfo import SimpleInstallDeps
 from venvpool import Pool
-import logging, os, sys
+import logging, os
 
 log = logging.getLogger(__name__)
 shellpath = os.environ['SHELL']
@@ -30,10 +30,9 @@ shellpath = os.environ['SHELL']
 def main():
     initlogging()
     parser = ArgumentParser()
-    parser.add_argument('-p', type = int, default = sys.version_info.major)
     parser.add_argument('reqs', nargs = '*')
     args = parser.parse_args()
-    with Pool(args.p).readwrite(SimpleInstallDeps(args.reqs)) as venv:
+    with Pool().readwrite(SimpleInstallDeps(args.reqs)) as venv:
         Program.text(shellpath)._c[print]('. "$1" && exec "$2"', '-c', Path(venv.venvpath, 'bin', 'activate'), shellpath)
 
 if '__main__' == __name__:
