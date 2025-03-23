@@ -20,8 +20,7 @@ from . import initlogging
 from argparse import ArgumentParser
 from lagoon.program import Program
 from pathlib import Path
-from pyven.projectinfo import SimpleInstallDeps
-from venvpool import Pool
+from venvpool import ParsedRequires, Pool
 import logging, os
 
 log = logging.getLogger(__name__)
@@ -32,7 +31,7 @@ def main():
     parser = ArgumentParser()
     parser.add_argument('reqs', nargs = '*')
     args = parser.parse_args()
-    with Pool().readwrite(SimpleInstallDeps(args.reqs)) as venv:
+    with Pool().readwrite(ParsedRequires(args.reqs)) as venv:
         Program.text(shellpath)._c[print]('. "$1" && exec "$2"', '-c', Path(venv.venvpath, 'bin', 'activate'), shellpath)
 
 if '__main__' == __name__:
