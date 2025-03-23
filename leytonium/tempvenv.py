@@ -18,21 +18,37 @@
 'Activate a writable venv from the pool with the given requires.'
 from . import initlogging
 from argparse import ArgumentParser
+from contextlib import nullcontext
+from inspect import getsource
 from lagoon.program import Program
+from lagoon.text import chmod
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from venvpool import ParsedRequires, Pool
-import logging, os
+import logging, os, sys
 
 log = logging.getLogger(__name__)
 shellpath = os.environ['SHELL']
 
+def _temppip():
+    from pathlib import Path
+    from shutil import which
+    import os, sys
+    assert sys.argv[1] in {'freeze'}
+    os.execv(Path(which('python')).parent / 'pip', sys.argv)
+
 def main():
     initlogging()
     parser = ArgumentParser()
+    parser.add_argument('-w', action = 'store_true')
     parser.add_argument('reqs', nargs = '*')
     args = parser.parse_args()
-    with Pool().readwrite(ParsedRequires(args.reqs)) as venv:
-        Program.text(shellpath)._c[print]('. "$1" && exec "$2"', '-c', Path(venv.venvpath, 'bin', 'activate'), shellpath)
+    with getattr(Pool(), 'readwrite' if args.w else 'readonly')(ParsedRequires(args.reqs)) as venv, (nullcontext if args.w else TemporaryDirectory)() as tempdir:
+        if not args.w:
+            temppip = Path(tempdir, 'pip')
+            temppip.write_text(f"#!{sys.executable}\n{getsource(_temppip)}_temppip()\n")
+            chmod[print]('+x', temppip)
+        Program.text(shellpath)._c[print]('. "$1" && PATH="$2:$PATH" && exec "$3"', '-c', Path(venv.venvpath, 'bin', 'activate'), tempdir, shellpath)
 
 if '__main__' == __name__:
     main()
