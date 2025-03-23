@@ -34,7 +34,7 @@ def _temppip():
     from pathlib import Path
     from shutil import which
     import os, sys
-    assert sys.argv[1] in {'freeze'}
+    assert sys.argv[1] in {'check', 'debug', 'download', 'freeze', 'hash', 'help', 'list', 'search', 'show', 'wheel'}
     os.execv(Path(which('python')).parent / 'pip', sys.argv)
 
 def main():
