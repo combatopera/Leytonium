@@ -18,7 +18,6 @@
 'Activate a writable venv from the pool with the given requires.'
 from . import initlogging
 from argparse import ArgumentParser
-from contextlib import nullcontext
 from inspect import getsource
 from lagoon.program import Program
 from lagoon.text import chmod
@@ -43,12 +42,16 @@ def main():
     parser.add_argument('-w', action = 'store_true')
     parser.add_argument('reqs', nargs = '*')
     args = parser.parse_args()
-    with getattr(Pool(), 'readwrite' if args.w else 'readonly')(ParsedRequires(args.reqs)) as venv, (nullcontext if args.w else TemporaryDirectory)() as tempdir:
-        if not args.w:
+    requires = ParsedRequires(args.reqs)
+    if args.w:
+        with Pool().readwrite(requires) as venv:
+            Program.text(shellpath)._c[print]('. "$1" && exec "$2"', '-c', Path(venv.venvpath, 'bin', 'activate'), shellpath)
+    else:
+        with Pool().readonly(requires) as venv, TemporaryDirectory() as tempdir:
             temppip = Path(tempdir, 'pip')
             temppip.write_text(f"#!{sys.executable}\n{getsource(_temppip)}_temppip()\n")
             chmod[print]('+x', temppip)
-        Program.text(shellpath)._c[print]('. "$1" && PATH="$2:$PATH" && exec "$3"', '-c', Path(venv.venvpath, 'bin', 'activate'), tempdir, shellpath)
+            Program.text(shellpath)._c[print]('. "$1" && PATH="$2:$PATH" && exec "$3"', '-c', Path(venv.venvpath, 'bin', 'activate'), tempdir, shellpath)
 
 if '__main__' == __name__:
     main()
