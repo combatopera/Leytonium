@@ -90,22 +90,17 @@ def main():
     parser.add_argument('--fg', action = 'store_true')
     args = parser.parse_args()
     reldir = Path.cwd().relative_to(effectivehome)
-    for c in Git, Rsync:
-        if Path(c.dirname).exists():
-            command = c
+    for command in Git, Rsync:
+        if Path(command.dirname).exists():
             break
     else:
         sys.exit('This is not a project root.')
     dest = PathDest(config, command.mangle(reldir))
     if not dest.check():
-        log.error("Bad path: %s", dest.clonespath)
-        sys.exit(1)
-    tasks = Tasks()
-    tasks.append(partial(command.pushorclone, dest))
+        sys.exit(f"Bad path: {dest.clonespath}")
+    task = partial(command.pushorclone, dest)
     if args.fg:
-        tasks.stdout = lambda task, line: sys.stdout.write(line)
-        tasks.stderr = lambda task, line: sys.stderr.write(line)
-        tasks.drain(1)
+        task()
     else:
         log.info('Push/clone in background.')
         if not os.fork():
@@ -119,6 +114,8 @@ def main():
             st = ScrolledText(root)
             st.pack()
             root.update_idletasks()
+            tasks = Tasks()
+            tasks.append(task)
             tasks.stdout = tasks.stderr = append
             tasks.drain(1)
 
