@@ -19,6 +19,7 @@
 from . import effectivehome, initlogging
 from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
+from datetime import datetime
 from diapyr.util import singleton
 from functools import partial
 from lagoon.program import ONELINE
@@ -104,20 +105,15 @@ def main():
     else:
         log.info('Push/clone in background.')
         if not os.fork():
-            from tkinter import END, Tk
-            from tkinter.scrolledtext import ScrolledText
-            def append(task, line):
-                st.insert(END, line)
-                st.see(END)
-                root.update_idletasks()
-            root = Tk()
-            st = ScrolledText(root)
-            st.pack()
-            root.update_idletasks()
-            tasks = Tasks()
-            tasks.append(task)
-            tasks.stdout = tasks.stderr = append
-            tasks.drain(1)
+            label = Path.cwd().name
+            with (Path.home() / 'var' / 'log' / 'hgcommit.log').open('a') as f:
+                tasks = Tasks()
+                tasks.append(task)
+                tasks.started = lambda _: f.write(f"{label} {datetime.now()}\n")
+                tasks.stdout = lambda _, line: f.write(f"{label} o {line}")
+                tasks.stderr = lambda _, line: f.write(f"{label} e {line}")
+                tasks.stopped = lambda _, code: f.write(f"{label} {code}\n")
+                tasks.drain(1)
 
 if '__main__' == __name__:
     main()
