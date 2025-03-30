@@ -36,6 +36,9 @@ Requirements will be satisfied just in time, using sibling projects with matchin
 ### abandon
 Discard all local changes, with confirmation step.
 
+### afternet
+Wait for network then become given command.
+
 ### agi
 Search for identifier in project.
 
