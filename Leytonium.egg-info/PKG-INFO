@@ -20,6 +20,7 @@ Requires-Dist: roman>=5
 Requires-Dist: setuptools>=44.1.1
 Requires-Dist: termcolor>=1.1.0
 Requires-Dist: Unidecode>=1.3.2
+Requires-Dist: venvpool>=18
 
 # Leytonium
 Tools for developing git-managed software
