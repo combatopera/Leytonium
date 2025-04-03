@@ -17,7 +17,7 @@
 
 'Diff from target branch or passed-in commit number.'
 from . import initlogging
-from .common import AllBranches, pb, showmenu
+from .common import AllBranches, pb, savedcommits, showmenu
 from argparse import ArgumentParser
 from lagoon.text import git
 import logging
@@ -32,9 +32,12 @@ def main():
     if n is None:
         commit = pb()
         log.info("Target branch: %s", commit)
-    else:
+    elif n > 0:
         v = showmenu(AllBranches().branchcommits(), False)
         commit = v[n] if n in v else f"{v[n - 1]}^"
+    else:
+        saved = savedcommits()
+        commit = saved[len(saved) - 1 + n]
     git.diff._M25[exec](commit)
 
 if '__main__' == __name__:
