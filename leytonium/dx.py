@@ -33,7 +33,8 @@ def main():
         commit = pb()
         log.info("Target branch: %s", commit)
     else:
-        commit = showmenu(AllBranches().branchcommits(), False)[n]
+        v = showmenu(AllBranches().branchcommits(), False)
+        commit = v[n] if n in v else f"{v[n - 1]}^"
     git.diff._M25[exec](commit)
 
 if '__main__' == __name__:
