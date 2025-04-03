@@ -26,9 +26,8 @@ def main():
     parser.add_argument('number', type = int, help = 'commit number')
     args = parser.parse_args()
     n = args.number
-    items = AllBranches().branchcommits()
     if n > 0:
-        commit = showmenu(items, False)[n]
+        commit = showmenu(AllBranches().branchcommits(), False)[n]
     else:
         saved = savedcommits()
         commit = saved[len(saved) - 1 + n]

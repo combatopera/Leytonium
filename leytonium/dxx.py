@@ -27,7 +27,7 @@ log = logging.getLogger(__name__)
 def main():
     initlogging()
     parser = ArgumentParser()
-    parser.add_argument('number', type = int, nargs = '?', help = 'commit number')
+    parser.add_argument('number', type = int, help = 'commit number', nargs = '?')
     n = parser.parse_args().number
     if n is None:
         commit = pb()
