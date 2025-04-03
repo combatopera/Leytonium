@@ -33,7 +33,8 @@ def main():
         commit = pb()
         log.info("Target branch: %s", commit)
     elif n > 0:
-        commit = showmenu(AllBranches().branchcommits(), False)[n]
+        v = showmenu(AllBranches().branchcommits(), False)
+        commit = v[n] if n in v else f"{v[n - 1]}^"
     else:
         saved = savedcommits()
         commit = saved[len(saved) - 1 + n]
