@@ -27,8 +27,10 @@ log = logging.getLogger(__name__)
 def main():
     initlogging()
     parser = ArgumentParser()
+    parser.add_argument('-x', action = 'store_true', help = 'name/status only')
     parser.add_argument('number', type = int, help = 'commit number', nargs = '?')
-    n = parser.parse_args().number
+    args = parser.parse_args()
+    n = args.number
     if n is None:
         commit = pb()
         log.info("Target branch: %s", commit)
@@ -38,7 +40,7 @@ def main():
     else:
         saved = savedcommits()
         commit = saved[len(saved) - 1 + n]
-    git.diff._M25[exec](commit)
+    git.diff._M25[exec](*['--name-status'] if args.x else [], commit)
 
 if '__main__' == __name__:
     main()
