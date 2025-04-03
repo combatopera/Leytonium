@@ -17,13 +17,14 @@
 
 'Show a commit that was listed by st.'
 from .common import showmenu, AllBranches, savedcommits
+from argparse import ArgumentParser
 from lagoon.text import git
-import sys
 
 def main():
+    parser = ArgumentParser()
+    parser.add_argument('number', type = int, help = 'commit number')
+    n = parser.parse_args().number
     items = AllBranches().branchcommits()
-    n, = sys.argv[1:]
-    n = int(n)
     if n > 0:
         commit = showmenu(items, False)[n]
     else:
