@@ -99,7 +99,7 @@ Show Docker assets.
 Apply the last slammed commit.
 
 ### dx
-Diff from parent branch or from passed-in commit number.
+Diff from target branch or passed-in commit number.
 
 ### dxx
 Short diff from target branch or passed-in commit number.

@@ -15,21 +15,26 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-'Diff from parent branch or from passed-in commit number.'
-from .common import AllBranches, pb, showmenu, stderr
+'Diff from target branch or passed-in commit number.'
+from . import initlogging
+from .common import AllBranches, pb, showmenu
+from argparse import ArgumentParser
 from lagoon.text import git
-import sys
+import logging
+
+log = logging.getLogger(__name__)
 
 def main():
-    args = sys.argv[1:]
-    if args:
-        n, = args
-        n = int(n)
-        parent = showmenu(AllBranches().branchcommits(), False)[n]
+    initlogging()
+    parser = ArgumentParser()
+    parser.add_argument('number', type = int, help = 'commit number', nargs = '?')
+    n = parser.parse_args().number
+    if n is None:
+        commit = pb()
+        log.info("Target branch: %s", commit)
     else:
-        parent = pb()
-        stderr(f"Parent branch: {parent}")
-    git.diff._M25[exec](parent)
+        commit = showmenu(AllBranches().branchcommits(), False)[n]
+    git.diff._M25[exec](commit)
 
 if '__main__' == __name__:
     main()
