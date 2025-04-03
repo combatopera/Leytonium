@@ -22,15 +22,17 @@ from lagoon.text import git
 
 def main():
     parser = ArgumentParser()
+    parser.add_argument('-x', action = 'store_true', help = 'name/status only')
     parser.add_argument('number', type = int, help = 'commit number')
-    n = parser.parse_args().number
+    args = parser.parse_args()
+    n = args.number
     items = AllBranches().branchcommits()
     if n > 0:
         commit = showmenu(items, False)[n]
     else:
         saved = savedcommits()
         commit = saved[len(saved) - 1 + n]
-    git.show[exec](commit)
+    git.show[exec](*['--name-status'] if args.x else [], commit)
 
 if '__main__' == __name__:
     main()
