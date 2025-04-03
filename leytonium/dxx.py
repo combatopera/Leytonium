@@ -15,24 +15,28 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-'Short diff from parent branch or from passed-in commit number.'
-from .common import AllBranches, pb, savedcommits, showmenu, stderr
+'Short diff from target branch or passed-in commit number.'
+from . import initlogging
+from .common import AllBranches, pb, savedcommits, showmenu
+from argparse import ArgumentParser
 from lagoon.text import git
-import sys
+import logging
+
+log = logging.getLogger(__name__)
 
 def main():
-    args = sys.argv[1:]
-    if args:
-        n, = args
-        n = int(n)
-        if n > 0:
-            commit = showmenu(AllBranches().branchcommits(), False)[n]
-        else:
-            saved = savedcommits()
-            commit = saved[len(saved) - 1 + n]
-    else:
+    initlogging()
+    parser = ArgumentParser()
+    parser.add_argument('number', type = int, nargs = '?', help = 'commit number')
+    n = parser.parse_args().number
+    if n is None:
         commit = pb()
-        stderr(f"Parent branch: {commit}")
+        log.info("Target branch: %s", commit)
+    elif n > 0:
+        commit = showmenu(AllBranches().branchcommits(), False)[n]
+    else:
+        saved = savedcommits()
+        commit = saved[len(saved) - 1 + n]
     git.diff._M25.__name_status[exec](commit)
 
 if '__main__' == __name__:

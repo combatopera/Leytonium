@@ -126,7 +126,7 @@ Apply the last slammed commit.
 Diff from parent branch or from passed-in commit number.
 
 ### dxx
-Short diff from parent branch or from passed-in commit number.
+Short diff from target branch or passed-in commit number.
 
 ### eb
 Rebase on the given branch with completion, or parent with confirmation.
