@@ -261,6 +261,9 @@ Play a sound when a long-running child of shell terminates.
 ### tempvenv
 Activate a writable venv from the pool with the given requires.
 
+### terminator
+Unset SHLVL before launching Terminator in case Cinnamon was wrapped by shell.
+
 ### touchb
 Give the current branch its own identity.
 
