@@ -25,7 +25,7 @@ log = logging.getLogger(__name__)
 def main():
     initlogging()
     env = detach()
-    env.pop('SHLVL')
+    env.pop('SHLVL', None)
     os.execve('/usr/bin/terminator', sys.argv, env)
 
 if '__main__' == __name__:
