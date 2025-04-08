@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-'Activate a writable venv from the pool with the given requires.'
+'Find a venv (optionally writable) from the pool with the given requires and open a new shell in which it is activated.'
 from . import initlogging
 from argparse import ArgumentParser
 from inspect import getsource
