@@ -24,6 +24,7 @@ from lagoon.text import chmod
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from venvpool import ParsedRequires, Pool
+from venvpool.util import detach
 import logging, os, sys
 
 log = logging.getLogger(__name__)
@@ -43,15 +44,17 @@ def main():
     parser.add_argument('reqs', nargs = '*')
     args = parser.parse_args()
     requires = ParsedRequires(args.reqs)
+    envpatch = detach()
+    envpatch.setdefault('PATH')
     if args.w:
         with Pool().readwrite(requires) as venv:
-            Program.text(shellpath)._c[print]('. "$1" && exec "$2"', '-c', Path(venv.venvpath, 'bin', 'activate'), shellpath)
+            Program.text(shellpath)._c[print]('. "$1" && exec "$2"', '-c', Path(venv.venvpath, 'bin', 'activate'), shellpath, env = envpatch)
     else:
         with Pool().readonly(requires) as venv, TemporaryDirectory() as tempdir:
             temppip = Path(tempdir, 'pip')
             temppip.write_text(f"#!{sys.executable}\n{getsource(_temppip)}_temppip()\n")
             chmod[print]('+x', temppip)
-            Program.text(shellpath)._c[print]('. "$1" && PATH="$2:$PATH" && exec "$3"', '-c', Path(venv.venvpath, 'bin', 'activate'), tempdir, shellpath)
+            Program.text(shellpath)._c[print]('. "$1" && PATH="$2:$PATH" && exec "$3"', '-c', Path(venv.venvpath, 'bin', 'activate'), tempdir, shellpath, env = envpatch)
 
 if '__main__' == __name__:
     main()
