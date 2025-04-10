@@ -18,6 +18,8 @@
 'Wait for network then become given command.'
 from . import initlogging
 from argparse import ArgumentParser
+from aridity.config import ConfigCtrl
+from ipaddress import ip_address, ip_network
 from lagoon.program import Program
 from lagoon.text import ip
 from lagoon.util import wrappercli
@@ -25,17 +27,17 @@ from time import sleep
 import json, logging
 
 log = logging.getLogger(__name__)
-prefix = '192.168.'
-sleeptime = 1
 
 def main():
     initlogging()
+    config = ConfigCtrl().loadappconfig(main, 'afternet.arid')
     parser = ArgumentParser()
     parser.add_argument('command', nargs = '+')
     command = parser.parse_args(wrappercli()).command
-    while not any(ip['local'].startswith(prefix) for iface in ip._j.address[json]() for ip in iface['addr_info']):
+    network = ip_network(config.network)
+    while not any(ip_address(ip['local']) in network for iface in ip._j.address[json]() for ip in iface['addr_info']):
         log.debug('Wait for network.')
-        sleep(sleeptime)
+        sleep(config.sleeptime)
     Program.binary(command[0])[exec](*command[1:])
 
 if '__main__' == __name__:
