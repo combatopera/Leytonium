@@ -1,5 +1,5 @@
 # Leytonium
-Tools for developing git-managed software
+Tools for developing git-managed software.
 
 ## Install
 These are generic installation instructions.
