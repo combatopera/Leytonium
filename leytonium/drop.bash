@@ -2,7 +2,7 @@ set -ex
 
 . "$(git-functions-path)"
 
-[[ "$1" != '-f' && "$(dxx)" ]] && {
+[[ "$1" != '-f' && "$(dx -x)" ]] && {
     echo 'Unmerged changes!' >&2
     exit 1
 }
