@@ -16,13 +16,13 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Delegate to pinentry or pinentry-curses depending on value of `PINENTRY_USER_DATA`.'
-from lagoon.binary import pinentry, pinentry_curses
+from lagoon.program import Program
 import os, sys
 
-programs = {None: pinentry, 'curses': pinentry_curses}
+programs = {None: 'pinentry', 'curses': 'pinentry-curses'}
 
 def main():
-    programs[os.environ.get('PINENTRY_USER_DATA')][exec](*sys.argv[1:])
+    Program.binary(f"/usr/bin/{programs[os.environ.get('PINENTRY_USER_DATA')]}")[exec](*sys.argv[1:])
 
 if '__main__' == __name__:
     main()
