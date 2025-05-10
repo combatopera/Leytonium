@@ -16,9 +16,20 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'To eval in your .bashrc file.'
-from .git_completion_path import git_completion_path
-from .insertshlvl import insertshlvl
+from pathlib import Path
 import shlex, sys
+
+def git_completion_path():
+    return Path(__file__).parent / 'git_completion.bash'
+
+def insertshlvl(ps1, shlvl):
+    try:
+        colon = ps1.rindex(':')
+    except ValueError:
+        return ps1
+    n = int(shlvl)
+    tally = '"' * (n // 2) + ("'" if n % 2 else '')
+    return f"{ps1[:colon]}{tally}{ps1[colon + 1:]}"
 
 def main():
     sys.stdout.write(f""". {shlex.quote(str(git_completion_path()))}

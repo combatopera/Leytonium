@@ -125,9 +125,6 @@ Run ag on all build.gradle files.
 ### gimports
 Stage all imports-only changes and show them.
 
-### git-completion-path
-Get path to git completion file, used by scripts.
-
 ### git-functions-path
 Get path to git functions file, used by scripts.
 
@@ -145,9 +142,6 @@ Commit hook to push to central clone of repo on local network.
 
 ### imgdiff
 Use container-diff to compare Docker images.
-
-### insertshlvl
-Insert SHLVL indicator into given prompt.
 
 ### isotime
 Filter UNIX timestamps to human-readable form.
