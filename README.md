@@ -167,6 +167,9 @@ Find parent branch.
 ### pd
 Diff from public branch, the other way.
 
+### pinswitch
+Delegate to pinentry or pinentry-curses depending on value of `PINENTRY_USER_DATA`.
+
 ### prepare
 Create a master-based branch from this non-master-based one.
 
