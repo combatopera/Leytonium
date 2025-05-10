@@ -16,24 +16,25 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'To eval in your .bashrc file.'
+from argparse import ArgumentParser
 from pathlib import Path
 import shlex, sys
 
-def git_completion_path():
-    return Path(__file__).parent / 'git_completion.bash'
-
-def insertshlvl(ps1, shlvl):
+def _insertshlvl(ps1, shlvl):
     try:
         colon = ps1.rindex(':')
     except ValueError:
         return ps1
-    n = int(shlvl)
-    tally = '"' * (n // 2) + ("'" if n % 2 else '')
+    tally = '"' * (shlvl // 2) + ("'" if shlvl % 2 else '')
     return f"{ps1[:colon]}{tally}{ps1[colon + 1:]}"
 
 def main():
-    sys.stdout.write(f""". {shlex.quote(str(git_completion_path()))}
-PS1={shlex.quote(insertshlvl(*sys.argv[1:]))}
+    parser = ArgumentParser()
+    parser.add_argument('ps1')
+    parser.add_argument('shlvl', type = int)
+    args = parser.parse_args()
+    sys.stdout.write(f""". {shlex.quote(str(Path(__file__).parent / 'git_completion.bash'))}
+PS1={shlex.quote(_insertshlvl(args.ps1, args.shlvl))}
 """)
 
 if '__main__' == __name__:
