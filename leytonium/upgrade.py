@@ -16,8 +16,8 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Upgrade the system and silence the nag.'
-from . import initlogging
 from argparse import ArgumentParser
+from foyndation import initlogging
 from lagoon.text import docker, sudo
 from pathlib import Path
 import logging

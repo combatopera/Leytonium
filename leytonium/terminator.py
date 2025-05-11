@@ -16,7 +16,7 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Unset SHLVL before launching Terminator in case Cinnamon was wrapped by shell.'
-from . import initlogging
+from foyndation import initlogging
 from venvpool.util import detach
 import logging, os, sys
 

@@ -16,11 +16,11 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Commit hook to push to central clone of repo on local network.'
-from . import effectivehome, initlogging
+from . import effectivehome
 from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
 from datetime import datetime
-from foyndation import singleton
+from foyndation import initlogging, singleton
 from functools import partial
 from lagoon.program import ONELINE
 from lagoon.text import git, ls, rsync

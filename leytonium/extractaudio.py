@@ -16,8 +16,8 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Extract the audio from the given video files.'
-from . import initlogging
 from argparse import ArgumentParser
+from foyndation import initlogging
 from lagoon.program import partial
 from lagoon.text import ffmpeg
 from pathlib import Path

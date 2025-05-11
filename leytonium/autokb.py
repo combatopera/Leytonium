@@ -16,8 +16,8 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Automatically switch to/from USB keyboard layout.'
-from . import initlogging
 from aridity.config import ConfigCtrl
+from foyndation import initlogging
 from lagoon.program import partial
 from lagoon.text import lsusb, setxkbmap
 import logging, re

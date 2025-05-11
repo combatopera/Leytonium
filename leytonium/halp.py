@@ -16,8 +16,8 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 '''You're looking at it!'''
-from . import initlogging
 from aridity.config import ConfigCtrl
+from foyndation import initlogging
 from importlib import import_module
 from importlib.metadata import entry_points
 import logging

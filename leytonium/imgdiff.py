@@ -16,9 +16,9 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Use container-diff to compare Docker images.'
-from . import initlogging
 from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
+from foyndation import initlogging
 from lagoon.program import partial
 from lagoon.text import container_diff, diff, docker
 from lagoon.util import mapcm

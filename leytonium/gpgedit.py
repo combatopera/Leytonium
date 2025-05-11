@@ -16,9 +16,9 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Edit gpg-encrypted file.'
-from . import initlogging
 from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
+from foyndation import initlogging
 from lagoon.program import Program
 from lagoon.text import gpg, gpgconf
 from lagoon.util import atomic, mapcm

@@ -16,9 +16,9 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Wait for network then become given command.'
-from . import initlogging
 from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
+from foyndation import initlogging
 from ipaddress import ip_address, ip_network
 from lagoon.program import Program
 from lagoon.text import ip

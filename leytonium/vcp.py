@@ -16,9 +16,9 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Copy a Docker volume.'
-from . import initlogging
 from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
+from foyndation import initlogging
 from lagoon.text import docker
 import logging, shlex
 

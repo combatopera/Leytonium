@@ -16,9 +16,9 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Diff from target branch or passed-in commit number.'
-from . import initlogging
 from .common import AllBranches, pb, savedcommits, showmenu
 from argparse import ArgumentParser
+from foyndation import initlogging
 from lagoon.text import git
 import logging
 

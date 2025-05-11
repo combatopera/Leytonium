@@ -16,10 +16,10 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Delete spam emails.'
-from . import initlogging
 from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
 from email import message_from_bytes
+from foyndation import initlogging
 from itertools import islice
 from unidecode import unidecode
 import logging, re

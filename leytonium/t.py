@@ -20,9 +20,9 @@ Each hidden directory is annotated with a slash per direct child.
 Useful for showing hidden items in a Git repository without also showing the whole `.git` tree.
 By default all options are passed to the `tree` command, use `--` to pass (preceding) options to this command.
 Use `-v` to show errors that are normally suppressed.'''
-from . import initlogging
 from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
+from foyndation import initlogging
 from lagoon.program import partial
 from lagoon.text import tree
 from lagoon.util import stripansi, wrappercli
