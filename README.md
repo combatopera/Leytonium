@@ -255,9 +255,6 @@ Use `-v` to show errors that are normally suppressed.
 ### taskding
 Play a sound when a long-running child of shell terminates.
 
-### tempvenv
-Find a venv (optionally writable) from the pool with the given requires and open a new shell in which it is activated.
-
 ### terminator
 Unset SHLVL before launching Terminator in case Cinnamon was wrapped by shell.
 
