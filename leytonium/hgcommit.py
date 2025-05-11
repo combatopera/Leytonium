@@ -20,7 +20,7 @@ from . import effectivehome, initlogging
 from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
 from datetime import datetime
-from diapyr.util import singleton
+from foyndation import singleton
 from functools import partial
 from lagoon.program import ONELINE
 from lagoon.text import git, ls, rsync

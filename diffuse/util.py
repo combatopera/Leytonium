@@ -37,7 +37,7 @@
 # (http://www.fsf.org/) or by writing to the Free Software Foundation, Inc.,
 # 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-from diapyr.util import singleton
+from foyndation import singleton
 from gettext import gettext as _
 import locale, os, subprocess, sys
 
