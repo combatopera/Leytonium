@@ -31,7 +31,7 @@ def _insertshlvl(ps1, shlvl, color):
     except ValueError:
         return ps1
     tally = '"' * (shlvl // 2) + ("'" if shlvl % 2 else '')
-    return f"{ps1[:colon]}{tally}{ps1[colon + 1:digraph]}{setaf.format(color)}{ps1[digraph:digraph + 2]}{sgr0}{ps1[digraph + 2:]}"
+    return fr"{ps1[:colon]}{tally}{ps1[colon + 1:digraph]}\[{setaf.format(color)}\]{ps1[digraph:digraph + 2]}\[{sgr0}\]{ps1[digraph + 2:]}"
 
 def main():
     config = ConfigCtrl().loadappconfig(main, 'bashrc.arid')
