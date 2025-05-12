@@ -18,7 +18,7 @@
 'Short status of all shallow projects in directory.'
 from . import effectivehome
 from aridity.config import ConfigCtrl
-from diapyr.util import innerclass
+from foyndation import innerclass
 from lagoon.program import ONELINE
 from lagoon.text import clear, co, git, hgcommit, md5sum, rsync, test, tput
 try:

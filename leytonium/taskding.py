@@ -18,7 +18,7 @@
 'Play a sound when a long-running child of shell terminates.'
 from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
-from diapyr.util import innerclass
+from foyndation import innerclass
 from lagoon.program import bg
 from lagoon.text import pgrep
 from pathlib import Path
