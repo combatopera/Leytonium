@@ -274,7 +274,7 @@ Upgrade the system and silence the nag.
 Copy a Docker volume.
 
 ### vim
-Vim wrapper. If there is at least one arg and every arg is a Python file in the configured workspaces, set noexpandtab.
+Vim wrapper. If there is at least one arg with a configured suffix in a configured workspace, and no args that fail the check, set noexpandtab.
 
 ### vpn
 Start openvpn in background.
