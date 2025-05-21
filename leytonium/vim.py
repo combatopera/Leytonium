@@ -22,12 +22,15 @@ from pathlib import Path
 import os, sys
 
 def _tabsmode(workspaces, args):
-    base = False
+    tabs = spaces = 0
     for a in args:
-        if not (a.endswith(dotpy) and any(map(Path(a).resolve().is_relative_to, workspaces))):
-            return False
-        base = True
-    return base
+        if a.startswith('+'):
+            continue
+        if a.endswith(dotpy) and any(map(Path(a).resolve().is_relative_to, workspaces)):
+            tabs += 1
+        else:
+            spaces += 1
+    return tabs and not spaces
 
 def main():
     config = ConfigCtrl().loadappconfig(main, 'vim.arid')
