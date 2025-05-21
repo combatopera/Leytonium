@@ -252,9 +252,6 @@ Useful for showing hidden items in a Git repository without also showing the who
 By default all options are passed to the `tree` command, use `--` to pass (preceding) options to this command.
 Use `-v` to show errors that are normally suppressed.
 
-### tabsmode
-Vim wrapper. If there is at least one arg and every arg is a Python file in the configured workspaces, set noexpandtab.
-
 ### taskding
 Play a sound when a long-running child of shell terminates.
 
@@ -275,6 +272,9 @@ Upgrade the system and silence the nag.
 
 ### vcp
 Copy a Docker volume.
+
+### vim
+Vim wrapper. If there is at least one arg and every arg is a Python file in the configured workspaces, set noexpandtab.
 
 ### vpn
 Start openvpn in background.

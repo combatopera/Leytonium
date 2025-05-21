@@ -18,9 +18,8 @@
 'Vim wrapper. If there is at least one arg and every arg is a Python file in the configured workspaces, set noexpandtab.'
 from aridity.config import ConfigCtrl
 from foyndation import dotpy
-from lagoon.binary import vim
 from pathlib import Path
-import sys
+import os, sys
 
 def _tabsmode(workspaces, args):
     base = False
@@ -31,9 +30,10 @@ def _tabsmode(workspaces, args):
     return base
 
 def main():
-    config = ConfigCtrl().loadappconfig(main, 'tabsmode.arid')
-    args = sys.argv[1:]
-    vim[exec](*['-c', 'set noexpandtab'] if _tabsmode(list(config.workspace), args) else [], *args)
+    config = ConfigCtrl().loadappconfig(main, 'vim.arid')
+    arg0, *appargs = sys.argv
+    moreargs = ['-c', 'set noexpandtab'] if _tabsmode(list(config.tabsmode.workspace), appargs) else []
+    os.execv('/usr/bin/vim', [arg0, *moreargs, *appargs])
 
 if '__main__' == __name__:
     main()
