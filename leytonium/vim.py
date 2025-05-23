@@ -20,7 +20,7 @@ from aridity.config import ConfigCtrl
 from pathlib import Path
 import os, sys
 
-def _command(suffixes, workspaces, args):
+def _commandornone(suffixes, workspaces, args):
     tabs = spaces = 0
     for a in args:
         if a.startswith('+'):
@@ -33,12 +33,12 @@ def _command(suffixes, workspaces, args):
         if spaces:
             return 'redraw | echohl Error | echo "MIX" | echohl None'
         return 'set noexpandtab'
-    return ':'
 
 def main():
     config = ConfigCtrl().loadappconfig(main, 'vim.arid')
     arg0, *appargs = sys.argv
-    os.execv('/usr/bin/vim', [arg0, '+' + _command(tuple(config.tabsmode.suffix), list(config.tabsmode.workspace), appargs), *appargs])
+    command = _commandornone(tuple(config.tabsmode.suffix), list(config.tabsmode.workspace), appargs)
+    os.execv('/usr/bin/vim', [arg0, *([] if command is None else [f"+{command}"]), *appargs])
 
 if '__main__' == __name__:
     main()
