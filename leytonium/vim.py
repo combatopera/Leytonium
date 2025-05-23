@@ -18,17 +18,17 @@
 'Vim wrapper. If there is at least one arg with a configured suffix in a configured workspace, and no args that fail the check, set noexpandtab.'
 from aridity.config import ConfigCtrl
 from pathlib import Path
-import os, sys
+import os, re, sys
 
-def _commandornone(suffixes, workspaces, args):
+def _commandornone(pattern, args):
     tabs = spaces = 0
     for a in args:
         if a.startswith('+'):
             continue
-        if a.endswith(suffixes) and any(map(Path(a).resolve().is_relative_to, workspaces)):
-            tabs += 1
-        else:
+        if pattern.search(str(Path(a).resolve())) is None:
             spaces += 1
+        else:
+            tabs += 1
     if tabs:
         if spaces:
             return 'redraw | echohl Error | echo "MIX" | echohl None'
@@ -37,7 +37,7 @@ def _commandornone(suffixes, workspaces, args):
 def main():
     config = ConfigCtrl().loadappconfig(main, 'vim.arid')
     arg0, *appargs = sys.argv
-    command = _commandornone(tuple(config.tabsmode.suffix), list(config.tabsmode.workspace), appargs)
+    command = _commandornone(re.compile(config.tabsmode_regex), appargs)
     os.execv('/usr/bin/vim', [arg0, *([] if command is None else [f"+{command}"]), *appargs])
 
 if '__main__' == __name__:
