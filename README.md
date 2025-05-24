@@ -274,7 +274,7 @@ Upgrade the system and silence the nag.
 Copy a Docker volume.
 
 ### vim
-Vim wrapper. If there is at least one arg with a configured suffix in a configured workspace, and no args that fail the check, set noexpandtab.
+Vim wrapper that applies `set noexpandtab` if at least one arg matches the configured regex and no args don't match.
 
 ### vpn
 Start openvpn in background.

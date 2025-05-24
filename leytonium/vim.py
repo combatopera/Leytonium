@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-'Vim wrapper. If there is at least one arg with a configured suffix in a configured workspace, and no args that fail the check, set noexpandtab.'
+'''Vim wrapper that applies `set noexpandtab` if at least one arg matches the configured regex and no args don't match.'''
 from aridity.config import ConfigCtrl
 from pathlib import Path
 import os, re, sys
@@ -31,8 +31,8 @@ def _commandornone(pattern, args):
             tabs += 1
     if tabs:
         if spaces:
-            return 'redraw | echohl Error | echo "MIX" | echohl None'
-        return 'set noexpandtab'
+            return 'redr|echoh Error|ec"MIX"|echoh None'
+        return 'se noet'
 
 def main():
     config = ConfigCtrl().loadappconfig(main, 'vim.arid')
