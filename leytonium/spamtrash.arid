@@ -16,15 +16,14 @@
 : along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 appname := $label()
-cli cron = false
+cli v = $(void)
 host = imap.gmail.com
 imap = $pyref(imaplib IMAP4_SSL)
-keyring_cron = $(cli cron)
 mailbox = [Gmail]/Spam
 max
     non-ascii = .2
     odd from = .2
-password = $keyring($(appname) $(user))
+password = $(void)
 user = $(void)
 regex
     froms +=
