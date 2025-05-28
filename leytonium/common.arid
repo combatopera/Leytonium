@@ -16,5 +16,4 @@
 : along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 cols = 120
-formattedprojects := $list()
 tz = Europe/London
