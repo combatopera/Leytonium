@@ -27,7 +27,7 @@ except ImportError:
 import re, subprocess, sys
 
 def main():
-    config = ConfigCtrl().loadappconfig(main, 'common.arid')
+    config = ConfigCtrl().loadappconfig(main, 'brown.arid')
     roots = sys.argv[1:]
     if not roots:
         roots = [findproject()]

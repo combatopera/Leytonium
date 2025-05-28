@@ -34,7 +34,7 @@ class Repl:
         return f"{dt.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3]}{dt.strftime('%z')}"
 
 def main():
-    repl = Repl(ConfigCtrl().loadappconfig(main, 'common.arid'))
+    repl = Repl(ConfigCtrl().loadappconfig(main, 'isotime.arid'))
     for line in sys.stdin:
         sys.stdout.write(pattern.sub(repl, line))
 
