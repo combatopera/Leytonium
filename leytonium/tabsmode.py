@@ -35,9 +35,9 @@ def _commandornone(pattern, args):
         return 'se noet'
 
 def main():
-    config = ConfigCtrl().loadappconfig(main, 'vim.arid')
+    config = ConfigCtrl().loadappconfig(main, 'tabsmode.arid')
     arg0, *appargs = sys.argv
-    command = _commandornone(re.compile(config.tabsmode_regex), appargs)
+    command = _commandornone(re.compile(config.regex), appargs)
     os.execv('/usr/bin/vim', [arg0, *([] if command is None else [f"+{command}"]), *appargs])
 
 if '__main__' == __name__:

@@ -277,6 +277,9 @@ Useful for showing hidden items in a Git repository without also showing the who
 By default all options are passed to the `tree` command, use `--` to pass (preceding) options to this command.
 Use `-v` to show errors that are normally suppressed.
 
+### tabsmode
+Vim wrapper that applies `set noexpandtab` if at least one arg matches the configured regex and no args don't match.
+
 ### taskding
 Play a sound when a long-running child of shell terminates.
 
@@ -297,9 +300,6 @@ Upgrade the system and silence the nag.
 
 ### vcp
 Copy a Docker volume.
-
-### vim
-Vim wrapper that applies `set noexpandtab` if at least one arg matches the configured regex and no args don't match.
 
 ### vpn
 Start openvpn in background.
