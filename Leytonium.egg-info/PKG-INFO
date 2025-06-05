@@ -183,6 +183,9 @@ Merge master into all PRs and carrion.
 ### n
 Switch to the next branch and run st.
 
+### ncswitch
+Wrap nc for use as ssh ProxyCommand.
+
 ### next
 Go to next step in current git workflow.
 
