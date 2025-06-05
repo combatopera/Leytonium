@@ -38,7 +38,7 @@ def main():
     config = ConfigCtrl().loadappconfig(main, 'tabsmode.arid')
     arg0, *appargs = sys.argv
     command = _commandornone(re.compile(config.regex), appargs)
-    os.execv('/usr/bin/vim', [arg0, *([] if command is None else [f"+{command}"]), *appargs])
+    os.execv(config.realvim, [arg0, *([] if command is None else [f"+{command}"]), *appargs])
 
 if '__main__' == __name__:
     main()
