@@ -20,7 +20,7 @@ from aridity.config import ConfigCtrl
 from pathlib import Path
 import os, re, sys
 
-def _commandornone(pattern, args):
+def _commandornone(pattern, mixmessage, args):
     tabs = spaces = 0
     for a in args:
         if a.startswith('+'):
@@ -31,13 +31,13 @@ def _commandornone(pattern, args):
             tabs += 1
     if tabs:
         if spaces:
-            return 'redr|echoh Error|ec"MIX"|echoh None'
+            return f"""redr|echoh Error|ec'{mixmessage.replace("'", "''")}'|echoh None""" # TODO: Unduplicate vimstr.
         return 'se noet'
 
 def main():
     config = ConfigCtrl().loadappconfig(main, 'tabsmode.arid')
     arg0, *appargs = sys.argv
-    command = _commandornone(re.compile(config.regex), appargs)
+    command = _commandornone(re.compile(config.regex), config.mixmessage, appargs)
     os.execv(config.realvim, [arg0, *([] if command is None else [f"+{command}"]), *appargs])
 
 if '__main__' == __name__:
