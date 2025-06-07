@@ -20,7 +20,7 @@ from . import effectivehome
 from aridity.config import ConfigCtrl
 from foyndation import innerclass
 from lagoon.program import ONELINE
-from lagoon.text import clear, co, git, hgcommit, md5sum, rsync, test, tput
+from lagoon.text import clear, git, hgcommit, md5sum, rsync, test, tput
 try:
     from lagoon.text import gfind as find
 except ImportError:
@@ -55,7 +55,7 @@ class Project:
 class Git(Project):
 
     dirname = '.git'
-    commands = co, git, hgcommit, md5sum, test
+    commands = git, md5sum, test
     remotepattern = re.compile('(.+)\t(.+) [(].+[)]')
     hookname = 'post-commit'
 
@@ -74,23 +74,14 @@ class Git(Project):
             if loc.startswith('https:'):
                 log.error("Non-SSH remote: %s %s", name, loc)
 
-    def _allbranches(self, task):
-        restore = self.git.rev_parse.__abbrev_ref.HEAD[ONELINE]()
-        for branch in (l[2:] for l in self.git.branch().splitlines()):
-            self.co[print](branch)
-            task(branch)
-        self.co[print](restore)
-
     def fetch(self):
         self.git.fetch.__all[print](*sys.argv[1:])
 
     def pull(self):
-        # TODO: Only fetch once.
-        # FIXME: The public branch does not normally exist in netpath.
-        self._allbranches(lambda branch: self.git.pull.__ff_only[print](self.netpath, branch))
+        pass
 
     def push(self):
-        self._allbranches(lambda branch: self.hgcommit.__fg[print]())
+        pass
 
     def status(self):
         if (self.path / 'project.arid').exists():
