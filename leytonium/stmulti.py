@@ -25,6 +25,7 @@ try:
     from lagoon.text import gfind as find
 except ImportError:
     from lagoon.text import find
+from multifork import Tasks
 from pathlib import Path
 from pyven.projectinfo import ProjectInfo
 from roman import fromRoman
@@ -39,9 +40,18 @@ class Project:
 
     @classmethod
     def forprojects(cls, config, action):
+        class Task:
+            def __init__(self, project):
+                self.project = project
+            def __call__(self):
+                return getattr(self.project, action)()
+        tasks = Tasks()
+        tasks.started = lambda task: print(cls.kindformat % cls.dirname[1:1 + cls.kindwidth], f"{tput.setaf(7)}{task.project.path}{tput.sgr0()}")
+        tasks.stdout = lambda _, line: sys.stdout.write(line)
+        tasks.stderr = lambda _, line: sys.stderr.write(line)
         for path in sorted(p for p in (d.parent for d in Path('.').glob(f"*/{glob.escape(cls.dirname)}")) if not p.is_symlink()):
-            print(cls.kindformat % cls.dirname[1:1 + cls.kindwidth], f"{tput.setaf(7)}{path}{tput.sgr0()}")
-            getattr(cls(config, path), action)()
+            tasks.append(Task(cls(config, path)))
+        tasks.drain(1)
 
     def __init__(self, config, path):
         for command in self.commands:
