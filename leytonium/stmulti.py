@@ -20,6 +20,7 @@ from . import effectivehome
 from aridity.config import ConfigCtrl
 from foyndation import innerclass
 from lagoon.program import ONELINE
+from lagoon.terminal import getterminal, Style
 from lagoon.text import clear, git, hgcommit, md5sum, rsync, test, tput
 try:
     from lagoon.text import gfind as find
@@ -29,7 +30,7 @@ from multifork import Tasks
 from pathlib import Path
 from pyven.projectinfo import ProjectInfo
 from roman import fromRoman
-import glob, logging, re, shlex, sys
+import glob, logging, os, re, shlex, sys
 
 log = logging.getLogger(__name__)
 
@@ -41,17 +42,19 @@ class Project:
     @classmethod
     def forprojects(cls, config, action):
         class Task:
-            def __init__(self, project):
+            def __init__(self, index, project):
+                self.index = index
                 self.project = project
             def __call__(self):
                 return getattr(self.project, action)()
+        terminal = getterminal()
         tasks = Tasks()
-        tasks.started = lambda task: print(cls.kindformat % cls.dirname[1:1 + cls.kindwidth], f"{tput.setaf(7)}{task.project.path}{tput.sgr0()}")
-        tasks.stdout = lambda _, line: sys.stdout.write(line)
-        tasks.stderr = lambda _, line: sys.stderr.write(line)
+        tasks.started = lambda task: terminal.head(task.index, f"{cls.kindformat % cls.dirname[1:1 + cls.kindwidth]} {tput.setaf(7)}{task.project.path}{tput.sgr0()}", Style.normal)
+        tasks.stdout = lambda task, line: terminal.log(task.index, sys.stdout, line)
+        tasks.stderr = lambda task, line: terminal.log(task.index, sys.stderr, line)
         for path in sorted(p for p in (d.parent for d in Path('.').glob(f"*/{glob.escape(cls.dirname)}")) if not p.is_symlink()):
-            tasks.append(Task(cls(config, path)))
-        tasks.drain(1)
+            tasks.append(Task(len(tasks), cls(config, path)))
+        tasks.drain(os.cpu_count())
 
     def __init__(self, config, path):
         for command in self.commands:
