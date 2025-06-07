@@ -86,7 +86,7 @@ class Rsync:
 
 def main():
     initlogging()
-    config = ConfigCtrl().loadappconfig((__name__, 'stmulti'), 'stmulti.arid')
+    config = ConfigCtrl().loadappconfig(main, 'hgcommit.arid')
     parser = ArgumentParser()
     parser.add_argument('--fg', action = 'store_true')
     args = parser.parse_args()
