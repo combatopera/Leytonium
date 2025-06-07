@@ -20,13 +20,12 @@ from . import effectivehome
 from aridity.config import ConfigCtrl
 from foyndation import innerclass
 from lagoon.program import ONELINE
-from lagoon.terminal import getterminal, Style
+from lagoon.terminal import TerminalTasks
 from lagoon.text import clear, git, hgcommit, md5sum, rsync, test, tput
 try:
     from lagoon.text import gfind as find
 except ImportError:
     from lagoon.text import find
-from multifork import Tasks
 from pathlib import Path
 from pyven.projectinfo import ProjectInfo
 from roman import fromRoman
@@ -41,23 +40,9 @@ class Project:
 
     @classmethod
     def forprojects(cls, config, action):
-        class Task:
-            def __init__(self, index, project):
-                self.title = f"{cls.kindformat % cls.dirname[1:1 + cls.kindwidth]} {tput.setaf(7)}{project.path}{tput.sgr0()}"
-                self.index = index
-                self.project = project
-            def __call__(self):
-                return getattr(self.project, action)()
-        terminal = getterminal()
-        tasks = Tasks()
+        tasks = TerminalTasks()
         for path in sorted(p for p in (d.parent for d in Path('.').glob(f"*/{glob.escape(cls.dirname)}")) if not p.is_symlink()):
-            task = Task(len(tasks), cls(config, path))
-            terminal.head(task.index, task.title, Style.pending)
-            tasks.append(task)
-        tasks.started = lambda task: terminal.head(task.index, task.title, Style.running)
-        tasks.stdout = lambda task, line: terminal.log(task.index, sys.stdout, line)
-        tasks.stderr = lambda task, line: terminal.log(task.index, sys.stderr, line)
-        tasks.stopped = lambda task, code: terminal.head(task.index, task.title, Style.abrupt if code else Style.normal)
+            tasks.add(f"{cls.kindformat % cls.dirname[1:1 + cls.kindwidth]} {tput.setaf(7)}{path}{tput.sgr0()}", getattr(cls(config, path), action))
         tasks.drain(os.cpu_count())
 
     def __init__(self, config, path):
