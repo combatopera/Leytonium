@@ -104,7 +104,7 @@ class Git(Project):
                     sys.stdout.write(f"{tput.rev()}{tput.setaf(5)}{lastrelease}{tput.sgr0()}{shortstat}")
         for line in BranchLines(self.git).displaybranches():
             print(line.highlighted())
-        self.git.status._s[print]()
+        self.git[print]('-c', 'color.ui=always', 'status', '-s')
         self.git.stash.list[print]()
 
 def _toversionno(versionstr):
