@@ -19,7 +19,7 @@
 from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
 from foyndation import innerclass
-from lagoon.program import bg
+from lagoon.program import partial
 from lagoon.text import pgrep
 from pathlib import Path
 import os, subprocess, time
@@ -62,7 +62,7 @@ class TaskDing:
             nowchildren = {}
             now = time.time()
             try:
-                with pgrep[bg]('-P', self.shpidstr) as stdout:
+                with pgrep[partial]('-P', self.shpidstr) as stdout:
                     for line in stdout:
                         nowchildren[int(line)] = self.Child(now)
             except subprocess.CalledProcessError:
