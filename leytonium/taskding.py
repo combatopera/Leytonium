@@ -73,11 +73,11 @@ class TaskDing:
                 q = children.pop(pid).fire(now)
                 if q is not None:
                     soundpids.add(q)
-            for pid, child in children.items():
-                child.arm(now, pid)
             for pid, child in nowchildren.items():
                 if pid not in children:
                     children[pid] = child
+            for pid, child in children.items():
+                child.arm(now, pid)
             time.sleep(self.sleep_time) # FIXME LATER: I suspect keyboard interrupt can kill script when not asleep.
 
 def main():
