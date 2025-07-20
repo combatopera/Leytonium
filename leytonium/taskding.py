@@ -39,10 +39,11 @@ class TaskDing:
     class Child:
 
         def __init__(self, start):
-            self.start = start
+            self.armtime = start + self.armthreshold
+            self.firetime = start + self.threshold
 
         def arm(self, now, pid):
-            if self.start + self.armthreshold <= now and not hasattr(self, 'armed'):
+            if self.armtime <= now and not hasattr(self, 'armed'):
                 try:
                     self.armed = Path(f"/proc/{pid}/comm").read_text().rstrip() not in self.always_interactive
                 except (FileNotFoundError, ProcessLookupError):
@@ -50,7 +51,7 @@ class TaskDing:
 
         def fire(self, now):
             from lagoon.text import paplay
-            if self.start + self.threshold <= now and self.armed and self.sound_path.exists():
+            if self.firetime <= now and self.armed and self.sound_path.exists():
                 if (pid := os.fork()):
                     return pid
                 paplay[exec](self.sound_path)
