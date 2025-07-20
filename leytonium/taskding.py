@@ -43,15 +43,14 @@ class TaskDing:
 
         def fetch(self):
             try:
-                comm = Path(f"/proc/{self.pid}/comm").read_text().rstrip() # FIXME: Can and does change.
-                self.armed = comm not in self.always_interactive
+                self.comm = Path(f"/proc/{self.pid}/comm").read_text().rstrip() # FIXME: Can and does change.
                 return True
             except (FileNotFoundError, ProcessLookupError):
                 pass
 
         def fire(self, now):
             from lagoon.text import paplay
-            if self.start + self.threshold <= now and self.armed and self.sound_path.exists():
+            if self.start + self.threshold <= now and (self.comm not in self.always_interactive) and self.sound_path.exists():
                 if (pid := os.fork()):
                     return pid
                 paplay[exec](self.sound_path)
