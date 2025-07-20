@@ -41,16 +41,16 @@ class TaskDing:
             self.pid = pid
             self.start = start
 
-        def fetch(self):
-            try:
-                self.comm = Path(f"/proc/{self.pid}/comm").read_text().rstrip() # FIXME: Can and does change.
-                return True
-            except (FileNotFoundError, ProcessLookupError):
-                pass
+        def arm(self, now):
+            if self.start + self.threshold - 2 * self.sleep_time <= now and not hasattr(self, 'armed'):
+                try:
+                    self.armed = Path(f"/proc/{self.pid}/comm").read_text().rstrip() not in self.always_interactive
+                except (FileNotFoundError, ProcessLookupError):
+                    self.armed = False
 
         def fire(self, now):
             from lagoon.text import paplay
-            if self.start + self.threshold <= now and (self.comm not in self.always_interactive) and self.sound_path.exists():
+            if self.start + self.threshold <= now and self.armed and self.sound_path.exists():
                 if (pid := os.fork()):
                     return pid
                 paplay[exec](self.sound_path)
@@ -74,8 +74,10 @@ class TaskDing:
                 q = children.pop(pid).fire(now)
                 if q is not None:
                     soundpids.add(q)
+            for child in children.values():
+                child.arm(now)
             for pid, child in nowchildren.items():
-                if pid not in children and child.fetch():
+                if pid not in children:
                     children[pid] = child
             time.sleep(self.sleep_time) # FIXME LATER: I suspect keyboard interrupt can kill script when not asleep.
 
