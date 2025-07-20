@@ -41,9 +41,9 @@ class TaskDing:
 
         def fetch(self, pid):
             try:
-                with open(f"/proc/{pid}/comm") as f:
-                    self.armed = f.read().rstrip() not in self.always_interactive
-                    return True
+                comm = Path(f"/proc/{pid}/comm").read_text().rstrip() # FIXME: Can and does change.
+                self.armed = comm not in self.always_interactive
+                return True
             except (FileNotFoundError, ProcessLookupError):
                 pass
 
