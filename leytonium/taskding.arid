@@ -23,6 +23,8 @@ always interactive +=
     showstash
     top
     vim
+cli shpidstr = $(void)
+shpidstr = $(cli shpidstr)
 sleep time = .5
 sound path = /usr/share/sounds/freedesktop/stereo/complete.oga
 threshold = 5

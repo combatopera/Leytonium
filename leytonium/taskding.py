@@ -85,7 +85,7 @@ def main():
     config = ConfigCtrl().loadappconfig(main, 'taskding.arid')
     parser = ArgumentParser()
     parser.add_argument('shpidstr')
-    parser.parse_args(namespace = config)
+    parser.parse_args(namespace = config.cli)
     TaskDing(config).run()
 
 if '__main__' == __name__:
