@@ -37,14 +37,13 @@ class TaskDing:
     @innerclass
     class Child:
 
-        def __init__(self, pid, start):
-            self.pid = pid
+        def __init__(self, start):
             self.start = start
 
-        def arm(self, now):
+        def arm(self, now, pid):
             if self.start + self.threshold - 2 * self.sleep_time <= now and not hasattr(self, 'armed'):
                 try:
-                    self.armed = Path(f"/proc/{self.pid}/comm").read_text().rstrip() not in self.always_interactive
+                    self.armed = Path(f"/proc/{pid}/comm").read_text().rstrip() not in self.always_interactive
                 except (FileNotFoundError, ProcessLookupError):
                     self.armed = False
 
@@ -64,7 +63,7 @@ class TaskDing:
             try:
                 with self.pgrep as stdout:
                     for line in stdout:
-                        nowchildren[pid] = self.Child(pid := int(line), now)
+                        nowchildren[int(line)] = self.Child(now)
             except CalledProcessError:
                 break
             for pid in soundpids - nowchildren.keys():
@@ -74,8 +73,8 @@ class TaskDing:
                 q = children.pop(pid).fire(now)
                 if q is not None:
                     soundpids.add(q)
-            for child in children.values():
-                child.arm(now)
+            for pid, child in children.items():
+                child.arm(now, pid)
             for pid, child in nowchildren.items():
                 if pid not in children:
                     children[pid] = child
