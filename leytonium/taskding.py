@@ -31,25 +31,25 @@ class TaskDing:
     def __init__(self, config):
         self.always_interactive = set(config.always.interactive)
         self.pgrep = pgrep[partial]('-P', config.shpidstr)
-        self.sleep_time = sleep_time = float(config.sleep.time)
+        self.sleep_time = float(config.sleep.time)
         self.sound_path = Path(config.sound.path)
-        self.relmark = config.threshold - sleep_time
+        self.threshold = config.threshold
 
     @innerclass
     class Child:
 
         armed = False
 
-        def __init__(self, start):
-            self.mark = start + self.relmark
+        def __init__(self, mark):
+            self.mark = mark
 
         def tick(self, now, pid):
             if self.mark <= now:
+                self.mark = inf
                 try:
                     self.armed = Path(f"/proc/{pid}/comm").read_text().rstrip() not in self.always_interactive
                 except (FileNotFoundError, ProcessLookupError):
                     pass
-                self.mark = inf
 
         def fire(self):
             from lagoon.text import paplay
@@ -67,7 +67,7 @@ class TaskDing:
             try:
                 with self.pgrep as stdout:
                     for line in stdout:
-                        nowchildren[int(line)] = self.Child(now)
+                        nowchildren[int(line)] = self.Child(now + self.threshold)
             except CalledProcessError:
                 break
             for pid in soundpids - nowchildren.keys():
