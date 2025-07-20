@@ -30,9 +30,10 @@ class TaskDing:
     def __init__(self, config):
         self.always_interactive = set(config.always.interactive)
         self.pgrep = pgrep[partial]('-P', config.shpidstr)
-        self.sleep_time = float(config.sleep.time)
+        self.sleep_time = sleep_time = float(config.sleep.time)
         self.sound_path = Path(config.sound.path)
-        self.threshold = config.threshold
+        self.threshold = thresold = config.threshold
+        self.armthreshold = thresold - 2 * sleep_time
 
     @innerclass
     class Child:
@@ -41,7 +42,7 @@ class TaskDing:
             self.start = start
 
         def arm(self, now, pid):
-            if self.start + self.threshold - 2 * self.sleep_time <= now and not hasattr(self, 'armed'):
+            if self.start + self.armthreshold <= now and not hasattr(self, 'armed'):
                 try:
                     self.armed = Path(f"/proc/{pid}/comm").read_text().rstrip() not in self.always_interactive
                 except (FileNotFoundError, ProcessLookupError):
