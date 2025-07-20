@@ -22,13 +22,14 @@ from foyndation import innerclass
 from lagoon.program import partial
 from lagoon.text import pgrep
 from pathlib import Path
-import os, subprocess, time
+from subprocess import CalledProcessError
+import os, time
 
 class TaskDing:
 
     def __init__(self, config):
         self.always_interactive = set(config.always.interactive)
-        self.shpidstr = config.shpidstr
+        self.pgrep = pgrep[partial]('-P', config.shpidstr)
         self.sleep_time = float(config.sleep.time)
         self.sound_path = Path(config.sound.path)
         self.threshold = config.threshold
@@ -62,10 +63,10 @@ class TaskDing:
             nowchildren = {}
             now = time.time()
             try:
-                with pgrep[partial]('-P', self.shpidstr) as stdout:
+                with self.pgrep as stdout:
                     for line in stdout:
                         nowchildren[int(line)] = self.Child(now)
-            except subprocess.CalledProcessError:
+            except CalledProcessError:
                 break
             for pid in soundpids - nowchildren.keys():
                 os.waitpid(pid, 0)
