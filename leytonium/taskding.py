@@ -31,9 +31,9 @@ class TaskDing:
     def __init__(self, config):
         self.always_interactive = set(config.always.interactive)
         self.pgrep = pgrep[partial]('-P', config.shpidstr)
-        self.sleep_time = float(config.sleep.time)
+        self.sleep_time = sleep_time = float(config.sleep.time)
         self.sound_path = Path(config.sound.path)
-        self.threshold = config.threshold
+        self.relmark = config.threshold - sleep_time
 
     @innerclass
     class Child:
@@ -41,7 +41,7 @@ class TaskDing:
         armed = False
 
         def __init__(self, start):
-            self.mark = start + self.threshold
+            self.mark = start + self.relmark
 
         def tick(self, now, pid):
             if self.mark <= now:
