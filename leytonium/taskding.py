@@ -18,6 +18,7 @@
 'Play a sound when a long-running child of shell terminates.'
 from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
+from aridity.util import inf
 from foyndation import innerclass
 from lagoon.program import partial
 from lagoon.text import pgrep
@@ -30,28 +31,29 @@ class TaskDing:
     def __init__(self, config):
         self.always_interactive = set(config.always.interactive)
         self.pgrep = pgrep[partial]('-P', config.shpidstr)
-        self.sleep_time = sleep_time = float(config.sleep.time)
+        self.sleep_time = float(config.sleep.time)
         self.sound_path = Path(config.sound.path)
-        self.threshold = thresold = config.threshold
-        self.armthreshold = thresold - 2 * sleep_time
+        self.threshold = config.threshold
 
     @innerclass
     class Child:
 
-        def __init__(self, start):
-            self.armtime = start + self.armthreshold
-            self.firetime = start + self.threshold
+        armed = False
 
-        def arm(self, now, pid):
-            if self.armtime <= now and not hasattr(self, 'armed'):
+        def __init__(self, start):
+            self.mark = start + self.threshold
+
+        def tick(self, now, pid):
+            if self.mark <= now:
                 try:
                     self.armed = Path(f"/proc/{pid}/comm").read_text().rstrip() not in self.always_interactive
                 except (FileNotFoundError, ProcessLookupError):
-                    self.armed = False
+                    pass
+                self.mark = inf
 
-        def fire(self, now):
+        def fire(self):
             from lagoon.text import paplay
-            if self.firetime <= now and self.armed and self.sound_path.exists():
+            if self.armed and self.sound_path.exists():
                 if (pid := os.fork()):
                     return pid
                 paplay[exec](self.sound_path)
@@ -72,14 +74,14 @@ class TaskDing:
                 os.waitpid(pid, 0)
             soundpids &= nowchildren.keys()
             for pid in children.keys() - nowchildren.keys():
-                q = children.pop(pid).fire(now)
+                q = children.pop(pid).fire()
                 if q is not None:
                     soundpids.add(q)
             for pid, child in nowchildren.items():
                 if pid not in children:
                     children[pid] = child
             for pid, child in children.items():
-                child.arm(now, pid)
+                child.tick(now, pid)
             time.sleep(self.sleep_time) # FIXME LATER: I suspect keyboard interrupt can kill script when not asleep.
 
 def main():
