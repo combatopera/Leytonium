@@ -21,7 +21,7 @@ from lagoon.text import git
 
 def main():
     message = ' '.join(args())
-    git.commit._m[print](message)
+    git.commit._m[print](message if message else 'wip')
 
 if '__main__' == __name__:
     main()
