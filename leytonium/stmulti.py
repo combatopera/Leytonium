@@ -49,7 +49,6 @@ class Project:
         for command in self.commands:
             setattr(self, Path((-command).path).name, (-command).cd(path))
         self.homerelpath = path.resolve().relative_to(effectivehome)
-        self.netpath = Path(config.repomount, effectivehome.name, self.homerelpath)
         self.shortnetpath = Path(config.shortrepomount, effectivehome.name, self.homerelpath)
         self.config = config
         self.path = path
