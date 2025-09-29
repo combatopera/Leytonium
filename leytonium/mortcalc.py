@@ -32,16 +32,16 @@ def main():
     value = config.value
     holidays = set(map(date.fromisoformat, config.holiday))
     while mark <= lastmark:
-        yeardays = int((date(mark.year + 1, 1, 1) - date(mark.year, 1, 1)) / oneday)
+        dayrate = rate / int((date(mark.year + 1, 1, 1) - date(mark.year, 1, 1)) / oneday)
         paymark = mark
         while paymark.weekday() > 4 or paymark in holidays:
             paymark += oneday
         nextmark = (mark + maxmonth).replace(day = 1)
         days1 = int((paymark - mark) / oneday)
         days2 = int((nextmark - paymark) / oneday)
-        interest = balance * rate * days1 / yeardays
+        interest = balance * dayrate * days1
         balance -= payment
-        interest += balance * rate * days2 / yeardays
+        interest += balance * dayrate * days2
         interest = round(interest, 2)
         balance += interest
         print(mark.isoformat()[:-3], days1 + days2, interest, balance, round(balance / value * 100, 3))
