@@ -39,12 +39,17 @@ def main():
         nextmark = (mark + maxmonth).replace(day = 1)
         days1 = int((paymark - mark) / oneday)
         days2 = int((nextmark - paymark) / oneday)
-        interest = balance * dayrate * days1
+        interest = 0
+        for d in range(days1):
+            interest += balance * dayrate
+            b = balance + interest
+            print(mark + timedelta(d), interest, b, b / value * 100)
         balance -= payment
-        interest += balance * dayrate * days2
-        interest = round(interest, 2)
-        balance += interest
-        print(mark.isoformat()[:-3], days1 + days2, interest, balance, round(balance / value * 100, 3))
+        for d in range(days2):
+            interest += balance * dayrate
+            b = balance + interest
+            print(mark + timedelta(days1 + d), interest, b, b / value * 100)
+        balance += round(interest, 2)
         mark = nextmark
 
 if '__main__' == __name__:
