@@ -152,6 +152,9 @@ Create a kitchen-sink branch.
 ### mdview
 Render Markdown file in browser.
 
+### mortcalc
+Instant mortgage statement.
+
 ### multimerge
 Merge master into all PRs and carrion.
 
