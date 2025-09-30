@@ -17,6 +17,7 @@
 
 'Instant mortgage statement.'
 from aridity.config import ConfigCtrl
+from collections import defaultdict
 from datetime import date, timedelta
 from functools import cache
 
@@ -39,13 +40,19 @@ def main():
     payment = config.payment
     value = config.value
     holidays = set(map(date.fromisoformat, config.holiday))
+    overpays = {date.fromisoformat(k): v for k, v in -config.overpay}
     while mark <= lastmark:
         nextmark = (mark + maxmonth).replace(day = 1)
         dayrate = rate / _yearlen(mark.year)
         paymark = mark
         while paymark.weekday() > 4 or paymark in holidays:
             paymark += oneday
-        payments = {paymark: payment, nextmark: 0}
+        payments = defaultdict(int)
+        payments[paymark] = payment
+        for m, p in overpays.items():
+            if m.year == mark.year and m.month == mark.month:
+                payments[m] += p
+        payments[nextmark] = 0
         interest = 0
         cursor = mark
         for m, p in sorted(payments.items()):
