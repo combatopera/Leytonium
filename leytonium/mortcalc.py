@@ -23,9 +23,12 @@ from functools import cache
 maxmonth = timedelta(31)
 oneday = timedelta(1)
 
+def _days(start, end):
+    return int((end - start) / oneday)
+
 @cache
 def _yearlen(year):
-    return int((date(year + 1, 1, 1) - date(year, 1, 1)) / oneday)
+    return _days(date(year, 1, 1), date(year + 1, 1, 1))
 
 def main():
     config = ConfigCtrl().loadappconfig(main, 'mortcalc.arid')
@@ -46,8 +49,7 @@ def main():
         interest = 0
         cursor = mark
         for m, p in sorted(payments.items()):
-            days = int((m - cursor) / oneday)
-            for d in range(days):
+            for d in range(_days(cursor, m)):
                 interest += balance * dayrate
                 b = balance + interest
                 print(cursor + timedelta(d), interest, b, b / value * 100)
