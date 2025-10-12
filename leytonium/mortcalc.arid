@@ -15,7 +15,9 @@
 : You should have received a copy of the GNU General Public License
 : along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
-balance = $(void)
+anchor
+    balance = $(void)
+    firstmonth = $(void)
 holiday +=
     2024-01-01
     2024-03-29
@@ -33,10 +35,8 @@ holiday +=
     2025-08-25
     2025-12-25
     2025-12-26
-month
-    first = $(void)
-    last = $(void)
+lastmonth *
+    payment = $(void)
+    rate = $(void)
 overpay ,=
-payment = $(void)
-rate = $(void)
 value = $(void)
