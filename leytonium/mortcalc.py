@@ -44,6 +44,8 @@ def main():
     balance = config.anchor.balance
     mark = date.fromisoformat(f"{config.anchor.firstmonth}-01")
     periods = [Period(date.fromisoformat(f"{k}-01"), c.payment, c.rate / 100) for k, c in -config.lastmonth]
+    for p, q in zip(periods, periods[1:]):
+        assert p.lastmark < q.lastmark
     value = config.value
     holidays = set(map(date.fromisoformat, config.holiday))
     overpays = {date.fromisoformat(k): v for k, v in -config.overpay}
