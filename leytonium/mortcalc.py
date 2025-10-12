@@ -18,6 +18,7 @@
 'Instant mortgage statement.'
 from aridity.config import ConfigCtrl
 from collections import defaultdict
+from dataclasses import dataclass
 from datetime import date, timedelta
 from functools import cache
 
@@ -31,39 +32,45 @@ def _days(start, end):
 def _yearlen(year):
     return _days(date(year, 1, 1), date(year + 1, 1, 1))
 
+@dataclass
+class Period:
+
+    lastmark: object
+    payment: object
+    rate: object
+
 def main():
     config = ConfigCtrl().loadappconfig(main, 'mortcalc.arid')
-    balance = config.balance
-    rate = config.rate / 100
-    mark = date.fromisoformat(f"{config.month.first}-01")
-    lastmark = date.fromisoformat(f"{config.month.last}-01")
-    payment = config.payment
+    balance = config.anchor.balance
+    mark = date.fromisoformat(f"{config.anchor.firstmonth}-01")
+    periods = [Period(date.fromisoformat(f"{k}-01"), c.payment, c.rate / 100) for k, c in -config.lastmonth]
     value = config.value
     holidays = set(map(date.fromisoformat, config.holiday))
     overpays = {date.fromisoformat(k): v for k, v in -config.overpay}
-    while mark <= lastmark:
-        nextmark = (mark + maxmonth).replace(day = 1)
-        dayrate = rate / _yearlen(mark.year)
-        paymark = mark
-        while paymark.weekday() > 4 or paymark in holidays:
-            paymark += oneday
-        payments = defaultdict(int)
-        payments[paymark] = payment
-        for m, p in overpays.items():
-            if m.year == mark.year and m.month == mark.month:
-                payments[m] += p
-        payments[nextmark] = 0
-        interest = 0
-        cursor = mark
-        for m, p in sorted(payments.items()):
-            for d in range(_days(cursor, m)):
-                interest += balance * dayrate
-                b = balance + interest
-                print(cursor + timedelta(d), interest, b, b / value * 100)
-            cursor = m
-            balance -= p
-        balance += round(interest, 2)
-        mark = nextmark
+    for period in periods:
+        while mark <= period.lastmark:
+            nextmark = (mark + maxmonth).replace(day = 1)
+            dayrate = period.rate / _yearlen(mark.year)
+            paymark = mark
+            while paymark.weekday() > 4 or paymark in holidays:
+                paymark += oneday
+            payments = defaultdict(int)
+            payments[paymark] = period.payment
+            for m, p in overpays.items():
+                if m.year == mark.year and m.month == mark.month:
+                    payments[m] += p
+            payments[nextmark] = 0
+            interest = 0
+            cursor = mark
+            for m, p in sorted(payments.items()):
+                for d in range(_days(cursor, m)):
+                    interest += balance * dayrate
+                    b = balance + interest
+                    print(cursor + timedelta(d), interest, b, b / value * 100)
+                cursor = m
+                balance -= p
+            balance += round(interest, 2)
+            mark = nextmark
 
 if '__main__' == __name__:
     main()
