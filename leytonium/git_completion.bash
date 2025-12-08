@@ -25,7 +25,7 @@ function _demonames {
 }
 
 function _commonmessages {
-    COMPREPLY=($(compgen -W 'conciser refactor refactoring undup redundant mv ren inline formatting unused idiomaticer consistency obsolete comment documentation efficienter experimentally convention simplify retire sensibler extract invalid generaler logging correcter quieter specificer reliabler eleganter temporarily minimaler determinism tastefuler preciser expliciter' $2))
+    COMPREPLY=($(compgen -W 'conciser refactor refactoring undup redundant mv ren inline formatting unused idiomaticer consistency obsolete comment documentation efficienter experimentally convention simplify retire sensibler extract invalid generaler logging correcter quieter specificer reliabler eleganter temporarily minimaler determinism tastefuler preciser expliciter realisticer' $2))
 }
 
 function _unconflictedpaths {
