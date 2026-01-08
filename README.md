@@ -69,6 +69,9 @@ Commit with the given args as message.
 ### co
 Switch to the given branch, with completion.
 
+### cronsh
+Shell for cron.
+
 ### d
 Show local changes.
 
