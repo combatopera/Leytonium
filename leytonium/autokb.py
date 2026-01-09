@@ -27,7 +27,11 @@ log = logging.getLogger(__name__)
 def main():
     initlogging()
     config = ConfigCtrl().loadappconfig(main, 'autokb.arid')
-    layout = config.layout.default if lsusb[print]('-d', config.usb, check=False) else config.layout.device
+    for usb, layout in -config.layout.usb:
+        if lsusb[bool, print]('-d', usb):
+            break
+    else:
+        layout = config.layout.default
     xkbmap = setxkbmap[partial]('-display', config.display)
     current = re.search(r'^layout:\s*(.+)', xkbmap._query(), re.MULTILINE).group(1)
     log.debug("Current layout: %s", current)

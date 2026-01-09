@@ -18,5 +18,4 @@
 display = :0
 layout
     default = $(void)
-    device = $(void)
-usb = $(void)
+    usb ,=
