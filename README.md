@@ -170,6 +170,9 @@ Wrap nc for use as ssh ProxyCommand.
 ### next
 Go to next step in current git workflow.
 
+### nogil
+Build free-threaded Python Docker image.
+
 ### pb
 Find parent branch.
 
