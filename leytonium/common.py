@@ -64,7 +64,7 @@ class AllBranches:
 
     def _published(self, name):
         try:
-            lines = git.rev_parse(f"origin/{name}", stderr = subprocess.DEVNULL).splitlines()
+            lines = git.rev_parse[::subprocess.DEVNULL](f"origin/{name}").splitlines()
         except:
             return None
         published, = lines # May be a merge.
@@ -184,9 +184,7 @@ def publicbranches():
 def getpublic(b = None):
     if b is None:
         b = thisbranch()
-    lines = git.rev_parse.__abbrev_ref(f"{b}@{{upstream}}",
-            check = False,
-            stderr = subprocess.DEVNULL).stdout.splitlines()
+    lines = git.rev_parse.__abbrev_ref[::subprocess.DEVNULL](f"{b}@{{upstream}}", check = False).stdout.splitlines()
     if lines:
         pub, = lines
         return pub

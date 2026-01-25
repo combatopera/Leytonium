@@ -42,7 +42,7 @@ class PathDest:
         self.reldir = reldir
 
     def check(self):
-        return ls._d[bool](self.clonespath, stdout = DEVNULL, stderr = DEVNULL)
+        return ls._d[bool, :DEVNULL:DEVNULL](self.clonespath)
 
     def exists(self):
         return self.path.exists()

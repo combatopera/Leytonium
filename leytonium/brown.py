@@ -35,7 +35,7 @@ def main():
 
 def brown(cols, paths):
     command = autopep8._rv[partial]('--max-line-length', cols, *paths)
-    result = command._d(stdout = subprocess.DEVNULL, stderr = subprocess.PIPE)
+    result = command._d[:subprocess.DEVNULL:subprocess.PIPE]()
     def paths():
         for line in result.splitlines():
             m = re.fullmatch(r'\[file:(.+)]', line)

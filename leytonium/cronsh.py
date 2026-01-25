@@ -27,14 +27,14 @@ def main():
     script = sys.argv[2]
     name = Path(shlex.split(script)[0]).name
     logpath = Path('var', 'log', f"{name}.log")
-    inuse = 'aw' in lsof._F.a(logpath, stderr = DEVNULL, check = False).stdout.splitlines()
+    inuse = 'aw' in lsof._F.a[::DEVNULL](logpath, check = False).stdout.splitlines()
     with logpath.open('a') as f:
         def log(text):
             print(datetime.now(), text, file = f)
         if inuse:
             log('Previous instance still running.')
         else:
-            bash._lc(sys.stdin.read() + script, stdout = f, stderr = f) # XXX: Is login shell needed in .xsessionrc case?
+            bash._lc[:f:f](sys.stdin.read() + script) # XXX: Is login shell needed in .xsessionrc case?
             log('Normal end.')
 
 if '__main__' == __name__:
