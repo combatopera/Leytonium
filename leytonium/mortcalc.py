@@ -68,7 +68,7 @@ def main():
                 for d in range(_days(cursor, m)):
                     interest += balance * dayrate
                     b = balance + interest
-                    print(cursor + timedelta(d), interest, b, b / value * 100)
+                    print(cursor + timedelta(d), interest, b, b / value * 100, balance)
                 cursor = m
                 balance -= p
             balance += round(interest, 2)
