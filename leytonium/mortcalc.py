@@ -35,22 +35,22 @@ def _yearlen(year):
 @dataclass
 class Period:
 
-    lastmark: object
+    firstday: object
     payment: object
     rate: object
 
 def main():
     config = ConfigCtrl().loadappconfig(main, 'mortcalc.arid')
-    balance = config.anchor.balance
-    mark = date.fromisoformat(f"{config.anchor.firstmonth}-01")
-    periods = [Period(date.fromisoformat(f"{k}-01"), c.payment, c.rate / 100) for k, c in -config.lastmonth]
+    balance = config.anchor
+    periods = [Period(date.fromisoformat(k), c.payment, c.rate / 100) for k, c in -config.firstday]
+    mark = periods[0].firstday
     for p, q in zip(periods, periods[1:]):
-        assert p.lastmark < q.lastmark
+        assert p.firstday < q.firstday
     value = config.value
     holidays = set(map(date.fromisoformat, config.holiday))
     overpays = {date.fromisoformat(k): v for k, v in -config.overpay}
-    for period in periods:
-        while mark <= period.lastmark:
+    for period, nextperiod in zip(periods, periods[1:]):
+        while mark < nextperiod.firstday:
             nextmark = (mark + maxmonth).replace(day = 1)
             dayrate = period.rate / _yearlen(mark.year)
             paymark = mark
