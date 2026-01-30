@@ -49,8 +49,8 @@ def main():
     value = config.value
     holidays = set(map(date.fromisoformat, config.holiday))
     overpays = {date.fromisoformat(k): v for k, v in -config.overpay}
-    for period, nextperiod in zip(periods, periods[1:]):
-        while mark < nextperiod.firstday:
+    for period, nextperiod in zip(periods, [*periods[1:], None]):
+        while nextperiod is None or mark < nextperiod.firstday:
             nextmark = (mark + maxmonth).replace(day = 1)
             dayrate = period.rate / _yearlen(mark.year)
             paymark = mark
@@ -66,6 +66,8 @@ def main():
             cursor = mark
             for m, p in sorted(payments.items()):
                 for d in range(_days(cursor, m)):
+                    if balance <= 0:
+                        return
                     interest += balance * dayrate
                     b = balance + interest
                     print(cursor + timedelta(d), interest, b, b / value * 100, balance)
