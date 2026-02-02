@@ -16,11 +16,14 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Remove all untracked items, including the git-ignored.'
-from .common import findproject, infodirname
+from .common import findproject
+from aridity.config import ConfigCtrl
+from itertools import chain
 from lagoon.text import git
 
 def main():
-    git.clean._xdi[print]('-e', infodirname, cwd = findproject())
+    config = ConfigCtrl().loadappconfig(main, 'scrub.arid')
+    git.clean._xdi[print](*chain(*(['-e', e] for e in config.exclude)), cwd = findproject())
 
 if '__main__' == __name__:
     main()
