@@ -32,6 +32,7 @@ from roman import fromRoman
 import glob, logging, os, re, shlex, sys
 
 log = logging.getLogger(__name__)
+sshd_max = 10
 
 class Project:
 
@@ -43,7 +44,7 @@ class Project:
         tasks = TerminalTasks()
         for path in sorted(p for p in (d.parent for d in Path('.').glob(f"*/{glob.escape(cls.dirname)}")) if not p.is_symlink()):
             tasks.add(f"{cls.kindformat % cls.dirname[1:1 + cls.kindwidth]} {tput.setaf(7)}{path}{tput.sgr0()}", getattr(cls(config, path), action))
-        tasks.drain(os.cpu_count())
+        tasks.drain(min(sshd_max, os.cpu_count()))
 
     def __init__(self, config, path):
         for command in self.commands:
