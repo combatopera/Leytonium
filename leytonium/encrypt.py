@@ -20,6 +20,7 @@ from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
 from base64 import b64encode
 from foyndation import initlogging
+from itertools import chain
 from lagoon.binary import gpg
 from lagoon.program import partial
 from socket import gethostname
@@ -28,7 +29,7 @@ import logging
 log = logging.getLogger(__name__)
 
 def _program(recipients):
-    return gpg.__no_auto_key_locate.__encrypt[partial](*sum((['--recipient', r] for r in recipients), []))
+    return gpg.__no_auto_key_locate.__encrypt[partial](*chain.from_iterable(['--recipient', r] for r in recipients))
 
 def encryptfile(recipients, inpath, outpath):
     _program(recipients)[print]('--output', outpath, inpath)
