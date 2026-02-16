@@ -16,6 +16,7 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Instant mortgage statement.'
+from argparse import ArgumentParser
 from aridity.config import ConfigCtrl
 from collections import defaultdict
 from dataclasses import dataclass
@@ -41,6 +42,12 @@ class Period:
 
 def main():
     config = ConfigCtrl().loadappconfig(main, 'mortcalc.arid')
+    parser = ArgumentParser()
+    parser.add_argument('--short', action = 'store_true')
+    parser.parse_args(namespace = config.cli)
+    today = date.today()
+    short = config.short
+    ring = []
     balance = config.anchor
     periods = [Period(date.fromisoformat(k), c.payment, c.rate / 100) for k, c in -config.firstday]
     mark = periods[0].firstday
@@ -52,6 +59,10 @@ def main():
     for period, nextperiod in zip(periods, [*periods[1:], None]):
         while nextperiod is None or mark < nextperiod.firstday:
             nextmark = (mark + maxmonth).replace(day = 1)
+            if short and mark <= today < nextmark:
+                for t in ring:
+                    print(*t)
+                return
             dayrate = period.rate / _yearlen(mark.year)
             paymark = mark
             while paymark.weekday() > 4 or paymark in holidays:
@@ -70,10 +81,13 @@ def main():
                         return
                     interest += balance * dayrate
                     b = balance + interest
-                    print(cursor + timedelta(d), interest, b, b / value * 100, balance)
+                    if not short:
+                        print(cursor + timedelta(d), interest, b, b / value * 100, balance)
                 cursor = m
                 balance -= p
             balance += round(interest, 2)
+            ring.append((nextmark - oneday, b))
+            del ring[:-2]
             mark = nextmark
 
 if '__main__' == __name__:

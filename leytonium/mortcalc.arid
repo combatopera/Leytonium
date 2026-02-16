@@ -16,6 +16,7 @@
 : along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 anchor = $(void)
+cli short = $(void)
 holiday +=
     2024-01-01
     2024-03-29
@@ -53,4 +54,5 @@ firstday *
     payment = $(void)
     rate = $(void)
 overpay ,=
+short = $(cli short)
 value = $(void)
