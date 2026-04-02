@@ -99,7 +99,7 @@ class Git(Project):
                 lastrelease = max((t for t in self.git.tag().splitlines() if t.startswith(prefix)), default = None, key = lambda t: _toversionno(t[len(prefix):]))
                 if lastrelease is None:
                     lastrelease = self.git.rev_list[ONELINE]('--max-parents=0', 'HEAD') # Assume trivial initial commit.
-                shortstat = self.git.diff.__shortstat(lastrelease, '--', '.', *(f":(exclude,glob){glob}" for glob in ['.travis.yml', 'project.arid', '**/test_*.py', '.gitignore', 'README.md']))
+                shortstat = self.git.diff.__shortstat(lastrelease, '--', '.', *(f":(exclude,glob){glob}" for glob in ['*.egg-info/PKG-INFO', 'project.arid', '**/test_*.py', '.gitignore', 'README.md']))
                 if shortstat:
                     sys.stdout.write(f"{tput.rev()}{tput.setaf(5)}{lastrelease}{tput.sgr0()}{shortstat}")
         for line in BranchLines(self.git).displaybranches():
