@@ -38,4 +38,4 @@ COPY --from=$image / ." >$context/Dockerfile
 
 fi
 
-docker run -ti --rm --entrypoint $shell -u 0 $runimage
+docker run --network host -ti --rm --entrypoint $shell -u 0 $runimage
