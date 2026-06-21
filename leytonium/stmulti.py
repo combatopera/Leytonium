@@ -125,7 +125,7 @@ class BranchLines:
             return self.parts[1]
 
         def __init__(self, line):
-            self.parts = re.split(' +', self.sgr.sub('', line), 4)
+            self.parts = re.split(' +', self.sgr.sub('', line), maxsplit = 4)
             self.line = line
 
         def publicparts(self):
@@ -134,7 +134,7 @@ class BranchLines:
         def highlighted(self):
             line = re.sub(r':[^]\n]+]', lambda m: f"{tput.setaf(3)}{tput.rev()}{m.group()}{tput.sgr0()}", self.line)
             if '*' == self.parts[0] and self.parts[1] not in self.trunknames:
-                line = re.sub(re.escape(self.parts[1]), lambda m: f"{tput.setaf(6)}{tput.bold()}{m.group()}{tput.sgr0()}", line, 1)
+                line = re.sub(re.escape(self.parts[1]), lambda m: f"{tput.setaf(6)}{tput.bold()}{m.group()}{tput.sgr0()}", line, count = 1)
             return line
 
     def __init__(self, git):
