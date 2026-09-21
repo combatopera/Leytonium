@@ -1,6 +1,6 @@
 set -e
 
-path=$(gmktemp --suffix .html 2>/dev/null || mktemp)
+path=$(gmktemp --suffix .html 2>/dev/null || mktemp -p ~)
 
 function cleanup {
     rm -fv $path
