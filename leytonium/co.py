@@ -19,12 +19,15 @@
 from .common import args, AllBranches, addparents, getpublic
 from lagoon.text import git
 
-def main():
-    name, = args()
+def co(name):
     new = name not in AllBranches().names
     git.checkout[print](name)
     if new:
         addparents(name, getpublic())
+
+def main():
+    name, = args()
+    co(name)
 
 if '__main__' == __name__:
     main()

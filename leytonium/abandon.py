@@ -18,10 +18,13 @@
 'Discard all local changes, with confirmation step.'
 from lagoon.text import git
 
-def main():
+def abandon():
     git.status[print]()
     input('Press enter to permanently lose all these changes.')
     git.reset.__hard[print]()
+
+def main():
+    abandon()
 
 if '__main__' == __name__:
     main()
