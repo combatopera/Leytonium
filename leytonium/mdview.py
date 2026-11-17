@@ -16,10 +16,20 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Render Markdown file in browser.'
-from .delegate import delegate
+from lagoon.text import pandoc
+from pathlib import Path
+from tempfile import NamedTemporaryFile
+import asyncio, sys, webbrowser
+
+async def _main():
+    args = sys.argv[1:]
+    with NamedTemporaryFile(dir = Path.home(), suffix = '.html') as f:
+        pandoc[:f]('--title-prefix', Path(args[-1]).name, '--toc', *args)
+        webbrowser.open(f.name)
+        await asyncio.get_running_loop().create_future()
 
 def main():
-    delegate('mdview.bash')
+    asyncio.run(_main())
 
 if '__main__' == __name__:
     main()
