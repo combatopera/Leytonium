@@ -157,9 +157,6 @@ Replace author and committer emails of repo user in history.
 ### gag
 Run ag on all build.gradle files.
 
-### gimports
-Stage all imports-only changes and show them.
-
 ### git-functions-path
 Get path to git functions file, used by scripts.
 
