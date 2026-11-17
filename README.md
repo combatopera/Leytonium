@@ -279,8 +279,5 @@ Upgrade the system and silence the nag.
 ### vcp
 Copy a Docker volume.
 
-### vunzip
-Extract a Docker volume.
-
 ### watchdesk
 Different background for each desktop.
