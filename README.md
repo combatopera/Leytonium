@@ -200,9 +200,6 @@ Run git rm on conflicted path, with completion.
 ### readjust
 Set system clock to correct time.
 
-### reks
-Rebase on a new kitchen-sink branch.
-
 ### ren
 Rename current branch.
 
