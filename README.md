@@ -119,9 +119,6 @@ Extract the audio from the given video files.
 ### fetchall
 Fetch all remotes of projects in directory.
 
-### fixemails
-Replace author and committer emails of repo user in history.
-
 ### gag
 Run ag on all build.gradle files.
 
