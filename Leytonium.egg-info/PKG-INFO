@@ -121,9 +121,6 @@ sudo apt-get install adwaita-icon-theme-full
 ### dp
 Diff from public branch.
 
-### drclean
-Delete Docker assets.
-
 ### drop
 Drop this branch.
 
