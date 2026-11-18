@@ -8,24 +8,6 @@ function commitmessage {
     git log -n 1 --pretty=format:%B "$@"
 }
 
-function stripwip {
-    echo "${1#WIP }"
-}
-
-function jirarefs {
-    echo WIP
-    local ref refs=$(expr $(thisbranch) : '\(\([a-z]\+[0-9]\+_\)\+\)')
-    IFS=_ refs=($refs)
-    for ref in ${refs[@]}; do
-        ref=${ref^^}
-        echo $(expr $ref : '\([A-Z]\+\)')-$(expr $ref : '[A-Z]\+\([0-9]\+\)')
-    done
-}
-
-function jiraref {
-    menu jirarefs 'JIRA reference for this commit'
-}
-
 function cherry {
     local id
     for id in ${ids[@]}; do
@@ -47,8 +29,6 @@ git cherry-pick $(for i in $(seq $((index-1)) -1 0); do echo ${ids[$i]}; done)
 
 git reset --soft $id~1
 
-message="$(jiraref) ...
-
-$(for i in $(seq $((index)) -1 0); do echo "$((index-i+1)). $(stripwip "$(commitmessage ${ids[$i]})")"; done)"
+message="$(for i in $(seq $((index)) -1 0); do echo "$((index-i+1)). $(commitmessage ${ids[$i]})"; done)"
 
 git commit -em "$message"
