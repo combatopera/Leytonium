@@ -16,10 +16,16 @@
 # along with Leytonium.  If not, see <http://www.gnu.org/licenses/>.
 
 'Rebase on the given branch with completion, or parent with confirmation.'
-from .delegate import delegate
+from .common import pb
+from lagoon.text import git
+import sys
 
 def main():
-    delegate('eb.bash')
+    args = sys.argv[1:]
+    if not args:
+        args = [b := pb()]
+        input(f"Press enter to rebase on: {b}")
+    git.rebase[print](*args)
 
 if '__main__' == __name__:
     main()
