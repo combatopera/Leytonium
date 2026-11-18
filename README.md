@@ -92,9 +92,6 @@ Diff from public branch.
 ### drop
 Drop this branch.
 
-### drst
-Show Docker assets.
-
 ### dup
 Apply the last slammed commit.
 
