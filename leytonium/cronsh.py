@@ -20,9 +20,12 @@ from datetime import datetime
 from lagoon.text import bash, lsof
 from pathlib import Path
 from subprocess import DEVNULL
-import shlex, sys
+import os, shlex, sys
+
+lvlkey = 'CRONSHLVL'
 
 def main():
+    os.environ[lvlkey] = str(int(os.environ.get(lvlkey, 0)) + 1)
     assert '-c' == sys.argv[1]
     script = sys.argv[2]
     name = Path(shlex.split(script)[0]).name
