@@ -32,7 +32,7 @@ requires +=
     lagoon>=63
     PyGObject>=3.42.2,<3.52.1
     pytz==2026.1
-    pyven>=90
+    pyven>=121
     PyYAML>=5.2
     roman>=5
     setuptools>=44.1.1

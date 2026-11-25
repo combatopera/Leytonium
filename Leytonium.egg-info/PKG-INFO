@@ -16,7 +16,7 @@ Requires-Dist: foyndation>=16
 Requires-Dist: lagoon>=63
 Requires-Dist: PyGObject<3.52.1,>=3.42.2
 Requires-Dist: pytz==2026.1
-Requires-Dist: pyven>=90
+Requires-Dist: pyven>=121
 Requires-Dist: PyYAML>=5.2
 Requires-Dist: roman>=5
 Requires-Dist: setuptools>=44.1.1
