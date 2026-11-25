@@ -4,7 +4,8 @@ Version: 29.dev0
 Summary: Tools for developing git-managed software
 Home-page: https://github.com/combatopera/Leytonium
 Author: Andrzej Cichocki
-Author-email: 3613868+combatopera@users.noreply.github.com
+Author-email: Andrzej Cichocki <3613868+combatopera@users.noreply.github.com>
+Requires-Python: >=3.11
 Description-Content-Type: text/markdown
 License-File: COPYING
 Requires-Dist: aridity>=97
@@ -23,12 +24,7 @@ Requires-Dist: termcolor>=1.1.0
 Requires-Dist: Unidecode>=1.3.2
 Requires-Dist: venvpool>=19
 Dynamic: author
-Dynamic: author-email
-Dynamic: description
-Dynamic: description-content-type
 Dynamic: home-page
-Dynamic: requires-dist
-Dynamic: summary
 
 # Leytonium
 Tools for developing git-managed software.
